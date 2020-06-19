@@ -46,11 +46,11 @@ namespace Sector_dll
 
             foreach (Assembly aassembly in AppDomain.CurrentDomain.GetAssemblies())
             {
-                if(aassembly.GetName().Name == "sectorsedge")
+                if (aassembly.GetName().Name == "sectorsedge")
                 {
                     foreach (Type t in aassembly.GetTypes())
                     {
-                        if(t.IsClass && t.Name == "#=zG_pzwQYcjSt1ZBkrbMZaw5245nu3q8fdVQ==")
+                        if (t.IsClass && t.Name == "#=zG_pzwQYcjSt1ZBkrbMZaw5245nu3q8fdVQ==")
                         {
                             MethodInfo mi = t.GetMethod("#=zjmePDBhUHt0K");
                             Log.Info("0x" + mi.MethodHandle.GetFunctionPointer().ToString("X"));
@@ -60,7 +60,9 @@ namespace Sector_dll
                                     mi,
                                     typeof(Main).GetMethod("SpeedModifier", BindingFlags.Static | BindingFlags.Public)
                                 );
-                            } catch (Exception ex)
+                                Log.Info(hookTestMethodA.IsValid.ToString());
+                            }
+                            catch (Exception ex)
                             {
                                 Log.Info(ex.ToString());
                             }
@@ -68,7 +70,7 @@ namespace Sector_dll
                     }
                 }
             }
-            
+
         }
 
         [DllImport("kernel32.dll", SetLastError = true)]

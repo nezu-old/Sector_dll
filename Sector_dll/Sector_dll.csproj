@@ -25,6 +25,7 @@
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>..\Release\</OutputPath>
@@ -35,6 +36,7 @@
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Build.Framework, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -49,15 +51,9 @@
       <HintPath>..\packages\Microsoft.Win32.Registry.4.3.0\lib\net46\Microsoft.Win32.Registry.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="MonoMod.RuntimeDetour">
-      <HintPath>req\MonoMod.RuntimeDetour.dll</HintPath>
-    </Reference>
-    <Reference Include="MonoMod.Utils">
-      <HintPath>req\MonoMod.Utils.dll</HintPath>
-    </Reference>
     <Reference Include="RGiesecke.DllExport.Metadata, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8f52d83c1a22df51, processorArchitecture=MSIL">
       <HintPath>..\packages\UnmanagedExports.Repack.Upgrade.1.2.1\lib\netstandard20\RGiesecke.DllExport.Metadata.dll</HintPath>
-      <Private>True</Private>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Collections.Immutable, Version=1.2.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -89,8 +85,217 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="cecil\ArrayType.cs" />
+    <Compile Include="cecil\AssemblyDefinition.cs" />
+    <Compile Include="cecil\AssemblyFlags.cs" />
+    <Compile Include="cecil\AssemblyHashAlgorithm.cs" />
+    <Compile Include="cecil\AssemblyLinkedResource.cs" />
+    <Compile Include="cecil\AssemblyNameDefinition.cs" />
+    <Compile Include="cecil\AssemblyNameReference.cs" />
+    <Compile Include="cecil\AssemblyReader.cs" />
+    <Compile Include="cecil\AssemblyWriter.cs" />
+    <Compile Include="cecil\BaseAssemblyResolver.cs" />
+    <Compile Include="cecil\BinaryStreamReader.cs" />
+    <Compile Include="cecil\BinaryStreamWriter.cs" />
+    <Compile Include="cecil\BlobHeap.cs" />
+    <Compile Include="cecil\Buffers.cs" />
+    <Compile Include="cecil\ByteBuffer.cs" />
+    <Compile Include="cecil\ByteBufferEqualityComparer.cs" />
+    <Compile Include="cecil\CallSite.cs" />
+    <Compile Include="cecil\Code.cs" />
+    <Compile Include="cecil\CodedIndex.cs" />
+    <Compile Include="cecil\CodeReader.cs" />
+    <Compile Include="cecil\CodeWriter.cs" />
+    <Compile Include="cecil\Collection.cs" />
+    <Compile Include="cecil\Consts.cs" />
+    <Compile Include="cecil\CryptoConvert.cs" />
+    <Compile Include="cecil\CryptoService.cs" />
+    <Compile Include="cecil\CustomAttribute.cs" />
+    <Compile Include="cecil\DataDirectory.cs" />
+    <Compile Include="cecil\DefaultAssemblyResolver.cs" />
+    <Compile Include="cecil\Disposable.cs" />
+    <Compile Include="cecil\Document.cs" />
+    <Compile Include="cecil\ElementType.cs" />
+    <Compile Include="cecil\EmbeddedResource.cs" />
+    <Compile Include="cecil\Empty.cs" />
+    <Compile Include="cecil\EventAttributes.cs" />
+    <Compile Include="cecil\EventDefinition.cs" />
+    <Compile Include="cecil\EventReference.cs" />
+    <Compile Include="cecil\ExceptionHandler.cs" />
+    <Compile Include="cecil\ExportedType.cs" />
+    <Compile Include="cecil\FieldAttributes.cs" />
+    <Compile Include="cecil\FieldDefinition.cs" />
+    <Compile Include="cecil\FieldReference.cs" />
+    <Compile Include="cecil\FileAttributes.cs" />
+    <Compile Include="cecil\FunctionPointerType.cs" />
+    <Compile Include="cecil\GenericInstanceMethod.cs" />
+    <Compile Include="cecil\GenericInstanceType.cs" />
+    <Compile Include="cecil\GenericParameter.cs" />
+    <Compile Include="cecil\GenericParameterAttributes.cs" />
+    <Compile Include="cecil\GuidHeap.cs" />
+    <Compile Include="cecil\Heap.cs" />
+    <Compile Include="cecil\IConstantProvider.cs" />
+    <Compile Include="cecil\ICustomAttributeProvider.cs" />
+    <Compile Include="cecil\IGenericInstance.cs" />
+    <Compile Include="cecil\IGenericParameterProvider.cs" />
+    <Compile Include="cecil\ILProcessor.cs" />
+    <Compile Include="cecil\Image.cs" />
+    <Compile Include="cecil\ImageReader.cs" />
+    <Compile Include="cecil\ImageWriter.cs" />
+    <Compile Include="cecil\IMarshalInfoProvider.cs" />
+    <Compile Include="cecil\IMemberDefinition.cs" />
+    <Compile Include="cecil\IMetadataScope.cs" />
+    <Compile Include="cecil\IMetadataTokenProvider.cs" />
+    <Compile Include="cecil\IMethodSignature.cs" />
+    <Compile Include="cecil\Import.cs" />
+    <Compile Include="cecil\Instruction.cs" />
+    <Compile Include="cecil\LinkedResource.cs" />
+    <Compile Include="cecil\ManifestResourceAttributes.cs" />
+    <Compile Include="cecil\MarshalInfo.cs" />
+    <Compile Include="cecil\MemberDefinitionCollection.cs" />
+    <Compile Include="cecil\MemberReference.cs" />
+    <Compile Include="cecil\MergeSort.cs" />
+    <Compile Include="cecil\MetadataResolver.cs" />
+    <Compile Include="cecil\MetadataSystem.cs" />
+    <Compile Include="cecil\MetadataToken.cs" />
+    <Compile Include="cecil\MethodAttributes.cs" />
+    <Compile Include="cecil\MethodBody.cs" />
+    <Compile Include="cecil\MethodCallingConvention.cs" />
+    <Compile Include="cecil\MethodDefinition.cs" />
+    <Compile Include="cecil\MethodImplAttributes.cs" />
+    <Compile Include="cecil\MethodReference.cs" />
+    <Compile Include="cecil\MethodReturnType.cs" />
+    <Compile Include="cecil\MethodSemanticsAttributes.cs" />
+    <Compile Include="cecil\MethodSpecification.cs" />
+    <Compile Include="cecil\Modifiers.cs" />
+    <Compile Include="cecil\ModuleDefinition.cs" />
+    <Compile Include="cecil\ModuleKind.cs" />
+    <Compile Include="cecil\ModuleReference.cs" />
+    <Compile Include="cecil\NativeType.cs" />
+    <Compile Include="cecil\OpCode.cs" />
+    <Compile Include="cecil\OpCodes.cs" />
+    <Compile Include="cecil\ParameterAttributes.cs" />
+    <Compile Include="cecil\ParameterDefinition.cs" />
+    <Compile Include="cecil\ParameterDefinitionCollection.cs" />
+    <Compile Include="cecil\ParameterReference.cs" />
+    <Compile Include="cecil\PdbHeap.cs" />
+    <Compile Include="cecil\PinnedType.cs" />
+    <Compile Include="cecil\PInvokeAttributes.cs" />
+    <Compile Include="cecil\PInvokeInfo.cs" />
+    <Compile Include="cecil\PointerType.cs" />
+    <Compile Include="cecil\PortablePdb.cs" />
+    <Compile Include="cecil\PropertyAttributes.cs" />
+    <Compile Include="cecil\PropertyDefinition.cs" />
+    <Compile Include="cecil\PropertyReference.cs" />
+    <Compile Include="cecil\ReadOnlyCollection.cs" />
+    <Compile Include="cecil\ReferenceType.cs" />
+    <Compile Include="cecil\Resource.cs" />
+    <Compile Include="cecil\Row.cs" />
+    <Compile Include="cecil\Section.cs" />
+    <Compile Include="cecil\SecurityDeclaration.cs" />
+    <Compile Include="cecil\SentinelType.cs" />
+    <Compile Include="cecil\SequencePoint.cs" />
+    <Compile Include="cecil\StringHeap.cs" />
+    <Compile Include="cecil\Symbols.cs" />
+    <Compile Include="cecil\TableHeap.cs" />
+    <Compile Include="cecil\TargetRuntime.cs" />
+    <Compile Include="cecil\TextMap.cs" />
+    <Compile Include="cecil\TokenType.cs" />
+    <Compile Include="cecil\Treatments.cs" />
+    <Compile Include="cecil\TypeAttributes.cs" />
+    <Compile Include="cecil\TypeDefinition.cs" />
+    <Compile Include="cecil\TypeDefinitionCollection.cs" />
+    <Compile Include="cecil\TypeParser.cs" />
+    <Compile Include="cecil\TypeReference.cs" />
+    <Compile Include="cecil\TypeSpecification.cs" />
+    <Compile Include="cecil\TypeSystem.cs" />
+    <Compile Include="cecil\UserStringHeap.cs" />
+    <Compile Include="cecil\Utilities.cs" />
+    <Compile Include="cecil\VariableDefinition.cs" />
+    <Compile Include="cecil\VariableReference.cs" />
+    <Compile Include="cecil\VariantType.cs" />
+    <Compile Include="cecil\WindowsRuntimeProjections.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="MonoMod\CecilILGenerator.cs" />
+    <Compile Include="MonoMod\Detour.cs" />
+    <Compile Include="MonoMod\DetourContext.cs" />
+    <Compile Include="MonoMod\DetourHelper.cs" />
+    <Compile Include="MonoMod\DetourModManager.cs" />
+    <Compile Include="MonoMod\DetourNativeARMPlatform.cs" />
+    <Compile Include="MonoMod\DetourNativeLibcPlatform.cs" />
+    <Compile Include="MonoMod\DetourNativeMonoPlatform.cs" />
+    <Compile Include="MonoMod\DetourNativeMonoPosixPlatform.cs" />
+    <Compile Include="MonoMod\DetourNativeWindowsPlatform.cs" />
+    <Compile Include="MonoMod\DetourNativeX86Platform.cs" />
+    <Compile Include="MonoMod\DetourRuntimeILPlatform.cs" />
+    <Compile Include="MonoMod\DetourRuntimeMonoPlatform.cs" />
+    <Compile Include="MonoMod\DetourRuntimeNETCorePlatform.cs" />
+    <Compile Include="MonoMod\DetourRuntimeNETPlatform.cs" />
+    <Compile Include="MonoMod\DMDCecilGenerator.cs" />
+    <Compile Include="MonoMod\DMDEmit.CreateMethodProxy.cs" />
+    <Compile Include="MonoMod\DMDEmit.cs" />
+    <Compile Include="MonoMod\DMDEmit.EmitCallSite.cs" />
+    <Compile Include="MonoMod\DMDEmitDynamicMethodGenerator.cs" />
+    <Compile Include="MonoMod\DMDEmitMethodBuilderGenerator.cs" />
+    <Compile Include="MonoMod\DMDGenerator.cs" />
+    <Compile Include="MonoMod\DynamicData.cs" />
+    <Compile Include="MonoMod\DynamicHookGen.cs" />
+    <Compile Include="MonoMod\DynamicMethodDefinition.CopyMethodToDefinition.cs" />
+    <Compile Include="MonoMod\DynamicMethodDefinition.cs" />
+    <Compile Include="MonoMod\DynamicMethodHelper.cs" />
+    <Compile Include="MonoMod\DynamicMethodReference.cs" />
+    <Compile Include="MonoMod\DynData.cs" />
+    <Compile Include="MonoMod\DynDll.cs" />
+    <Compile Include="MonoMod\Extensions.Cecil.cs" />
+    <Compile Include="MonoMod\Extensions.CecilCIL.cs" />
+    <Compile Include="MonoMod\Extensions.CecilIsRefl.cs" />
+    <Compile Include="MonoMod\Extensions.CecilShims.cs" />
+    <Compile Include="MonoMod\Extensions.Collections.cs" />
+    <Compile Include="MonoMod\Extensions.cs" />
+    <Compile Include="MonoMod\Extensions.Delegate.cs" />
+    <Compile Include="MonoMod\Extensions.Find.cs" />
+    <Compile Include="MonoMod\Extensions.GetID.cs" />
+    <Compile Include="MonoMod\Extensions.GetPatchName.cs" />
+    <Compile Include="MonoMod\Extensions.Relinker.cs" />
+    <Compile Include="MonoMod\Extensions.Unsafe.cs" />
+    <Compile Include="MonoMod\Extensions.Utils.cs" />
+    <Compile Include="MonoMod\Extensions.UtilsIL.cs" />
+    <Compile Include="MonoMod\FastReflectionHelper.cs" />
+    <Compile Include="MonoMod\HarmonyDetourBridge.cs" />
+    <Compile Include="MonoMod\Hook.cs" />
+    <Compile Include="MonoMod\HookEndpoint.cs" />
+    <Compile Include="MonoMod\HookEndpointManager.cs" />
+    <Compile Include="MonoMod\ICallSiteGenerator.cs" />
+    <Compile Include="MonoMod\IDetour.cs" />
+    <Compile Include="MonoMod\IDetourNativePlatform.cs" />
+    <Compile Include="MonoMod\IDetourRuntimePlatform.cs" />
+    <Compile Include="MonoMod\IgnoresAccessChecksToAttribute.cs" />
+    <Compile Include="MonoMod\ILContext.cs" />
+    <Compile Include="MonoMod\ILCursor.cs" />
+    <Compile Include="MonoMod\ILGeneratorShim.cs" />
+    <Compile Include="MonoMod\ILGeneratorShim.Proxy.cs" />
+    <Compile Include="MonoMod\ILHook.cs" />
+    <Compile Include="MonoMod\ILLabel.cs" />
+    <Compile Include="MonoMod\ILPatternMatchingExt.cs" />
+    <Compile Include="MonoMod\ILReferenceBag.cs" />
+    <Compile Include="MonoMod\LazyDisposable.cs" />
+    <Compile Include="MonoMod\MMDbgLog.cs" />
+    <Compile Include="MonoMod\MMReflectionImporter.cs" />
+    <Compile Include="MonoMod\ModExportName.cs" />
+    <Compile Include="MonoMod\ModImportName.cs" />
+    <Compile Include="MonoMod\ModInteropManager.cs" />
+    <Compile Include="MonoMod\MultiTargetShims.cs" />
+    <Compile Include="MonoMod\NativeDetour.cs" />
+    <Compile Include="MonoMod\NativeDetourData.cs" />
+    <Compile Include="MonoMod\Platform.cs" />
+    <Compile Include="MonoMod\PlatformHelper.cs" />
+    <Compile Include="MonoMod\ReflectionHelper.cs" />
+    <Compile Include="MonoMod\ReflectionHelper.ParseCallSite.cs" />
+    <Compile Include="MonoMod\RelinkFailedException.cs" />
+    <Compile Include="MonoMod\RelinkTargetNotFoundException.cs" />
+    <Compile Include="MonoMod\SortableDetourComparer.cs" />
+    <Compile Include="MonoMod\WeakReferenceComparer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -98,12 +303,7 @@
     <None Include="packages.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="ILMerge" Version="3.0.29" />
-    <PackageReference Include="Mono.Cecil">
-      <Version>0.11.2</Version>
-    </PackageReference>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\UnmanagedExports.Repack.Upgrade.1.2.1\build\UnmanagedExports.Repack.Upgrade.targets" Condition="Exists('..\packages\UnmanagedExports.Repack.Upgrade.1.2.1\build\UnmanagedExports.Repack.Upgrade.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
