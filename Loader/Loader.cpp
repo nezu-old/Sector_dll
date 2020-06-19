@@ -15,9 +15,9 @@
 #define BUFSIZE 4096
 
 #ifdef _DEBUG
-#define WAIT_TIMEOUT INFINITE
+#define WAIT_TIMEOUT_2 INFINITE
 #else
-#define WAIT_TIMEOUT (1000 * 10)
+#define WAIT_TIMEOUT_2 (1000 * 10)
 #endif // !_DEBUG
 
 void printError(const TCHAR* msg);
@@ -135,14 +135,14 @@ BOOL injectDll(HANDLE hProc, const TCHAR* dll, const char * entryName) {
         return FALSE;
     }
 
-    DWORD dWaitResault = WaitForSingleObject(hThread, WAIT_TIMEOUT);
+    DWORD dWaitResault = WaitForSingleObject(hThread, WAIT_TIMEOUT_2);
 
     if (dWaitResault == WAIT_FAILED) {
         CloseHandle(hThread);
         VirtualFreeEx(hProc, pMem, 0, MEM_RELEASE);
         printError(TEXT("WaitForSingleObject [1]"));
         return FALSE;
-    } else if (dWaitResault == WAIT_TIMEOUT) {
+    } else if (dWaitResault == WAIT_TIMEOUT_2) {
         CloseHandle(hThread);
         VirtualFreeEx(hProc, pMem, 0, MEM_RELEASE);
         _tprintf(TEXT("[nezu.cc] ERROR: Dll injection timeout [1]\n"));
@@ -219,14 +219,14 @@ BOOL injectDll(HANDLE hProc, const TCHAR* dll, const char * entryName) {
         return FALSE;
     }
 
-    DWORD dWaitResault2 = WaitForSingleObject(hThread2, WAIT_TIMEOUT);
+    DWORD dWaitResault2 = WaitForSingleObject(hThread2, WAIT_TIMEOUT_2);
 
     if (dWaitResault2 == WAIT_FAILED) {
         CloseHandle(hThread2);
         VirtualFreeEx(hProc, pMem, 0, MEM_RELEASE);
         printError(TEXT("WaitForSingleObject [2]"));
         return FALSE;
-    } else if (dWaitResault2 == WAIT_TIMEOUT) {
+    } else if (dWaitResault2 == WAIT_TIMEOUT_2) {
         CloseHandle(hThread2);
         VirtualFreeEx(hProc, pMem, 0, MEM_RELEASE);
         _tprintf(TEXT("[nezu.cc] ERROR: Dll injection timeout [2]\n"));
