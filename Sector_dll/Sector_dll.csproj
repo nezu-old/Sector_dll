@@ -85,6 +85,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="cheat\ClassSignature.cs" />
+    <Compile Include="cheat\Hooks\GClass49.cs" />
+    <Compile Include="cheat\ResolvedType.cs" />
+    <Compile Include="cheat\SignatureManager.cs" />
+    <Compile Include="sdk\MapType.cs" />
     <Compile Include="cecil\ArrayType.cs" />
     <Compile Include="cecil\AssemblyDefinition.cs" />
     <Compile Include="cecil\AssemblyFlags.cs" />
@@ -215,8 +220,8 @@
     <Compile Include="cecil\VariableReference.cs" />
     <Compile Include="cecil\VariantType.cs" />
     <Compile Include="cecil\WindowsRuntimeProjections.cs" />
-    <Compile Include="Log.cs" />
-    <Compile Include="Main.cs" />
+    <Compile Include="util\Log.cs" />
+    <Compile Include="cheat\Main.cs" />
     <Compile Include="MonoMod\CecilILGenerator.cs" />
     <Compile Include="MonoMod\Detour.cs" />
     <Compile Include="MonoMod\DetourContext.cs" />

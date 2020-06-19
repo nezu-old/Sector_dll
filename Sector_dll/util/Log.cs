@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sector_dll
+namespace Sector_dll.util
 {
     class Log
     {
