@@ -61,6 +61,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Runtime.Serialization.Primitives, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.Serialization.Primitives.4.1.1\lib\net46\System.Runtime.Serialization.Primitives.dll</HintPath>
@@ -87,8 +88,14 @@
   <ItemGroup>
     <Compile Include="cheat\ClassSignature.cs" />
     <Compile Include="cheat\Hooks\GClass49.cs" />
+    <Compile Include="cheat\Hooks\HWID.cs" />
+    <Compile Include="cheat\Hooks\RequestHelper.cs" />
     <Compile Include="cheat\ResolvedType.cs" />
     <Compile Include="cheat\SignatureManager.cs" />
+    <Compile Include="sdk\Color.cs" />
+    <Compile Include="sdk\DrawingHelper.cs" />
+    <Compile Include="sdk\Font.cs" />
+    <Compile Include="sdk\GameManager.cs" />
     <Compile Include="sdk\MapType.cs" />
     <Compile Include="cecil\ArrayType.cs" />
     <Compile Include="cecil\AssemblyDefinition.cs" />
@@ -220,6 +227,14 @@
     <Compile Include="cecil\VariableReference.cs" />
     <Compile Include="cecil\VariantType.cs" />
     <Compile Include="cecil\WindowsRuntimeProjections.cs" />
+    <Compile Include="sdk\Matrix4.cs" />
+    <Compile Include="sdk\ModType.cs" />
+    <Compile Include="sdk\Player.cs" />
+    <Compile Include="sdk\Rect.cs" />
+    <Compile Include="sdk\Size.cs" />
+    <Compile Include="sdk\Vec2.cs" />
+    <Compile Include="sdk\Vec3.cs" />
+    <Compile Include="sdk\Vec4.cs" />
     <Compile Include="util\Log.cs" />
     <Compile Include="cheat\Main.cs" />
     <Compile Include="MonoMod\CecilILGenerator.cs" />
@@ -302,6 +317,7 @@
     <Compile Include="MonoMod\SortableDetourComparer.cs" />
     <Compile Include="MonoMod\WeakReferenceComparer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="util\Util.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
