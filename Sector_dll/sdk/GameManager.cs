@@ -1,26 +1,74 @@
 ﻿using Sector_dll.cheat;
-using Sector_dll.util;
+using Sector_dll.cheat.Hooks;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 
 namespace Sector_dll.sdk
 {
     class GameManager
     {
 
-        public static object GetViewMatrix(object self)
+        private static int SmallerScopeIndex = -1;
+
+        public static object viewMatrix;
+
+        public static Vec2 W2SResolution = new Vec2(1, 1);
+
+        public static Vec2 W2SOffset = new Vec2(0, 0);
+
+        public static object GetViewMatrix(object self, object player)
         {
-            object matrix1 = SignatureManager.GClass49_Base_matrix1.GetValue(self);
-            object matrix2 = SignatureManager.GClass49_Base_matrix2.GetValue(self);
+            object matrix2 = SignatureManager.GClass49_Base_matrix1.GetValue(self);
+            if (player != null && IsScoped(self))
+            {
+                object weaponType = Player.GetCurrentWeaponType(player);
+                byte scopeType = (byte)Helper.GetEquippedScopeType(player, weaponType);
+                Vec2 ss = GetScopeSize(self, scopeType, weaponType);
+                double ratio = ss.x / ss.y;
+                double zoom = scopeType == 3 ? 4.7 : 5.1;
+                double fov = 3.1415926535897931 * (Settings.GetFov(GetSettings(self)) / zoom / 180.0);
+                object matrix3 = Matrix4.Generate(fov, ratio, 0.05, 4500.0);
+                return Matrix4.Multiply(matrix2, matrix3);
+            }
+            object matrix1 = SignatureManager.GClass49_Base_matrix2.GetValue(self);
             return Matrix4.Multiply(matrix2, matrix1);
         }
 
+        public static void NewFrame(object self)
+        {
+            object player = GetCurrentPLayer(self);
+            viewMatrix = GetViewMatrix(self, player);
+            W2SResolution = new Vec2((double)SignatureManager.GClass49_Base_Base_ScreenWidth.GetValue(self),
+                (double)SignatureManager.GClass49_Base_Base_ScreenHeight.GetValue(self));
+
+            if (player != null && IsScoped(self))
+            {
+                object weaponType = Player.GetCurrentWeaponType(player);
+                byte scopeType = (byte)Helper.GetEquippedScopeType(player, weaponType);
+                Vec2 ss = GetScopeSize(self, scopeType, weaponType);
+
+                W2SOffset = new Vec2((W2SResolution.x - ss.x) / 2, (W2SResolution.y - ss.y) / 2);
+                W2SResolution = ss;
+            } 
+            else
+            {
+                W2SOffset = new Vec2(0, 0);
+            }
+        }
+
+        // 3: 4.7 - 4: 5.1
+
         public static bool W2s(object self, object vec3, out object vec2)
         {
-            Vec4 res = new Vec4(Vec4.Multiply(Vec4.New(vec3), GetViewMatrix(self)));
+            if(viewMatrix == null)
+            {
+                vec2 = Vec2.New(-10000, -10000);
+                return false;
+            }
+            Vec4 res = new Vec4(Vec4.Multiply(Vec4.New(vec3), viewMatrix));
             if (res.z < 0.0)
             {
                 vec2 = Vec2.New(-10000, -10000);
@@ -30,9 +78,9 @@ namespace Sector_dll.sdk
             res.y /= res.w;
             res.z /= res.w;
 
-            double x = (res.x / 2.0 + 0.5) * (double)SignatureManager.GClass49_Base_Base_ScreenWidth.GetValue(self);
-            double y = (-res.y / 2.0 + 0.5) * (double)SignatureManager.GClass49_Base_Base_ScreenHeight.GetValue(self);
-            vec2 = Vec2.New(x, y);
+            double x = (res.x / 2.0 + 0.5) * W2SResolution.x;
+            double y = (-res.y / 2.0 + 0.5) * W2SResolution.y;
+            vec2 = Vec2.New(x + W2SOffset.x, y + W2SOffset.y);
             return true;
         }
 
@@ -55,11 +103,60 @@ namespace Sector_dll.sdk
             return SignatureManager.GClass49_Base_LocalPlayer.GetValue(self);
         }
 
+        public static object GetCurrentPLayer(object self)
+        {
+            if (SignatureManager.GClass49_Base_GetCurrentPLayer == null)
+                return null;
+            return SignatureManager.GClass49_Base_GetCurrentPLayer.Invoke(self, new object[] { });
+        }
+
         public static object GetPlayerColor(object self, object player)
         {
             if (SignatureManager.GClass49_Base_GetPlayerColor == null)
                 return null;
             return SignatureManager.GClass49_Base_GetPlayerColor.Invoke(self, new object[] { player });
+        }
+
+        public static object GetMap(object self)
+        {
+            if (SignatureManager.GCLass49_Base_Map == null)
+                return null;
+            return SignatureManager.GCLass49_Base_Map.GetValue(self);
+        }
+
+        public static bool IsScoped(object self)
+        {
+            if (SignatureManager.GClass49_Base_IsScoped == null)
+                return false;
+            return (bool)SignatureManager.GClass49_Base_IsScoped.Invoke(self, new object[] { });
+        }
+
+        public static Vec2 GetScopeSize(object self, byte scopeType, object weaponType)
+        {
+            if (SignatureManager.GClass49_Base_ScopeSizes1 == null || SignatureManager.GClass49_Base_ScopeSizes1 == null)
+                return null;
+            IDictionary s0 = SignatureManager.GClass49_Base_ScopeSizes1.GetValue(self) as IDictionary;
+            IDictionary s1 = SignatureManager.GClass49_Base_ScopeSizes2.GetValue(self) as IDictionary;
+            if(SmallerScopeIndex < 0)
+                SmallerScopeIndex = s0.Count > s1.Count ? 0 : 1;
+            if (scopeType == 3)
+            {
+                IDictionary sizes = SmallerScopeIndex == 0 ? s0 : s1;
+                return new Vec2(sizes[weaponType]);
+            }
+            if (scopeType == 4)
+            {
+                IDictionary sizes = SmallerScopeIndex == 1 ? s0 : s1;
+                return new Vec2(sizes[weaponType]);
+            }
+            throw new InvalidOperationException($"unsupported scope type {scopeType}");
+        }
+
+        public static object GetSettings(object self)
+        {
+            if (SignatureManager.GClass49_Base_Base_Settings == null)
+                return null;
+            return SignatureManager.GClass49_Base_Base_Settings.GetValue(self);
         }
 
     }

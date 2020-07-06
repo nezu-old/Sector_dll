@@ -1,11 +1,6 @@
-﻿using Microsoft.Build.Utilities;
-using Sector_dll.util;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sector_dll.cheat
 {
@@ -15,6 +10,7 @@ namespace Sector_dll.cheat
 
         public bool publicClass = true;
         public bool abstractClass = false;
+        public int nestedTypes = -1;
 
         public int privateMethods = -1;
         public int publicMethods = -1;
@@ -37,42 +33,44 @@ namespace Sector_dll.cheat
         public int ArrayFields = -1;
         public int OtherFields = -1;
 
-        public int CalculateDifrence(ClassSignature sig, bool basicInfoMustMatch = true)
+        public int CalculateDifrence(ClassSignature sig, bool basicInfoMustMatch = false)
         {
             int diff = 0;
             if (basicInfoMustMatch)
             {
-                if (this.nameLength != sig.nameLength) return int.MaxValue;
+                if (nameLength != -1 && this.nameLength != sig.nameLength) return int.MaxValue;
                 if (this.publicClass != sig.publicClass) return int.MaxValue;
                 if (this.abstractClass != sig.abstractClass) return int.MaxValue;
             }
             else
             {
-                if (this.nameLength != sig.nameLength) diff++;
+                if (nameLength != -1 && this.nameLength != sig.nameLength) diff++;
                 if (this.publicClass != sig.publicClass) diff++;
                 if (this.abstractClass != sig.abstractClass) diff++;
             }
 
-            diff += Math.Abs(this.privateMethods - sig.privateMethods);
-            diff += Math.Abs(this.publicMethods - sig.publicMethods);
-            diff += Math.Abs(this.staticMethods - sig.staticMethods);
+            if (nestedTypes != -1) diff += Math.Abs(this.nestedTypes - sig.nestedTypes);
 
-            diff += Math.Abs(this.publicFields - sig.publicFields);
-            diff += Math.Abs(this.privateFields - sig.privateFields);
-            diff += Math.Abs(this.staticFields - sig.staticFields);
-            diff += Math.Abs(this.readonlyFields - sig.readonlyFields);
+            if (privateMethods != -1) diff += Math.Abs(this.privateMethods - sig.privateMethods);
+            if (publicMethods != -1) diff += Math.Abs(this.publicMethods - sig.publicMethods);
+            if (staticMethods != -1) diff += Math.Abs(this.staticMethods - sig.staticMethods);
 
-            diff += Math.Abs(this.boolFields - sig.boolFields);
-            diff += Math.Abs(this.byteFields - sig.byteFields);
-            diff += Math.Abs(this.shortFields - sig.shortFields);
-            diff += Math.Abs(this.intFields - sig.intFields);
-            diff += Math.Abs(this.longFields - sig.longFields);
-            diff += Math.Abs(this.floatFields - sig.floatFields);
-            diff += Math.Abs(this.doubleFields - sig.doubleFields);
-            diff += Math.Abs(this.enumFields - sig.enumFields);
-            diff += Math.Abs(this.stringFields - sig.stringFields);
-            diff += Math.Abs(this.ArrayFields - sig.ArrayFields);
-            diff += Math.Abs(this.OtherFields - sig.OtherFields);
+            if (publicFields != -1) diff += Math.Abs(this.publicFields - sig.publicFields);
+            if (privateFields != -1) diff += Math.Abs(this.privateFields - sig.privateFields);
+            if (staticFields != -1) diff += Math.Abs(this.staticFields - sig.staticFields);
+            if (readonlyFields != -1) diff += Math.Abs(this.readonlyFields - sig.readonlyFields);
+
+            if (boolFields != -1) diff += Math.Abs(this.boolFields - sig.boolFields);
+            if (byteFields != -1) diff += Math.Abs(this.byteFields - sig.byteFields);
+            if (shortFields != -1) diff += Math.Abs(this.shortFields - sig.shortFields);
+            if (intFields != -1) diff += Math.Abs(this.intFields - sig.intFields);
+            if (longFields != -1) diff += Math.Abs(this.longFields - sig.longFields);
+            if (floatFields != -1) diff += Math.Abs(this.floatFields - sig.floatFields);
+            if (doubleFields != -1) diff += Math.Abs(this.doubleFields - sig.doubleFields);
+            if (enumFields != -1) diff += Math.Abs(this.enumFields - sig.enumFields);
+            if (stringFields != -1) diff += Math.Abs(this.stringFields - sig.stringFields);
+            if (ArrayFields != -1) diff += Math.Abs(this.ArrayFields - sig.ArrayFields);
+            if (OtherFields != -1) diff += Math.Abs(this.OtherFields - sig.OtherFields);
 
             return diff;
         }
@@ -94,6 +92,7 @@ namespace Sector_dll.cheat
 
                 publicClass = type.IsPublic,
                 abstractClass = type.IsAbstract,
+                nestedTypes = type.GetNestedTypes(bindingFlags).Count(),
 
                 privateMethods = methods.Where(x => x.IsPrivate).Count(),
                 publicMethods = methods.Where(x => x.IsPublic).Count(),
@@ -166,30 +165,32 @@ namespace Sector_dll.cheat
                 "\n" +
                 "publicClass = {1},\n" +
                 "abstractClass = {2},\n" +
+                "nestedTypes = {3},\n" +
                 "\n" +
-                "privateMethods = {3},\n" +
-                "publicMethods = {4},\n" +
-                "staticMethods = {5},\n" +
+                "privateMethods = {4},\n" +
+                "publicMethods = {5},\n" +
+                "staticMethods = {6},\n" +
                 "\n" +
-                "publicFields = {6},\n" +
-                "privateFields = {7},\n" +
-                "staticFields = {8},\n" +
-                "readonlyFields = {9},\n" +
+                "publicFields = {7},\n" +
+                "privateFields = {8},\n" +
+                "staticFields = {9},\n" +
+                "readonlyFields = {10},\n" +
                 "\n" +
-                "boolFields = {10},\n" +
-                "byteFields = {11},\n" +
-                "shortFields = {12},\n" +
-                "intFields = {13},\n" +
-                "longFields = {14},\n" +
-                "floatFields = {15},\n" +
-                "doubleFields = {16},\n" +
-                "enumFields = {17},\n" +
-                "stringFields = {18},\n" +
-                "ArrayFields = {19},\n" +
-                "OtherFields = {20}\n",
+                "boolFields = {11},\n" +
+                "byteFields = {12},\n" +
+                "shortFields = {13},\n" +
+                "intFields = {14},\n" +
+                "longFields = {15},\n" +
+                "floatFields = {16},\n" +
+                "doubleFields = {17},\n" +
+                "enumFields = {18},\n" +
+                "stringFields = {19},\n" +
+                "ArrayFields = {20},\n" +
+                "OtherFields = {21}\n",
                 nameLength,
                 publicClass.ToString().ToLower(),
                 abstractClass.ToString().ToLower(),
+                nestedTypes,
                 privateMethods,
                 publicMethods,
                 staticMethods,

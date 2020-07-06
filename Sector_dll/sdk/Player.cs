@@ -1,10 +1,4 @@
 ﻿using Sector_dll.cheat;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sector_dll.sdk
 {
@@ -36,9 +30,10 @@ namespace Sector_dll.sdk
 
         public static bool IsCrouching(object player)
         {
-            if (SignatureManager.PlayerBase_crouching == null)
-                return false;
-            return ((bool[])SignatureManager.PlayerBase_crouching.GetValue(player))[0];
+            //if (SignatureManager.PlayerBase_crouching == null)
+            //    return false;
+            //return ((bool[])SignatureManager.PlayerBase_crouching.GetValue(player))[0];
+            return false;
         }
 
         public static bool EitherMod(object p, ModType mod)
@@ -61,6 +56,34 @@ namespace Sector_dll.sdk
                 num += -10;
             }
             return (double)num;
+        }
+
+        public static string GetName(object player)
+        {
+            if (SignatureManager.PlayerBase_name == null)
+                return "";
+            return (string)SignatureManager.PlayerBase_name.GetValue(player);
+        }
+
+        //public static object GenerateHistoryPlayer(object player)
+        //{
+        //    if (SignatureManager.GenerateHistoryPlayer == null)
+        //        return null;
+        //    return SignatureManager.GenerateHistoryPlayer.Invoke(null, new object[] { player });
+        //}
+
+        public static int GetCurrentWeaponIndex(object player)
+        {
+            if (SignatureManager.PLayerBase_CurrentWeaponIndex == null)
+                return -1;
+            return (int)SignatureManager.PLayerBase_CurrentWeaponIndex.Invoke(player, new object[] { });
+        }
+
+        public static object GetCurrentWeaponType(object player)
+        {
+            if (SignatureManager.PLayerBase_CurrentWeaponType == null)
+                return null;
+            return SignatureManager.PLayerBase_CurrentWeaponType.Invoke(player, new object[] { });
         }
 
         public const double HeightStanding = 2.7;

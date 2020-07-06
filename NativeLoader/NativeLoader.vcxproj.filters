@@ -14,18 +14,18 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="Detours">
-      <UniqueIdentifier>{97cf0cd7-348d-40bf-8925-f1afc54aa835}</UniqueIdentifier>
+      <UniqueIdentifier>{50f2cb04-a85c-4a9e-b729-0d9a297b168d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Loader.cpp">
+    <None Include="cpp.hint" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="nt.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="detours.h">
       <Filter>Detours</Filter>
     </ClInclude>

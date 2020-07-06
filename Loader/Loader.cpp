@@ -1,10 +1,13 @@
 #include <windows.h>
+#include "nt.h"
 #include <tlhelp32.h>
 #include <tchar.h>
 #include <stdio.h>
 #include <shlwapi.h>
-
+#include <string>
+#include "detours.h"
 #pragma comment(lib, "Shlwapi.lib")
+#pragma comment(lib, "detours.lib")
 
 #ifdef UNICODE
 #define LoadLibraryName  "LoadLibraryW"
@@ -31,37 +34,106 @@ struct injectionData {
     char entryName[16];
 };
 
-int main()
-{
+f_NtCreateUserProcess oNtCreateUserProcess = NULL;
 
+NTSTATUS NTAPI NtCreateUserProcessHook(
+    _Out_ PHANDLE ProcessHandle,
+    _Out_ PHANDLE ThreadHandle,
+    _In_ ACCESS_MASK ProcessDesiredAccess,
+    _In_ ACCESS_MASK ThreadDesiredAccess,
+    _In_opt_ POBJECT_ATTRIBUTES ProcessObjectAttributes,
+    _In_opt_ POBJECT_ATTRIBUTES ThreadObjectAttributes,
+    _In_ ULONG ProcessFlags, // PROCESS_CREATE_FLAGS_*
+    _In_ ULONG ThreadFlags, // THREAD_CREATE_FLAGS_*
+    _In_opt_ PVOID ProcessParameters, // PRTL_USER_PROCESS_PARAMETERS
+    _Inout_ PPS_CREATE_INFO CreateInfo,
+    _In_opt_ PPS_ATTRIBUTE_LIST AttributeList) {
+    _tprintf(TEXT("[nezu.cc] Skipping debugger\n"));
+    CreateInfo->InitState.IFEOSkipDebugger = 1;
+    return oNtCreateUserProcess(ProcessHandle, ThreadHandle, ProcessDesiredAccess, ThreadDesiredAccess,
+        ProcessObjectAttributes, ThreadObjectAttributes, ProcessFlags, ThreadFlags, ProcessParameters,
+        CreateInfo, AttributeList);
+}
+
+
+
+int main(int argc, char* argv[])
+{
     _tprintf(TEXT("[nezu.cc] Loader starting\n"));
 
-    DWORD dwPid = findProcess(TEXT("sectorsedge.exe"));
-    
-    if (!dwPid) {
-        _tprintf(TEXT("[nezu.cc] Game not found, launching game\n"));
+    oNtCreateUserProcess = (f_NtCreateUserProcess)GetProcAddress(LoadLibrary(TEXT("ntdll.dll")), "NtCreateUserProcess");
+    if (!oNtCreateUserProcess) {
+        _tprintf(TEXT("[nezu.cc] ERROR: Failed to get address of NtCreateUserProcess\n"));
+        return 10;
+    }
+    DetourTransactionBegin();
+    DetourUpdateThread(GetCurrentThread());
+    DetourAttach(&(PVOID&)oNtCreateUserProcess, NtCreateUserProcessHook);
+    DetourTransactionCommit();
+
+    HANDLE hProc;
+    HANDLE hThread;
+
+    if (argc > 1) {
+
+        std::string command;
+        for (int i = 1; i < argc; i++) {
+            command += argv[i];
+
+            if (i != argc - 1)
+                command += " ";
+        }
+        printf("CMD: %s\n", command.c_str());
+
+        PROCESS_INFORMATION pi = { 0 };
+        STARTUPINFOA si = { 0 };
+        si.cb = sizeof(si);
+        if (!CreateProcessA(NULL, (char*)command.c_str(), NULL, NULL, FALSE, CREATE_SUSPENDED, NULL, NULL, &si, &pi)) {
+            printError(TEXT("CreateProcessA"));
+            return 11;
+        }
+        hProc = pi.hProcess;
+        hThread = pi.hThread;
+    } else {
         ShellExecute(0, 0, TEXT("steam://rungameid/1024890"), 0, 0, SW_SHOW);
-        do {
-            dwPid = findProcess(TEXT("sectorsedge.exe"));
-            Sleep(100);
-        } while (!dwPid);
+        return 0;
     }
+    //DWORD dwPid = findProcess(TEXT("sectorsedge.exe"));
+    //
+    //if (!dwPid) {
+    //    _tprintf(TEXT("[nezu.cc] Game not found, launching game\n"));
+    //    ShellExecute(0, 0, TEXT("steam://rungameid/1024890"), 0, 0, SW_SHOW);
+    //    //ShellExecute(0, 0, TEXT("C:\\Program Files (x86)\\Steam\\steamapps\\common\\SectorsEdge\\sectorsedge.exe"), 0, 0, SW_SHOW);
+    //    do {
+    //        dwPid = findProcess(TEXT("sectorsedge.exe"));
+    //        Sleep(10);
+    //    } while (!dwPid);
+    //}
 
-    HANDLE hProc = OpenProcess(PROCESS_ALL_ACCESS, FALSE, dwPid);
+    //HANDLE hProc = OpenProcess(PROCESS_ALL_ACCESS, FALSE, dwPid);
 
-    if (!hProc) {
-        printError(TEXT("OpenProcess"));
-        return 1;
-    }
+    //if (!hProc) {
+    //    printError(TEXT("OpenProcess"));
+    //    return 1;
+    //}
 
     TCHAR path[BUFSIZE];
+    TCHAR managedPath[BUFSIZE];
 
     DWORD length = GetModuleFileName(NULL, path, BUFSIZE);
     PathRemoveFileSpec(path); // just insers null terminator so buffer is same size;
+    _tcscpy_s(managedPath, path);
 
-    _tcscat_s(path, TEXT("\\Sector_dll.dll"));
+    _tcscat_s(path, TEXT("\\NativeLoader.dll"));
+    _tcscat_s(managedPath, TEXT("\\Sector_dll.dll"));
 
-    injectDll(hProc, path, "Entry");
+    injectDll(hProc, path);
+    //getchar();
+    //Sleep(1000);
+    injectDll(hProc, managedPath, "Entry");
+
+
+    //ResumeThread(hThread);
 
     CloseHandle(hProc);
 
@@ -169,15 +241,90 @@ BOOL injectDll(HANDLE hProc, const TCHAR* dll, const char * entryName) {
         return FALSE;
     }
 
-    if (!entryName) {
-        CloseHandle(hThread);
-        return TRUE;
-    }
-
-    void * pModule = FindModule(GetProcessId(hProc), PathFindFileName(cFullDllPath));
+    void* pModule = FindModule(GetProcessId(hProc), PathFindFileName(cFullDllPath));
 
     if (!pModule) {
+        //err printed in FindModule
         return FALSE;
+    }
+
+    HMODULE hNtdll = LoadLibrary(TEXT("Ntdll.dll"));
+    if (!hNtdll) {
+        printError(TEXT("LoadLibrary(Ntdll.dll)"));
+        return FALSE;
+    }
+
+    f_NtQueryInformationProcess NtQueryInformationProcess = (f_NtQueryInformationProcess)GetProcAddress(hNtdll, "NtQueryInformationProcess");
+
+    if (!NtQueryInformationProcess) {
+        printError(TEXT("GetProcAddress(NtQueryInformationProcess)"));
+        return FALSE;
+    }
+
+    PROCESS_BASIC_INFORMATION PBI = { 0 };
+    ULONG uReturnLength = 0;
+
+    if (NT_FAIL(NtQueryInformationProcess(hProc, ProcessBasicInformation, &PBI, sizeof(PBI), &uReturnLength))) {
+        printError(TEXT("NtQueryInformationProcess(ProcessBasicInformation)"));
+        return FALSE;
+    }
+
+    PEB	peb{ 0 };
+    if (!ReadProcessMemory(hProc, PBI.pPEB, &peb, sizeof(PEB), NULL)) {
+        printError(TEXT("ReadProcessMemory(PEB)"));
+        return FALSE;
+    }
+
+    PEB_LDR_DATA ldrdata{ 0 };
+    if (!ReadProcessMemory(hProc, peb.Ldr, &ldrdata, sizeof(PEB_LDR_DATA), nullptr)) {
+        printError(TEXT("ReadProcessMemory(PEB_LDR_DATA)"));
+        return FALSE;
+    }
+
+    LIST_ENTRY* pCurrentEntry = ldrdata.InLoadOrderModuleListHead.Flink;
+    LIST_ENTRY* pLastEntry = ldrdata.InLoadOrderModuleListHead.Blink;
+    LDR_DATA_TABLE_ENTRY* pLdrEntry{ 0 };
+
+    while (true) {
+        LDR_DATA_TABLE_ENTRY CurrentEntry{ 0 };
+        ReadProcessMemory(hProc, pCurrentEntry, &CurrentEntry, sizeof(LDR_DATA_TABLE_ENTRY), nullptr);
+
+        if (CurrentEntry.DllBase == pModule) {
+            pLdrEntry = new LDR_DATA_TABLE_ENTRY();
+            memcpy_s(pLdrEntry, sizeof(LDR_DATA_TABLE_ENTRY), &CurrentEntry, sizeof(CurrentEntry));
+            break;
+        }
+
+        if (pCurrentEntry == pLastEntry)
+            break;
+
+        pCurrentEntry = CurrentEntry.InLoadOrder.Flink;
+    }
+
+    if (!pLdrEntry) {
+        _tprintf(TEXT("[nezu.cc] ERROR: Failed to find LDR_DATA_TABLE_ENTRY for injected module\n"));
+        return FALSE;
+    }
+
+    auto Unlink = [=](LIST_ENTRY entry) {
+        LIST_ENTRY list;
+        ReadProcessMemory(hProc, entry.Flink, &list, sizeof(LIST_ENTRY), nullptr);
+        list.Blink = entry.Blink;
+        WriteProcessMemory(hProc, entry.Flink, &list, sizeof(LIST_ENTRY), nullptr);
+
+        ReadProcessMemory(hProc, entry.Blink, &list, sizeof(LIST_ENTRY), nullptr);
+        list.Flink = entry.Flink;
+        WriteProcessMemory(hProc, entry.Blink, &list, sizeof(LIST_ENTRY), nullptr);
+    };
+
+    Unlink(pLdrEntry->InInitOrder);
+    Unlink(pLdrEntry->InLoadOrder);
+    Unlink(pLdrEntry->InMemoryOrder);
+
+    delete pLdrEntry;
+
+    if (!entryName) {
+        return TRUE;
     }
 
     FARPROC pGetProcAddress = GetProcAddress(hKernel32, "GetProcAddress");

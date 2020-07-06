@@ -1,10 +1,7 @@
 ﻿using Sector_dll.cheat;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 
 namespace Sector_dll.sdk
 {
@@ -41,6 +38,21 @@ namespace Sector_dll.sdk
         public object ToInternal()
         {
             return New(x, y, z);
+        }
+
+        public static Vec3 operator +(Vec3 v1, Vec3 v2)
+        {
+            return new Vec3(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
+        }
+
+        public static Vec3 operator -(Vec3 v1, Vec3 v2)
+        {
+            return new Vec3(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
+        }
+
+        public static Vec3 operator *(Vec3 v1, Vec3 v2)
+        {
+            return new Vec3(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z);
         }
 
         public double x;

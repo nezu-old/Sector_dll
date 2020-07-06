@@ -1,10 +1,6 @@
 ﻿using Sector_dll.cheat;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sector_dll.sdk
 {
@@ -16,6 +12,12 @@ namespace Sector_dll.sdk
             if (SignatureManager.Vec2_Constructor == null)
                 return null;
             return SignatureManager.Vec2_Constructor.Invoke(new object[] { x, y });
+        }
+
+        public Vec2(double x, double y)
+        {
+            this.x = x;
+            this.y = y;
         }
 
         public Vec2(object vec2)
