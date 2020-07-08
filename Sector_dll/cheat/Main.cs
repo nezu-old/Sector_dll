@@ -15,6 +15,7 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Security.Permissions;
 using System.Security.Policy;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -24,21 +25,33 @@ namespace Sector_dll.cheat
     {
 
 
-        //[MethodImpl(MethodImplOptions.NoInlining)]
-        //public static string xd(Func<int, bool, string>orig, int i, bool b)//Func<IntPtr, string, IntPtr> orig, 
-        //{
-        //    string s = orig(i, b);
-        //    if (s.ToLower().Contains("gui"))
-        //    {
-        //        Log.Info("S: " + s);
-        //        StackTrace t = new StackTrace();
-        //        Log.Info(t.ToString());
-        //    }
-        //    return s;
-        //}
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static string xd(Func<int, bool, string>orig, int i, bool b)//Func<IntPtr, string, IntPtr> orig, 
+        {
+            string s = orig(i, b);
+            if (s.Contains("OpenGL3 init"))
+            {
+                Log.Info("I: " + i + " S: " + s);
+                StackTrace t = new StackTrace();
+                Log.Info(t.ToString());
+            }
+            return s;
+        }
+
+        [DllExport("GetDrawData")]
+        public static bool GetVisuals(out IntPtr test)
+        {
+            byte[] bytes = Encoding.ASCII.GetBytes("Hello verci\0");
+
+            test = Marshal.AllocHGlobal(bytes.Length);
+            Marshal.Copy(bytes, 0, test, bytes.Length);
 
 
-        [DllExport]
+            return true;
+        }
+
+
+        [DllExport()]
         public unsafe static void Entry()
         {
             AllocConsole();
@@ -106,10 +119,10 @@ namespace Sector_dll.cheat
                 Log.Danger(e.ToString());
             }
 
-            //MethodInfo mi = aassembly.GetType("#=q05v04082j3cT4EeHMjRJnsMpq48eTNCv1X9rvHSTfJc=")
-            //    .GetMethod("#=z8am76d1t9411l1ROqa2z$YI=", BindingFlags.NonPublic | BindingFlags.Static);
-            ////Log.Info(mi.ToString());
-            //new Hook(mi, typeof(Main).GetMethod("xd"));
+            MethodInfo mi = assembly.GetType("#=qlP7Rck8fKTTAfxJeTbAdpGzgOJ5BuLGTE8xrRZOLGDs=")
+                .GetMethod("#=zD9zupq9kGin4NH9xUv6i3e4=", BindingFlags.NonPublic | BindingFlags.Static);
+            //Log.Info(mi.ToString());
+            new Hook(mi, typeof(Main).GetMethod("xd"));
 
             //aassembly.GetType("#=zQxVHBMHIj9grktU86Yg6iqY=").GetMethod("#=zeQBGTj4pRBby").Invoke(null, new object[] { });
 

@@ -54,5 +54,7 @@ namespace Sector_dll.sdk
             SignatureManager.Drawing_DrawString.Invoke(d, new object[] { s, rect, font, color, g, 0, 0 });
         }
 
+
+
     }
 }

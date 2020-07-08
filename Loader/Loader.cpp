@@ -96,6 +96,7 @@ int main(int argc, char* argv[])
         hThread = pi.hThread;
     } else {
         ShellExecute(0, 0, TEXT("steam://rungameid/1024890"), 0, 0, SW_SHOW);
+        exit(0);
         return 0;
     }
     //DWORD dwPid = findProcess(TEXT("sectorsedge.exe"));
