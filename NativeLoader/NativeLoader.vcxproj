@@ -153,6 +153,7 @@
       </PrecompiledHeaderFile>
       <CompileAsManaged>false</CompileAsManaged>
       <ExceptionHandling>Sync</ExceptionHandling>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -160,13 +161,18 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <AdditionalOptions>/NODEFAULTLIB:libcmt.lib /ignore:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="cursor.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="drawing.cpp" />
+    <ClCompile Include="globals.cpp" />
+    <ClCompile Include="hooks.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
     <ClCompile Include="imgui\imgui_draw.cpp" />
@@ -174,14 +180,23 @@
     <ClCompile Include="imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="imgui\imgui_stdlib.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
+    <ClCompile Include="LoadLibraryExW.cpp" />
+    <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="utils.cpp" />
+    <ClCompile Include="wglSwapBuffers.cpp" />
+    <ClCompile Include="WndProcHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BebasNeueRegular.h" />
     <ClInclude Include="detours.h" />
     <ClInclude Include="detver.h" />
+    <ClInclude Include="drawing.h" />
+    <ClInclude Include="globals.h" />
     <ClInclude Include="GL\eglew.h" />
     <ClInclude Include="GL\glew.h" />
     <ClInclude Include="GL\glxew.h" />
     <ClInclude Include="GL\wglew.h" />
+    <ClInclude Include="hooks.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\imgui_impl_opengl3.h" />
@@ -191,7 +206,9 @@
     <ClInclude Include="imgui\imstb_rectpack.h" />
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="syelog.h" />
+    <ClInclude Include="utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

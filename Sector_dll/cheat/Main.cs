@@ -38,16 +38,53 @@ namespace Sector_dll.cheat
             return s;
         }
 
-        [DllExport("GetDrawData")]
-        public static bool GetVisuals(out IntPtr test)
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct DrawingFunctions {
+
+            public enum TextAlignment : int
+            {
+                ALIGN_TOP = 1,
+                ALIGN_BOTTOM = 2,
+                ALIGN_LEFT = 4,
+                ALIGN_RIGHT = 8,
+                ALIGN_VCENTER = 16,
+                ALIGN_HCENTER = 32,
+                ALIGN_CENTER = ALIGN_VCENTER | ALIGN_HCENTER,
+            }
+            
+            [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+            public delegate void DrawRectDelegate(int x, int y, int w, int h, int t, uint color);
+
+            [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+            public delegate void DrawFilledRectDelegate(int x, int y, int w, int h, uint color);
+
+            [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+            public delegate void DrawTextDelegate([MarshalAs(UnmanagedType.LPUTF8Str)] string text, float x, float y, float size, uint color,
+                [MarshalAs(UnmanagedType.I4)] TextAlignment alignment);
+
+            public DrawRectDelegate DrawRect;
+
+            public DrawFilledRectDelegate DrawFilledRect;
+
+            public DrawTextDelegate DrawText;
+
+        }
+
+        [DllExport("DrawCallback")]
+        public static void DrawCallback(ref DrawingFunctions drawingFunctionsPtr)
         {
-            byte[] bytes = Encoding.ASCII.GetBytes("Hello verci\0");
+            //DrawingFunctions 
 
-            test = Marshal.AllocHGlobal(bytes.Length);
-            Marshal.Copy(bytes, 0, test, bytes.Length);
+            //byte[] bytes = Encoding.ASCII.GetVBytes("Hello verci\0");
 
-
-            return true;
+            //test = Marshal.AllocHGlobal(bytes.Length);
+            //Marshal.Copy(bytes, 0, test, bytes.Length);
+            //MessageBox.Show(drawingFunctionsPtr.DrawFilledRect.getToString());
+            drawingFunctionsPtr.DrawFilledRect(200, 200, 50, 50, 0xffff0000);
+            drawingFunctionsPtr.DrawRect(210, 210, 30, 30, 3, 0xff0000ff);
+            drawingFunctionsPtr.DrawText("XD", 225, 225, 20, 0xFFFFFFFF, DrawingFunctions.TextAlignment.ALIGN_CENTER);
+            //return true;
         }
 
 
@@ -128,6 +165,7 @@ namespace Sector_dll.cheat
 
             MethodInfo nExecuteAssembly = typeof(AppDomain).GetMethod("nExecuteAssembly", BindingFlags.NonPublic | BindingFlags.Instance);
             //assembly.GetType("#=zEjAcxtmYhCCR4kBIPIMqc1w=").GetMethod("#=zrFEMhxKgaxhz").Invoke(null, new object[] { });
+
             nExecuteAssembly.Invoke(AppDomain.CurrentDomain, new object[] { assembly, args });
 
         }
