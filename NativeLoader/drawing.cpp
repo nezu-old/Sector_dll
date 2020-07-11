@@ -7,6 +7,7 @@ DrawingFunctions D::GetDrawinfFunctions() {
 	DrawingFunctions f = { 0 };
 	f.DrawRect = &D::DrawRect;
 	f.DrawFilledRect = &D::DrawRectFilled;
+	f.DrawLine = &D::DrawLine;
 	f.DrawText = &D::DrawText;
 	return f;
 }
@@ -17,6 +18,10 @@ void __stdcall D::DrawRect(int x, int y, int w, int h, int t, ImU32 color) {
 
 void __stdcall D::DrawRectFilled(int x, int y, int w, int h, ImU32 color) {
 	drawList->AddRectFilled(ImVec2((float)x, (float)y), ImVec2((float)(x + w), (float)(y + h)), color, 0.f, ImDrawCornerFlags_All);
+}
+
+void __stdcall D::DrawLine(float x1, float y1, float x2, float y2, float t, ImU32 color) {
+	drawList->AddLine(ImVec2(x1, y1), ImVec2(x2, y2), color, t);
 }
 
 void __stdcall D::DrawText(const char * text, float x, float y, float size, ImU32 color, int align) {

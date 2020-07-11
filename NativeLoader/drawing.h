@@ -6,6 +6,7 @@
 struct DrawingFunctions {
 	void* DrawRect;
 	void* DrawFilledRect;
+	void* DrawLine;
 	void* DrawText;
 };
 
@@ -27,6 +28,7 @@ namespace D {
 
 	void __stdcall DrawRect(int x, int y, int w, int h, int t, ImU32 color);
 	void __stdcall DrawRectFilled(int x, int y, int w, int h, ImU32 color);
+	void __stdcall DrawLine(float x1, float y1, float x2, float y2, float t, ImU32 color);
 	void __stdcall DrawText(const char* text, float x, float y, float size, ImU32 color, int align);
 
 }

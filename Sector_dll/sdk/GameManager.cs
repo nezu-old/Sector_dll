@@ -17,7 +17,11 @@ namespace Sector_dll.sdk
 
         public static Vec2 W2SResolution = new Vec2(1, 1);
 
+        public static Vec2 ScreenResolution = new Vec2(1, 1);
+
         public static Vec2 W2SOffset = new Vec2(0, 0);
+
+        public static WeakReference instance = new WeakReference(null);
 
         public static object GetViewMatrix(object self, object player)
         {
@@ -41,8 +45,9 @@ namespace Sector_dll.sdk
         {
             object player = GetCurrentPLayer(self);
             viewMatrix = GetViewMatrix(self, player);
-            W2SResolution = new Vec2((double)SignatureManager.GClass49_Base_Base_ScreenWidth.GetValue(self),
+            ScreenResolution = new Vec2((double)SignatureManager.GClass49_Base_Base_ScreenWidth.GetValue(self),
                 (double)SignatureManager.GClass49_Base_Base_ScreenHeight.GetValue(self));
+            W2SResolution = ScreenResolution;
 
             if (player != null && IsScoped(self))
             {
@@ -61,7 +66,7 @@ namespace Sector_dll.sdk
 
         // 3: 4.7 - 4: 5.1
 
-        public static bool W2s(object self, object vec3, out object vec2)
+        public static bool W2s(object vec3, out object vec2)
         {
             if(viewMatrix == null)
             {
@@ -84,9 +89,9 @@ namespace Sector_dll.sdk
             return true;
         }
 
-        public static bool W2s(object self, Vec3 vec3, out Vec2 vec2)
+        public static bool W2s(Vec3 vec3, out Vec2 vec2)
         {
-            bool res = W2s(self, vec3.ToInternal(), out object r);
+            bool res = W2s(vec3.ToInternal(), out object r);
             vec2 = new Vec2(r);
             return res;
         }
@@ -110,11 +115,11 @@ namespace Sector_dll.sdk
             return SignatureManager.GClass49_Base_GetCurrentPLayer.Invoke(self, new object[] { });
         }
 
-        public static object GetPlayerColor(object self, object player)
+        public static Color GetPlayerColor(object self, object player)
         {
             if (SignatureManager.GClass49_Base_GetPlayerColor == null)
                 return null;
-            return SignatureManager.GClass49_Base_GetPlayerColor.Invoke(self, new object[] { player });
+            return new Color(SignatureManager.GClass49_Base_GetPlayerColor.Invoke(self, new object[] { player }));
         }
 
         public static object GetMap(object self)
