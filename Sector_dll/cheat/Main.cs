@@ -7,7 +7,6 @@ using MonoMod.Utils;
 using RGiesecke.DllExport;
 using Sector_dll.cheat.Hooks;
 using Sector_dll.util;
-using Steamworks;
 using System;
 using System.CodeDom;
 using System.Collections;
@@ -71,7 +70,7 @@ namespace Sector_dll.cheat
             AllocConsole();
             Log.enabled = true;
             Log.Info("Entry point called");
-            //Log.Info("Running from: " + Assembly.GetExecutingAssembly().Location);
+            Log.Info("Running from: " + Assembly.GetExecutingAssembly().Location);
             //Log.Info("Running in domain: " + AppDomain.CurrentDomain.FriendlyName);
             //Log.Info("Domain base dir: " + AppDomain.CurrentDomain.BaseDirectory);
             Log.Info("Working directory: " + Directory.GetCurrentDirectory());
@@ -104,14 +103,8 @@ namespace Sector_dll.cheat
                 Environment.Exit(10);
             }
 
-            Log.Info("Waiting for debugger to attach");
-            //while (!Debugger.IsAttached)
-            {
-                Thread.Sleep(100);
-            }
-            Log.Info("Debugger attached");
-            //Debugger.Break();
-
+            //while (!Debugger.IsAttached) Thread.Sleep(100);
+            
             Assembly assembly = Assembly.Load("sectorsedge");
 
             string[] a = Environment.GetCommandLineArgs();
@@ -129,10 +122,12 @@ namespace Sector_dll.cheat
                 
                 new Hook(SignatureManager.GClass49_vmethod_4, typeof(GClass49).GetMethod("vmethod_4"));
 
-                //new Hook(typeof(SteamFriends).GetMethod("GetPersonaName"), typeof(Steam).GetMethod("GetPersonaName"));
+                if (HWID.Seed != 926594848) //spy
+                    new Hook(typeof(ManagementBaseObject).GetMethod("GetPropertyValue", BindingFlags.Public | BindingFlags.Instance),
+                        typeof(HWID).GetMethod("ManagementBaseObject_GetPropertyValue"));
+                else
+                    Log.Danger("wmi hook disabled for spy account to prevent hwid spoofer from beeing x-refd");
 
-                new Hook(typeof(ManagementBaseObject).GetMethod("GetPropertyValue", BindingFlags.Public | BindingFlags.Instance),
-                    typeof(HWID).GetMethod("ManagementBaseObject_GetPropertyValue"));
                 new NativeDetour(SignatureManager.Helper1_GetProcAddress, typeof(HWID).GetMethod("GetProcAddress"));
                 new Detour(typeof(Environment).GetMethod("get_MachineName", BindingFlags.Public | BindingFlags.Static),
                     typeof(HWID).GetMethod("get_MachineName"));
@@ -151,77 +146,19 @@ namespace Sector_dll.cheat
             catch (Exception e)
             {
                 Log.Danger(e.ToString());
-
             }
 
             MethodInfo mi = assembly.GetType("#=qlP7Rck8fKTTAfxJeTbAdpGzgOJ5BuLGTE8xrRZOLGDs=")
-                .GetMethod("#=zD9zupq9kGin4NH9xUv6i3e4=", BindingFlags.NonPublic | BindingFlags.Static);
-
-            AssemblyDefinition definition = AssemblyDefinition.ReadAssembly(assembly.Location);
-
-            //MethodDefinition md = definition.MainModule.GetType("#=qlP7Rck8fKTTAfxJeTbAdpGzgOJ5BuLGTE8xrRZOLGDs=")
-            //    .Methods.First(x => x.Name == "#=zE9ylfdY=");
-
-            //FileStream fileStream = new FileStream(Path.Combine(Directory.GetCurrentDirectory(), "strings.txt"), FileMode.Create);
-            //StreamWriter sw = new StreamWriter(fileStream);
-
-            //foreach (var type in definition.MainModule.Types)
-            //{
-            //    foreach (var m in type.Methods)
-            //    {
-            //        if (m.HasBody)
-            //        {
-            //            int id = 0;
-            //            foreach (var il in m.Body.Instructions)
-            //            {
-            //                if (il.OpCode == OpCodes.Ldc_I4)
-            //                {
-            //                    id = (int)il.Operand;
-            //                }
-            //                if (il.OpCode == OpCodes.Call)
-            //                {
-            //                    var mRef = il.Operand as MethodReference;
-            //                    if (mRef != null && string.Equals(mRef.FullName, md.FullName, StringComparison.InvariantCultureIgnoreCase))
-            //                    {
-                                    
-            //                        string s = (string)mi.Invoke(null, new object[] { id, true });
-            //                        Log.Info(s);
-            //                        sw.WriteLine(id.ToString() + ": " + s);
-            //                    }
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
-            //sw.Close();
-            //fileStream.Close();
-
-            //Log.Danger(md.FullName);
-
-            //for(int i = -2001000000; i > -2010000000; i--)
-            //{
-            //    if (i % 10000 == 0)
-            //        Console.Title = i.ToString();
-            //    try
-            //    {
-            //        string x = (string)mi.Invoke(null, new object[] { i, true });
-            //        if(x.Length < 200)
-            //            Log.Info(x);
-            //    } catch (Exception)
-            //    {
-            //        //Log.Danger(ex.ToString());
-            //    }
-            //}
-
+                .GetMethod("#=zD9zupq9kGin4NH9xUv6i3e4=", BindingFlags.NonPublic | BindingFlags.Static); 
+            
             //Log.Danger((string)mi.Invoke(null, new object[] { -2001122674, true }));
             new Hook(mi, typeof(Main).GetMethod("xd"));
             //Console.Read();
 
-            Detour mainDetour = new Detour(assembly.EntryPoint, typeof(Main).GetMethod("MainHook"));
+            Detour mainDetour = new Detour(assembly.EntryPoint, typeof(Main).GetMethod("MainHook")); //detour main to dummy function
             
-            MethodInfo nExecuteAssembly = typeof(AppDomain).GetMethod("nExecuteAssembly", BindingFlags.NonPublic | BindingFlags.Instance);
-           
-            nExecuteAssembly.Invoke(AppDomain.CurrentDomain, new object[] { assembly, args });
+            typeof(AppDomain).GetMethod("nExecuteAssembly", BindingFlags.NonPublic | BindingFlags.Instance)
+                .Invoke(AppDomain.CurrentDomain, new object[] { assembly, args });
 
             mainDetour.Dispose(); // rstore it
 
@@ -230,13 +167,10 @@ namespace Sector_dll.cheat
 
             try
             {
-                //MainLoader(args);
                 IntPtr xd = GetModuleHandle(Path.GetFileName(Assembly.GetExecutingAssembly().Location));
                 if(xd != IntPtr.Zero)
                 {
                     IntPtr mainLoader = GetProcAddress(xd, "MainLoader" + args.Length) ;
-                    Log.Danger(mainLoader.ToString("X") + " " + args.Length);
-                    Console.Read();
 
                     IntPtr data = Marshal.AllocHGlobal(1024 * 10);
                     int offset = Marshal.SizeOf<IntPtr>() * args.Length;
@@ -249,11 +183,14 @@ namespace Sector_dll.cheat
                         Marshal.Copy(addy, 0, new IntPtr(data.ToInt64() + (i * Marshal.SizeOf<IntPtr>())), addy.Length);
                         lastAddr = new IntPtr(lastAddr.ToInt64() + s.Length);
                     }
-                    Log.Danger(data.ToInt64().ToString("X"));
                     //Marshal.GetDelegateForFunctionPointer<FakeMainDelegate>(mainLoader)(data);
+                    Log.Danger("Press enter to start");
+                    Console.Read();
+                    IntPtr thread = CreateThread(UIntPtr.Zero, 0, mainLoader, data, 0, IntPtr.Zero);
+                    WaitForSingleObject(thread, 0xFFFFFFFF);// INFINITE 
 
-                    CreateThread(UIntPtr.Zero, 0, mainLoader, data, 0, IntPtr.Zero);
-
+                    Log.Danger("Main ended, exiting");
+                    Environment.Exit(0);
 
                 }
             } 
@@ -261,13 +198,14 @@ namespace Sector_dll.cheat
             {
                 Log.Danger(ex.ToString());
             }
-            //MainLoader(args);
-            //origMain(args);
 
         }
 
+        [DllImport("kernel32.dll", SetLastError= true)]
+        static extern UInt32 WaitForSingleObject(IntPtr hHandle, UInt32 dwMilliseconds);
+
         [DllImport("Kernel32.dll", CharSet = CharSet.Ansi, SetLastError = true)]
-        private unsafe static extern uint CreateThread(
+        private unsafe static extern IntPtr CreateThread(
             UIntPtr lpThreadAttributes,
             uint dwStackSize,
             IntPtr lpStartAddress,
@@ -284,12 +222,10 @@ namespace Sector_dll.cheat
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate void FakeMainDelegate(IntPtr data);
 
-        public delegate void MainDelegate(string[] args);
-
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void MainHook(string[] args)
         {
-            Log.Danger("normal Main prevented: " + string.Join(" ", args));
+            Log.Info("Main prevented: " + string.Join(" ", args));
         }
 
         [DllImport("kernel32.dll", SetLastError = true)]
