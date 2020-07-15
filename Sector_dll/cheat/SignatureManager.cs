@@ -497,6 +497,10 @@ namespace Sector_dll.cheat
 
         public static Type ScopeType;
 
+        public static List<MethodInfo> RegQueryValueEx = new List<MethodInfo>();
+
+        public static MethodInfo DiscordCreate;
+
         public static void FindSignatures(Assembly aassembly)
         {
             //Log.Info("Waiting for debugger to attach");
@@ -506,12 +510,26 @@ namespace Sector_dll.cheat
             //}
             //Log.Info("Debugger attached");
             //Debugger.Break();
-
+            RegQueryValueEx.Clear();
             foreach (Type t in aassembly.GetTypes())
             {
                 ClassSignature sig = ClassSignature.GenerateSignature(t);
                 foreach(ResolvedType rt in ResolvedTypes)
                     rt.Update(sig, t);
+                foreach(var method in t.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static))
+                {
+                    foreach(var attrib in method.GetCustomAttributes())
+                    {
+                        if(attrib is DllImportAttribute)
+                        {
+                            DllImportAttribute dllImport = attrib as DllImportAttribute;
+                            if (dllImport.EntryPoint == "RegQueryValueEx")
+                                RegQueryValueEx.Add(method);
+                            if (dllImport.EntryPoint == "DiscordCreate")
+                                DiscordCreate = method;
+                        }
+                    }
+                }
             }
 
             foreach (ResolvedType rt in ResolvedTypes)

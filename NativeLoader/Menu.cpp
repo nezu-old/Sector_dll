@@ -1,7 +1,7 @@
 #include "Menu.h"
 #include "imgui/imgui.h"
 
-bool Menu::open = true;
+bool Menu::open = false;
 
 void Menu::DrawMenu() {
 	

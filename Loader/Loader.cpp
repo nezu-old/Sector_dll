@@ -59,6 +59,7 @@ NTSTATUS NTAPI NtCreateUserProcessHook(
 
 int main(int argc, char* argv[])
 {
+    //ShowWindow(GetConsoleWindow(), SW_HIDE);
     _tprintf(TEXT("[nezu.cc] Loader starting\n"));
 
     oNtCreateUserProcess = (f_NtCreateUserProcess)GetProcAddress(LoadLibrary(TEXT("ntdll.dll")), "NtCreateUserProcess");
@@ -128,17 +129,23 @@ int main(int argc, char* argv[])
     _tcscat_s(path, TEXT("\\NativeLoader.dll"));
     _tcscat_s(managedPath, TEXT("\\Sector_dll.dll"));
 
-    injectDll(hProc, path);
+    if (injectDll(hProc, path) && injectDll(hProc, managedPath, "Entry")) {
+        _tprintf(TEXT("[nezu.cc] Injected\n"));
+        CloseHandle(hProc);
+    } else {
+        TerminateProcess(hProc, 1);
+        CloseHandle(hProc);
+        MessageBox(NULL, TEXT("Failed to fully inject, closing process to prevent detection"), TEXT("Fuck"), MB_ICONERROR | MB_OK);
+    }
     //getchar();
     //Sleep(1000);
-    injectDll(hProc, managedPath, "Entry");
 
 
     //ResumeThread(hThread);
 
-    CloseHandle(hProc);
 
-    _tprintf(TEXT("[nezu.cc] Injected\n"));
+
+    //Sleep(10000);
     return 0;
 }
 
@@ -242,7 +249,15 @@ BOOL injectDll(HANDLE hProc, const TCHAR* dll, const char * entryName) {
         return FALSE;
     }
 
-    void* pModule = FindModule(GetProcessId(hProc), PathFindFileName(cFullDllPath));
+    //Sleep(200);
+
+    void* pModule = nullptr;
+    for (size_t i = 0; i < 10; i++) {
+        pModule = FindModule(GetProcessId(hProc), PathFindFileName(cFullDllPath));
+        if (pModule) 
+            break;
+        Sleep(100);
+    }
 
     if (!pModule) {
         //err printed in FindModule
@@ -367,26 +382,26 @@ BOOL injectDll(HANDLE hProc, const TCHAR* dll, const char * entryName) {
         return FALSE;
     }
 
-    DWORD dWaitResault2 = WaitForSingleObject(hThread2, WAIT_TIMEOUT_2);
+    //DWORD dWaitResault2 = WaitForSingleObject(hThread2, WAIT_TIMEOUT_2);
 
-    if (dWaitResault2 == WAIT_FAILED) {
-        CloseHandle(hThread2);
-        VirtualFreeEx(hProc, pMem, 0, MEM_RELEASE);
-        printError(TEXT("WaitForSingleObject [2]"));
-        return FALSE;
-    } else if (dWaitResault2 == WAIT_TIMEOUT_2) {
-        CloseHandle(hThread2);
-        VirtualFreeEx(hProc, pMem, 0, MEM_RELEASE);
-        _tprintf(TEXT("[nezu.cc] ERROR: Dll injection timeout [2]\n"));
-        return FALSE;
-    }
+    //if (dWaitResault2 == WAIT_FAILED) {
+    //    CloseHandle(hThread2);
+    //    VirtualFreeEx(hProc, pMem, 0, MEM_RELEASE);
+    //    printError(TEXT("WaitForSingleObject [2]"));
+    //    return FALSE;
+    //} else if (dWaitResault2 == WAIT_TIMEOUT_2) {
+    //    CloseHandle(hThread2);
+    //    VirtualFreeEx(hProc, pMem, 0, MEM_RELEASE);
+    //    _tprintf(TEXT("[nezu.cc] ERROR: Dll injection timeout [2]\n"));
+    //    return FALSE;
+    //}
 
-    CloseHandle(hThread2);
+    //CloseHandle(hThread2);
 
-    if (!VirtualFreeEx(hProc, pMem, 0, MEM_RELEASE)) {
-        printError(TEXT("VirtualFreeEx [2]"));
-        //return FALSE; // no big deal, continue
-    }
+    //if (!VirtualFreeEx(hProc, pMem, 0, MEM_RELEASE)) {
+    //    printError(TEXT("VirtualFreeEx [2]"));
+    //    //return FALSE; // no big deal, continue
+    //}
 
     return TRUE;
 }

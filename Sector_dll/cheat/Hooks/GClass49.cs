@@ -2,6 +2,7 @@
 using Sector_dll.util;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -17,6 +18,7 @@ namespace Sector_dll.cheat.Hooks
         {
             GameManager.instance.Target = self;
             GameManager.NewFrame(self);
+            //throw new FileNotFoundException("XD");
 
             //object localPlayer = GameManager.GetLocalPLayer(self);
          
