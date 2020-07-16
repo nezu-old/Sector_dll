@@ -87,7 +87,7 @@ namespace Sector_dll.cheat
                             d.DrawLine((float)GameManager.ScreenResolution.x / 2, (float)GameManager.ScreenResolution.y,
                                 (float)((head2d.x + origin2d.x) / 2), (float)origin2d.y, 1, color);
 
-                            d.DrawText(Player.GetName(player), (float)head2d.x, (float)head2d.y - 20, 18, Color.white, 
+                            d.DrawText(Player.GetName(player), (float)head2d.x, (float)head2d.y - 5, 18, Color.white, 
                                 DrawingFunctions.TextAlignment.ALIGN_BOTTOM | DrawingFunctions.TextAlignment.ALIGN_HCENTER);
                         }
                     }
