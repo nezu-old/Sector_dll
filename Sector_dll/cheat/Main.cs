@@ -34,11 +34,11 @@ namespace Sector_dll.cheat
         public static string xd(Func<int, bool, string>orig, int i, bool b)//Func<IntPtr, string, IntPtr> orig, 
         {
             string s = orig(i, b);
-            //if (s.Contains("OpenGL3 init"))
+            if (s.ToLower().Contains("left"))
             {
-                //Log.Info("I: " + i + " S: " + s);
-                //StackTrace t = new StackTrace();
-                //Log.Info(t.ToString());
+                Log.Info("I: " + i + " S: " + s);
+                StackTrace t = new StackTrace();
+                Log.Info(t.ToString());
             }
             return s;
         }
@@ -112,7 +112,7 @@ namespace Sector_dll.cheat
             Array.Copy(a, 1, args, 0, a.Length - 1);
             Log.Info("args: " + string.Join(" ", args));
 
-            //Log.Info(SignatureManager.GenerateSig("#=zglhlPSH$mnF9ZTdb8WcJdr3OddCUQAd0Aw=="));
+            //Log.Info(SignatureManager.GenerateSig("#=zoON9In9pNH1Vm85uk2QGiATruBPs")); Console.Read();
             try
             {
                 SignatureManager.FindSignatures(assembly);
@@ -120,7 +120,9 @@ namespace Sector_dll.cheat
                 new Hook(SignatureManager.RequestHelper_POST, typeof(RequestHelper).GetMethod("POST"));
                 new Hook(SignatureManager.RequestHelper_GET, typeof(RequestHelper).GetMethod("GET"));
                 
-                new Hook(SignatureManager.GClass49_vmethod_4, typeof(GClass49).GetMethod("vmethod_4"));
+                new Hook(SignatureManager.GClass49_Base_Base_Draw, typeof(GClass49).GetMethod("vmethod_4"));
+                new Hook(SignatureManager.PlayerBase_RecoilMod, typeof(Player).GetMethod("RecoilMod"));
+                new Hook(SignatureManager.Helper_CurrentBloom, typeof(Helper).GetMethod("CurrentBloom"));
 
                 if (HWID.Seed != 926594848) //spy
                     new Hook(typeof(ManagementBaseObject).GetMethod("GetPropertyValue", BindingFlags.Public | BindingFlags.Instance),
@@ -146,10 +148,15 @@ namespace Sector_dll.cheat
             catch (Exception e)
             {
                 Log.Danger(e.ToString());
+                Log.Danger("Press any key to exit");
+                Console.ReadLine();
+                Environment.Exit(10);
             }
 
             MethodInfo mi = assembly.GetType("#=qlP7Rck8fKTTAfxJeTbAdpGzgOJ5BuLGTE8xrRZOLGDs=")
-                .GetMethod("#=zD9zupq9kGin4NH9xUv6i3e4=", BindingFlags.NonPublic | BindingFlags.Static); 
+                .GetMethod("#=zD9zupq9kGin4NH9xUv6i3e4=", BindingFlags.NonPublic | BindingFlags.Static);
+
+            //Util.DumpStrings(assembly, mi);
             
             //Log.Danger((string)mi.Invoke(null, new object[] { -2001122674, true }));
             new Hook(mi, typeof(Main).GetMethod("xd"));

@@ -128,6 +128,7 @@ int main(int argc, char* argv[])
 
     _tcscat_s(path, TEXT("\\NativeLoader.dll"));
     _tcscat_s(managedPath, TEXT("\\Sector_dll.dll"));
+    
 
     if (injectDll(hProc, path) && injectDll(hProc, managedPath, "Entry")) {
         _tprintf(TEXT("[nezu.cc] Injected\n"));

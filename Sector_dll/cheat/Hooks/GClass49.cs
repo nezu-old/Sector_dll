@@ -16,8 +16,15 @@ namespace Sector_dll.cheat.Hooks
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void vmethod_4(Action<object, object> orig, object self, object p1)
         {
-            GameManager.instance.Target = self;
-            GameManager.NewFrame(self);
+            if(self.GetType().BaseType == SignatureManager.GClass49.Type.BaseType)
+            {
+                GameManager.instance.Target = self;
+                GameManager.NewFrame(self);
+            }
+            else
+            {
+                GameManager.instance.Target = null;
+            }
             //throw new FileNotFoundException("XD");
 
             //object localPlayer = GameManager.GetLocalPLayer(self);
