@@ -57,14 +57,19 @@ namespace Sector_dll.cheat
             {
                 object gm = GameManager.instance.Target;
 
-                object local = GameManager.GetLocalPLayer(gm);
-                double lhp = Player.GetHealth(local);
-
-                d.DrawText(lhp.ToString(), 100, 50, 20, Color.red, 0);
-                d.DrawText(GameManager.instance.Target.GetType().BaseType  + "\n" + SignatureManager.GClass49.Type.BaseType, 100, 100, 20, Color.white, 0);
-
-
                 d.DrawFilledRect(20, 20, 10, 10, 0xFF0000FF);
+
+                object local = GameManager.GetLocalPLayer(gm);
+                if(local != null)
+                {
+                double lhp = Player.GetHealth(local);
+                d.DrawText(lhp.ToString(), 100, 50, 20, Color.red, 0);
+
+                }
+
+
+                //CollisionHelper.GetBonesWorldSpace(local);
+
 
                 List<object> players = (SignatureManager.GClass49_player_list.GetValue(gm) as IEnumerable<object>)
                     .Cast<object>().ToList();

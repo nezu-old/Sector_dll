@@ -491,6 +491,8 @@ namespace Sector_dll.cheat
 
         public static FieldInfo WorldSpaceBone_name;
 
+        public static ConstructorInfo CollisionHelper_Constructor;
+
         public static MethodInfo CollisionHelper_GetBonesWorldSpace;
         
         public static Type PlayerLoadout;
@@ -1064,8 +1066,10 @@ namespace Sector_dll.cheat
             }
             if (CollisionHelper_GetBonesWorldSpace == null) { Log.Info("CollisionHelper_GetBonesWorldSpace is null"); return; }
             if (WorldSpaceBone == null) { Log.Info("WorldSpaceBone is null"); return; }
+            CollisionHelper_Constructor = CollisionHelper.Type.GetConstructors()[0];
+            Log.Info("Found CollisionHelper_Constructor as: " + CollisionHelper_Constructor.ToString());
 
-            foreach(FieldInfo fi in WorldSpaceBone.GetFields(BindingFlags.Public | BindingFlags.Instance)) //relying on order beeing always thesame
+            foreach (FieldInfo fi in WorldSpaceBone.GetFields(BindingFlags.Public | BindingFlags.Instance)) //relying on order beeing always thesame
             {
                 if (WorldSpaceBone_type == null)
                 {

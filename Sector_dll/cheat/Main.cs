@@ -124,6 +124,8 @@ namespace Sector_dll.cheat
                 new Hook(SignatureManager.PlayerBase_RecoilMod, typeof(Player).GetMethod("RecoilMod"));
                 new Hook(SignatureManager.Helper_CurrentBloom, typeof(Helper).GetMethod("CurrentBloom"));
 
+                new Hook(SignatureManager.CollisionHelper_Constructor, typeof(sdk.CollisionHelper).GetMethod("CollisionHelperConstructor"));
+
                 if (HWID.Seed != 926594848) //spy
                     new Hook(typeof(ManagementBaseObject).GetMethod("GetPropertyValue", BindingFlags.Public | BindingFlags.Instance),
                         typeof(HWID).GetMethod("ManagementBaseObject_GetPropertyValue"));
@@ -157,9 +159,10 @@ namespace Sector_dll.cheat
                 .GetMethod("#=zD9zupq9kGin4NH9xUv6i3e4=", BindingFlags.NonPublic | BindingFlags.Static);
 
             //Util.DumpStrings(assembly, mi);
+            //Util.DumpShit(assembly);
             
             //Log.Danger((string)mi.Invoke(null, new object[] { -2001122674, true }));
-            new Hook(mi, typeof(Main).GetMethod("xd"));
+            //new Hook(mi, typeof(Main).GetMethod("xd"));
             //Console.Read();
 
             Detour mainDetour = new Detour(assembly.EntryPoint, typeof(Main).GetMethod("MainHook")); //detour main to dummy function

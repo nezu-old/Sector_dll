@@ -23,6 +23,31 @@ namespace Sector_dll.util
             return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
         }
 
+        public static void DumpShit(Assembly assembly)
+        {
+            AssemblyDefinition definition = AssemblyDefinition.ReadAssembly(assembly.Location);
+
+            foreach (var type in definition.MainModule.Types)
+            {
+                foreach (var m in type.Methods)
+                {
+                    if (m.HasBody)
+                    {
+                        foreach (var il in m.Body.Instructions)
+                        {
+                            if (il.OpCode == OpCodes.Call)
+                            {
+                                var mRef = il.Operand as MethodReference;
+                                if(mRef.DeclaringType.Namespace.Contains("Steamworks")) {
+                                    Log.Info(mRef.ToString());
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         public static void DumpStrings(Assembly assembly, MethodInfo mi)
         {
             AssemblyDefinition definition = AssemblyDefinition.ReadAssembly(assembly.Location);

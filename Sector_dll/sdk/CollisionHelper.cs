@@ -1,23 +1,30 @@
 ﻿using Sector_dll.cheat;
+using Sector_dll.util;
+using System;
+using System.Runtime.CompilerServices;
+using System.Security.Policy;
 
 namespace Sector_dll.sdk
 {
     class CollisionHelper
     {
 
-        //public static object GetBonesWorldSpaceClient(object historyPlayer, object mapBase)
-        //{
-        //    if (SignatureManager.CollisionHelper_GetBonesWorldSpaceClient == null)
-        //        return null;
-        //    return SignatureManager.CollisionHelper_GetBonesWorldSpaceClient.Invoke(null, new object[] { historyPlayer, mapBase });
-        //}
+        private static object instance;
 
-        //public static object GetBonesWorldSpaceServer(object historyPlayer, object mapBase)
-        //{
-        //    if (SignatureManager.CollisionHelper_GetBonesWorldSpaceServer == null)
-        //        return null;
-        //    return SignatureManager.CollisionHelper_GetBonesWorldSpaceServer.Invoke(null, new object[] { historyPlayer, mapBase });
-        //}
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static void CollisionHelperConstructor(Action<object, object> orig, object self, object a1)
+        {
+            orig(self, a1);
+            instance = self;
+            Log.Danger("Got CollisionHelper instance as: " + instance.ToString());
+        }
+
+        public static object GetBonesWorldSpace(object player)
+        {
+            if (SignatureManager.CollisionHelper_GetBonesWorldSpace == null)
+                return null;
+            return SignatureManager.CollisionHelper_GetBonesWorldSpace.Invoke(instance, new object[] { player });
+        }
 
     }
 }
