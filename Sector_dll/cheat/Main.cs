@@ -34,7 +34,7 @@ namespace Sector_dll.cheat
         public static string xd(Func<int, bool, string>orig, int i, bool b)//Func<IntPtr, string, IntPtr> orig, 
         {
             string s = orig(i, b);
-            if (s.ToLower().Contains("left"))
+            if (s.ToLower().Contains("head"))
             {
                 Log.Info("I: " + i + " S: " + s);
                 StackTrace t = new StackTrace();
@@ -194,8 +194,8 @@ namespace Sector_dll.cheat
                         lastAddr = new IntPtr(lastAddr.ToInt64() + s.Length);
                     }
                     //Marshal.GetDelegateForFunctionPointer<FakeMainDelegate>(mainLoader)(data);
-                    Log.Danger("Press enter to start");
-                    Console.Read();
+                    //Log.Danger("Press enter to start");
+                    //Console.Read();
                     IntPtr thread = CreateThread(UIntPtr.Zero, 0, mainLoader, data, 0, IntPtr.Zero);
                     WaitForSingleObject(thread, 0xFFFFFFFF);// INFINITE 
 

@@ -57,14 +57,14 @@ namespace Sector_dll.cheat
             {
                 object gm = GameManager.instance.Target;
 
-                d.DrawFilledRect(20, 20, 10, 10, 0xFF0000FF);
+                //d.DrawFilledRect(20, 20, 10, 10, 0xFF0000FF);
 
                 object local = GameManager.GetLocalPLayer(gm);
                 if(local != null)
                 {
-                double lhp = Player.GetHealth(local);
-                d.DrawText(lhp.ToString(), 100, 50, 20, Color.red, 0);
-
+                    Vec3 o = Player.GetOrigin(local);
+                    d.DrawText(o.ToString(), 100, 50, 20, Color.red, 0);
+                    //Player.SetTeam(local, TeamType.Spectate);
                 }
 
 
@@ -73,6 +73,8 @@ namespace Sector_dll.cheat
 
                 List<object> players = (SignatureManager.GClass49_player_list.GetValue(gm) as IEnumerable<object>)
                     .Cast<object>().ToList();
+
+                int k = 0;
 
                 for(int i = 0; i < players.Count; i++)
                 {
@@ -87,11 +89,31 @@ namespace Sector_dll.cheat
 
                         if (GameManager.W2s(origin, out Vec2 origin2d) && GameManager.W2s(head, out Vec2 head2d))
                         {
+                            object bones = CollisionHelper.GetBonesWorldSpace(player);
+                            List<object> bb = (bones as IEnumerable<object>).Cast<object>().ToList();
+                                        int j = 0;
+                            foreach (var b in bb) {
+                                if(GameManager.W2s(WorldSpaceBone.GetHead(b), out Vec2 bh) &&
+                                    GameManager.W2s(WorldSpaceBone.GetTail(b), out Vec2 bt))
+                                {
+                                    d.DrawLine((int)bh.x, (int)bh.y, (int)bt.x, (int)bt.y, 1, Color.white);
+                                    //if (k == 0)
+                                    //{
+                                    //    int xxx = (WorldSpaceBone.GetID(b) / 30);
+                                    //    d.DrawText(WorldSpaceBone.GetID(b) + " - " + WorldSpaceBone.GetName(b) + "("
+                                    //        + WorldSpaceBone.GetType(b).ToString() + ", " + WorldSpaceBone.GetRadius(b) + ")",
+                                    //        100 + (300 * xxx), 100 + ((j++ % 30) * 20), 20, Color.white, 0);
+                                    //}
+                                }
+                            }
+                            k++;
+
                             int h = (int)(origin2d.y - head2d.y);
                             int w = (int)(h / 1.65 + Math.Abs(head2d.x - origin2d.x));
                             Color color = GameManager.GetPlayerColor(gm, player);
                             double hp = Player.GetHealth(player);
                             int hp_h = (int)Util.Map(hp, 0, Player.GetMaxHealth(player), 0, h);
+
 
                             d.DrawRect((int)head2d.x - (w / 2), (int)head2d.y, w, h, 3, Color.black);
                             d.DrawRect((int)head2d.x - (w / 2), (int)head2d.y, w, h, 1, color);
@@ -106,6 +128,21 @@ namespace Sector_dll.cheat
                         }
                     }
 
+                }
+
+                if(players.Count < 1)
+                {
+                    object pp = Player.New(gm, 1);
+                    Player.SetTeam(pp, TeamType.Bandit);
+                    Player.SetOrigin(pp, new Vec3(165.0, 35.0, 38.0));
+                    object all_pp = SignatureManager.GClass49_player_list.GetValue(gm);
+                    SignatureManager.GClass49_player_list.FieldType.GetMethod("Add").Invoke(all_pp, new[] { pp });
+                } else
+                {
+                    object pp = players[0];
+                    Vec3 xd = Player.GetOrigin(pp);
+                    //xd.z += 0.01;
+                    Player.SetOrigin(pp, xd);
                 }
 
             }

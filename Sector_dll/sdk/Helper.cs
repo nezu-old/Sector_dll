@@ -12,8 +12,6 @@ namespace Sector_dll.sdk
 
         public static object GetEquippedScopeType(object player, object weaponType)
         {
-            if (SignatureManager.Helper1_GetEquippedScope == null)
-                return null;
             return SignatureManager.Helper1_GetEquippedScope.Invoke(null, new object[] { player, weaponType });
         }
 

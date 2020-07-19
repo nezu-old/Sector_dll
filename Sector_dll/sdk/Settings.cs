@@ -12,8 +12,6 @@ namespace Sector_dll.sdk
 
         public static double GetFov(object self)
         {
-            if (SignatureManager.Settings_fov == null)
-                return 0;
             return (double)SignatureManager.Settings_fov.GetValue(self);
         }
 

@@ -1,21 +1,29 @@
 ﻿using Sector_dll.cheat;
+using System;
 
 namespace Sector_dll.sdk
 {
     class Player
     {
 
+        public static object New(object gm, byte id)
+        {
+            object glThingy = GameManager.GenerateGlBuffersForPlayer(gm);
+            return SignatureManager.Player_BotConstructor.Invoke(new object[] { gm, id, glThingy });
+        }
+
         public static Vec3 GetOrigin(object player)
         {
-            if (SignatureManager.PlayerBase_origin == null)
-                return null;
             return new Vec3(SignatureManager.PlayerBase_origin.GetValue(player));
+        }
+
+        public static void SetOrigin(object player, Vec3 pos)
+        {
+            SignatureManager.PlayerBase_origin.SetValue(player, pos.ToInternal());
         }
 
         public static Vec3 GetHeadPos(object player)
         {
-            if (SignatureManager.PlayerBase_origin == null)
-                return null;
             Vec3 v = new Vec3(SignatureManager.PlayerBase_origin.GetValue(player));
             v.y += IsCrouching(player) ? HeightCrouching : HeightStanding;
             return v;
@@ -23,8 +31,6 @@ namespace Sector_dll.sdk
 
         public static double GetHealth(object player)
         {
-            if (SignatureManager.PlayerBase_health == null)
-                return 0;
             return (double)SignatureManager.PlayerBase_health.GetValue(player);
         }
 
@@ -38,8 +44,6 @@ namespace Sector_dll.sdk
 
         public static bool EitherMod(object p, ModType mod)
         {
-            if(SignatureManager.PLayerBase_EitherMod == null)
-                return false;
             return (bool)SignatureManager.PLayerBase_EitherMod.Invoke(p, new object[] { mod });
         }
 
@@ -60,8 +64,6 @@ namespace Sector_dll.sdk
 
         public static string GetName(object player)
         {
-            if (SignatureManager.PlayerBase_name == null)
-                return "";
             return (string)SignatureManager.PlayerBase_name.GetValue(player);
         }
 
@@ -74,16 +76,18 @@ namespace Sector_dll.sdk
 
         public static int GetCurrentWeaponIndex(object player)
         {
-            if (SignatureManager.PLayerBase_CurrentWeaponIndex == null)
-                return -1;
             return (int)SignatureManager.PLayerBase_CurrentWeaponIndex.Invoke(player, new object[] { });
         }
 
         public static object GetCurrentWeaponType(object player)
         {
-            if (SignatureManager.PLayerBase_CurrentWeaponType == null)
-                return null;
             return SignatureManager.PLayerBase_CurrentWeaponType.Invoke(player, new object[] { });
+        }
+
+        public static void SetTeam(object player, TeamType team)
+        {
+            object team_obj = Enum.ToObject(SignatureManager.TeamType, (byte)team);
+            SignatureManager.PLayerBase_Base_SetTeam.Invoke(player, new[] { team_obj });
         }
 
         public const double HeightStanding = 2.7;

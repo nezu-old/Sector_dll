@@ -362,6 +362,8 @@ namespace Sector_dll.cheat
 
         public static FieldInfo PLayer_PlayerLoadout;
 
+        public static ConstructorInfo Player_BotConstructor;
+
         public static Type LocalPlayer;
 
         public static FieldInfo PlayerBase_origin;
@@ -379,6 +381,8 @@ namespace Sector_dll.cheat
         public static MethodInfo PLayerBase_CurrentWeaponIndex;
 
         public static MethodInfo PlayerBase_RecoilMod;
+
+        public static MethodInfo PLayerBase_Base_SetTeam;
 
         public static MethodInfo GClass49_vmethod_4;
 
@@ -402,8 +406,9 @@ namespace Sector_dll.cheat
 
         public static FieldInfo GClass49_Base_ScopeSizes1; //first, 2x
 
-            //Log.Danger(Antycheat.origFileSystemEnumerableIterator.Method.DeclaringType.ToString());
         public static FieldInfo GClass49_Base_ScopeSizes2; //second, 4x
+
+        public static MethodInfo GClass49_Base_GenerateGlBuffersForPlayer;
 
         public static FieldInfo GClass49_Base_Base_ScreenWidth;
 
@@ -511,6 +516,8 @@ namespace Sector_dll.cheat
 
         public static MethodInfo Helper_CurrentBloom;
 
+        public static Type TeamType;
+
         public static void FindSignatures(Assembly aassembly)
         {
             //Log.Info("Waiting for debugger to attach");
@@ -526,9 +533,18 @@ namespace Sector_dll.cheat
                 ClassSignature sig = ClassSignature.GenerateSignature(t);
                 foreach (ResolvedType rt in ResolvedTypes)
                     rt.Update(sig, t);
-                foreach (var method in t.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static))
+                if(t.IsEnum)
+                    foreach(FieldInfo fi in t.GetFields(BindingFlags.Static | BindingFlags.Public))
+                    {
+                        if(fi.Name == "Aegis")
+                        {
+                            TeamType = t;
+                            Log.Info("Found enum TeamType as: " + TeamType.ToString());
+                        }
+                    }
+                foreach (MethodInfo method in t.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static))
                 {
-                    foreach (var attrib in method.GetCustomAttributes())
+                    foreach (Attribute attrib in method.GetCustomAttributes())
                     {
                         if (attrib is DllImportAttribute)
                         {
@@ -541,6 +557,7 @@ namespace Sector_dll.cheat
                     }
                 }
             }
+            if(TeamType == null) { Log.Info("TeamType is null"); return; }
 
             foreach (ResolvedType rt in ResolvedTypes)
             {
@@ -595,6 +612,16 @@ namespace Sector_dll.cheat
             }
             if (PLayer_PlayerLoadout == null) { Log.Info("PLayer_PlayerLoadout is null"); return; }
             if (PlayerLoadout == null) { Log.Info("PlayerLoadout is null"); return; }
+
+            foreach(ConstructorInfo ci in Player.Type.GetConstructors())
+            {
+                if(ci.IsPublic && ci.GetParameters().Length == 3 && ci.GetParameters()[1].ParameterType == typeof(byte))
+                {
+                    Player_BotConstructor = ci;
+                    Log.Info("Found Player_BotConstructor as: " + Player_BotConstructor.ToString());
+                }
+            }
+            if (Player_BotConstructor == null) { Log.Info("Player_BotConstructor is null"); return; }
 
             foreach (FieldInfo fi in PlayerLoadout.GetFields(BindingFlags.Public | BindingFlags.Instance))
             {
@@ -652,12 +679,18 @@ namespace Sector_dll.cheat
                     PlayerBase_RecoilMod = mi;
                     Log.Info("Found PLayerBase_RecoilMod as: " + PlayerBase_RecoilMod.ToString());
                 }
+                if(mi.ReturnType == typeof(void) && mi.GetParameters().Length == 1 && mi.GetParameters()[0].ParameterType == TeamType)
+                {
+                    PLayerBase_Base_SetTeam = mi;
+                    Log.Info("Found PLayerBase_Base_SetTeam as: " + PLayerBase_Base_SetTeam.ToString());
+                }
             }
             if (PLayerBase_EitherMod == null) { Log.Info("PLayerBase_EitherMod is null"); return; }
             if (ModType == null) { Log.Info("ModType is null"); return; }
             if (PLayerBase_CurrentWeaponType == null) { Log.Info("PLayerBase_CurrentWeaponType is null"); return; }
             if (PLayerBase_CurrentWeaponIndex == null) { Log.Info("PLayerBase_CurrentWeaponIndex is null"); return; }
             if (PlayerBase_RecoilMod == null) { Log.Info("PlayerBase_RecoilMod is null"); return; }
+            if (PLayerBase_Base_SetTeam == null) { Log.Info("PLayerBase_Base_SetTeam is null"); return; }
 
             foreach (ConstructorInfo ci in PlayerBase.GetConstructors())
             {
@@ -995,10 +1028,16 @@ namespace Sector_dll.cheat
                     GClass49_Base_GetCurrentPLayer = mi;
                     Log.Info("Found GClass49_Base_GetCurrentPLayer as: " + GClass49_Base_GetCurrentPLayer.ToString());
                 }
+                if (mi.ReturnType == typeof(uint) && mi.GetParameters().Length == 0 && mi.Name.Length == 27)
+                {
+                    GClass49_Base_GenerateGlBuffersForPlayer = mi;
+                    Log.Info("Found GClass49_Base_GenerateGlBuffersForPlayer as: " + GClass49_Base_GenerateGlBuffersForPlayer.ToString());
+                }
             }
             if (GClass49_Base_GetPlayerColor == null) { Log.Info("GClass49_Base_GetPlayerColor is null"); return; }
             if (GClass49_Base_IsScoped == null) { Log.Info("GClass49_Base_IsScoped is null"); return; }
             if (GClass49_Base_GetCurrentPLayer == null) { Log.Info("GClass49_Base_GetCurrentPLayer is null"); return; }
+            if (GClass49_Base_GenerateGlBuffersForPlayer == null) { Log.Info("GClass49_Base_GenerateGlBuffersForPlayer is null"); return; }
 
             foreach (MethodInfo mi in GClass49.Type.BaseType.BaseType.GetMethods(BindingFlags.Public | BindingFlags.Instance))
             {

@@ -21,8 +21,6 @@ namespace Sector_dll.sdk
 
         public static object GetBonesWorldSpace(object player)
         {
-            if (SignatureManager.CollisionHelper_GetBonesWorldSpace == null)
-                return null;
             return SignatureManager.CollisionHelper_GetBonesWorldSpace.Invoke(instance, new object[] { player });
         }
 

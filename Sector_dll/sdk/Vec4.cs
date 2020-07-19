@@ -9,22 +9,16 @@ namespace Sector_dll.sdk
 
         public static object New(double x, double y, double z, double w)
         {
-            if (SignatureManager.Vec4_Constructor_standalone == null)
-                return null;
             return SignatureManager.Vec4_Constructor_standalone.Invoke(new object[] { x, y, z, w });
         }
 
         public static object New(object vec3)
         {
-            if (SignatureManager.Vec4_Constructor_Vec3 == null)
-                return null;
             return SignatureManager.Vec4_Constructor_Vec3.Invoke(new object[] { vec3 });
         }
 
         public static object Multiply(object vec4, object matrix4)
         {
-            if (SignatureManager.Vec4_Multiply_Matrix4 == null)
-                return null;
             return SignatureManager.Vec4_Multiply_Matrix4.Invoke(null, new object[] { vec4, matrix4 });
         }
 

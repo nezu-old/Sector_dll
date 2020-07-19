@@ -24,5 +24,6 @@ namespace Sector_dll.sdk
 				return null;
 			return Enum.ToObject(SignatureManager.ModType, (int)mt);
 		}
+
     }
 }

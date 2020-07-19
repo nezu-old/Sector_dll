@@ -103,43 +103,31 @@ namespace Sector_dll.sdk
 
         public static object GetLocalPLayer(object self)
         {
-            if (SignatureManager.GClass49_Base_LocalPlayer == null)
-                return null;
             return SignatureManager.GClass49_Base_LocalPlayer.GetValue(self);
         }
 
         public static object GetCurrentPLayer(object self)
         {
-            if (SignatureManager.GClass49_Base_GetCurrentPLayer == null)
-                return null;
             return SignatureManager.GClass49_Base_GetCurrentPLayer.Invoke(self, new object[] { });
         }
 
         public static Color GetPlayerColor(object self, object player)
         {
-            if (SignatureManager.GClass49_Base_GetPlayerColor == null)
-                return null;
             return new Color(SignatureManager.GClass49_Base_GetPlayerColor.Invoke(self, new object[] { player }));
         }
 
         public static object GetMap(object self)
         {
-            if (SignatureManager.GCLass49_Base_Map == null)
-                return null;
             return SignatureManager.GCLass49_Base_Map.GetValue(self);
         }
 
         public static bool IsScoped(object self)
         {
-            if (SignatureManager.GClass49_Base_IsScoped == null)
-                return false;
             return (bool)SignatureManager.GClass49_Base_IsScoped.Invoke(self, new object[] { });
         }
 
         public static Vec2 GetScopeSize(object self, byte scopeType, object weaponType)
         {
-            if (SignatureManager.GClass49_Base_ScopeSizes1 == null || SignatureManager.GClass49_Base_ScopeSizes1 == null)
-                return null;
             IDictionary s0 = SignatureManager.GClass49_Base_ScopeSizes1.GetValue(self) as IDictionary;
             IDictionary s1 = SignatureManager.GClass49_Base_ScopeSizes2.GetValue(self) as IDictionary;
             if(SmallerScopeIndex < 0)
@@ -159,9 +147,12 @@ namespace Sector_dll.sdk
 
         public static object GetSettings(object self)
         {
-            if (SignatureManager.GClass49_Base_Base_Settings == null)
-                return null;
             return SignatureManager.GClass49_Base_Base_Settings.GetValue(self);
+        }
+
+        public static uint GenerateGlBuffersForPlayer(object self)
+        {
+            return (uint)SignatureManager.GClass49_Base_GenerateGlBuffersForPlayer.Invoke(self, new object[] { });
         }
 
     }

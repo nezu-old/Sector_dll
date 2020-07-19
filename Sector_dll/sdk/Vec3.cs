@@ -10,8 +10,6 @@ namespace Sector_dll.sdk
 
         public static object New(double x, double y, double z)
         {
-            if (SignatureManager.Vec3_Constructor_double == null)
-                return null;
             return SignatureManager.Vec3_Constructor_double.Invoke(new object[] { x, y, z });
         }
 
@@ -38,6 +36,11 @@ namespace Sector_dll.sdk
         public object ToInternal()
         {
             return New(x, y, z);
+        }
+
+        public override string ToString()
+        {
+            return string.Format("({0:F2},{1:F2},{2:F2})", x, y, z);
         }
 
         public static Vec3 operator +(Vec3 v1, Vec3 v2)

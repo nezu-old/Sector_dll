@@ -9,8 +9,6 @@ namespace Sector_dll.sdk
 
         public static object New(double x, double y)
         {
-            if (SignatureManager.Vec2_Constructor == null)
-                return null;
             return SignatureManager.Vec2_Constructor.Invoke(new object[] { x, y });
         }
 
