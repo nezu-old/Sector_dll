@@ -1,5 +1,6 @@
 ﻿using Sector_dll.cheat;
 using System;
+using System.Linq;
 
 namespace Sector_dll.sdk
 {
@@ -88,6 +89,16 @@ namespace Sector_dll.sdk
         {
             object team_obj = Enum.ToObject(SignatureManager.TeamType, (byte)team);
             SignatureManager.PLayerBase_Base_SetTeam.Invoke(player, new[] { team_obj });
+        }
+
+        public static object GetBones(object player)
+        {
+            return SignatureManager.Player_GetBones.Invoke(player, new object[] { });
+        }
+
+        public static object[] GetBoneTransforms(object player)
+        {
+            return (SignatureManager.Player_BoneTransforms.GetValue(player) as Array).Cast<object>().ToArray();
         }
 
         public const double HeightStanding = 2.7;

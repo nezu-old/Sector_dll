@@ -155,5 +155,10 @@ namespace Sector_dll.sdk
             return (uint)SignatureManager.GClass49_Base_GenerateGlBuffersForPlayer.Invoke(self, new object[] { });
         }
 
+        public static double OtherPlayerYOffset(object player)
+        {
+            return (double)SignatureManager.OfflineGameManager_OtherPlayerYOffset.Invoke(null, new object[] { player });
+        }
+
     }
 }

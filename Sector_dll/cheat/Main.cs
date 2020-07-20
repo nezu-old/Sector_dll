@@ -112,10 +112,11 @@ namespace Sector_dll.cheat
             Array.Copy(a, 1, args, 0, a.Length - 1);
             Log.Info("args: " + string.Join(" ", args));
 
-            //Log.Info(SignatureManager.GenerateSig("#=zoON9In9pNH1Vm85uk2QGiATruBPs")); Console.Read();
+            //Log.Info(SignatureManager.GenerateSig("#=zARjmkzCqltgxuq$kmufo5p4=")); Console.Read();
             try
             {
-                SignatureManager.FindSignatures(assembly);
+                if (!SignatureManager.FindSignatures(assembly))
+                    throw new Exception("Failed to resolve all types/methods/fields");
                 
                 new Hook(SignatureManager.RequestHelper_POST, typeof(RequestHelper).GetMethod("POST"));
                 new Hook(SignatureManager.RequestHelper_GET, typeof(RequestHelper).GetMethod("GET"));

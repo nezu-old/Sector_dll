@@ -3,6 +3,7 @@ using Sector_dll.sdk;
 using Sector_dll.util;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -63,41 +64,18 @@ namespace Sector_dll.cheat
                 object local = GameManager.GetLocalPLayer(gm);
                 if(local != null)
                 {
-                    Vec3 o = Player.GetOrigin(local);
-                    d.DrawText(o.ToString(), 100, 50, 20, Color.red, 0);
+                    //Vec3 o = Player.GetOrigin(local);
+                    //d.DrawText(o.ToString(), 100, 50, 20, Color.red, 0);
                     //Player.SetTeam(local, TeamType.Spectate);
                 }
+                List<object> players = (SignatureManager.GClass49_player_list.GetValue(gm) as IEnumerable<object>)
+                    .Cast<object>().ToList();
 
-
-                object inst = gm.GetType().Assembly.GetType("#=zD17ql6wd9AtAXXPCp7syK94=").GetField("#=zpNk0unzUJMzK").GetValue(null);
-                object list = inst.GetType().GetField("#=zJWVBAMzb6EbI3UGf7g==").GetValue(inst);
-                List<object> list1 = (list as IEnumerable<object>).Cast<object>().ToList();
-
-                FieldInfo getHead = null;
-                FieldInfo getTail = null;
-                Vec3 off = new Vec3(170, 35, 20);
-                foreach (object bone in list1)
-                {
-                    if(getHead == null)
-                    {
-                        getHead = bone.GetType().GetField("#=zDFzdGa4=");
-                        getTail = bone.GetType().GetField("#=zN7QlMAA=");
-                    }
-                    if(GameManager.W2s(new Vec3(getHead.GetValue(bone)) + off, out Vec2 head)
-                        && GameManager.W2s(new Vec3(getTail.GetValue(bone)) + off, out Vec2 tail))
-                    {
-                        d.DrawLine((int)head.x, (int)head.y, (int)tail.x, (int)tail.y, 1, Color.white);
-                    }
-                }
-
-                d.DrawText(list1.Count().ToString(), 100, 100, 20, Color.green, 0);
-
+                
 
                 //CollisionHelper.GetBonesWorldSpace(local);
 
 
-                List<object> players = (SignatureManager.GClass49_player_list.GetValue(gm) as IEnumerable<object>)
-                    .Cast<object>().ToList();
 
                 int k = 0;
 
@@ -116,8 +94,9 @@ namespace Sector_dll.cheat
                         {
                             object bones = CollisionHelper.GetBonesWorldSpace(player);
                             List<object> bb = (bones as IEnumerable<object>).Cast<object>().ToList();
-                            foreach (var b in bb) {
-                                if(GameManager.W2s(WorldSpaceBone.GetHead(b), out Vec2 bh) &&
+                            foreach (var b in bb)
+                            {
+                                if (GameManager.W2s(WorldSpaceBone.GetHead(b), out Vec2 bh) &&
                                     GameManager.W2s(WorldSpaceBone.GetTail(b), out Vec2 bt))
                                 {
                                     d.DrawLine((int)bh.x, (int)bh.y, (int)bt.x, (int)bt.y, 1, Color.white);
@@ -130,7 +109,9 @@ namespace Sector_dll.cheat
                                     //}
                                 }
                             }
-                            k++;
+
+
+
 
                             int h = (int)(origin2d.y - head2d.y);
                             int w = (int)(h / 1.65 + Math.Abs(head2d.x - origin2d.x));
@@ -150,23 +131,70 @@ namespace Sector_dll.cheat
                             d.DrawText(Player.GetName(player), (float)head2d.x, (float)head2d.y - 5, 18, Color.white, 
                                 DrawingFunctions.TextAlignment.ALIGN_BOTTOM | DrawingFunctions.TextAlignment.ALIGN_HCENTER);
                         }
+
+                        try
+                        {
+                            Vec3 off = new Vec3(170 + (k * 10), 35, 20);
+
+                            List<object> bones = Bones.GetBoneList(Player.GetBones(player));
+                            object[] transforms = Player.GetBoneTransforms(player);
+
+                            if (GameManager.W2s(off + new Vec3(0, 10, 0), out Vec2 bones_pos))
+                                d.DrawText(i + " - b: " + bones.Count() + ", t: " + transforms.Length,
+                                    (float)bones_pos.x, (float)bones_pos.y, 20, Color.white, DrawingFunctions.TextAlignment.ALIGN_CENTER);
+
+                            double offset = GameManager.OtherPlayerYOffset(player);
+                            Matrix4 matrix = Matrix4.CreateRotationX(-1.5707963267948966) * Matrix4.CreateTranslation(origin + new Vec3(0, offset, 0));
+
+                            for (int j = 0; j < bones.Count(); j++)
+                            {
+                                object bone = bones[j];
+                                Matrix4 trans =  new Matrix4(transforms[j]) * matrix;
+                                Vec3 hh = trans * Bone.GetHead(bone);
+                                Vec3 tt = trans * Bone.GetTail(bone);
+                                if (GameManager.W2s(hh, out Vec2 head_b)
+                                    && GameManager.W2s(tt, out Vec2 tail_b))
+                                {
+                                    d.DrawLine((int)head_b.x, (int)head_b.y, (int)tail_b.x, (int)tail_b.y, 1, new Color(255, 255, 0));
+                                    //d.DrawText(trans.M11.ToString(), (float)head.x, (float)head.y, 18, Color.white, 
+                                    //    DrawingFunctions.TextAlignment.ALIGN_CENTER);
+                                }
+                            }
+
+                        }
+                        catch (Exception ex)
+                        {
+                            Log.Danger(ex.ToString());
+                        }
+                        k++;
                     }
 
                 }
 
-                if(players.Count < 1)
+                if (players.Count < 1)
                 {
-                    object pp = Player.New(gm, 1);
-                    Player.SetTeam(pp, TeamType.Aegis);
+                    object pp = Player.New(gm, 10);
+                    Player.SetTeam(pp, TeamType.Bandit);
                     Player.SetOrigin(pp, new Vec3(165.0, 35.0, 38.0));
+
+                    
+                    object skin = pp.GetType().GetField("#=zxt8e6rUza4fF").GetValue(pp);
+                    FieldInfo ffi = skin.GetType().GetField("#=zBPULLK9USWK8");
+                    ffi.SetValue(skin, Enum.ToObject(ffi.FieldType, 0x0));
+                    FieldInfo ffi2 = skin.GetType().GetField("#=zFmQ_Mxo=");
+                    ffi2.SetValue(skin, Enum.ToObject(ffi2.FieldType, 0x3));
+                    pp.GetType().GetField("#=zxt8e6rUza4fF").SetValue(pp, skin);
+
                     object all_pp = SignatureManager.GClass49_player_list.GetValue(gm);
                     SignatureManager.GClass49_player_list.FieldType.GetMethod("Add").Invoke(all_pp, new[] { pp });
-                } else
+                } 
+                else
                 {
-                    object pp = players[0];
-                    Vec3 xd = Player.GetOrigin(pp);
-                    //xd.z += 0.01;
-                    Player.SetOrigin(pp, xd);
+                    //object pp = players[0];
+
+                    //Vec3 xd = Player.GetOrigin(pp);
+                    //xd.x += 0.001;
+                    //Player.SetOrigin(pp, xd);
                 }
 
             }
