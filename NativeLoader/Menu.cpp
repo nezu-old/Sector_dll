@@ -9,7 +9,7 @@ void Menu::DrawMenu(Settings* settings) {
 	ImGui::ShowDemoWindow();
 
 	if (ImGui::Begin("Debug")) {
-		if (ImGui::ColorPicker3("GUI color", &GUI_color.x, ImGuiColorEditFlags_NoInputs))
+		if (ImGui::ColorEdit3("GUI color", &GUI_color.x, ImGuiColorEditFlags_NoInputs))
 			UpdateColors(ImColor(GUI_color));
 	}
 	ImGui::End();

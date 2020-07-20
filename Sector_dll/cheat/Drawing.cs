@@ -4,6 +4,7 @@ using Sector_dll.util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -68,6 +69,30 @@ namespace Sector_dll.cheat
                 }
 
 
+                object inst = gm.GetType().Assembly.GetType("#=zD17ql6wd9AtAXXPCp7syK94=").GetField("#=zpNk0unzUJMzK").GetValue(null);
+                object list = inst.GetType().GetField("#=zJWVBAMzb6EbI3UGf7g==").GetValue(inst);
+                List<object> list1 = (list as IEnumerable<object>).Cast<object>().ToList();
+
+                FieldInfo getHead = null;
+                FieldInfo getTail = null;
+                Vec3 off = new Vec3(170, 35, 20);
+                foreach (object bone in list1)
+                {
+                    if(getHead == null)
+                    {
+                        getHead = bone.GetType().GetField("#=zDFzdGa4=");
+                        getTail = bone.GetType().GetField("#=zN7QlMAA=");
+                    }
+                    if(GameManager.W2s(new Vec3(getHead.GetValue(bone)) + off, out Vec2 head)
+                        && GameManager.W2s(new Vec3(getTail.GetValue(bone)) + off, out Vec2 tail))
+                    {
+                        d.DrawLine((int)head.x, (int)head.y, (int)tail.x, (int)tail.y, 1, Color.white);
+                    }
+                }
+
+                d.DrawText(list1.Count().ToString(), 100, 100, 20, Color.green, 0);
+
+
                 //CollisionHelper.GetBonesWorldSpace(local);
 
 
@@ -91,7 +116,6 @@ namespace Sector_dll.cheat
                         {
                             object bones = CollisionHelper.GetBonesWorldSpace(player);
                             List<object> bb = (bones as IEnumerable<object>).Cast<object>().ToList();
-                                        int j = 0;
                             foreach (var b in bb) {
                                 if(GameManager.W2s(WorldSpaceBone.GetHead(b), out Vec2 bh) &&
                                     GameManager.W2s(WorldSpaceBone.GetTail(b), out Vec2 bt))
@@ -133,7 +157,7 @@ namespace Sector_dll.cheat
                 if(players.Count < 1)
                 {
                     object pp = Player.New(gm, 1);
-                    Player.SetTeam(pp, TeamType.Bandit);
+                    Player.SetTeam(pp, TeamType.Aegis);
                     Player.SetOrigin(pp, new Vec3(165.0, 35.0, 38.0));
                     object all_pp = SignatureManager.GClass49_player_list.GetValue(gm);
                     SignatureManager.GClass49_player_list.FieldType.GetMethod("Add").Invoke(all_pp, new[] { pp });
