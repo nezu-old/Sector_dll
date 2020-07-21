@@ -20,5 +20,10 @@ namespace Sector_dll.sdk
             return new Vec3(SignatureManager.Bone_Tail.GetValue(bone));
         }
 
+        public static string GetName(object bone)
+        {
+            return (string)SignatureManager.Bone_Name.GetValue(bone);
+        }
+
     }
 }

@@ -88,9 +88,9 @@ BOOL __stdcall H::wglSwapBuffers(HDC hDc) {
 		drawCallback(&functions);
 	}
 
-	if (Menu::open) {
-		Menu::DrawMenu(0);
-	}
+	//if (Menu::open) {
+	//	Menu::DrawMenu(0);
+	//}
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

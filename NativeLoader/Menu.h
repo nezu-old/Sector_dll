@@ -8,15 +8,17 @@ namespace Menu {
 	struct Settings {
 		unsigned int menu_color;
 		
-		bool esp;
-		bool esp_health_bar;
-		bool esp_name;
-		bool esp_enemy_only;
+		int esp;
+		int esp_health_bar;
+		int esp_name;
+		int esp_enemy_only;
 
-		bool no_recoil;
+		int no_recoil;
+
+		float debug;
 	};
 	
-	void DrawMenu(Settings * settings);
+	void __stdcall DrawMenu(Settings * settings);
 
 	void UpdateColors(ImColor color);
 	

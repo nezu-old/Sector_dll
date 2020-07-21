@@ -4,6 +4,7 @@
 #undef DrawText
 
 struct DrawingFunctions {
+	void* DrawMenu;
 	void* DrawRect;
 	void* DrawFilledRect;
 	void* DrawLine;

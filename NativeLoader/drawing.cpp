@@ -1,10 +1,16 @@
 #include "drawing.h"
 
+namespace Menu {
+	struct Settings;
+	void __stdcall DrawMenu(Settings* settings);
+}
+
 ImDrawList* D::drawList = NULL;
 ImFont* D::gameFont = NULL;
 
 DrawingFunctions D::GetDrawinfFunctions() {
 	DrawingFunctions f = { 0 };
+	f.DrawMenu = &Menu::DrawMenu;
 	f.DrawRect = &D::DrawRect;
 	f.DrawFilledRect = &D::DrawRectFilled;
 	f.DrawLine = &D::DrawLine;

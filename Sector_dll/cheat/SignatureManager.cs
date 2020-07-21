@@ -558,11 +558,19 @@ namespace Sector_dll.cheat
 
         public static FieldInfo Bones_Base_BoneList;
 
+        public static FieldInfo Bones_Base_Base_BBMin;
+
+        public static FieldInfo Bones_Base_Base_BBMax;
+
         public static Type Bone;
 
         public static FieldInfo Bone_Head;
 
         public static FieldInfo Bone_Tail;
+
+        //public static FieldInfo Bone_name
+
+        public static FieldInfo Bone_Name;
 
         public static Type OfflineGameManager;
 
@@ -1289,7 +1297,31 @@ namespace Sector_dll.cheat
             }
             if (Bones_Base_BoneList == null) { Log.Info("Bones_Base_BoneList is null"); return false; }
 
-            foreach(FieldInfo fi in Bone.GetFields(BindingFlags.Instance | BindingFlags.Public))
+            foreach(FieldInfo fi in Bones.Type.BaseType.BaseType.GetFields(BindingFlags.Public | BindingFlags.Instance))
+            {
+                if(fi.Name.Length == 11 && fi.FieldType == Vec3)
+                {
+                    if(Bones_Base_Base_BBMin == null)
+                    {
+                        Bones_Base_Base_BBMin = fi;
+                        Log.Info("Found Bones_Base_Base_BBMin as: " + Bones_Base_Base_BBMin.ToString());
+                    }
+                    else if(Bones_Base_Base_BBMax == null)
+                    {
+                        Bones_Base_Base_BBMax = fi;
+                        Log.Info("Found Bones_Base_Base_BBMax as: " + Bones_Base_Base_BBMax.ToString());
+                    }
+                    else
+                    {
+                        Log.Info("Unexpected third vec3 in Bones_Base_Base");
+                        return false;
+                    }
+                }
+            }
+            if (Bones_Base_Base_BBMin == null) { Log.Info("Bones_Base_Base_BBMin is null"); return false; }
+            if (Bones_Base_Base_BBMax == null) { Log.Info("Bones_Base_Base_BBMax is null"); return false; }
+
+            foreach (FieldInfo fi in Bone.GetFields(BindingFlags.Instance | BindingFlags.Public))
             {
                 if(fi.FieldType == Vec3)
                 {
@@ -1304,9 +1336,15 @@ namespace Sector_dll.cheat
                         Log.Info("Found Bone_Tail as: " + Bone_Tail.ToString());
                     }
                 }
+                if(fi.FieldType == typeof(string))
+                {
+                    Bone_Name = fi;
+                    Log.Info("Found Bone_Name as: " + Bone_Name.ToString());
+                }
             }
             if (Bone_Head == null) { Log.Info("Bone_Head is null"); return false; }
             if (Bone_Tail == null) { Log.Info("Bone_Tail is null"); return false; }
+            if (Bone_Name == null) { Log.Info("Bone_Name is null"); return false; }
 
             return true;
         }

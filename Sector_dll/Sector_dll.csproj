@@ -95,6 +95,7 @@
     <Compile Include="cheat\Hooks\Player.cs" />
     <Compile Include="cheat\Hooks\RequestHelper.cs" />
     <Compile Include="cheat\ResolvedType.cs" />
+    <Compile Include="cheat\Config.cs" />
     <Compile Include="cheat\SignatureManager.cs" />
     <Compile Include="sdk\Bone.cs" />
     <Compile Include="sdk\Bones.cs" />

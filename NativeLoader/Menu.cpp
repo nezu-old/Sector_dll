@@ -2,15 +2,22 @@
 
 bool Menu::open = false;
 
-ImVec4 GUI_color(1.f, 0.f, 0.f, 1.f);
+void __stdcall Menu::DrawMenu(Settings* settings) {
 
-void Menu::DrawMenu(Settings* settings) {
+	if (!Menu::open)
+		return;
+
+	//sizeof(*settings)
 	
 	ImGui::ShowDemoWindow();
 
 	if (ImGui::Begin("Debug")) {
-		if (ImGui::ColorEdit3("GUI color", &GUI_color.x, ImGuiColorEditFlags_NoInputs))
-			UpdateColors(ImColor(GUI_color));
+		ImColor col = ImColor(settings->menu_color);
+		if (ImGui::ColorEdit3("GUI color", &col.Value.x, ImGuiColorEditFlags_NoInputs)) {
+			UpdateColors(col);
+			settings->menu_color = (ImU32)col;
+		}
+		ImGui::SliderFloat("debug", &settings->debug, 0, 5);
 	}
 	ImGui::End();
 

@@ -123,6 +123,11 @@ namespace Sector_dll.sdk
 		    return new Matrix4(1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, vec.x, vec.y, vec.z, 1.0);
 	    }
 
+        public static Matrix4 CreateScale(double x, double y, double z)
+        {
+            return new Matrix4(x, 0.0, 0.0, 0.0, 0.0, y, 0.0, 0.0, 0.0, 0.0, z, 0.0, 0.0, 0.0, 0.0, 1.0);
+        }
+
         private static FieldInfo[] Matrix4F_fields;
 
         public double M11;
