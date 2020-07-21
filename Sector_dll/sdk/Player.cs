@@ -85,10 +85,23 @@ namespace Sector_dll.sdk
             return SignatureManager.PLayerBase_CurrentWeaponType.Invoke(player, new object[] { });
         }
 
+        public static TeamType GetTeam(object player)
+        {
+            object team = SignatureManager.PlayerBase_Base_GetTeam.Invoke(player, new object[] { });
+            return (TeamType)(byte)Convert.ChangeType(team, Enum.GetUnderlyingType(team.GetType()));
+        }
+
         public static void SetTeam(object player, TeamType team)
         {
             object team_obj = Enum.ToObject(SignatureManager.TeamType, (byte)team);
-            SignatureManager.PLayerBase_Base_SetTeam.Invoke(player, new[] { team_obj });
+            SignatureManager.PlayerBase_Base_SetTeam.Invoke(player, new[] { team_obj });
+        }
+
+        public static byte GetSkinId(object player)
+        {
+            object characterTexture = SignatureManager.PlayerBase_Base_CharacterTexture.GetValue(player);
+            object playerType = SignatureManager.CharacterTexture_PlayerType.GetValue(characterTexture);
+            return (byte)Convert.ChangeType(playerType, Enum.GetUnderlyingType(playerType.GetType()));
         }
 
         public static object GetBones(object player)

@@ -17,7 +17,10 @@ void __stdcall Menu::DrawMenu(Settings* settings) {
 			UpdateColors(col);
 			settings->menu_color = (ImU32)col;
 		}
-		ImGui::SliderFloat("debug", &settings->debug, 0, 5);
+		ImGui::SliderFloat("debug1", &settings->debug1, 0, 5);
+		ImGui::SliderFloat("debug2", &settings->debug2, 0, 5);
+		ImGui::SliderInt("debug3", &settings->debug3, 0, 5);
+		ImGui::SliderInt("debug4", &settings->debug4, 0, 5);
 	}
 	ImGui::End();
 

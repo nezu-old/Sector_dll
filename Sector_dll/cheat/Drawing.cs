@@ -15,6 +15,8 @@ namespace Sector_dll.cheat
     class Drawing
     {
 
+        private static List<object>[,] NormalBones = new List<object>[30, 2];
+
         [StructLayout(LayoutKind.Sequential)]
         public struct DrawingFunctions {
 
@@ -81,13 +83,6 @@ namespace Sector_dll.cheat
 
                 //CollisionHelper.GetBonesWorldSpace(local);
 
-                d.DrawText(Config.settings.debug.ToString(), 100, 50, 20, Color.red, 0);
-
-
-
-
-                int k = 0;
-
                 for(int i = 0; i < players.Count; i++)
                 {
                     object player = players[i];
@@ -101,26 +96,6 @@ namespace Sector_dll.cheat
 
                         if (GameManager.W2s(origin, out Vec2 origin2d) && GameManager.W2s(head, out Vec2 head2d))
                         {
-                            //object bones = CollisionHelper.GetBonesWorldSpace(player);
-                            //List<object> bb = (bones as IEnumerable<object>).Cast<object>().ToList();
-                            //foreach (var b in bb)
-                            //{
-                            //    if (GameManager.W2s(WorldSpaceBone.GetHead(b), out Vec2 bh) &&
-                            //        GameManager.W2s(WorldSpaceBone.GetTail(b), out Vec2 bt))
-                            //    {
-                            //        d.DrawLine((int)bh.x, (int)bh.y, (int)bt.x, (int)bt.y, 1, Color.white);
-                            //        //if (k == 0)
-                            //        //{
-                            //        //    int xxx = (WorldSpaceBone.GetID(b) / 30);
-                            //        //    d.DrawText(WorldSpaceBone.GetID(b) + " - " + WorldSpaceBone.GetName(b) + "("
-                            //        //        + WorldSpaceBone.GetType(b).ToString() + ", " + WorldSpaceBone.GetRadius(b) + ")",
-                            //        //        100 + (300 * xxx), 100 + ((j++ % 30) * 20), 20, Color.white, 0);
-                            //        //}
-                            //    }
-                            //}
-
-
-
 
                             int h = (int)(origin2d.y - head2d.y);
                             int w = (int)(h / 1.65 + Math.Abs(head2d.x - origin2d.x));
@@ -141,57 +116,46 @@ namespace Sector_dll.cheat
                                 DrawingFunctions.TextAlignment.ALIGN_BOTTOM | DrawingFunctions.TextAlignment.ALIGN_HCENTER);
                         }
 
-                        try
+                        byte skinType = Player.GetSkinId(player);
+                        TeamType team = Player.GetTeam(player);
+
+                        List<object> bones = NormalBones[skinType, (int)team];
+                        if(bones == null)
                         {
-                            Vec3 off = new Vec3(170 + (k * 10), 35, 20);
-
-                            object bones_obj = Player.GetBones(player);
-                            List<object> bones = Bones.GetBoneList(bones_obj);
-                            object[] transforms = Player.GetBoneTransforms(player);
-
-                            if (GameManager.W2s(off + new Vec3(0, 10, 0), out Vec2 bones_pos))
-                                d.DrawText(i + " - b: " + bones.Count() + ", t: " + transforms.Length,
-                                    (float)bones_pos.x, (float)bones_pos.y, 20, Color.white, DrawingFunctions.TextAlignment.ALIGN_CENTER);
-
-                            //0x00 - 1.82
-                            //0x01 - 1.82
-                            //0x02 - 1.82
-                            //0x03 - 1.82
-                            //0x04 - 1.83
-                            //0x05 - 1.82
-                            //0x06 - 69
-                            //0x07 - 1.86
-                            //0x08 - 1.82
-
-                            double bb_h = 1.86;// Config.settings.debug;//Bones.GetBBMax(bones_obj).y - Bones.GetBBMin(bones_obj).y;
-                            double num3 = (2.7 - 0.15) / bb_h;
-                            double offset = /*GameManager.OtherPlayerYOffset(player)*/(1.22 * num3) + 0.2;
-
-                            Matrix4 matrix = Matrix4.CreateRotationX(-1.5707963267948966) * Matrix4.CreateScale(-num3, num3, num3) 
-                                * Matrix4.CreateTranslation(origin + new Vec3(0, offset, 0));
-
-                            for (int j = 0; j < Math.Min(bones.Count(), 999); j++)
+                            bones = new List<object>();
+                            List<object> all_bones = Bones.GetBoneList(Player.GetBones(player));
+                            foreach(object bone in all_bones)
                             {
-                                object bone = bones[j];
-                                Matrix4 trans =  new Matrix4(transforms[j]) * matrix;
-                                Vec3 hh = trans * Bone.GetHead(bone);
-                                Vec3 tt = trans * Bone.GetTail(bone);
-                                if (GameManager.W2s(hh, out Vec2 head_b)
-                                    && GameManager.W2s(tt, out Vec2 tail_b) &&
-                                    !Bone.GetName(bone).ToLower().Contains("control") && !Bone.GetName(bone).ToLower().Contains("contol"))
-                                {
-                                    d.DrawLine((int)head_b.x, (int)head_b.y, (int)tail_b.x, (int)tail_b.y, 1, new Color(255, 0, 255));
-                                    //d.DrawText(Bone.GetName(bone), (float)head_b.x, (float)head_b.y, 18, Color.white, 
-                                    //    DrawingFunctions.TextAlignment.ALIGN_CENTER);
-                                }
+                                string name = Bone.GetName(bone).ToLower();
+                                if (!name.Contains("control") && !name.Contains("contol") && 
+                                    !name.Contains("blade") && !name.Contains("trigger") &&
+                                    !name.Contains("weapon"))
+                                    bones.Add(bone);
                             }
+                            NormalBones[skinType, (int)team] = bones;
+                        }
 
-                        }
-                        catch (Exception ex)
+                        object[] transforms = Player.GetBoneTransforms(player);
+
+                        double scale = (2.7 - 0.15) / Bones.GetScaleForSkin(skinType); // player h(2.7) is diffrent(3.7) for infected but that's dead
+                        double offset = (1.22 * scale) + 0.2;
+
+                        Matrix4 matrix = Matrix4.CreateRotationX(-1.5707963267948966) * Matrix4.CreateScale(-scale, scale, scale) 
+                            * Matrix4.CreateTranslation(origin + new Vec3(0, offset, 0));
+
+                        for (int j = 0; j < bones.Count(); j++)
                         {
-                            Log.Danger(ex.ToString());
+                            object bone = bones[j];
+                            Matrix4 final_transform = new Matrix4(transforms[j]) * matrix;
+                            if (GameManager.W2s(final_transform * Bone.GetHead(bone), out Vec2 head_b)
+                                && GameManager.W2s(final_transform * Bone.GetTail(bone), out Vec2 tail_b))
+                            {
+                                d.DrawLine((int)head_b.x, (int)head_b.y, (int)tail_b.x, (int)tail_b.y, 1, new Color(255, 0, 255));
+                                //d.DrawText(Bone.GetName(bone), (float)head_b.x, (float)head_b.y, 18, Color.white, 
+                                //    DrawingFunctions.TextAlignment.ALIGN_CENTER);
+                            }
                         }
-                        k++;
+
                     }
 
                 }
@@ -205,9 +169,9 @@ namespace Sector_dll.cheat
                     
                     object skin = pp.GetType().GetField("#=zxt8e6rUza4fF").GetValue(pp);
                     FieldInfo ffi = skin.GetType().GetField("#=zBPULLK9USWK8");
-                    ffi.SetValue(skin, Enum.ToObject(ffi.FieldType, 0x7));
+                    ffi.SetValue(skin, Enum.ToObject(ffi.FieldType, (byte)Config.settings.debug3));
                     FieldInfo ffi2 = skin.GetType().GetField("#=zFmQ_Mxo=");
-                    ffi2.SetValue(skin, Enum.ToObject(ffi2.FieldType, 0x2));
+                    ffi2.SetValue(skin, Enum.ToObject(ffi2.FieldType, (byte)Config.settings.debug4));
                     pp.GetType().GetField("#=zxt8e6rUza4fF").SetValue(pp, skin);
 
                     object all_pp = SignatureManager.GClass49_player_list.GetValue(gm);

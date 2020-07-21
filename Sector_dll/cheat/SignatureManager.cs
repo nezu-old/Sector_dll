@@ -1,13 +1,9 @@
-﻿using MonoMod.RuntimeDetour;
-using Sector_dll.sdk;
-using Sector_dll.util;
+﻿using Sector_dll.util;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Threading;
 
 namespace Sector_dll.cheat
 {
@@ -418,7 +414,15 @@ namespace Sector_dll.cheat
 
         public static MethodInfo PlayerBase_RecoilMod;
 
-        public static MethodInfo PLayerBase_Base_SetTeam;
+        public static MethodInfo PlayerBase_Base_SetTeam;
+
+        public static MethodInfo PlayerBase_Base_GetTeam;
+
+        public static FieldInfo PlayerBase_Base_CharacterTexture;
+
+        public static Type CharacterTexture;
+
+        public static FieldInfo CharacterTexture_PlayerType;
 
         public static MethodInfo GClass49_vmethod_4;
 
@@ -769,8 +773,13 @@ namespace Sector_dll.cheat
                 }
                 if(mi.ReturnType == typeof(void) && mi.GetParameters().Length == 1 && mi.GetParameters()[0].ParameterType == TeamType)
                 {
-                    PLayerBase_Base_SetTeam = mi;
-                    Log.Info("Found PLayerBase_Base_SetTeam as: " + PLayerBase_Base_SetTeam.ToString());
+                    PlayerBase_Base_SetTeam = mi;
+                    Log.Info("Found PLayerBase_Base_SetTeam as: " + PlayerBase_Base_SetTeam.ToString());
+                }
+                if(mi.ReturnType == TeamType && mi.Name.Length == 15 && mi.GetParameters().Length == 0)
+                {
+                    PlayerBase_Base_GetTeam = mi;
+                    Log.Info("Found PLayerBase_Base_GetTeam as: " + PlayerBase_Base_GetTeam.ToString());
                 }
             }
             if (PLayerBase_EitherMod == null) { Log.Info("PLayerBase_EitherMod is null"); return false; }
@@ -778,7 +787,8 @@ namespace Sector_dll.cheat
             if (PLayerBase_CurrentWeaponType == null) { Log.Info("PLayerBase_CurrentWeaponType is null"); return false; }
             if (PLayerBase_CurrentWeaponIndex == null) { Log.Info("PLayerBase_CurrentWeaponIndex is null"); return false; }
             if (PlayerBase_RecoilMod == null) { Log.Info("PlayerBase_RecoilMod is null"); return false; }
-            if (PLayerBase_Base_SetTeam == null) { Log.Info("PLayerBase_Base_SetTeam is null"); return false; }
+            if (PlayerBase_Base_SetTeam == null) { Log.Info("PLayerBase_Base_SetTeam is null"); return false; }
+            if (PlayerBase_Base_GetTeam == null) { Log.Info("PLayerBase_Base_GetTeam is null"); return false; }
 
             foreach (ConstructorInfo ci in PlayerBase.GetConstructors())
             {
@@ -812,6 +822,30 @@ namespace Sector_dll.cheat
             }
             if (PlayerBase_name == null) { Log.Info("PlayerBase_name is null"); return false; }
             if (PlayerBase_health == null) { Log.Info("PlayerBase_health is null"); return false; }
+
+            foreach (FieldInfo fi in PlayerBase.BaseType.GetFields(BindingFlags.Public | BindingFlags.Instance))
+            {
+                if(fi.Name.Length == 15 && fi.FieldType.Name.Length == 39 && IsStruct(fi.FieldType))
+                {
+                    CharacterTexture = fi.FieldType;
+                    PlayerBase_Base_CharacterTexture = fi;
+                    Log.Info("Found struct CharacterTexture as: " + CharacterTexture.ToString());
+                    Log.Info("Found PlayerBase_Base_CharacterTexture as: " + PlayerBase_Base_CharacterTexture.ToString());
+                }
+            }
+            if (CharacterTexture == null) { Log.Info("CharacterTexture is null"); return false; }
+            if (PlayerBase_Base_CharacterTexture == null) { Log.Info("PlayerBase_Base_CharacterTexture is null"); return false; }
+
+            ConstructorInfo CharacterTexture_Constructor = CharacterTexture.GetConstructors().First();
+            foreach(FieldInfo fi in CharacterTexture.GetFields(BindingFlags.Public | BindingFlags.Instance))
+            {
+                if(fi.FieldType == CharacterTexture_Constructor.GetParameters()[0].ParameterType)
+                {
+                    CharacterTexture_PlayerType = fi;
+                    Log.Info("Found CharacterTexture_PlayerType as: " + CharacterTexture_PlayerType.ToString());
+                }
+            }
+            if (CharacterTexture_PlayerType == null) { Log.Info("CharacterTexture_PlayerType is null"); return false; }
 
             foreach (ConstructorInfo ci in Vec3.GetConstructors())
             {

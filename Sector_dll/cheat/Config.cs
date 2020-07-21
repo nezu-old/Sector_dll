@@ -23,7 +23,10 @@ namespace Sector_dll.cheat
 
 			public int no_recoil;
 
-			public float debug;
+			public float debug1;
+			public float debug2;
+			public int debug3;
+			public int debug4;
 		};
 
 		public static Settings settings = new Settings()
@@ -37,7 +40,10 @@ namespace Sector_dll.cheat
 
 			no_recoil = 1,
 
-			debug = 1.0f
+			debug1 = 1.0f,
+			debug2 = 1.0f,
+			debug3 = 1,
+			debug4 = 1,
 		};
 
 	}

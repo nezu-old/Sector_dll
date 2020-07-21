@@ -15,7 +15,10 @@ namespace Menu {
 
 		int no_recoil;
 
-		float debug;
+		float debug1;
+		float debug2;
+		int debug3;
+		int debug4;
 	};
 	
 	void __stdcall DrawMenu(Settings * settings);
