@@ -34,11 +34,20 @@ namespace Sector_dll.cheat
         public static string xd(Func<int, bool, string>orig, int i, bool b)//Func<IntPtr, string, IntPtr> orig, 
         {
             string s = orig(i, b);
-            if (s.ToLower().Contains("head"))
+            //if (s.ToLower().Contains("head"))
             {
                 Log.Info("I: " + i + " S: " + s);
-                StackTrace t = new StackTrace();
-                Log.Info(t.ToString());
+                //StackTrace t = new StackTrace();
+                //Log.Info(t.ToString());
+
+                using (FileStream fileStream = new FileStream("string_order.txt", FileMode.Append))
+                {
+                    using(StreamWriter sw = new StreamWriter(fileStream))
+                    {
+                        sw.WriteLine(s);
+                    }
+                }
+
             }
             return s;
         }
@@ -79,11 +88,12 @@ namespace Sector_dll.cheat
 
             new Hook(typeof(File).GetMethod("Exists"), typeof(Antycheat).GetMethod("FileExists"));
             new Hook(typeof(Directory).GetMethod("Exists"), typeof(Antycheat).GetMethod("DirectoryExists"));
-            Antycheat.origFileSystemEnumerableIterator = new NativeDetour(typeof(Directory).Assembly.GetTypes().First(x => x.Name.Contains("FileSystemEnumerableIterator"))
-               .MakeGenericType(typeof(object)).GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance)
-               .First(x => x.GetParameters().Length == 6), typeof(Antycheat).GetMethod("FileSystemEnumerableIterator"),
-               new NativeDetourConfig() { SkipILCopy = true }).GenerateTrampoline<Antycheat.FileSystemEnumerableIteratorDelegate>();
-            new Hook(typeof(FileStream).GetMethod("Init", BindingFlags.Instance | BindingFlags.NonPublic), typeof(Antycheat).GetMethod("FileStreamInit"));
+            Antycheat.origFileSystemEnumerableIterator = new NativeDetour(typeof(Directory).Assembly.GetTypes()
+                .First(x => x.Name.Contains("FileSystemEnumerableIterator")).MakeGenericType(typeof(object))
+                .GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance).First(x => x.GetParameters().Length == 6), 
+                typeof(Antycheat).GetMethod("FileSystemEnumerableIterator"), new NativeDetourConfig() { SkipILCopy = true })
+                .GenerateTrampoline<Antycheat.FileSystemEnumerableIteratorDelegate>();
+            //new Hook(typeof(FileStream).GetMethod("Init", BindingFlags.Instance | BindingFlags.NonPublic), typeof(Antycheat).GetMethod("FileStreamInit"));
             Antycheat.origAppDomainnGetAssemblies = new NativeDetour(typeof(AppDomain).GetMethod("nGetAssemblies", 
                 BindingFlags.Instance | BindingFlags.NonPublic), typeof(Antycheat).GetMethod("AppDomainnGetAssemblies"), 
                 new NativeDetourConfig() { SkipILCopy = true } ).GenerateTrampoline<Antycheat.AppDomainnGetAssembliesDeleghate>();
@@ -158,12 +168,12 @@ namespace Sector_dll.cheat
 
             MethodInfo mi = assembly.GetType("#=qlP7Rck8fKTTAfxJeTbAdpGzgOJ5BuLGTE8xrRZOLGDs=")
                 .GetMethod("#=zD9zupq9kGin4NH9xUv6i3e4=", BindingFlags.NonPublic | BindingFlags.Static);
+            new Hook(mi, typeof(Main).GetMethod("xd"));
 
             //Util.DumpStrings(assembly, mi);
             //Util.DumpShit(assembly);
             
             //Log.Danger((string)mi.Invoke(null, new object[] { -2001122674, true }));
-            //new Hook(mi, typeof(Main).GetMethod("xd"));
             //Console.Read();
 
             Detour mainDetour = new Detour(assembly.EntryPoint, typeof(Main).GetMethod("MainHook")); //detour main to dummy function
