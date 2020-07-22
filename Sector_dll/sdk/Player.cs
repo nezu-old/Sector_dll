@@ -114,6 +114,30 @@ namespace Sector_dll.sdk
             return (SignatureManager.Player_BoneTransforms.GetValue(player) as Array).Cast<object>().ToArray();
         }
 
+        public static double GetPitch(object player)
+        {
+            return ((double[])SignatureManager.PlayerBase_Base_Pitch.GetValue(player))[0];
+        }
+
+        public static double GetYaw(object player)
+        {
+
+            return ((double[])SignatureManager.PlayerBase_Base_Yaw.GetValue(player))[0];
+        }
+
+        public static void SetPitch(object player, double pitch)
+        {
+            ((double[])SignatureManager.PlayerBase_Base_Pitch.GetValue(player))[0] =
+                Math.Min(1.5607963267948965, Math.Max(-1.5607963267948965, pitch));
+        }
+
+        public static void SetYaw(object player, double yaw)
+        {
+            while (yaw > 3.141591653589793) yaw += -3.141591653589793;
+            while (yaw < -3.141591653589793) yaw += 3.141591653589793;
+            ((double[])SignatureManager.PlayerBase_Base_Yaw.GetValue(player))[0] = yaw;
+        }
+
         public const double HeightStanding = 2.7;
 
         public const double HeightCrouching = 1.6;

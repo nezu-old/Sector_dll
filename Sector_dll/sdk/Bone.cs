@@ -25,5 +25,15 @@ namespace Sector_dll.sdk
             return (string)SignatureManager.Bone_Name.GetValue(bone);
         }
 
+        public static bool IsHead(object bone)
+        {
+            return (bool)SignatureManager.Bone_IsHead.GetValue(bone);
+        }
+
+        public static float GetRadius(object bone)
+        {
+            return (float)SignatureManager.Bone_Radius.GetValue(bone);
+        }
+
     }
 }

@@ -15,6 +15,7 @@ DrawingFunctions D::GetDrawinfFunctions() {
 	f.DrawFilledRect = &D::DrawRectFilled;
 	f.DrawLine = &D::DrawLine;
 	f.DrawText = &D::DrawText;
+	f.DrawTextSmall = &D::DrawTextSmall;
 	return f;
 }
 
@@ -46,4 +47,12 @@ void __stdcall D::DrawText(const char * text, float x, float y, float size, ImU3
 			y -= text_size.y / 2.f;
 	}
 	D::gameFont->RenderText(D::drawList, size, ImVec2(x, y), color, D::drawList->_CmdHeader.ClipRect, text, text_end, 0, false);
+}
+
+void __stdcall D::DrawTextSmall(const char* text, float x, float y, ImU32 color, int align) {
+	ImFont * cur_font = D::gameFont;
+	D::gameFont = ImGui::GetFont();
+	DrawText(text, x+1, y+1, D::gameFont->FontSize, 0xFF000000, align);
+	DrawText(text, x, y, D::gameFont->FontSize, color, align);
+	D::gameFont = cur_font;
 }

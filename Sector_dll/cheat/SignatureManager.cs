@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Security.Policy;
 
 namespace Sector_dll.cheat
 {
@@ -420,6 +421,10 @@ namespace Sector_dll.cheat
 
         public static FieldInfo PlayerBase_Base_CharacterTexture;
 
+        public static FieldInfo PlayerBase_Base_Pitch;
+
+        public static FieldInfo PlayerBase_Base_Yaw;
+
         public static Type CharacterTexture;
 
         public static FieldInfo CharacterTexture_PlayerType;
@@ -572,7 +577,9 @@ namespace Sector_dll.cheat
 
         public static FieldInfo Bone_Tail;
 
-        //public static FieldInfo Bone_name
+        public static FieldInfo Bone_IsHead;
+
+        public static FieldInfo Bone_Radius;
 
         public static FieldInfo Bone_Name;
 
@@ -835,6 +842,30 @@ namespace Sector_dll.cheat
             }
             if (CharacterTexture == null) { Log.Info("CharacterTexture is null"); return false; }
             if (PlayerBase_Base_CharacterTexture == null) { Log.Info("PlayerBase_Base_CharacterTexture is null"); return false; }
+
+            foreach(FieldInfo fi in PlayerBase.BaseType.GetFields(BindingFlags.NonPublic | BindingFlags.Instance))
+            {
+                if (fi.FieldType.IsArray && fi.FieldType == typeof(double[]))
+                {
+                    if(PlayerBase_Base_Pitch == null)
+                    {
+                        PlayerBase_Base_Pitch = fi;
+                        Log.Info("Found PlayerBase_Base_Pitch as: " + PlayerBase_Base_Pitch.ToString());
+                    }
+                    else if(PlayerBase_Base_Yaw == null)
+                    {
+                        PlayerBase_Base_Yaw = fi;
+                        Log.Info("Found PlayerBase_Base_Yaw as: " + PlayerBase_Base_Yaw.ToString());
+                    }
+                    else
+                    {
+                        Log.Info("PlayerBase_Base has more double[]!");
+                        return false;
+                    }
+                }
+            }
+            if (PlayerBase_Base_Pitch == null) { Log.Info("PlayerBase_Base_Pitch is null"); return false; }
+            if (PlayerBase_Base_Yaw == null) { Log.Info("PlayerBase_Base_Yaw is null"); return false; }
 
             ConstructorInfo CharacterTexture_Constructor = CharacterTexture.GetConstructors().First();
             foreach(FieldInfo fi in CharacterTexture.GetFields(BindingFlags.Public | BindingFlags.Instance))
@@ -1357,7 +1388,12 @@ namespace Sector_dll.cheat
 
             foreach (FieldInfo fi in Bone.GetFields(BindingFlags.Instance | BindingFlags.Public))
             {
-                if(fi.FieldType == Vec3)
+                if(fi.FieldType == typeof(bool) && fi.Name.Length == 11 && Bone_IsHead == null) //first one
+                {
+                    Bone_IsHead = fi;
+                    Log.Info("Found Bone_IsHead as: " + Bone_IsHead.ToString());
+                }
+                if (fi.FieldType == Vec3)
                 {
                     if(Bone_Head == null)
                     {
@@ -1375,10 +1411,17 @@ namespace Sector_dll.cheat
                     Bone_Name = fi;
                     Log.Info("Found Bone_Name as: " + Bone_Name.ToString());
                 }
+                if(fi.FieldType == typeof(float))
+                {
+                    Bone_Radius = fi;
+                    Log.Info("Found Bone_Radius as: " + Bone_Radius.ToString());
+                }
             }
+            if (Bone_IsHead == null) { Log.Info("Bone_IsHead is null"); return false; }
             if (Bone_Head == null) { Log.Info("Bone_Head is null"); return false; }
             if (Bone_Tail == null) { Log.Info("Bone_Tail is null"); return false; }
             if (Bone_Name == null) { Log.Info("Bone_Name is null"); return false; }
+            if (Bone_Radius == null) { Log.Info("Bone_Radius is null"); return false; }
 
             return true;
         }

@@ -30,6 +30,11 @@ namespace Sector_dll.sdk
             else throw new NotSupportedException("can not cast from " + t.ToString() + " to vec2");
         }
 
+        public double DistTo(Vec2 v)
+        {
+            return Math.Sqrt((x - v.x) * (x - v.x) + (y - v.y) * (y - v.y));
+        }
+
         public object ToInternal()
         {
             return New(x, y);
