@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace Sector_dll.util
 {
@@ -26,6 +27,20 @@ namespace Sector_dll.util
                 Console.BackgroundColor = ConsoleColor.DarkYellow;
                 Console.WriteLine(msg);
                 Console.ResetColor();
+            }
+        }
+
+        public static void Dump(string file, string msg)
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine(msg);
+            Console.ResetColor();
+            using (FileStream fileStream = new FileStream(file, FileMode.Append))
+            {
+                using (StreamWriter streamWriter = new StreamWriter(fileStream))
+                {
+                    streamWriter.WriteLine(msg);
+                }
             }
         }
 

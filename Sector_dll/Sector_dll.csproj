@@ -94,6 +94,7 @@
     <Compile Include="cheat\Hooks\HWID.cs" />
     <Compile Include="cheat\Hooks\Player.cs" />
     <Compile Include="cheat\Hooks\RequestHelper.cs" />
+    <Compile Include="cheat\Hooks\Tracing.cs" />
     <Compile Include="cheat\ResolvedType.cs" />
     <Compile Include="cheat\Config.cs" />
     <Compile Include="cheat\SignatureManager.cs" />

@@ -84,7 +84,7 @@ namespace Sector_dll.cheat
             //Log.Info("Domain base dir: " + AppDomain.CurrentDomain.BaseDirectory);
             Log.Info("Working directory: " + Directory.GetCurrentDirectory());
 
-            //Console.Read();
+            Console.Read();
 
             new Hook(typeof(File).GetMethod("Exists"), typeof(Antycheat).GetMethod("FileExists"));
             new Hook(typeof(Directory).GetMethod("Exists"), typeof(Antycheat).GetMethod("DirectoryExists"));
@@ -207,6 +207,10 @@ namespace Sector_dll.cheat
                     //Marshal.GetDelegateForFunctionPointer<FakeMainDelegate>(mainLoader)(data);
                     //Log.Danger("Press enter to start");
                     //Console.Read();
+
+                    //Tracing.ApplyHooks();
+                    //while (!Debugger.IsAttached) Thread.Sleep(10);
+
                     IntPtr thread = CreateThread(UIntPtr.Zero, 0, mainLoader, data, 0, IntPtr.Zero);
                     WaitForSingleObject(thread, 0xFFFFFFFF);// INFINITE 
 
