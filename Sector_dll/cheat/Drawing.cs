@@ -44,12 +44,12 @@ namespace Sector_dll.cheat
             public delegate void DrawLineDelegate(float x1, float y1, float x2, float y2, float t, uint color);
 
             [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-            public delegate void DrawTextDelegate([MarshalAs(UnmanagedType.LPUTF8Str)] string text, float x, float y, float size, uint color,
-                [MarshalAs(UnmanagedType.I4)] TextAlignment alignment);
+            public delegate void DrawTextDelegate([MarshalAs(UnmanagedType.LPUTF8Str)] string text, float x, float y, float size = 20, uint color = 0xFFFFFFFF,
+                [MarshalAs(UnmanagedType.I4)] TextAlignment alignment = 0);
 
             [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-            public delegate void DrawTextSmallDelegate([MarshalAs(UnmanagedType.LPUTF8Str)] string text, float x, float y, uint color,
-                [MarshalAs(UnmanagedType.I4)] TextAlignment alignment);
+            public delegate void DrawTextSmallDelegate([MarshalAs(UnmanagedType.LPUTF8Str)] string text, float x, float y, uint color = 0xFFFFFFFF,
+                [MarshalAs(UnmanagedType.I4)] TextAlignment alignment = 0);
 
             public DrawMenuDelegate DrawMenu;
 
@@ -69,6 +69,9 @@ namespace Sector_dll.cheat
         public static void DrawCallback(ref DrawingFunctions d)
         {
             d.DrawMenu(ref Config.settings);
+
+            if (Config.settings.debug6 > 0) Log.Info("Frame");
+
             if (GameManager.instance.IsAlive && GameManager.instance.Target.GetType().BaseType == SignatureManager.GClass49.Type.BaseType)
             {
                 object gm = GameManager.instance.Target;
@@ -81,11 +84,10 @@ namespace Sector_dll.cheat
                     //Vec3 o = Player.GetOrigin(local);
                     //Player.SetPitch(local, 0);
                     //Player.SetYaw(local, 0);
-                    d.DrawText(Player.GetPitch(local) + ":" + Player.GetYaw(local), 100, 50, 20, Color.red, 0);
+                    d.DrawText(Player.GetHeadPos(local).ToString(), 100, 50, 20, Color.red, 0);
                     //Player.SetTeam(local, TeamType.Spectate);
                 }
-                List<object> players = (SignatureManager.GClass49_player_list.GetValue(gm) as IEnumerable<object>)
-                    .Cast<object>().ToList();
+                List<object> players = GameManager.GetPlayers(gm);
 
                 for(int i = 0; i < players.Count; i++)
                 {
@@ -186,6 +188,12 @@ namespace Sector_dll.cheat
                             d.DrawText(Player.GetName(player), (float)bb_min.x + (w / 2), (float)(bb_min.y) - 5, 18, Color.white,
                                 DrawingFunctions.TextAlignment.ALIGN_BOTTOM | DrawingFunctions.TextAlignment.ALIGN_HCENTER);
 
+                            Vec3 headPos = Player.GetHeadPos(player);
+                            Vec3 lookingLineEnd = headPos + Player.GetLookAtVector(player);
+                            if(GameManager.W2s(headPos, out Vec2 headPos2d) &&
+                                GameManager.W2s(lookingLineEnd, out Vec2 lookingLineEnd2d))
+                                d.DrawLine((int)headPos2d.x, (int)headPos2d.y, (int)lookingLineEnd2d.x, (int)lookingLineEnd2d.y, 2, color);
+
                             //d.DrawLine((float)bb_min.x, (float)bb_min.y, (float)bb_min.x, (float)(bb_min.y - dist_scale), 2, Color.green);
 
                         }
@@ -212,7 +220,13 @@ namespace Sector_dll.cheat
                 } 
                 else
                 {
-                    //object pp = players[0];
+                    object pp = players[0];
+
+                    pp.GetType().GetMethod("#=zC$PwqoXEojeRikU4rg==").Invoke(pp, new object[] { Config.settings.debug5 > 0 });
+
+                    Player.SetYaw(pp, Player.GetYaw(pp) + 0.05);
+                    Player.SetPitch(pp, 0.2);
+                    d.DrawText(Player.GetLookAtVector(pp).ToString(), 100, 250);
 
                     //Vec3 xd = Player.GetOrigin(pp);
                     //xd.x += 0.001;

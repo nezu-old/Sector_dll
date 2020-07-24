@@ -157,7 +157,17 @@ namespace Sector_dll.sdk
 
         public static double OtherPlayerYOffset(object player)
         {
-            return (double)SignatureManager.OfflineGameManager_OtherPlayerYOffset.Invoke(null, new object[] { player });
+            return (double)SignatureManager.GameManager_OtherPlayerYOffset.Invoke(null, new object[] { player });
+        }
+
+        public static void SetupBones(object self, object player)
+        {
+            SignatureManager.GameManager_SetupBones.Invoke(self, new object[] { player });
+        }
+
+        public static List<object> GetPlayers(object self)
+        {
+            return (SignatureManager.GClass49_player_list.GetValue(self) as IEnumerable<object>).Cast<object>().ToList();
         }
 
     }

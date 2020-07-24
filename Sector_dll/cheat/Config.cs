@@ -27,6 +27,8 @@ namespace Sector_dll.cheat
 			public float debug2;
 			public int debug3;
 			public int debug4;
+			public int debug5;
+			public int debug6;
 		};
 
 		public static Settings settings = new Settings()

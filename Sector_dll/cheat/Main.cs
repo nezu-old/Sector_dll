@@ -18,6 +18,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
+using System.Security.Cryptography;
 using System.Security.Permissions;
 using System.Security.Policy;
 using System.Text;
@@ -52,6 +53,12 @@ namespace Sector_dll.cheat
             return s;
         }
 
+        public static void xd2(Action<object, object, object, object> orig, object a1, object a2, object a3, object a4)
+        {
+            orig(a1, a2, a3, a4);
+            if (Config.settings.debug6 > 0) Log.Info("Bones");
+        }
+
         [DllExport(CallingConvention = CallingConvention.StdCall)]
         public static void MainLoader0([MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr, SizeConst = 0)] string[] a) { }
         [DllExport(CallingConvention = CallingConvention.StdCall)]
@@ -84,7 +91,7 @@ namespace Sector_dll.cheat
             //Log.Info("Domain base dir: " + AppDomain.CurrentDomain.BaseDirectory);
             Log.Info("Working directory: " + Directory.GetCurrentDirectory());
 
-            Console.Read();
+            //Console.Read();
 
             new Hook(typeof(File).GetMethod("Exists"), typeof(Antycheat).GetMethod("FileExists"));
             new Hook(typeof(Directory).GetMethod("Exists"), typeof(Antycheat).GetMethod("DirectoryExists"));
@@ -122,7 +129,8 @@ namespace Sector_dll.cheat
             Array.Copy(a, 1, args, 0, a.Length - 1);
             Log.Info("args: " + string.Join(" ", args));
 
-            //Log.Info(SignatureManager.GenerateSig("#=zARjmkzCqltgxuq$kmufo5p4=")); Console.Read();
+            //Log.Info(SignatureManager.GenerateSig("#=zuEYd2EpXjX3XVWLr4Wq6Qm3NXqb9VEkEsg==")); Console.Read();
+
             try
             {
                 if (!SignatureManager.FindSignatures(assembly))
@@ -132,10 +140,9 @@ namespace Sector_dll.cheat
                 new Hook(SignatureManager.RequestHelper_GET, typeof(RequestHelper).GetMethod("GET"));
                 
                 new Hook(SignatureManager.GClass49_Base_Base_Draw, typeof(GClass49).GetMethod("vmethod_4"));
+                new Hook(SignatureManager.LocalPlayer_Update, typeof(Player).GetMethod("Update"));
                 new Hook(SignatureManager.PlayerBase_RecoilMod, typeof(Player).GetMethod("RecoilMod"));
                 new Hook(SignatureManager.Helper_CurrentBloom, typeof(Helper).GetMethod("CurrentBloom"));
-
-                new Hook(SignatureManager.CollisionHelper_Constructor, typeof(sdk.CollisionHelper).GetMethod("CollisionHelperConstructor"));
 
                 if (HWID.Seed != 926594848) //spy
                     new Hook(typeof(ManagementBaseObject).GetMethod("GetPropertyValue", BindingFlags.Public | BindingFlags.Instance),
@@ -156,6 +163,9 @@ namespace Sector_dll.cheat
                     HWID.oRegQueryValueEx = new NativeDetour(method, typeof(HWID).GetMethod("RegQueryValueEx"))
                         .GenerateTrampoline<HWID.RegQueryValueExDelegate>();
                 new NativeDetour(SignatureManager.DiscordCreate, typeof(HWID).GetMethod("DiscordCreate"));
+
+
+                new Hook(assembly.GetType("#=zD17ql6wd9AtAXXPCp7syK94=").GetMethod("#=zEM1GDZ4Zo8bCGinYew=="), typeof(Main).GetMethod("xd2"));
             
             }
             catch (Exception e)
@@ -168,7 +178,7 @@ namespace Sector_dll.cheat
 
             MethodInfo mi = assembly.GetType("#=qlP7Rck8fKTTAfxJeTbAdpGzgOJ5BuLGTE8xrRZOLGDs=")
                 .GetMethod("#=zD9zupq9kGin4NH9xUv6i3e4=", BindingFlags.NonPublic | BindingFlags.Static);
-            new Hook(mi, typeof(Main).GetMethod("xd"));
+            //new Hook(mi, typeof(Main).GetMethod("xd"));
 
             //Util.DumpStrings(assembly, mi);
             //Util.DumpShit(assembly);

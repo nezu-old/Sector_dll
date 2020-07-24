@@ -19,6 +19,8 @@ namespace Sector_dll.util
             }
         }
 
+        public static void Danger(object msg, bool force = false) => Danger(msg.ToString(), force);
+
         public static void Danger(string msg, bool force = false)
         {
             if(enabled || force)

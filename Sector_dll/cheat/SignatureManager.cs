@@ -368,6 +368,36 @@ namespace Sector_dll.cheat
             OtherFields = 8
         });
 
+        public static ResolvedType CustomWatch = new ResolvedType("CustomWatch", new ClassSignature()
+        {
+            nameLength = 39,
+
+            publicClass = true,
+            abstractClass = false,
+            nestedTypes = 0,
+
+            privateMethods = 2,
+            publicMethods = 23,
+            staticMethods = 0,
+
+            publicFields = 2,
+            privateFields = 4,
+            staticFields = 0,
+            readonlyFields = 1,
+
+            boolFields = 1,
+            byteFields = 0,
+            shortFields = 0,
+            intFields = 2,
+            longFields = 1,
+            floatFields = 0,
+            doubleFields = 1,
+            enumFields = 0,
+            stringFields = 0,
+            ArrayFields = 0,
+            OtherFields = 1
+        });
+
         //public static ResolvedType XXX = new ResolvedType("XXX", new ClassSignature());
 
         public static ResolvedType[] ResolvedTypes = new ResolvedType[]
@@ -384,7 +414,8 @@ namespace Sector_dll.cheat
             CollisionHelper,
             Helper1,
             Helper,
-            Bones
+            Bones,
+            CustomWatch
         };
 
         public static Type PlayerBase;
@@ -398,6 +429,8 @@ namespace Sector_dll.cheat
         public static MethodInfo Player_GetBones;
 
         public static Type LocalPlayer;
+
+        public static MethodInfo LocalPlayer_Update;
 
         public static FieldInfo PlayerBase_origin;
 
@@ -424,6 +457,8 @@ namespace Sector_dll.cheat
         public static FieldInfo PlayerBase_Base_Pitch;
 
         public static FieldInfo PlayerBase_Base_Yaw;
+
+        public static FieldInfo PlayerBase_Base_CrouchWatch;
 
         public static Type CharacterTexture;
 
@@ -583,9 +618,13 @@ namespace Sector_dll.cheat
 
         public static FieldInfo Bone_Name;
 
-        public static Type OfflineGameManager;
+        public static Type GameManager;
 
-        public static MethodInfo OfflineGameManager_OtherPlayerYOffset;
+        public static MethodInfo GameManager_OtherPlayerYOffset;
+
+        public static MethodInfo GameManager_SetupBones;
+
+        public static MethodInfo CustomWatch_get_Progress;
 
         public static bool FindSignatures(Assembly aassembly)
         {
@@ -693,24 +732,35 @@ namespace Sector_dll.cheat
                 if(ci.IsPublic && ci.GetParameters().Length == 3 && ci.GetParameters()[1].ParameterType == typeof(byte))
                 {
                     Player_BotConstructor = ci;
-                    OfflineGameManager = ci.GetParameters()[0].ParameterType;
+                    GameManager = ci.GetParameters()[0].ParameterType;
                     Log.Info("Found Player_BotConstructor as: " + Player_BotConstructor.ToString());
-                    Log.Info("Found class OfflineGameManager as: " + OfflineGameManager.ToString());
+                    Log.Info("Found class OfflineGameManager as: " + GameManager.ToString());
                 }
             }
             if (Player_BotConstructor == null) { Log.Info("Player_BotConstructor is null"); return false; }
-            if (OfflineGameManager == null) { Log.Info("OfflineGameManager is null"); return false; }
+            if (GameManager == null) { Log.Info("OfflineGameManager is null"); return false; }
 
-            foreach(MethodInfo mi in OfflineGameManager.GetMethods(BindingFlags.NonPublic | BindingFlags.Static))
+            foreach(MethodInfo mi in GameManager.GetMethods(BindingFlags.NonPublic | BindingFlags.Static))
             {
                 if (mi.Name.Length == 15 && mi.ReturnType == typeof(double) && mi.GetParameters().Length == 1 && 
                     mi.GetParameters()[0].ParameterType == Player.Type)
                 {
-                    OfflineGameManager_OtherPlayerYOffset = mi;
-                    Log.Info("Found OfflineGameManager_OtherPlayerYOffset as: " + OfflineGameManager_OtherPlayerYOffset.ToString());
+                    GameManager_OtherPlayerYOffset = mi;
+                    Log.Info("Found GameManager_OtherPlayerYOffset as: " + GameManager_OtherPlayerYOffset.ToString());
                 }
             }
-            if (OfflineGameManager_OtherPlayerYOffset == null) { Log.Info("OfflineGameManager_OtherPlayerYOffset is null"); return false; }
+            if (GameManager_OtherPlayerYOffset == null) { Log.Info("GameManager_OtherPlayerYOffset is null"); return false; }
+
+            foreach (MethodInfo mi in GameManager.GetMethods(BindingFlags.NonPublic | BindingFlags.Instance))
+            {
+                if (mi.Name.Length == 15 && mi.ReturnType == typeof(void) && mi.GetParameters().Length == 1 &&
+                    mi.GetParameters()[0].ParameterType == Player.Type && mi.GetMethodBody().GetILAsByteArray().Length > 300)
+                {
+                    GameManager_SetupBones = mi;
+                    Log.Info("Found GameManager_SetupBones as: " + GameManager_SetupBones.ToString());
+                }
+            }
+            if (GameManager_SetupBones == null) { Log.Info("GameManager_SetupBones is null"); return false; }
 
             foreach (MethodInfo mi in Player.Type.GetMethods(BindingFlags.Public | BindingFlags.Instance))
             {
@@ -863,9 +913,20 @@ namespace Sector_dll.cheat
                         return false;
                     }
                 }
+                
             }
             if (PlayerBase_Base_Pitch == null) { Log.Info("PlayerBase_Base_Pitch is null"); return false; }
             if (PlayerBase_Base_Yaw == null) { Log.Info("PlayerBase_Base_Yaw is null"); return false; }
+
+            foreach (FieldInfo fi in PlayerBase.BaseType.GetFields(BindingFlags.Public | BindingFlags.Instance))
+            {
+                if (fi.FieldType == CustomWatch.Type && fi.Name.Length == 23)
+                {
+                    PlayerBase_Base_CrouchWatch = fi;
+                    Log.Info("Found PlayerBase_Base_CrouchWatch as: " + PlayerBase_Base_CrouchWatch.ToString());
+                }
+            }
+            if (PlayerBase_Base_CrouchWatch == null) { Log.Info("PlayerBase_Base_CrouchWatch is null"); return false; }
 
             ConstructorInfo CharacterTexture_Constructor = CharacterTexture.GetConstructors().First();
             foreach(FieldInfo fi in CharacterTexture.GetFields(BindingFlags.Public | BindingFlags.Instance))
@@ -1125,7 +1186,7 @@ namespace Sector_dll.cheat
                     LocalPlayer = f.FieldType;
                     GClass49_Base_LocalPlayer = f;
                     Log.Info("Found class LocalPlayer as: " + LocalPlayer.ToString());
-                    Log.Info("Found field GClass49_Base_LocalPlayer as: " + GClass49_Base_LocalPlayer.ToString());
+                    Log.Info("Found GClass49_Base_LocalPlayer as: " + GClass49_Base_LocalPlayer.ToString());
                 }
                 if (f.IsPublic && f.FieldType == Map.Type)
                 {
@@ -1138,6 +1199,16 @@ namespace Sector_dll.cheat
             if (LocalPlayer == null) { Log.Info("LocalPlayer is null"); return false; }
             if (GCLass49_Base_Map == null) { Log.Info("GCLass49_Base_Map is null"); return false; }
 
+            foreach (MethodInfo mi in LocalPlayer.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)){
+                if(mi.Name.Length == 15 && mi.ReturnType == typeof(void) && mi.GetParameters().Length == 1 &&
+                    mi.GetParameters()[0].ParameterType.IsClass)
+                {
+                    LocalPlayer_Update = mi;
+                    Log.Info("Found LocalPlayer_Update as: " + LocalPlayer_Update.ToString());
+                }
+            }
+            if (LocalPlayer_Update == null) { Log.Info("LocalPlayer_Update is null"); return false; }
+
             foreach (FieldInfo fi in GClass49.Type.BaseType.GetFields(BindingFlags.NonPublic | BindingFlags.Static))
             {
                 if (fi.FieldType.IsGenericType && fi.FieldType.GetGenericTypeDefinition() == typeof(Dictionary<,>)
@@ -1146,12 +1217,12 @@ namespace Sector_dll.cheat
                     if (GClass49_Base_ScopeSizes1 == null)
                     {
                         GClass49_Base_ScopeSizes1 = fi;
-                        Log.Info("Found field GClass49_Base_ScopeSizes1 as: " + GClass49_Base_ScopeSizes1.ToString());
+                        Log.Info("Found GClass49_Base_ScopeSizes1 as: " + GClass49_Base_ScopeSizes1.ToString());
                     }
                     else if (GClass49_Base_ScopeSizes2 == null)
                     {
                         GClass49_Base_ScopeSizes2 = fi;
-                        Log.Info("Found field GClass49_Base_ScopeSizes2 as: " + GClass49_Base_ScopeSizes2.ToString());
+                        Log.Info("Found GClass49_Base_ScopeSizes2 as: " + GClass49_Base_ScopeSizes2.ToString());
                     }
                     else
                     {
@@ -1266,32 +1337,32 @@ namespace Sector_dll.cheat
                 if (WorldSpaceBone_type == null)
                 {
                     WorldSpaceBone_type = fi;
-                    Log.Info("Found field WorldSpaceBone_type as: " + WorldSpaceBone_type.ToString());
+                    Log.Info("Found WorldSpaceBone_type as: " + WorldSpaceBone_type.ToString());
                 }
                 else if (WorldSpaceBone_head == null)
                 {
                     WorldSpaceBone_head = fi;
-                    Log.Info("Found field WorldSpaceBone_head as: " + WorldSpaceBone_head.ToString());
+                    Log.Info("Found WorldSpaceBone_head as: " + WorldSpaceBone_head.ToString());
                 }
                 else if (WorldSpaceBone_tail == null)
                 {
                     WorldSpaceBone_tail = fi;
-                    Log.Info("Found field WorldSpaceBone_tail as: " + WorldSpaceBone_tail.ToString());
+                    Log.Info("Found WorldSpaceBone_tail as: " + WorldSpaceBone_tail.ToString());
                 }
                 else if (WorldSpaceBone_radius == null)
                 {
                     WorldSpaceBone_radius = fi;
-                    Log.Info("Found field WorldSpaceBone_radius as: " + WorldSpaceBone_radius.ToString());
+                    Log.Info("Found WorldSpaceBone_radius as: " + WorldSpaceBone_radius.ToString());
                 }
                 else if (WorldSpaceBone_ID == null)
                 {
                     WorldSpaceBone_ID = fi;
-                    Log.Info("Found field WorldSpaceBone_ID as: " + WorldSpaceBone_ID.ToString());
+                    Log.Info("Found WorldSpaceBone_ID as: " + WorldSpaceBone_ID.ToString());
                 }
                 else if (WorldSpaceBone_name == null)
                 {
                     WorldSpaceBone_name = fi;
-                    Log.Info("Found field WorldSpaceBone_name as: " + WorldSpaceBone_name.ToString());
+                    Log.Info("Found WorldSpaceBone_name as: " + WorldSpaceBone_name.ToString());
                 }
                 else
                 {
@@ -1422,6 +1493,17 @@ namespace Sector_dll.cheat
             if (Bone_Tail == null) { Log.Info("Bone_Tail is null"); return false; }
             if (Bone_Name == null) { Log.Info("Bone_Name is null"); return false; }
             if (Bone_Radius == null) { Log.Info("Bone_Radius is null"); return false; }
+
+            foreach(MethodInfo mi in CustomWatch.Type.GetMethods(BindingFlags.Public | BindingFlags.Instance))
+            {
+                if(mi.ReturnType == typeof(double) && mi.GetParameters().Length == 0 && mi.Name.Length == 15 &&
+                    mi.GetMethodBody().GetILAsByteArray().Length > 20)
+                {
+                    CustomWatch_get_Progress = mi;
+                    Log.Info("Found CustomWatch_get_Progress as: " + CustomWatch_get_Progress.ToString());
+                }
+            }
+            if (CustomWatch_get_Progress == null) { Log.Info("CustomWatch_get_Progress is null"); return false; }
 
             return true;
         }

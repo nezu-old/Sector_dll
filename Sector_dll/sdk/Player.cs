@@ -1,4 +1,5 @@
 ﻿using Sector_dll.cheat;
+using Sector_dll.util;
 using System;
 using System.Linq;
 
@@ -23,24 +24,22 @@ namespace Sector_dll.sdk
             SignatureManager.PlayerBase_origin.SetValue(player, pos.ToInternal());
         }
 
+        public static double GetCrouchProgress(object player)
+        {
+            object watch = SignatureManager.PlayerBase_Base_CrouchWatch.GetValue(player);
+            return CustomWatch.GetProgress(watch);
+        }
+
         public static Vec3 GetHeadPos(object player)
         {
             Vec3 v = new Vec3(SignatureManager.PlayerBase_origin.GetValue(player));
-            v.y += IsCrouching(player) ? HeightCrouching : HeightStanding;
+            v.y += Util.Lerp(HeightStanding, HeightCrouching, GetCrouchProgress(player));
             return v;
         }
 
         public static double GetHealth(object player)
         {
             return (double)SignatureManager.PlayerBase_health.GetValue(player);
-        }
-
-        public static bool IsCrouching(object player)
-        {
-            //if (SignatureManager.PlayerBase_crouching == null)
-            //    return false;
-            //return ((bool[])SignatureManager.PlayerBase_crouching.GetValue(player))[0];
-            return false;
         }
 
         public static bool EitherMod(object p, ModType mod)
@@ -50,7 +49,7 @@ namespace Sector_dll.sdk
 
         public static double GetMaxHealth(object player)
         {
-            //TODO: infected team type == 300
+            //TODO: infected team type == 300 // nevrmind that sit dead XD
             int num = 100;
             if (EitherMod(player, ModType.Shielding))
             {
@@ -67,13 +66,6 @@ namespace Sector_dll.sdk
         {
             return (string)SignatureManager.PlayerBase_name.GetValue(player);
         }
-
-        //public static object GenerateHistoryPlayer(object player)
-        //{
-        //    if (SignatureManager.GenerateHistoryPlayer == null)
-        //        return null;
-        //    return SignatureManager.GenerateHistoryPlayer.Invoke(null, new object[] { player });
-        //}
 
         public static int GetCurrentWeaponIndex(object player)
         {
@@ -133,9 +125,17 @@ namespace Sector_dll.sdk
 
         public static void SetYaw(object player, double yaw)
         {
-            while (yaw > 3.141591653589793) yaw += -3.141591653589793;
-            while (yaw < -3.141591653589793) yaw += 3.141591653589793;
+            while (yaw > 3.141591653589793) yaw += -3.141591653589793 * 2;
+            while (yaw < -3.141591653589793) yaw += 3.141591653589793 * 2;
             ((double[])SignatureManager.PlayerBase_Base_Yaw.GetValue(player))[0] = yaw;
+        }
+
+        public static Vec3 GetLookAtVector(object player)
+        {
+            double pitch = GetPitch(player);
+            double yaw = GetYaw(player);
+            double cos_pitch = Math.Cos(pitch);
+            return new Vec3(cos_pitch * Math.Sin(yaw), Math.Sin(pitch), cos_pitch * Math.Cos(yaw));
         }
 
         public const double HeightStanding = 2.7;

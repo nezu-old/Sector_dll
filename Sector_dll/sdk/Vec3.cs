@@ -20,17 +20,24 @@ namespace Sector_dll.sdk
             this.z = z;
         }
 
+        private static FieldInfo[] fields = null;
+
         public Vec3(object vec3)
         {
-            Type t = vec3.GetType();
-            if (t == SignatureManager.Vec3)
+            if(fields == null)
             {
-                FieldInfo[] fields = t.GetFields();
-                x = (double)fields[0].GetValue(vec3);
-                y = (double)fields[1].GetValue(vec3);
-                z = (double)fields[2].GetValue(vec3);
+                FieldInfo[] all_fields = vec3.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
+                object t_vec = New(1, 2, 3);
+                fields = new FieldInfo[3];
+                foreach(FieldInfo fi in all_fields)
+                {
+                    double v = (double)fi.GetValue(t_vec);
+                    fields[v == 1 ? 0 : v == 2 ? 1 : 2] = fi;
+                }
             }
-            else throw new NotSupportedException("can not cast from " + t.ToString() + " to vec3");
+            x = (double)fields[0].GetValue(vec3);
+            y = (double)fields[1].GetValue(vec3);
+            z = (double)fields[2].GetValue(vec3);
         }
 
         public object ToInternal()
@@ -56,6 +63,11 @@ namespace Sector_dll.sdk
         public static Vec3 operator *(Vec3 v1, Vec3 v2)
         {
             return new Vec3(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z);
+        }
+
+        public static Vec3 operator *(Vec3 v1, double d)
+        {
+            return new Vec3(v1.x * d, v1.y * d, v1.z * d);
         }
 
         public double x;

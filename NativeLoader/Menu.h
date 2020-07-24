@@ -19,6 +19,8 @@ namespace Menu {
 		float debug2;
 		int debug3;
 		int debug4;
+		int debug5;
+		int debug6;
 	};
 	
 	void __stdcall DrawMenu(Settings * settings);

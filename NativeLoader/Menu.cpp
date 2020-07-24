@@ -21,6 +21,8 @@ void __stdcall Menu::DrawMenu(Settings* settings) {
 		ImGui::SliderFloat("debug2", &settings->debug2, 0, 5);
 		ImGui::SliderInt("debug3", &settings->debug3, 0, 5);
 		ImGui::SliderInt("debug4", &settings->debug4, 0, 5);
+		ImGui::Checkbox("debug5", (bool*)&settings->debug5);
+		ImGui::Checkbox("debug6", (bool*)&settings->debug6);
 	}
 	ImGui::End();
 
