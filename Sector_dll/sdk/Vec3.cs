@@ -45,6 +45,11 @@ namespace Sector_dll.sdk
             return New(x, y, z);
         }
 
+        public double Len()
+        {
+            return Math.Sqrt(x * x + y * y + z * z);
+        }
+
         public override string ToString()
         {
             return string.Format("({0:F2},{1:F2},{2:F2})", x, y, z);

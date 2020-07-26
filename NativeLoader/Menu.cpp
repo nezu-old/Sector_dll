@@ -9,7 +9,7 @@ void __stdcall Menu::DrawMenu(Settings* settings) {
 
 	//sizeof(*settings)
 	
-	ImGui::ShowDemoWindow();
+	//ImGui::ShowDemoWindow();
 
 	if (ImGui::Begin("Debug")) {
 		ImColor col = ImColor(settings->menu_color);

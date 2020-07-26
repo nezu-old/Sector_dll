@@ -1,5 +1,6 @@
 ﻿using Mono.Cecil;
 using Mono.Cecil.Cil;
+using Sector_dll.sdk;
 using System;
 using System.IO;
 using System.Linq;
@@ -10,12 +11,6 @@ namespace Sector_dll.util
 {
     class Util
     {
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double Lerp(double a, double b, double c)
-        {
-            return a + c * (b - a);
-        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double Map(double x, double in_min, double in_max, double out_min, double out_max)

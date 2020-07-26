@@ -920,7 +920,7 @@ namespace Sector_dll.cheat
 
             foreach (FieldInfo fi in PlayerBase.BaseType.GetFields(BindingFlags.Public | BindingFlags.Instance))
             {
-                if (fi.FieldType == CustomWatch.Type && fi.Name.Length == 23)
+                if (fi.FieldType == CustomWatch.Type && fi.Name.Length == 23 && fi.IsInitOnly)
                 {
                     PlayerBase_Base_CrouchWatch = fi;
                     Log.Info("Found PlayerBase_Base_CrouchWatch as: " + PlayerBase_Base_CrouchWatch.ToString());

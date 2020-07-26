@@ -10,6 +10,7 @@ using Mono.Cecil;
 using System.Text;
 using Mono.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Sector_dll.util;
 
 namespace MonoMod.Utils {
     /// <summary>
@@ -45,6 +46,9 @@ namespace MonoMod.Utils {
                 return true;
 
             if (other.IsEnum && IsCompatible(type, Enum.GetUnderlyingType(other)))
+                return true;
+
+            if (other.IsByRef && !type.IsByRef && IsCompatible(other.GetElementType(), type))
                 return true;
 
             return false;

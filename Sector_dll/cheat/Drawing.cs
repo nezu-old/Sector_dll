@@ -103,49 +103,19 @@ namespace Sector_dll.cheat
                         {
                             double dist_scale = origin2d.DistTo(origin_plus_12d);
 
-                            byte skinType = Player.GetSkinId(player);
-                            TeamType team = Player.GetTeam(player);
-
-                            List<object> bones = NormalBones[skinType, (int)team];
-                            if (bones == null)
-                            {
-                                bones = new List<object>();
-                                List<object> all_bones = Bones.GetBoneList(Player.GetBones(player));
-                                foreach (object bone in all_bones)
-                                {
-                                    string name = Bone.GetName(bone).ToLower();
-                                    if (!name.Contains("control") && !name.Contains("contol") &&
-                                        !name.Contains("blade") && !name.Contains("trigger") &&
-                                        !name.Contains("weapon"))
-                                        bones.Add(bone);
-                                }
-                                NormalBones[skinType, (int)team] = bones;
-                            }
-
-                            object[] transforms = Player.GetBoneTransforms(player);
-
-                            double scale = (2.7 - 0.15) / Bones.GetScaleForSkin(skinType); // player h(2.7) is diffrent(3.7) for infected but that's dead
-                            double offset = (1.22 * scale);// + 0.2;
-
-                            Matrix4 matrix = Matrix4.CreateRotationX(-1.5707963267948966) * Matrix4.CreateScale(-scale, scale, scale)
-                                * Matrix4.CreateTranslation(origin + new Vec3(0, offset, 0));
+                            BoneManager.SetupBones(player, i);
+                            List<WorldSpaceBone> bones = BoneManager.BoneCache[i];
 
                             Vec2 bb_min = null;
                             Vec2 bb_max = null;
-
                             for (int j = 0; j < bones.Count(); j++)
                             {
-                                object bone = bones[j];
-                                Matrix4 final_transform = new Matrix4(transforms[j]) * matrix;
-                                Vec3 bone_head = final_transform * Bone.GetHead(bone);
-                                Vec3 bone_tail = final_transform * Bone.GetTail(bone);
-                                if (Bone.IsHead(bone))
-                                    bone_tail = Helper.Lerp(bone_head, bone_tail, 0.55);
+                                WorldSpaceBone bone = bones[j];
 
-                                if (GameManager.W2s(bone_head, out Vec2 head_b)
-                                    && GameManager.W2s(bone_tail, out Vec2 tail_b))
+                                if (GameManager.W2s(bone.head, out Vec2 head_b)
+                                    && GameManager.W2s(bone.tail, out Vec2 tail_b))
                                 {
-                                    double r = dist_scale * Bone.GetRadius(bone) * 2;
+                                    double r = dist_scale * bone.radius * 2;
 
                                     double min_x = Math.Min(tail_b.x, head_b.x) - r;
                                     double min_y = Math.Min(tail_b.y, head_b.y) - r;
@@ -161,10 +131,12 @@ namespace Sector_dll.cheat
                                     if (max_x > bb_max.x) bb_max.x = max_x;
                                     if (max_y > bb_max.y) bb_max.y = max_y;
                                     d.DrawLine((int)head_b.x, (int)head_b.y, (int)tail_b.x, (int)tail_b.y, 1, Color.white);
-                                    //d.DrawText(Bone.GetName(bone), (float)head_b.x, (float)head_b.y, 18, Color.white, 
+                                    //d.DrawText(Bone.GetName(bone), (float)head_b.x, (float)head_b.y, 18, Color.white,
                                     //    DrawingFunctions.TextAlignment.ALIGN_CENTER);
                                 }
                             }
+                            if (bb_min == null)
+                                continue; //if all bones faild to w2s but origin was visible
 
                             int h = (int)(bb_max.y - bb_min.y);
                             int w = (int)(bb_max.x - bb_min.x);
@@ -188,8 +160,10 @@ namespace Sector_dll.cheat
                             d.DrawText(Player.GetName(player), (float)bb_min.x + (w / 2), (float)(bb_min.y) - 5, 18, Color.white,
                                 DrawingFunctions.TextAlignment.ALIGN_BOTTOM | DrawingFunctions.TextAlignment.ALIGN_HCENTER);
 
+                            WorldSpaceBone head_bone = BoneManager.HeadBones[i];
                             Vec3 headPos = Player.GetHeadPos(player);
                             Vec3 lookingLineEnd = headPos + Player.GetLookAtVector(player);
+
                             if(GameManager.W2s(headPos, out Vec2 headPos2d) &&
                                 GameManager.W2s(lookingLineEnd, out Vec2 lookingLineEnd2d))
                                 d.DrawLine((int)headPos2d.x, (int)headPos2d.y, (int)lookingLineEnd2d.x, (int)lookingLineEnd2d.y, 2, color);
@@ -234,6 +208,7 @@ namespace Sector_dll.cheat
                 }
 
             }
+            BoneManager.InvalidateBones(); //last thing to be called in a frame before drawing imgui and swapping buffers
         }
 
     }

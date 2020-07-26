@@ -5,35 +5,29 @@ namespace Sector_dll.sdk
     class WorldSpaceBone
     {
 
-        public static object GetType(object bone)
+        public enum Hitbox
         {
-            return SignatureManager.WorldSpaceBone_type.GetValue(bone); //untested, only 5????
+            None,
+            Head,
+            Chest,
+            Arm,
+            Leg
         }
 
-        public static Vec3 GetHead(object bone)
-        {
-            return new Vec3(SignatureManager.WorldSpaceBone_head.GetValue(bone));
-        }
+        public Vec3 head;
 
-        public static Vec3 GetTail(object bone)
-        {
-            return new Vec3(SignatureManager.WorldSpaceBone_tail.GetValue(bone));
-        }
+        public Vec3 tail;
 
-        public static float GetRadius(object bone)
-        {
-            return (float)SignatureManager.WorldSpaceBone_radius.GetValue(bone);
-        }
+        public float radius;
 
-        public static int GetID(object bone)
-        {
-            return (int)SignatureManager.WorldSpaceBone_ID.GetValue(bone);
-        }
+        public Hitbox hitbox;
 
-        public static string GetName(object bone)
+        public WorldSpaceBone(Vec3 head, Vec3 tail, float radius, Hitbox hitbox)
         {
-            return (string)SignatureManager.WorldSpaceBone_name.GetValue(bone);
+            this.head = head;
+            this.tail = tail;
+            this.radius = radius;
+            this.hitbox = hitbox;
         }
-
     }
 }

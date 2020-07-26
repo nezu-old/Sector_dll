@@ -33,7 +33,7 @@ namespace Sector_dll.sdk
         public static Vec3 GetHeadPos(object player)
         {
             Vec3 v = new Vec3(SignatureManager.PlayerBase_origin.GetValue(player));
-            v.y += Util.Lerp(HeightStanding, HeightCrouching, GetCrouchProgress(player));
+            v.y += Helper.Lerp(HeightStanding, HeightCrouching, GetCrouchProgress(player));
             return v;
         }
 

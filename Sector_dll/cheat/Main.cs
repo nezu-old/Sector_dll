@@ -53,10 +53,10 @@ namespace Sector_dll.cheat
             return s;
         }
 
-        public static void xd2(Action<object, object, object, object> orig, object a1, object a2, object a3, object a4)
+        public static void xd2(Action<object, object, bool, object, object> orig, object a1, object a2, bool a3, object a4, object a5)
         {
-            orig(a1, a2, a3, a4);
-            if (Config.settings.debug6 > 0) Log.Info("Bones");
+            orig(a1, a2, a3, a4, a5);
+            if (Config.settings.debug6 > 0) Log.Info(".");
         }
 
         [DllExport(CallingConvention = CallingConvention.StdCall)]
@@ -164,8 +164,9 @@ namespace Sector_dll.cheat
                         .GenerateTrampoline<HWID.RegQueryValueExDelegate>();
                 new NativeDetour(SignatureManager.DiscordCreate, typeof(HWID).GetMethod("DiscordCreate"));
 
-
-                new Hook(assembly.GetType("#=zD17ql6wd9AtAXXPCp7syK94=").GetMethod("#=zEM1GDZ4Zo8bCGinYew=="), typeof(Main).GetMethod("xd2"));
+                MethodInfo wtf = assembly.GetType("#=zD17ql6wd9AtAXXPCp7syK94=").GetMethod("#=zPWk4$_SzDsW_0mPj3g==");
+                Log.Info(wtf.GetParameters()[3].ParameterType.GetElementType().ToString());
+                new Hook(wtf, typeof(Main).GetMethod("xd2"));
             
             }
             catch (Exception e)
