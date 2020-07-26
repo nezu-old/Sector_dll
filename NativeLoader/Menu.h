@@ -3,7 +3,7 @@
 
 namespace Menu {
 
-	extern bool open;
+	extern unsigned char open;
 
 	struct Settings {
 		unsigned int menu_color;

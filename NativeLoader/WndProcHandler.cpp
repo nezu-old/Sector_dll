@@ -10,7 +10,7 @@ WNDPROC H::oWndProc = NULL;
 
 LRESULT CALLBACK H::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	if (uMsg == WM_KEYUP && wParam == VK_INSERT) {
-		Menu::open ^= true; //flip
+		Menu::open = (Menu::open == 0) ? 1 : 0;
 		return FALSE;
 	}
 

@@ -175,40 +175,7 @@ namespace Sector_dll.cheat
 
                 }
 
-                if (players.Count < 1)
-                {
-                    object pp = Player.New(gm, 10);
-                    Player.SetTeam(pp, TeamType.Helix);
-                    Player.SetOrigin(pp, new Vec3(165.0, 35.0, 38.0));
-
-                    
-                    object skin = pp.GetType().GetField("#=zxt8e6rUza4fF").GetValue(pp);
-                    FieldInfo ffi = skin.GetType().GetField("#=zBPULLK9USWK8");
-                    ffi.SetValue(skin, Enum.ToObject(ffi.FieldType, (byte)Config.settings.debug3));
-                    FieldInfo ffi2 = skin.GetType().GetField("#=zFmQ_Mxo=");
-                    ffi2.SetValue(skin, Enum.ToObject(ffi2.FieldType, (byte)Config.settings.debug4));
-                    pp.GetType().GetField("#=zxt8e6rUza4fF").SetValue(pp, skin);
-
-                    object all_pp = SignatureManager.GClass49_player_list.GetValue(gm);
-                    SignatureManager.GClass49_player_list.FieldType.GetMethod("Add").Invoke(all_pp, new[] { pp });
-                } 
-                else
-                {
-                    object pp = players[0];
-
-                    pp.GetType().GetMethod("#=zC$PwqoXEojeRikU4rg==").Invoke(pp, new object[] { Config.settings.debug5 > 0 });
-
-                    Player.SetYaw(pp, Player.GetYaw(pp) + 0.05);
-                    Player.SetPitch(pp, 0.2);
-                    d.DrawText(Player.GetLookAtVector(pp).ToString(), 100, 250);
-
-                    //Vec3 xd = Player.GetOrigin(pp);
-                    //xd.x += 0.001;
-                    //Player.SetOrigin(pp, xd);
-                }
-
             }
-            BoneManager.InvalidateBones(); //last thing to be called in a frame before drawing imgui and swapping buffers
         }
 
     }

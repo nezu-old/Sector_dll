@@ -44,14 +44,15 @@ BOOL __stdcall H::wglSwapBuffers(HDC hDc) {
 
 		ImGuiStyle& style = ImGui::GetStyle();
 		style.WindowPadding = ImVec2(10, 10);
-		style.FramePadding = ImVec2(8, 4);
-		style.ItemSpacing = ImVec2(8, 3);
+		style.FramePadding = ImVec2(4, 3);
+		style.ItemSpacing = ImVec2(4, 2);
+		style.ItemInnerSpacing = ImVec2(3, 2);
 		style.IndentSpacing = 4;
 		style.ScrollbarSize = 15;
 		style.GrabMinSize = 15;
-		style.WindowBorderSize = 0;
-		style.ChildBorderSize = 0;
-		style.PopupBorderSize = 0;
+		style.WindowBorderSize = 1;
+		style.ChildBorderSize = 1;
+		style.PopupBorderSize = 1;
 		style.FrameBorderSize = 0;
 		style.TabBorderSize = 0;
 		style.WindowRounding = 3;
