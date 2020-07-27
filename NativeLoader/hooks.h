@@ -28,4 +28,6 @@ namespace H {
 	void HookSwapBuffers(HMODULE hModSteamOverlay);
 	void HookWindow(HWND hWindow);
 
+	void UnhookAll();
+
 }

@@ -49,8 +49,8 @@ namespace Sector_dll.cheat.Hooks
 
                     Vec2 ang = sdk.Helper.VectorAngles(aim_vec);
 
-                    sdk.Player.SetYaw(self, ang.x);
-                    sdk.Player.SetPitch(self, ang.y);
+                    //sdk.Player.SetYaw(self, ang.x);
+                    //sdk.Player.SetPitch(self, ang.y);
 
 
                     if (Config.settings.debug6 > 0) Log.Info("XD: " + sdk.Player.GetName(player));

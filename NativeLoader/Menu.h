@@ -8,10 +8,16 @@ namespace Menu {
 	struct Settings {
 		unsigned int menu_color;
 		
-		int esp;
-		int esp_health_bar;
+		int esp_mode;
+		int esp_team;
+		int esp_box;
+		int esp_skeleton;
 		int esp_name;
-		int esp_enemy_only;
+		int esp_health_num;
+		int esp_health_bar;
+		int esp_weapon;
+		int esp_oov_arrow;
+		int esp_flags;
 
 		int no_recoil;
 

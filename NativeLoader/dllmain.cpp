@@ -5,24 +5,20 @@
 #include <cstdio>
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved) {
-    if (ul_reason_for_call == DLL_PROCESS_ATTACH) {
+	if (ul_reason_for_call == DLL_PROCESS_ATTACH) {
 
-       /* AllocConsole();
-        freopen("CONOUT$", "w", stdout);
-		freopen("CONIN$", "r", stdin);*/
-		
-		
 		HMODULE hOverlay = GetModuleHandle(TEXT("gameoverlayrenderer64.dll"));
 		if (hOverlay) {
 			H::HookSwapBuffers(hOverlay);
-		} else {
+		}
+		else {
 			H::HookLoadLibraryExW();
 		}
 
-		sizeof(ULONG);
-		sizeof(int);
-
-    }
+	}
+	else if (ul_reason_for_call == DLL_PROCESS_DETACH) {
+		//H::UnhookAll();
+	}
     return TRUE;
 }
 

@@ -4,8 +4,9 @@
 #include <unordered_map>
 #define GLEW_STATIC
 #include "GL\glew.h"
+#include "hooks.h"
 
-unsigned char Menu::open = false;
+unsigned char Menu::open = 1;
 
 unsigned char reloadImg[1024] = {
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -179,19 +180,35 @@ enum Tabs_t {
 	TAB_SKINS,
 };
 
-void draw_TAB_AIM() {
+void draw_TAB_AIM(Menu::Settings* settings) {
 
 }
 
-void draw_TAB_VISUALS() {
+void draw_TAB_VISUALS(Menu::Settings* settings) {
+
+	if (childWithTitle("Player ESP")) {
+		static const char* espmodes[] = { "Off", "Always", "On death" };
+		ImGui::Combo("Mode", &settings->esp_mode, espmodes, IM_ARRAYSIZE(espmodes));
+		static const char* targetslist[] = { "All", "Enemy", "Teammates" };
+		ImGui::Combo("Target", &settings->esp_team, targetslist, IM_ARRAYSIZE(targetslist));
+		ImGui::Checkbox("Box", (bool*)&settings->esp_box);
+		ImGui::Checkbox("Skeleton", (bool*)&settings->esp_skeleton);
+		ImGui::Checkbox("Name", (bool*)&settings->esp_name);
+		ImGui::Checkbox("Health", (bool*)&settings->esp_health_num);
+		ImGui::Checkbox("Healthbar", (bool*)&settings->esp_health_bar);
+		ImGui::Checkbox("Weapon", (bool*)&settings->esp_weapon);
+		ImGui::Checkbox("Out of fov arrow", (bool*)&settings->esp_oov_arrow);
+		ImGui::Checkbox("Info flags", (bool*)&settings->esp_flags);
+	}
+	ImGui::EndChild();
 
 }
 
-void draw_TAB_MISC() {
+void draw_TAB_MISC(Menu::Settings* settings) {
 
 }
 
-void draw_TAB_SKINS() {
+void draw_TAB_SKINS(Menu::Settings* settings) {
 
 }
 
@@ -205,6 +222,21 @@ void __stdcall Menu::DrawMenu(Settings* settings) {
 		return;
 
 	ImGui::ShowDemoWindow();
+
+	if (ImGui::Begin("Debug")) {
+		ImColor col = ImColor(settings->menu_color);
+		if (ImGui::ColorEdit3("GUI color", &col.Value.x, ImGuiColorEditFlags_NoInputs)) {
+			UpdateColors(col);
+			settings->menu_color = (ImU32)col;
+		}
+		ImGui::SliderFloat("debug1", &settings->debug1, 0, 5);
+		ImGui::SliderFloat("debug2", &settings->debug2, 0, 5);
+		ImGui::SliderInt("debug3", &settings->debug3, 0, 5);
+		ImGui::SliderInt("debug4", &settings->debug4, 0, 5);
+		ImGui::Checkbox("debug5", (bool*)&settings->debug5);
+		ImGui::Checkbox("debug6", (bool*)&settings->debug6);
+	}
+	ImGui::End();
 
 	if (Menu::open == 1) {
 		Menu::open++;
@@ -296,13 +328,13 @@ void __stdcall Menu::DrawMenu(Settings* settings) {
 					//refreshConfigs();
 				}
 				listsize += ImGui::GetItemRectSize().y + style.ItemSpacing.y;
-				//ImGui::PushStyleColor(ImGuiCol_Button, 0x910000FF);
-				//ImGui::PushStyleColor(ImGuiCol_ButtonHovered, 0xba0000FF);
-				//ImGui::PushStyleColor(ImGuiCol_ButtonActive, 0xba0000FF);
-				//if (ImGui::Button("Unload", ImVec2(ImGui::GetContentRegionAvailWidth(), ImGui::GetCurrentWindow()->DC.LastItemRect.GetHeight() * 2)))
-				//	void();// G::unload = 2;
-				//ImGui::PopStyleColor(3);
-				//listsize += ImGui::GetItemRectSize().y + style.ItemSpacing.y;
+				ImGui::PushStyleColor(ImGuiCol_Button, 0x910000FF);
+				ImGui::PushStyleColor(ImGuiCol_ButtonHovered, 0xba0000FF);
+				ImGui::PushStyleColor(ImGuiCol_ButtonActive, 0xba0000FF);
+				if (ImGui::Button("Unload", ImVec2(ImGui::GetContentRegionAvailWidth(), ImGui::GetCurrentWindow()->DC.LastItemRect.GetHeight() * 1.5f)))
+					H::UnhookAll();
+				ImGui::PopStyleColor(3);
+				listsize += ImGui::GetItemRectSize().y + style.ItemSpacing.y;
 				ImGui::PopItemWidth();
 			}
 			ImGui::EndChild();
@@ -315,10 +347,10 @@ void __stdcall Menu::DrawMenu(Settings* settings) {
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(8, 8));
 		if (ImGui::BeginChild("##settings", ImVec2(), true)) {
 			switch (selectedTab) {
-			case TAB_AIM:		draw_TAB_AIM();          break;
-			case TAB_VISUALS:   draw_TAB_VISUALS();      break;
-			case TAB_MISC:      draw_TAB_MISC();         break;
-			case TAB_SKINS:     draw_TAB_SKINS();        break;
+			case TAB_AIM:		draw_TAB_AIM(settings);          break;
+			case TAB_VISUALS:   draw_TAB_VISUALS(settings);      break;
+			case TAB_MISC:      draw_TAB_MISC(settings);         break;
+			case TAB_SKINS:     draw_TAB_SKINS(settings);        break;
 			default:            selectedTab = TAB_AIM;   break;
 			}
 		}
@@ -328,21 +360,6 @@ void __stdcall Menu::DrawMenu(Settings* settings) {
 	}
 	ImGui::End();
 	ImGui::PopStyleVar();
-
-	if (ImGui::Begin("Debug")) {
-		ImColor col = ImColor(settings->menu_color);
-		if (ImGui::ColorEdit3("GUI color", &col.Value.x, ImGuiColorEditFlags_NoInputs)) {
-			UpdateColors(col);
-			settings->menu_color = (ImU32)col;
-		}
-		ImGui::SliderFloat("debug1", &settings->debug1, 0, 5);
-		ImGui::SliderFloat("debug2", &settings->debug2, 0, 5);
-		ImGui::SliderInt("debug3", &settings->debug3, 0, 5);
-		ImGui::SliderInt("debug4", &settings->debug4, 0, 5);
-		ImGui::Checkbox("debug5", (bool*)&settings->debug5);
-		ImGui::Checkbox("debug6", (bool*)&settings->debug6);
-	}
-	ImGui::End();
 
 }
 
