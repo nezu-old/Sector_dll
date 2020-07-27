@@ -11,15 +11,36 @@ namespace Sector_dll.cheat
 	class Config
 	{
 
+		public enum EspModes : int
+		{
+			Off,
+			Always,
+			OnDeath
+		};
+
+		public enum EspTarget : int
+        {
+			All,
+			Enemy,
+			Team
+        }
+
 		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 0)]
 		public struct Settings
 		{
 			public uint menu_color;
 
-			public int esp;
-			public int esp_health_bar;
+			public EspModes esp_mode;
+			public EspTarget esp_team;
+			public int esp_box;
+			public int esp_skeleton;
+			public int esp_snaplines;
 			public int esp_name;
-			public int esp_enemy_only;
+			public int esp_health_num;
+			public int esp_health_bar;
+			public int esp_weapon;
+			public int esp_oov_arrow;
+			public int esp_flags;
 
 			public int no_recoil;
 
@@ -34,18 +55,6 @@ namespace Sector_dll.cheat
 		public static Settings settings = new Settings()
 		{
 			menu_color = Color.red,
-
-			esp = 1,
-			esp_health_bar = 1,
-			esp_name = 1,
-			esp_enemy_only = 1,
-
-			no_recoil = 1,
-
-			debug1 = 1.0f,
-			debug2 = 1.0f,
-			debug3 = 1,
-			debug4 = 1,
 		};
 
 	}

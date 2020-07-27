@@ -12,6 +12,7 @@ namespace Menu {
 		int esp_team;
 		int esp_box;
 		int esp_skeleton;
+		int esp_snaplines;
 		int esp_name;
 		int esp_health_num;
 		int esp_health_bar;

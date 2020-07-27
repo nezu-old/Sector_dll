@@ -79,19 +79,24 @@ namespace Sector_dll.cheat
                 //d.DrawFilledRect(20, 20, 10, 10, 0xFF0000FF);
 
                 object local = GameManager.GetLocalPLayer(gm);
-                if(local != null)
-                {
-                    //Vec3 o = Player.GetOrigin(local);
-                    //Player.SetPitch(local, 0);
-                    //Player.SetYaw(local, 0);
-                    d.DrawText(Player.GetHeadPos(local).ToString(), 100, 50, 20, Color.red, 0);
-                    //Player.SetTeam(local, TeamType.Spectate);
-                }
+                if (Config.settings.esp_mode == Config.EspModes.Off || 
+                    (Config.settings.esp_mode == Config.EspModes.OnDeath && (local != null && Player.GetHealth(local) > 0)))
+                    return;
+
+                byte local_team = local != null ? (byte)Player.GetTeam(local) : (byte)0xFF;
+
                 List<object> players = GameManager.GetPlayers(gm);
 
                 for(int i = 0; i < players.Count; i++)
                 {
                     object player = players[i];
+
+                    byte team = (byte)Player.GetTeam(player);
+
+                    if (Config.settings.esp_team != Config.EspTarget.All && (
+                        (Config.settings.esp_team == Config.EspTarget.Enemy && team == local_team) ||
+                        (Config.settings.esp_team == Config.EspTarget.Team && team != local_team)))
+                        continue;
 
                     double hp = Player.GetHealth(player);
                     if (hp > 0.0)
@@ -130,7 +135,9 @@ namespace Sector_dll.cheat
                                     if (min_y < bb_min.y) bb_min.y = min_y;
                                     if (max_x > bb_max.x) bb_max.x = max_x;
                                     if (max_y > bb_max.y) bb_max.y = max_y;
-                                    d.DrawLine((int)head_b.x, (int)head_b.y, (int)tail_b.x, (int)tail_b.y, 1, Color.white);
+
+                                    if(Config.settings.esp_skeleton > 0)
+                                        d.DrawLine((int)head_b.x, (int)head_b.y, (int)tail_b.x, (int)tail_b.y, 1, Color.white);
                                     //d.DrawText(Bone.GetName(bone), (float)head_b.x, (float)head_b.y, 18, Color.white,
                                     //    DrawingFunctions.TextAlignment.ALIGN_CENTER);
                                 }
@@ -141,34 +148,36 @@ namespace Sector_dll.cheat
                             int h = (int)(bb_max.y - bb_min.y);
                             int w = (int)(bb_max.x - bb_min.x);
                             Color color = GameManager.GetPlayerColor(gm, player);
-                            int hp_h = (int)Util.Map(hp, 0, Player.GetMaxHealth(player), 0, h);
-                            int hp_h_t = (int)Util.Map(hp, 0, Player.GetMaxHealth(player), h - 13, 0);
 
+                            if(Config.settings.esp_box > 0)
+                            {
+                                d.DrawRect((int)bb_min.x, (int)bb_min.y, w, h, 3, Color.black);
+                                d.DrawRect((int)bb_min.x, (int)bb_min.y, w, h, 1, color);
+                            }
+                            if (Config.settings.esp_health_bar > 0)
+                            {
+                                int hp_h = (int)Util.Map(hp, 0, Player.GetMaxHealth(player), 0, h);
+                                int hp_h_t = (int)Util.Map(hp, 0, Player.GetMaxHealth(player), h - 13, 0);
+                                d.DrawFilledRect((int)bb_min.x - 6, (int)bb_min.y - 1, 4, h + 2, Color.black);
+                                d.DrawFilledRect((int)bb_min.x - 5, (int)bb_min.y + (h - hp_h), 2, hp_h, Color.green);
+                                if(Config.settings.esp_health_num > 0)
+                                    d.DrawTextSmall(hp.ToString(), (float)bb_min.x - 7, (float)(bb_min.y + hp_h_t), Color.white,
+                                        DrawingFunctions.TextAlignment.ALIGN_RIGHT | DrawingFunctions.TextAlignment.ALIGN_TOP);
+                            } 
+                            else if(Config.settings.esp_health_num > 0)
+                            {
+                                d.DrawTextSmall(hp.ToString(), (float)bb_min.x - 7, (float)(bb_min.y), Color.white,
+                                    DrawingFunctions.TextAlignment.ALIGN_RIGHT | DrawingFunctions.TextAlignment.ALIGN_TOP);
+                            }
 
-                            d.DrawRect((int)bb_min.x, (int)bb_min.y, w, h, 3, Color.black);
-                            d.DrawRect((int)bb_min.x, (int)bb_min.y, w, h, 1, color);
+                            if(Config.settings.esp_name > 0)
+                                d.DrawText(Player.GetName(player), (float)bb_min.x + (w / 2), (float)(bb_min.y) - 5, 18, Color.white,
+                                    DrawingFunctions.TextAlignment.ALIGN_BOTTOM | DrawingFunctions.TextAlignment.ALIGN_HCENTER);
 
-                            d.DrawFilledRect((int)bb_min.x - 6, (int)bb_min.y - 1, 4, h + 2, Color.black);
-                            d.DrawFilledRect((int)bb_min.x - 5, (int)bb_min.y + (h - hp_h), 2, hp_h, Color.green);
-                            d.DrawTextSmall(hp.ToString(), (float)bb_min.x - 7, (float)(bb_min.y + hp_h_t), Color.white,
-                                DrawingFunctions.TextAlignment.ALIGN_RIGHT | DrawingFunctions.TextAlignment.ALIGN_TOP);
-
-
-                            d.DrawLine((float)GameManager.ScreenResolution.x / 2, (float)GameManager.ScreenResolution.y,
-                                (float)(bb_min.x + (w / 2)), (float)bb_max.y, 1, color);
-
-                            d.DrawText(Player.GetName(player), (float)bb_min.x + (w / 2), (float)(bb_min.y) - 5, 18, Color.white,
-                                DrawingFunctions.TextAlignment.ALIGN_BOTTOM | DrawingFunctions.TextAlignment.ALIGN_HCENTER);
-
-                            WorldSpaceBone head_bone = BoneManager.HeadBones[i];
-                            Vec3 headPos = Player.GetHeadPos(player);
-                            Vec3 lookingLineEnd = headPos + Player.GetLookAtVector(player);
-
-                            if(GameManager.W2s(headPos, out Vec2 headPos2d) &&
-                                GameManager.W2s(lookingLineEnd, out Vec2 lookingLineEnd2d))
-                                d.DrawLine((int)headPos2d.x, (int)headPos2d.y, (int)lookingLineEnd2d.x, (int)lookingLineEnd2d.y, 2, color);
-
-                            //d.DrawLine((float)bb_min.x, (float)bb_min.y, (float)bb_min.x, (float)(bb_min.y - dist_scale), 2, Color.green);
+                            if(Config.settings.esp_snaplines > 0)
+                                d.DrawLine((float)GameManager.ScreenResolution.x / 2, (float)GameManager.ScreenResolution.y,
+                                    Config.settings.esp_box > 0 ? (float)(bb_min.x + (w / 2)) : (float)origin2d.x,
+                                    Config.settings.esp_box > 0 ? (float)bb_max.y : (float)origin2d.y, 1, color);
 
                         }
                     }

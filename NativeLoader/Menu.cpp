@@ -6,6 +6,8 @@
 #include "GL\glew.h"
 #include "hooks.h"
 
+#define DEB settings->debug1, settings->debug2
+
 unsigned char Menu::open = 1;
 
 unsigned char reloadImg[1024] = {
@@ -186,13 +188,14 @@ void draw_TAB_AIM(Menu::Settings* settings) {
 
 void draw_TAB_VISUALS(Menu::Settings* settings) {
 
-	if (childWithTitle("Player ESP")) {
+	if (childWithTitle("Player ESP", ImVec2(180, 264))) {
 		static const char* espmodes[] = { "Off", "Always", "On death" };
 		ImGui::Combo("Mode", &settings->esp_mode, espmodes, IM_ARRAYSIZE(espmodes));
 		static const char* targetslist[] = { "All", "Enemy", "Teammates" };
 		ImGui::Combo("Target", &settings->esp_team, targetslist, IM_ARRAYSIZE(targetslist));
 		ImGui::Checkbox("Box", (bool*)&settings->esp_box);
 		ImGui::Checkbox("Skeleton", (bool*)&settings->esp_skeleton);
+		ImGui::Checkbox("Snaplines", (bool*)&settings->esp_snaplines);
 		ImGui::Checkbox("Name", (bool*)&settings->esp_name);
 		ImGui::Checkbox("Health", (bool*)&settings->esp_health_num);
 		ImGui::Checkbox("Healthbar", (bool*)&settings->esp_health_bar);
@@ -229,8 +232,8 @@ void __stdcall Menu::DrawMenu(Settings* settings) {
 			UpdateColors(col);
 			settings->menu_color = (ImU32)col;
 		}
-		ImGui::SliderFloat("debug1", &settings->debug1, 0, 5);
-		ImGui::SliderFloat("debug2", &settings->debug2, 0, 5);
+		ImGui::SliderFloat("debug1", &settings->debug1, 0, 500);
+		ImGui::SliderFloat("debug2", &settings->debug2, 0, 500);
 		ImGui::SliderInt("debug3", &settings->debug3, 0, 5);
 		ImGui::SliderInt("debug4", &settings->debug4, 0, 5);
 		ImGui::Checkbox("debug5", (bool*)&settings->debug5);
