@@ -51,6 +51,7 @@ namespace Sector_dll.cheat
 
             object[] transforms = Player.GetBoneTransforms(player);
 
+
             double scale = (2.7 - 0.15) / Bones.GetScaleForSkin(skinType); // player h(2.7) is diffrent(3.7) for infected but that's dead
             double offset = (1.22 * scale);// + 0.2;
 

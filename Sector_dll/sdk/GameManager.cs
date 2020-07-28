@@ -170,5 +170,10 @@ namespace Sector_dll.sdk
             return (SignatureManager.GClass49_player_list.GetValue(self) as IEnumerable<object>).Cast<object>().ToList();
         }
 
+        public static List<object> CollisionEntitys(object self)
+        {
+            return (SignatureManager.GameManager_CollisionEntityList.GetValue(self) as IEnumerable<object>).Cast<object>().ToList();
+        }
+
     }
 }

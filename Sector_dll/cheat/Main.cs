@@ -129,7 +129,7 @@ namespace Sector_dll.cheat
             Array.Copy(a, 1, args, 0, a.Length - 1);
             Log.Info("args: " + string.Join(" ", args));
 
-            //Log.Info(SignatureManager.GenerateSig("#=zuEYd2EpXjX3XVWLr4Wq6Qm3NXqb9VEkEsg==")); Console.Read();
+            Log.Info(SignatureManager.GenerateSig("#=z8wqf9fuuHQJ2t803BvbsKVDkHDjqxtlmTg==")); Console.Read();
 
             try
             {

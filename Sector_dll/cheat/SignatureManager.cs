@@ -398,6 +398,158 @@ namespace Sector_dll.cheat
             OtherFields = 1
         });
 
+        public static ResolvedType CollisionEntity = new ResolvedType("CollisionEntity", new ClassSignature()
+        {
+            nameLength = 39,
+
+            publicClass = true,
+            abstractClass = false,
+            nestedTypes = 0,
+
+            privateMethods = 0,
+            publicMethods = 21,
+            staticMethods = 3,
+
+            publicFields = 30,
+            privateFields = 5,
+            staticFields = 1,
+            readonlyFields = 0,
+
+            boolFields = 11,
+            byteFields = 2,
+            shortFields = 2,
+            intFields = 1,
+            longFields = 0,
+            floatFields = 1,
+            doubleFields = 3,
+            enumFields = 2,
+            stringFields = 0,
+            ArrayFields = 0,
+            OtherFields = 13
+        });
+
+        public static ResolvedType Scanner = new ResolvedType("Scanner", new ClassSignature()
+        {
+            nameLength = 39,
+
+            publicClass = true,
+            abstractClass = false,
+            nestedTypes = 0,
+
+            privateMethods = 0,
+            publicMethods = 19,
+            staticMethods = 1,
+
+            publicFields = 34,
+            privateFields = 0,
+            staticFields = 1,
+            readonlyFields = 0,
+
+            boolFields = 10,
+            byteFields = 2,
+            shortFields = 1,
+            intFields = 0,
+            longFields = 0,
+            floatFields = 1,
+            doubleFields = 3,
+            enumFields = 2,
+            stringFields = 0,
+            ArrayFields = 0,
+            OtherFields = 15
+        });
+
+        public static ResolvedType C4 = new ResolvedType("C4", new ClassSignature()
+        {
+            nameLength = 43,
+
+            publicClass = true,
+            abstractClass = false,
+            nestedTypes = 0,
+
+            privateMethods = 0,
+            publicMethods = 18,
+            staticMethods = 0,
+
+            publicFields = 37,
+            privateFields = 0,
+            staticFields = 0,
+            readonlyFields = 0,
+
+            boolFields = 13,
+            byteFields = 2,
+            shortFields = 1,
+            intFields = 0,
+            longFields = 0,
+            floatFields = 1,
+            doubleFields = 3,
+            enumFields = 3,
+            stringFields = 0,
+            ArrayFields = 0,
+            OtherFields = 14
+        });
+
+        public static ResolvedType Grenade = new ResolvedType("Grenade", new ClassSignature()
+        {
+            nameLength = 43,
+
+            publicClass = true,
+            abstractClass = false,
+            nestedTypes = 0,
+
+            privateMethods = 0,
+            publicMethods = 18,
+            staticMethods = 0,
+
+            publicFields = 33,
+            privateFields = 0,
+            staticFields = 1,
+            readonlyFields = 0,
+
+            boolFields = 10,
+            byteFields = 2,
+            shortFields = 1,
+            intFields = 0,
+            longFields = 0,
+            floatFields = 1,
+            doubleFields = 3,
+            enumFields = 2,
+            stringFields = 0,
+            ArrayFields = 0,
+            OtherFields = 14
+        });
+
+        public static ResolvedType GLauncher = new ResolvedType("GLauncher", new ClassSignature()
+        {
+            nameLength = 39,
+
+            publicClass = true,
+            abstractClass = false,
+            nestedTypes = 0,
+
+            privateMethods = 0,
+            publicMethods = 18,
+            staticMethods = 0,
+
+            publicFields = 30,
+            privateFields = 0,
+            staticFields = 0,
+            readonlyFields = 0,
+
+            boolFields = 10,
+            byteFields = 2,
+            shortFields = 1,
+            intFields = 0,
+            longFields = 0,
+            floatFields = 1,
+            doubleFields = 3,
+            enumFields = 2,
+            stringFields = 0,
+            ArrayFields = 0,
+            OtherFields = 11
+        });
+
+        //public static ResolvedType XXX = new ResolvedType("XXX", new ClassSignature());
+        //public static ResolvedType XXX = new ResolvedType("XXX", new ClassSignature());
         //public static ResolvedType XXX = new ResolvedType("XXX", new ClassSignature());
 
         public static ResolvedType[] ResolvedTypes = new ResolvedType[]
@@ -415,7 +567,12 @@ namespace Sector_dll.cheat
             Helper1,
             Helper,
             Bones,
-            CustomWatch
+            CustomWatch,
+            CollisionEntity,
+            Scanner,
+            C4,
+            Grenade,
+            GLauncher
         };
 
         public static Type PlayerBase;
@@ -624,6 +781,8 @@ namespace Sector_dll.cheat
 
         public static MethodInfo GameManager_SetupBones;
 
+        public static FieldInfo GameManager_CollisionEntityList;
+
         public static MethodInfo CustomWatch_get_Progress;
 
         public static bool FindSignatures(Assembly aassembly)
@@ -734,7 +893,7 @@ namespace Sector_dll.cheat
                     Player_BotConstructor = ci;
                     GameManager = ci.GetParameters()[0].ParameterType;
                     Log.Info("Found Player_BotConstructor as: " + Player_BotConstructor.ToString());
-                    Log.Info("Found class OfflineGameManager as: " + GameManager.ToString());
+                    Log.Info("Found class GameManager as: " + GameManager.ToString());
                 }
             }
             if (Player_BotConstructor == null) { Log.Info("Player_BotConstructor is null"); return false; }
@@ -761,6 +920,17 @@ namespace Sector_dll.cheat
                 }
             }
             if (GameManager_SetupBones == null) { Log.Info("GameManager_SetupBones is null"); return false; }
+
+            foreach(FieldInfo fi in GameManager.GetFields(BindingFlags.Public | BindingFlags.Instance))
+            {
+                if(fi.Name.Length == 11 && fi.FieldType.IsGenericType && fi.FieldType.GetGenericTypeDefinition() == typeof(List<>)
+                    && fi.FieldType.GetGenericArguments().Length == 1 && fi.FieldType.GetGenericArguments()[0] == CollisionEntity.Type)
+                {
+                    GameManager_CollisionEntityList = fi;
+                    Log.Info("Found GameManager_CollisionEntityList as: " + GameManager_CollisionEntityList.ToString());
+                }
+            }
+            if (GameManager_CollisionEntityList == null) { Log.Info("GameManager_CollisionEntityList is null"); return false; }
 
             foreach (MethodInfo mi in Player.Type.GetMethods(BindingFlags.Public | BindingFlags.Instance))
             {

@@ -204,8 +204,9 @@ void draw_TAB_VISUALS(Menu::Settings* settings) {
 		ImGui::Checkbox("Info flags", (bool*)&settings->esp_flags);
 	}
 	ImGui::EndChild();
-
 }
+
+//GL_ALPHA_TEST
 
 void draw_TAB_MISC(Menu::Settings* settings) {
 
