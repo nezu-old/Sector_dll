@@ -1,6 +1,9 @@
-﻿using Sector_dll.util;
+﻿using Mono.Cecil;
+using Mono.Cecil.Cil;
+using Sector_dll.util;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -548,7 +551,36 @@ namespace Sector_dll.cheat
             OtherFields = 11
         });
 
-        //public static ResolvedType XXX = new ResolvedType("XXX", new ClassSignature());
+        public static ResolvedType Projectile = new ResolvedType("Projectile", new ClassSignature()
+        {
+            nameLength = 39,
+
+            publicClass = true,
+            abstractClass = false,
+            nestedTypes = 0,
+
+            privateMethods = 0,
+            publicMethods = 21,
+            staticMethods = 3,
+
+            publicFields = 30,
+            privateFields = 5,
+            staticFields = 1,
+            readonlyFields = 0,
+
+            boolFields = 11,
+            byteFields = 2,
+            shortFields = 2,
+            intFields = 1,
+            longFields = 0,
+            floatFields = 1,
+            doubleFields = 3,
+            enumFields = 2,
+            stringFields = 0,
+            ArrayFields = 0,
+            OtherFields = 13
+        });
+
         //public static ResolvedType XXX = new ResolvedType("XXX", new ClassSignature());
         //public static ResolvedType XXX = new ResolvedType("XXX", new ClassSignature());
 
@@ -572,7 +604,8 @@ namespace Sector_dll.cheat
             Scanner,
             C4,
             Grenade,
-            GLauncher
+            GLauncher,
+            Projectile
         };
 
         public static Type PlayerBase;
@@ -781,11 +814,27 @@ namespace Sector_dll.cheat
 
         public static MethodInfo GameManager_SetupBones;
 
+        public static MethodInfo GameManager_GetPlayerByID;
+
         public static FieldInfo GameManager_CollisionEntityList;
 
         public static MethodInfo CustomWatch_get_Progress;
 
-        public static bool FindSignatures(Assembly aassembly)
+        public static FieldInfo CollisionEntity_Position;
+
+        public static FieldInfo CollisionEntity_OwnerID;
+
+        public static FieldInfo CollisionEntity_type;
+
+        public static FieldInfo CollisionEntity_Matrix;
+
+        public static MethodInfo CollisionEntity_Get_Lifetime;
+
+        public static FieldInfo CollisionEntity_BounceWatch;
+
+        public static FieldInfo CollisionEntity_Health;
+
+        public static bool FindSignatures(Assembly assembly)
         {
             //Log.Info("Waiting for debugger to attach");
             //while (!Debugger.IsAttached)
@@ -795,7 +844,7 @@ namespace Sector_dll.cheat
             //Log.Info("Debugger attached");
             //Debugger.Break();
             RegQueryValueEx.Clear();
-            foreach (Type t in aassembly.GetTypes())
+            foreach (Type t in assembly.GetTypes())
             {
                 ClassSignature sig = ClassSignature.GenerateSignature(t);
                 foreach (ResolvedType rt in ResolvedTypes)
@@ -921,7 +970,18 @@ namespace Sector_dll.cheat
             }
             if (GameManager_SetupBones == null) { Log.Info("GameManager_SetupBones is null"); return false; }
 
-            foreach(FieldInfo fi in GameManager.GetFields(BindingFlags.Public | BindingFlags.Instance))
+            foreach(MethodInfo mi in GameManager.GetMethods(BindingFlags.Public | BindingFlags.Instance))
+            {
+                if(mi.ReturnType == PlayerBase && mi.Name.Length == 15 && mi.GetParameters().Length == 1 
+                    && mi.GetParameters()[0].ParameterType == typeof(byte))
+                {
+                    GameManager_GetPlayerByID = mi;
+                    Log.Info("Found GameManager_GetPlayerByID as: " + GameManager_GetPlayerByID.ToString());
+                }
+            }
+            if (GameManager_GetPlayerByID == null) { Log.Info("GameManager_GetPlayerByID is null"); return false; }
+
+            foreach (FieldInfo fi in GameManager.GetFields(BindingFlags.Public | BindingFlags.Instance))
             {
                 if(fi.Name.Length == 11 && fi.FieldType.IsGenericType && fi.FieldType.GetGenericTypeDefinition() == typeof(List<>)
                     && fi.FieldType.GetGenericArguments().Length == 1 && fi.FieldType.GetGenericArguments()[0] == CollisionEntity.Type)
@@ -1674,6 +1734,91 @@ namespace Sector_dll.cheat
                 }
             }
             if (CustomWatch_get_Progress == null) { Log.Info("CustomWatch_get_Progress is null"); return false; }
+
+            foreach(MethodInfo mi in CollisionEntity.Type.GetMethods(BindingFlags.Public | BindingFlags.Instance))
+            {
+                if(mi.ReturnType == typeof(int) && mi.GetParameters().Length == 0 && mi.Name.Length == 15)
+                {
+                    CollisionEntity_Get_Lifetime = mi;
+                    Log.Info("Found CollisionEntity_Get_Lifetime as: " + CollisionEntity_Get_Lifetime.ToString());
+                }
+            }
+            if (CollisionEntity_Get_Lifetime == null) { Log.Info("CollisionEntity_Get_Lifetime is null"); return false; }
+
+            foreach(FieldInfo fi in CollisionEntity.Type.GetFields(BindingFlags.Public | BindingFlags.Instance))
+            {
+                if (fi.FieldType == CustomWatch.Type && fi.Name.Length == 23)
+                {
+                    CollisionEntity_BounceWatch = fi;
+                    Log.Info("Found CollisionEntity_BounceWatch as: " + CollisionEntity_BounceWatch.ToString());
+                }
+                if (fi.FieldType == WeaponType)
+                {
+                    CollisionEntity_type = fi;
+                    Log.Info("Found CollisionEntity_type as: " + CollisionEntity_type.ToString());
+                }
+                if (fi.FieldType == Matrix4)
+                {
+                    CollisionEntity_Matrix = fi;
+                    Log.Info("Found CollisionEntity_Matrix as: " + CollisionEntity_Matrix.ToString());
+                }
+            }
+            if (CollisionEntity_BounceWatch == null) { Log.Info("CollisionEntity_BounceWatch is null"); return false; }
+            if (CollisionEntity_type == null) { Log.Info("CollisionEntity_type is null"); return false; }
+            if (CollisionEntity_Matrix == null) { Log.Info("CollisionEntity_Matrix is null"); return false; }
+
+            ModuleDefinition moduleDefinition = AssemblyDefinition.ReadAssembly(assembly.Location).MainModule;
+            if (moduleDefinition == null) { Log.Info("moduleDefinition is null"); return false; }
+
+            TypeDefinition CollisionEntityType = moduleDefinition.GetType(CollisionEntity.Type.Name);
+            if (CollisionEntityType == null) { Log.Info("CollisionEntityType is null"); return false; }
+
+            MethodDefinition CollisionEntity_CloneConst = CollisionEntityType.Methods.Where(x => x.Name == ".ctor" && x.Parameters.Count == 1).First();
+            if (CollisionEntity_CloneConst == null) { Log.Info("CollisionEntity_CloneConst is null"); return false; }
+
+            OpCode LastopCode = OpCodes.Nop;
+            int fieldNum = 0;
+            bool healthNext = false;
+            foreach (var il in CollisionEntity_CloneConst.Body.Instructions)
+            {
+                if (il.OpCode == OpCodes.Ldc_R8)
+                {
+                    double val = (double)il.Operand;
+                    if (val == 100.0)
+                        healthNext = true;
+                }
+                if (healthNext && il.OpCode == OpCodes.Stfld)
+                {
+                    healthNext = false;
+                    FieldDefinition field = il.Operand as FieldDefinition;
+                    CollisionEntity_Health = CollisionEntity.Type.GetField(field.Name, BindingFlags.Public | BindingFlags.Instance);
+                    if (CollisionEntity_Health != null)
+                        Log.Info("Found CollisionEntity_Health as: " + CollisionEntity_Health.ToString());
+                }
+                else if (il.OpCode == OpCodes.Stfld && LastopCode == OpCodes.Ldfld)
+                {
+                    FieldDefinition field = il.Operand as FieldDefinition;
+                    if (fieldNum == 2) //OwnerID
+                    {
+                        CollisionEntity_OwnerID = CollisionEntity.Type.GetField(field.Name, BindingFlags.Public | BindingFlags.Instance);
+                        if (CollisionEntity_OwnerID != null)
+                            Log.Info("Found CollisionEntity_OwnerID as: " + CollisionEntity_OwnerID.ToString());
+                    }
+                    if (fieldNum == 4) //position
+                    {
+                        CollisionEntity_Position = CollisionEntity.Type.GetField(field.Name, BindingFlags.Public | BindingFlags.Instance);
+                        if(CollisionEntity_Position != null)
+                            Log.Info("Found CollisionEntity_Position as: " + CollisionEntity_Position.ToString());
+                    }
+                    fieldNum++;
+                }
+                LastopCode = il.OpCode;
+            }
+            if (CollisionEntity_OwnerID == null) { Log.Info("CollisionEntity_OwnerID is null"); return false; }
+            if (CollisionEntity_Position == null) { Log.Info("CollisionEntity_Position is null"); return false; }
+            if (CollisionEntity_Health == null) { Log.Info("CollisionEntity_Health is null"); return false; }
+
+            //Log.Info(CollisionEntity_CloneConst);
 
             return true;
         }

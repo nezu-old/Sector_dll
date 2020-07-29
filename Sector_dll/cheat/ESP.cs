@@ -3,6 +3,7 @@ using Sector_dll.util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -131,13 +132,76 @@ namespace Sector_dll.cheat
             List<object> ents = GameManager.CollisionEntitys(gm);
 
             int i = 0;
-            foreach(object e in ents)
+            foreach (object e in ents)
             {
+                Type et = e.GetType();
+                string name = et.Name;
+                if (et == SignatureManager.Grenade.Type || et == SignatureManager.GLauncher.Type)
+                {
+                    Vec3 pos = CollisionEntity.GetPosition(e);
+                    if (GameManager.W2s(pos + new Vec3(0, Config.settings.debug1, 0), out Vec2 pos2d))
+                    {
+                        int life = et == SignatureManager.GLauncher.Type ? (int)(CollisionEntity.GetBounceWatchProgress(e) * 3000)
+                            : CollisionEntity.GetLifetime(e);
+                        int w = 30;
+                        int life_w = (int)Util.Map(life, 0, 3000, 0, w);
 
-                d.DrawText(e.GetType().ToString(), 100 , 100 + (i++ * 25));
+                        object player = GameManager.GetPlayerByID(gm, CollisionEntity.GetOwnerID(e));
+                        Color color = player != null ? (player == GameManager.GetLocalPLayer(gm) ? Color.white :
+                            GameManager.GetPlayerColor(gm, player)) : Color.white;
 
+                        d.DrawTextSmall("Grenade", (float)pos2d.x, (float)pos2d.y - 2, color,
+                            Drawing.DrawingFunctions.TextAlignment.ALIGN_BOTTOM | Drawing.DrawingFunctions.TextAlignment.ALIGN_HCENTER);
+
+                        d.DrawFilledRect((int)pos2d.x - (w / 2) - 1, (int)pos2d.y, w + 2, 3, Color.black);
+                        d.DrawFilledRect((int)pos2d.x - (w / 2), (int)pos2d.y + 1, life_w, 1, color);
+                    }
+
+                }
+                else if (et == SignatureManager.C4.Type)
+                {
+                    Vec3 pos = CollisionEntity.GetPosition(e, true);
+                    if (GameManager.W2s(pos, out Vec2 pos2d))
+                    {
+                        bool isC4 = CollisionEntity.GetTool(e) == ToolType.C4;
+                        object player = GameManager.GetPlayerByID(gm, CollisionEntity.GetOwnerID(e));
+                        Color color = player != null ? (player == GameManager.GetLocalPLayer(gm) ? Color.white :
+                            GameManager.GetPlayerColor(gm, player)) : Color.white;
+
+                        d.DrawTextSmall(isC4 ? "C4" : "Disruptor", (float)pos2d.x, (float)pos2d.y, color,
+                            Drawing.DrawingFunctions.TextAlignment.ALIGN_CENTER);
+                    }
+                }
+                else if (et == SignatureManager.Scanner.Type)
+                {
+                    Vec3 pos = CollisionEntity.GetPosition(e);
+                    if (GameManager.W2s(pos, out Vec2 pos2d))
+                    {
+                        int life = CollisionEntity.GetLifetime(e);
+                        double hp = CollisionEntity.GetHealth(e);
+                        int w = 40;
+                        int life_w = (int)Util.Map(life, 0, 20000, 0, w);
+                        int hp_w = (int)Util.Map(hp, 0, 30, 0, w);
+
+                        object player = GameManager.GetPlayerByID(gm, CollisionEntity.GetOwnerID(e));
+                        Color color = player != null ? (player == GameManager.GetLocalPLayer(gm) ? Color.white :
+                            GameManager.GetPlayerColor(gm, player)) : Color.white;
+
+                        d.DrawTextSmall("Health: " + hp, (float)pos2d.x, (float)pos2d.y - 20, color,
+                            Drawing.DrawingFunctions.TextAlignment.ALIGN_CENTER);
+
+                        d.DrawFilledRect((int)pos2d.x - (w / 2) - 1, (int)pos2d.y - 11, w + 2, 3, Color.black);
+                        d.DrawFilledRect((int)pos2d.x - (w / 2), (int)pos2d.y - 10, hp_w, 1, Color.red);
+                        
+                        d.DrawTextSmall("Scanner", (float)pos2d.x, (float)pos2d.y - 2, color,
+                            Drawing.DrawingFunctions.TextAlignment.ALIGN_CENTER);
+
+                        d.DrawFilledRect((int)pos2d.x - (w / 2) - 1, (int)pos2d.y + 9, w + 2, 3, Color.black);
+                        d.DrawFilledRect((int)pos2d.x - (w / 2), (int)pos2d.y + 10, life_w, 1, color);
+                    }
+                }
+                i++;
             }
-
 
         }
     }

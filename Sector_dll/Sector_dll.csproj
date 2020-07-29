@@ -102,6 +102,7 @@
     <Compile Include="cheat\SignatureManager.cs" />
     <Compile Include="sdk\Bone.cs" />
     <Compile Include="sdk\Bones.cs" />
+    <Compile Include="sdk\CollisionEntity.cs" />
     <Compile Include="sdk\CustomWatch.cs" />
     <Compile Include="sdk\TeamType.cs" />
     <Compile Include="sdk\CollisionType.cs" />
@@ -245,6 +246,7 @@
     <Compile Include="sdk\Rect.cs" />
     <Compile Include="sdk\Settings.cs" />
     <Compile Include="sdk\Size.cs" />
+    <Compile Include="sdk\ToolType.cs" />
     <Compile Include="sdk\Vec2.cs" />
     <Compile Include="sdk\Vec3.cs" />
     <Compile Include="sdk\Vec4.cs" />

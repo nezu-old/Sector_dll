@@ -9,6 +9,8 @@ namespace Sector_dll.util
 
         public static ConsoleColor color = ConsoleColor.Green;
 
+        public static void Info(object msg) => Info(msg.ToString());
+
         public static void Info(string msg)
         {
             if (enabled)

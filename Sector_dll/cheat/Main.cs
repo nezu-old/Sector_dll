@@ -53,12 +53,6 @@ namespace Sector_dll.cheat
             return s;
         }
 
-        public static void xd2(Action<object, object, bool, object, object> orig, object a1, object a2, bool a3, object a4, object a5)
-        {
-            orig(a1, a2, a3, a4, a5);
-            if (Config.settings.debug6 > 0) Log.Info(".");
-        }
-
         [DllExport(CallingConvention = CallingConvention.StdCall)]
         public static void MainLoader0([MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr, SizeConst = 0)] string[] a) { }
         [DllExport(CallingConvention = CallingConvention.StdCall)]
@@ -129,7 +123,7 @@ namespace Sector_dll.cheat
             Array.Copy(a, 1, args, 0, a.Length - 1);
             Log.Info("args: " + string.Join(" ", args));
 
-            Log.Info(SignatureManager.GenerateSig("#=z8wqf9fuuHQJ2t803BvbsKVDkHDjqxtlmTg==")); Console.Read();
+            //Log.Info(SignatureManager.GenerateSig("#=z1q5LvvTvJVHL95mpiAw3sxdwWtd5ROgm6g==")); Console.Read();
 
             try
             {
@@ -164,10 +158,14 @@ namespace Sector_dll.cheat
                         .GenerateTrampoline<HWID.RegQueryValueExDelegate>();
                 new NativeDetour(SignatureManager.DiscordCreate, typeof(HWID).GetMethod("DiscordCreate"));
 
-                MethodInfo wtf = assembly.GetType("#=zD17ql6wd9AtAXXPCp7syK94=").GetMethod("#=zPWk4$_SzDsW_0mPj3g==");
-                Log.Info(wtf.GetParameters()[3].ParameterType.GetElementType().ToString());
-                new Hook(wtf, typeof(Main).GetMethod("xd2"));
-            
+                //Func<Func<object, int>, object, int> fuseXD = (Func<object, int> orig, object self) => {
+                //    //int ret = orig(self);
+                //    //Log.Info(ret);
+                //    return 3000;// ret;
+                //};
+
+                //new Hook(SignatureManager.Grenade.Type.GetMethod("#=zsz0Iy4N_1cEc"), fuseXD.Method, new object());
+
             }
             catch (Exception e)
             {

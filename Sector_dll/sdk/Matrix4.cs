@@ -73,6 +73,28 @@ namespace Sector_dll.sdk
             M44 = (float)Matrix4F_fields[15].GetValue(Matrix4F);
         }
 
+        public Matrix4(object Matrix4, object _)
+        {
+            if (Matrix4_fields == null)
+                Matrix4_fields = Matrix4.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public);
+            M11 = (double)Matrix4_fields[0].GetValue(Matrix4);
+            M12 = (double)Matrix4_fields[1].GetValue(Matrix4);
+            M13 = (double)Matrix4_fields[2].GetValue(Matrix4);
+            M14 = (double)Matrix4_fields[3].GetValue(Matrix4);
+            M21 = (double)Matrix4_fields[4].GetValue(Matrix4);
+            M22 = (double)Matrix4_fields[5].GetValue(Matrix4);
+            M23 = (double)Matrix4_fields[6].GetValue(Matrix4);
+            M24 = (double)Matrix4_fields[7].GetValue(Matrix4);
+            M31 = (double)Matrix4_fields[8].GetValue(Matrix4);
+            M32 = (double)Matrix4_fields[9].GetValue(Matrix4);
+            M33 = (double)Matrix4_fields[10].GetValue(Matrix4);
+            M34 = (double)Matrix4_fields[11].GetValue(Matrix4);
+            M41 = (double)Matrix4_fields[12].GetValue(Matrix4);
+            M42 = (double)Matrix4_fields[13].GetValue(Matrix4);
+            M43 = (double)Matrix4_fields[14].GetValue(Matrix4);
+            M44 = (double)Matrix4_fields[15].GetValue(Matrix4);
+        }
+
         public static Vec3 operator *(Matrix4 m, Vec3 v)
         {
             return new Vec3(
@@ -80,6 +102,11 @@ namespace Sector_dll.sdk
                 v.x * m.M12 + v.y * m.M22 + v.z * m.M32 + m.M42,
                 v.x * m.M13 + v.y * m.M23 + v.z * m.M33 + m.M43
                 );
+        }
+
+        public Vec3 GetTranslation()
+        {
+            return new Vec3(M41, M42, M43);
         }
 
         public static Matrix4 operator* (Matrix4 m1, Matrix4 m2)
@@ -129,6 +156,8 @@ namespace Sector_dll.sdk
         }
 
         private static FieldInfo[] Matrix4F_fields;
+
+        private static FieldInfo[] Matrix4_fields;
 
         public double M11;
 

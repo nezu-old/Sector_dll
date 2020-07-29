@@ -175,5 +175,10 @@ namespace Sector_dll.sdk
             return (SignatureManager.GameManager_CollisionEntityList.GetValue(self) as IEnumerable<object>).Cast<object>().ToList();
         }
 
+        public static object GetPlayerByID(object gm, byte id)
+        {
+            return SignatureManager.GameManager_GetPlayerByID.Invoke(gm, new object[] { id });
+        }
+
     }
 }
