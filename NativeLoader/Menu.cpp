@@ -175,6 +175,292 @@ bool childWithTitle(const char* title, ImVec2 size = ImVec2(0, 0)) {
 	return false;
 }
 
+
+const char* const KeyNames[] = {
+	"Unknown",
+	"Mouse 1",
+	"Mouse 2",
+	"VK_CANCEL",
+	"Mouse 3",
+	"Mouse 4",
+	"Mouse 5",
+	"Unknown",
+	"Backspace",
+	"Tab",
+	"Unknown",
+	"Unknown",
+	"Clear",
+	"Enter",
+	"Unknown",
+	"Unknown",
+	"Shift",
+	"Control",
+	"Menu",
+	"Pause",
+	"Caps Lock",
+	"Kana",
+	"Unknown",
+	"Junja",
+	"Final",
+	"Kanji",
+	"Unknown",
+	"Escape",
+	"Convert",
+	"VK_NONCONVERT",
+	"Accept",
+	"VK_MODECHANGE",
+	"Space",
+	"Page UP",
+	"Page DOWN",
+	"Enjd",
+	"Home",
+	"Left",
+	"Up",
+	"Right",
+	"Down",
+	"Select",
+	"Print",
+	"Execute",
+	"Print Screen",
+	"Insert",
+	"Delete",
+	"Help",
+	"0",
+	"1",
+	"2",
+	"3",
+	"4",
+	"5",
+	"6",
+	"7",
+	"8",
+	"9",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"A",
+	"B",
+	"C",
+	"D",
+	"E",
+	"F",
+	"G",
+	"H",
+	"I",
+	"J",
+	"K",
+	"L",
+	"M",
+	"N",
+	"O",
+	"P",
+	"Q",
+	"R",
+	"S",
+	"T",
+	"U",
+	"V",
+	"W",
+	"X",
+	"Y",
+	"Z",
+	"L Win",
+	"R Win",
+	"Apps",
+	"Unknown",
+	"Sleep",
+	"NUMPAD 0",
+	"NUMPAD 1",
+	"NUMPAD 2",
+	"NUMPAD 3",
+	"NUMPAD 4",
+	"NUMPAD 5",
+	"NUMPAD 6",
+	"NUMPAD 7",
+	"NUMPAD 8",
+	"NUMPAD 9",
+	"Multiply",
+	"Add",
+	"Separator",
+	"Subtract",
+	"Decimal",
+	"Divide",
+	"F1",
+	"F2",
+	"F3",
+	"F4",
+	"F5",
+	"F6",
+	"F7",
+	"F8",
+	"F9",
+	"F10",
+	"F11",
+	"F12",
+	"F13",
+	"F14",
+	"F15",
+	"F16",
+	"F17",
+	"F18",
+	"F19",
+	"F20",
+	"F21",
+	"F22",
+	"F23",
+	"F24",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Num loock",
+	"Scroll loock",
+	"VK_OEM_NEC_EQUAL",
+	"VK_OEM_FJ_MASSHOU",
+	"VK_OEM_FJ_TOUROKU",
+	"VK_OEM_FJ_LOYA",
+	"VK_OEM_FJ_ROYA",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"L Shift",
+	"R Shift",
+	"L Control",
+	"R Control",
+	"L Menu",
+	"R Menu"
+};
+
+bool Hotkey(const char* label, int* k, const ImVec2& size_arg = ImVec2(0, 0)) {
+	ImGuiWindow* window = ImGui::GetCurrentWindow();
+	if (window->SkipItems)
+		return false;
+
+	ImGuiContext& g = *GImGui;
+	ImGuiIO& io = g.IO;
+	const ImGuiStyle& style = g.Style;
+
+	const ImGuiID id = window->GetID(label);
+
+	char buf_display[64] = "None";
+	if (*k != 0 && g.ActiveId != id) {
+		strcpy_s(buf_display, KeyNames[*k]);
+	} else if (g.ActiveId == id) {
+		strcpy_s(buf_display, "<Press a key>");
+	}
+
+	const ImVec2 label_size = ImGui::CalcTextSize(label, NULL, true);
+	const ImVec2 label_size2 = ImGui::CalcTextSize(buf_display, NULL, true);
+
+	ImVec2 size = ImGui::CalcItemSize(size_arg, label_size.x + label_size2.x + style.FramePadding.x * 2 + style.ItemInnerSpacing.x * 2, 
+		label_size.y + style.FramePadding.y * 2.0f);
+	const ImRect frame_bb(window->DC.CursorPos + ImVec2(label_size.x + style.ItemInnerSpacing.x, 0.0f), window->DC.CursorPos + size);
+	const ImRect total_bb(window->DC.CursorPos, frame_bb.Max);
+
+	ImGui::ItemSize(total_bb, style.FramePadding.y);
+	if (!ImGui::ItemAdd(total_bb, id))
+		return false;
+
+	const bool focus_requested = ImGui::FocusableItemRegister(window, id);
+	const bool focus_requested_by_code = focus_requested && (g.FocusRequestCurrWindow == window && g.FocusRequestCurrCounterRegular == window->DC.FocusCounterRegular);
+	const bool focus_requested_by_tab = focus_requested && !focus_requested_by_code;
+
+	const bool hovered = ImGui::ItemHoverable(frame_bb, id);
+
+	if (hovered) {
+		ImGui::SetHoveredID(id);
+		g.MouseCursor = ImGuiMouseCursor_Hand;
+	}
+
+	const bool user_clicked = hovered && io.MouseClicked[0];
+
+	if ((focus_requested && !focus_requested_by_tab) || user_clicked) { //allow the tab key to be also ussed
+		if (g.ActiveId != id) {
+			// Start edition
+			memset(io.MouseDown, 0, sizeof(io.MouseDown));
+			memset(io.KeysDown, 0, sizeof(io.KeysDown));
+			*k = 0;
+		}
+		ImGui::SetActiveID(id, window);
+		ImGui::FocusWindow(window);
+	} else if (io.MouseClicked[0]) {
+		// Release focus when we click outside
+		if (g.ActiveId == id)
+			ImGui::ClearActiveID();
+	}
+
+	bool value_changed = false;
+	int key = *k;
+
+	if (g.ActiveId == id) {
+		for (auto i = 0; i < 5; i++) {
+			if (io.MouseDown[i]) {
+				switch (i) {
+				case 0: key = VK_LBUTTON; break;
+				case 1: key = VK_RBUTTON; break;
+				case 2: key = VK_MBUTTON; break;
+				case 3: key = VK_XBUTTON1; break;
+				case 4: key = VK_XBUTTON2; break;
+				}
+				value_changed = true;
+				ImGui::ClearActiveID();
+			}
+		}
+		if (!value_changed) {
+			for (auto i = VK_BACK; i <= VK_RMENU; i++) {
+				if (io.KeysDown[i]) {
+					key = i;
+					value_changed = true;
+					ImGui::ClearActiveID();
+				}
+			}
+		}
+
+		if (ImGui::IsKeyPressedMap(ImGuiKey_Escape)) {
+			*k = 0;
+			ImGui::ClearActiveID();
+		} else {
+			*k = key;
+		}
+	}
+
+	// Render
+	// Select which buffer we are going to display. When ImGuiInputTextFlags_NoLiveEdit is Set 'buf' might still be the old value. We Set buf to NULL to prevent accidental usage from now on.
+
+
+	ImGui::RenderFrame(frame_bb.Min, frame_bb.Max, 
+		ImGui::GetColorU32(style.Colors[g.ActiveId == id ? ImGuiCol_ButtonActive : ImGuiCol_Button]), true, style.FrameRounding);
+
+
+	const ImRect clip_rect(frame_bb.Min.x, frame_bb.Min.y, frame_bb.Min.x + size.x, frame_bb.Min.y + size.y); // Not using frame_bb.Max because we have adjusted size
+	ImVec2 render_pos = frame_bb.Min + style.FramePadding;
+	ImGui::RenderTextClipped(frame_bb.Min + style.FramePadding, frame_bb.Max - style.FramePadding, buf_display, NULL, NULL, style.ButtonTextAlign, &clip_rect);
+	//RenderTextClipped(frame_bb.Min + style.FramePadding, frame_bb.Max - style.FramePadding, buf_display, NULL, NULL, GetColorU32(ImGuiCol_Text), style.ButtonTextAlign, &clip_rect);
+	//draw_window->DrawList->AddText(g.Font, g.FontSize, render_pos, GetColorU32(ImGuiCol_Text), buf_display, NULL, 0.0f, &clip_rect);
+
+	if (label_size.x > 0)
+		ImGui::RenderText(ImVec2(total_bb.Min.x, frame_bb.Min.y + style.FramePadding.y), label);
+
+	//ImGui::GetForegroundDrawList()->AddRect(frame_bb.Min, frame_bb.Max, ImColor(255, 0, 255));
+	//ImGui::GetForegroundDrawList()->AddRect(total_bb.Min, total_bb.Max, ImColor(0, 0, 255));
+
+	return value_changed;
+}
+
 enum Tabs_t {
 	TAB_AIM = 0,
 	TAB_VISUALS,
@@ -183,6 +469,21 @@ enum Tabs_t {
 };
 
 void draw_TAB_AIM(Menu::Settings* settings) {
+	if (childWithTitle("Aimbot", ImVec2(0, 0))) {
+		static const char* aimbotmodes[] = { "Off", "Always", "On key" };
+		if (settings->aimbot_mode == 2) { //on key
+			Hotkey("##aim_key", &settings->aimbot_key);
+			ImGui::SameLine();
+		}
+		ImGui::SetNextItemWidth(100);
+		ImGui::Combo("Mode", &settings->aimbot_mode, aimbotmodes, IM_ARRAYSIZE(aimbotmodes));
+
+		static int k = 0;
+		Hotkey("Aibot key##xd", &k);
+
+	}
+
+	ImGui::EndChild();
 
 }
 
@@ -191,7 +492,7 @@ void draw_TAB_VISUALS(Menu::Settings* settings) {
 	if (childWithTitle("Player ESP", ImVec2(180, 264))) {
 		static const char* espmodes[] = { "Off", "Always", "On death" };
 		ImGui::Combo("Mode", &settings->esp_mode, espmodes, IM_ARRAYSIZE(espmodes));
-		static const char* targetslist[] = { "All", "Enemy", "Teammates" };
+		static const char* targetslist[] = { "All", "Enemies", "Teammates" };
 		ImGui::Combo("Target", &settings->esp_team, targetslist, IM_ARRAYSIZE(targetslist));
 		ImGui::Checkbox("Box", (bool*)&settings->esp_box);
 		ImGui::Checkbox("Skeleton", (bool*)&settings->esp_skeleton);
@@ -387,9 +688,9 @@ void Menu::UpdateColors(ImColor color) {
 	colors[ImGuiCol_ScrollbarGrab] =		ImVec4(0.31f, 0.31f, 0.31f, 1.00f);
 	colors[ImGuiCol_ScrollbarGrabActive] =	ImVec4(0.51f, 0.51f, 0.51f, 1.00f);
 	colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(0.41f, 0.41f, 0.41f, 1.00f);
-	colors[ImGuiCol_Header] =               ImVec4(1.00f, 1.00f, 1.00f, 0.27f);
-	colors[ImGuiCol_HeaderHovered] =        ImVec4(1.00f, 1.00f, 1.00f, 1.35f);
-	colors[ImGuiCol_HeaderActive] =         ImVec4(1.00f, 1.00f, 1.00f, 0.43f);
+	colors[ImGuiCol_Header] =               ImVec4(1.00f, 1.00f, 1.00f, 0.24f);
+	colors[ImGuiCol_HeaderHovered] =        ImVec4(1.00f, 1.00f, 1.00f, 0.31f);
+	colors[ImGuiCol_HeaderActive] =         ImVec4(1.00f, 1.00f, 1.00f, 0.39f);
 	colors[ImGuiCol_Separator] =            ImVec4(0.43f, 0.43f, 0.43f, 0.50f);
 	colors[ImGuiCol_ResizeGrip] =           ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
 	colors[ImGuiCol_ResizeGripHovered] =    ImVec4(0.00f, 0.00f, 0.00f, 0.00f);

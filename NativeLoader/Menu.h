@@ -7,6 +7,9 @@ namespace Menu {
 
 	struct Settings {
 		unsigned int menu_color;
+
+		int aimbot_mode;
+		int aimbot_key;
 		
 		int esp_mode;
 		int esp_team;

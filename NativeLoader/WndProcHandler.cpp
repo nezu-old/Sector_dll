@@ -9,8 +9,9 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 WNDPROC H::oWndProc = NULL;
 
 LRESULT CALLBACK H::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
-	if (uMsg == WM_KEYUP && wParam == VK_INSERT) {
-		Menu::open = (Menu::open == 0) ? 1 : 0;
+	if ((uMsg == WM_KEYUP || uMsg == WM_KEYDOWN) && wParam == VK_INSERT) {
+		if(uMsg == WM_KEYUP)
+			Menu::open = (Menu::open == 0) ? 1 : 0;
 		return FALSE;
 	}
 
