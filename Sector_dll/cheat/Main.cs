@@ -38,16 +38,17 @@ namespace Sector_dll.cheat
             //if (s.ToLower().Contains("head"))
             {
                 Log.Info("I: " + i + " S: " + s);
+                //Log.Dump(Tracing.file, "New string: " + s);
                 //StackTrace t = new StackTrace();
                 //Log.Info(t.ToString());
 
-                using (FileStream fileStream = new FileStream("string_order.txt", FileMode.Append))
-                {
-                    using(StreamWriter sw = new StreamWriter(fileStream))
-                    {
-                        sw.WriteLine(s);
-                    }
-                }
+                //using (FileStream fileStream = new FileStream("string_order.txt", FileMode.Append))
+                //{
+                //    using(StreamWriter sw = new StreamWriter(fileStream))
+                //    {
+                //        sw.WriteLine(s);
+                //    }
+                //}
 
             }
             return s;
@@ -135,8 +136,8 @@ namespace Sector_dll.cheat
                 
                 new Hook(SignatureManager.GClass49_Base_Base_Draw, typeof(GClass49).GetMethod("vmethod_4"));
                 new Hook(SignatureManager.LocalPlayer_Update, typeof(Player).GetMethod("Update"));
-                new Hook(SignatureManager.PlayerBase_RecoilMod, typeof(Player).GetMethod("RecoilMod"));
-                new Hook(SignatureManager.Helper_CurrentBloom, typeof(Helper).GetMethod("CurrentBloom"));
+                //new Hook(SignatureManager.PlayerBase_RecoilMod, typeof(Player).GetMethod("RecoilMod"));
+                //new Hook(SignatureManager.Helper_CurrentBloom, typeof(Helper).GetMethod("CurrentBloom"));
 
                 if (HWID.Seed != 926594848) //spy
                     new Hook(typeof(ManagementBaseObject).GetMethod("GetPropertyValue", BindingFlags.Public | BindingFlags.Instance),
@@ -165,6 +166,8 @@ namespace Sector_dll.cheat
                 //};
 
                 //new Hook(SignatureManager.Grenade.Type.GetMethod("#=zsz0Iy4N_1cEc"), fuseXD.Method, new object());
+                
+                //throw new Exception("xd");
 
             }
             catch (Exception e)
@@ -175,22 +178,29 @@ namespace Sector_dll.cheat
                 Environment.Exit(10);
             }
 
-            MethodInfo mi = assembly.GetType("#=qlP7Rck8fKTTAfxJeTbAdpGzgOJ5BuLGTE8xrRZOLGDs=")
-                .GetMethod("#=zD9zupq9kGin4NH9xUv6i3e4=", BindingFlags.NonPublic | BindingFlags.Static);
+            MethodInfo mi = assembly.GetType("#=qdoFfi5oHiWQ_F2sP8WpOBcxXYtKebPWkOJgS_W$6XCc=")
+                .GetMethod("#=zmeMzoCRvmfuINxK3$qUENbA=", BindingFlags.NonPublic | BindingFlags.Static);
+
             //new Hook(mi, typeof(Main).GetMethod("xd"));
 
             //Util.DumpStrings(assembly, mi);
+
+            //Environment.Exit(10);
+
             //Util.DumpShit(assembly);
-            
+
             //Log.Danger((string)mi.Invoke(null, new object[] { -2001122674, true }));
             //Console.Read();
 
-            Detour mainDetour = new Detour(assembly.EntryPoint, typeof(Main).GetMethod("MainHook")); //detour main to dummy function
-            
+            ///Detour mainDetour = new Detour(assembly.EntryPoint, typeof(Main).GetMethod("MainHook")); //detour main to dummy function
+            //Tracing.ApplyHooks();
+
             typeof(AppDomain).GetMethod("nExecuteAssembly", BindingFlags.NonPublic | BindingFlags.Instance)
                 .Invoke(AppDomain.CurrentDomain, new object[] { assembly, args });
 
-            mainDetour.Dispose(); // rstore it
+            Console.ReadLine();
+
+            //mainDetour.Dispose(); // rstore it
 
             for(int i = 0; i < 10; i ++)
                 new NativeDetour(typeof(Main).GetMethod("MainLoader" + i), assembly.EntryPoint);
@@ -217,8 +227,10 @@ namespace Sector_dll.cheat
                     //Log.Danger("Press enter to start");
                     //Console.Read();
 
-                    //Tracing.ApplyHooks();
+                    Tracing.ApplyHooks();
                     //while (!Debugger.IsAttached) Thread.Sleep(10);
+
+                    Console.ReadLine();
 
                     IntPtr thread = CreateThread(UIntPtr.Zero, 0, mainLoader, data, 0, IntPtr.Zero);
                     WaitForSingleObject(thread, 0xFFFFFFFF);// INFINITE 

@@ -243,9 +243,7 @@
     <Compile Include="sdk\Matrix4.cs" />
     <Compile Include="sdk\ModType.cs" />
     <Compile Include="sdk\Player.cs" />
-    <Compile Include="sdk\Rect.cs" />
     <Compile Include="sdk\Settings.cs" />
-    <Compile Include="sdk\Size.cs" />
     <Compile Include="sdk\ToolType.cs" />
     <Compile Include="sdk\Vec2.cs" />
     <Compile Include="sdk\Vec3.cs" />

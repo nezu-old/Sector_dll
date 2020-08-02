@@ -26,17 +26,17 @@ namespace Sector_dll.sdk
         public static object GetViewMatrix(object self, object player)
         {
             object matrix2 = SignatureManager.GClass49_Base_matrix1.GetValue(self);
-            if (player != null && IsScoped(self))
-            {
-                object weaponType = Player.GetCurrentWeaponType(player);
-                byte scopeType = (byte)Helper.GetEquippedScopeType(player, weaponType);
-                Vec2 ss = GetScopeSize(self, scopeType, weaponType);
-                double ratio = ss.x / ss.y;
-                double zoom = scopeType == 3 ? 4.7 : 5.1;
-                double fov = 3.1415926535897931 * (Settings.GetFov(GetSettings(self)) / zoom / 180.0);
-                object matrix3 = Matrix4.Generate(fov, ratio, 0.05, 4500.0);
-                return Matrix4.Multiply(matrix2, matrix3);
-            }
+            //if (player != null && IsScoped(self))
+            //{
+            //    object weaponType = Player.GetCurrentWeaponType(player);
+            //    byte scopeType = (byte)Helper.GetEquippedScopeType(player, weaponType);
+            //    Vec2 ss = GetScopeSize(self, scopeType, weaponType);
+            //    double ratio = ss.x / ss.y;
+            //    double zoom = scopeType == 3 ? 4.7 : 5.1;
+            //    double fov = 3.1415926535897931 * (Settings.GetFov(GetSettings(self)) / zoom / 180.0);
+            //    object matrix3 = Matrix4.Generate(fov, ratio, 0.05, 4500.0);
+            //    return Matrix4.Multiply(matrix2, matrix3);
+            //}
             object matrix1 = SignatureManager.GClass49_Base_matrix2.GetValue(self);
             return Matrix4.Multiply(matrix2, matrix1);
         }
@@ -49,16 +49,16 @@ namespace Sector_dll.sdk
                 (double)SignatureManager.GClass49_Base_Base_ScreenHeight.GetValue(self));
             W2SResolution = ScreenResolution;
 
-            if (player != null && IsScoped(self))
-            {
-                object weaponType = Player.GetCurrentWeaponType(player);
-                byte scopeType = (byte)Helper.GetEquippedScopeType(player, weaponType);
-                Vec2 ss = GetScopeSize(self, scopeType, weaponType);
+            //if (player != null && IsScoped(self))
+            //{
+            //    object weaponType = Player.GetCurrentWeaponType(player);
+            //    byte scopeType = (byte)Helper.GetEquippedScopeType(player, weaponType);
+            //    Vec2 ss = GetScopeSize(self, scopeType, weaponType);
 
-                W2SOffset = new Vec2((W2SResolution.x - ss.x) / 2, (W2SResolution.y - ss.y) / 2);
-                W2SResolution = ss;
-            } 
-            else
+            //    W2SOffset = new Vec2((W2SResolution.x - ss.x) / 2, (W2SResolution.y - ss.y) / 2);
+            //    W2SResolution = ss;
+            //} 
+            //else
             {
                 W2SOffset = new Vec2(0, 0);
             }
@@ -66,17 +66,17 @@ namespace Sector_dll.sdk
 
         // 3: 4.7 - 4: 5.1
 
-        public static bool W2s(object vec3, out object vec2)
+        public static bool W2s(Vec3 vec3, out Vec2 vec2)
         {
-            if(viewMatrix == null)
+            if (viewMatrix == null)
             {
-                vec2 = Vec2.New(-10000, -10000);
+                vec2 = new Vec2(-10000, -10000);
                 return false;
             }
             Vec4 res = new Vec4(Vec4.Multiply(Vec4.New(vec3), viewMatrix));
             if (res.z < 0.0)
             {
-                vec2 = Vec2.New(-10000, -10000);
+                vec2 = new Vec2(-10000, -10000);
                 return false;
             }
             res.x /= res.w;
@@ -85,15 +85,8 @@ namespace Sector_dll.sdk
 
             double x = (res.x / 2.0 + 0.5) * W2SResolution.x;
             double y = (-res.y / 2.0 + 0.5) * W2SResolution.y;
-            vec2 = Vec2.New(x + W2SOffset.x, y + W2SOffset.y);
+            vec2 = new Vec2(x + W2SOffset.x, y + W2SOffset.y);
             return true;
-        }
-
-        public static bool W2s(Vec3 vec3, out Vec2 vec2)
-        {
-            bool res = W2s(vec3.ToInternal(), out object r);
-            vec2 = new Vec2(r);
-            return res;
         }
 
         public static List<object> GetPlayerList(object self)

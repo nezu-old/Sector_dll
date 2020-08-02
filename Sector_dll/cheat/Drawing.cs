@@ -78,9 +78,15 @@ namespace Sector_dll.cheat
 
                 //d.DrawFilledRect(20, 20, 10, 10, 0xFF0000FF);
 
-                ESP.DrawPlayerEsp(d);
+                try
+                {
+                    ESP.DrawPlayerEsp(d);
 
-                ESP.DrawProjectiles(d);
+                    ESP.DrawProjectiles(d);
+                }
+                catch (Exception ex) {
+                    Log.Danger(ex);
+                }
 
             }
         }

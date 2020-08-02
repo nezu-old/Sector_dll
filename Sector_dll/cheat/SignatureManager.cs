@@ -23,25 +23,25 @@ namespace Sector_dll.cheat
             nestedTypes = 0,
 
             privateMethods = 2,
-            publicMethods = 114,
+            publicMethods = 113,
             staticMethods = 0,
 
-            publicFields = 120,
-            privateFields = 5,
+            publicFields = 117,
+            privateFields = 3,
             staticFields = 0,
             readonlyFields = 5,
 
-            boolFields = 26,
+            boolFields = 27,
             byteFields = 3,
             shortFields = 0,
-            intFields = 15,
+            intFields = 17,
             longFields = 0,
             floatFields = 1,
             doubleFields = 8,
-            enumFields = 10,
+            enumFields = 5,
             stringFields = 3,
             ArrayFields = 4,
-            OtherFields = 58
+            OtherFields = 55
         });
 
         public static ResolvedType GClass49 = new ResolvedType("GClass49", new ClassSignature() 
@@ -52,56 +52,26 @@ namespace Sector_dll.cheat
             abstractClass = false,
             nestedTypes = 3,
 
-            privateMethods = 49,
-            publicMethods = 331,
+            privateMethods = 51,
+            publicMethods = 342,
             staticMethods = 0,
 
-            publicFields = 156,
-            privateFields = 45,
+            publicFields = 145,
+            privateFields = 44,
             staticFields = 5,
             readonlyFields = 6,
 
-            boolFields = 40,
+            boolFields = 37,
             byteFields = 1,
             shortFields = 0,
-            intFields = 16,
+            intFields = 15,
             longFields = 1,
             floatFields = 0,
-            doubleFields = 24,
-            enumFields = 9,
+            doubleFields = 22,
+            enumFields = 8,
             stringFields = 0,
-            ArrayFields = 11,
-            OtherFields = 131
-        });
-
-        public static ResolvedType DrawingHelper = new ResolvedType("DrawingHelper", new ClassSignature()
-        {
-            nameLength = 27,
-
-            publicClass = true,
-            abstractClass = true,
-            nestedTypes = 0,
-
-            privateMethods = 0,
-            publicMethods = 17,
-            staticMethods = 13,
-
-            publicFields = 77,
-            privateFields = 2,
-            staticFields = 79,
-            readonlyFields = 0,
-
-            boolFields = 0,
-            byteFields = 0,
-            shortFields = 0,
-            intFields = 0,
-            longFields = 0,
-            floatFields = 0,
-            doubleFields = 2,
-            enumFields = 0,
-            stringFields = 0,
-            ArrayFields = 29,
-            OtherFields = 48
+            ArrayFields = 12,
+            OtherFields = 125
         });
 
         public static ResolvedType Vec4 = new ResolvedType("Vec4", new ClassSignature()
@@ -131,35 +101,6 @@ namespace Sector_dll.cheat
             stringFields = 0,
             ArrayFields = 0,
             OtherFields = 1
-        });
-
-        public static ResolvedType Font = new ResolvedType("Font", new ClassSignature()
-        {
-            nameLength = 27,
-
-            publicClass = true,
-            abstractClass = false,
-
-            privateMethods = 0,
-            publicMethods = 13,
-            staticMethods = 0,
-
-            publicFields = 0,
-            privateFields = 3,
-            staticFields = 0,
-            readonlyFields = 0,
-
-            boolFields = 0,
-            byteFields = 0,
-            shortFields = 0,
-            intFields = 1,
-            longFields = 0,
-            floatFields = 0,
-            doubleFields = 1,
-            enumFields = 0,
-            stringFields = 1,
-            ArrayFields = 0,
-            OtherFields = 0
         });
 
         public static ResolvedType RequestHelper = new ResolvedType("RequestHelper", new ClassSignature()
@@ -192,35 +133,6 @@ namespace Sector_dll.cheat
             OtherFields = 0
         });
 
-        public static ResolvedType ConnectionHelper = new ResolvedType("ConnectionHelper", new ClassSignature() 
-        {
-            nameLength = 27,
-
-            publicClass = true,
-            abstractClass = true,
-
-            privateMethods = 2,
-            publicMethods = 40,
-            staticMethods = 38,
-
-            publicFields = 4,
-            privateFields = 2,
-            staticFields = 6,
-            readonlyFields = 1,
-
-            boolFields = 1,
-            byteFields = 1,
-            shortFields = 0,
-            intFields = 0,
-            longFields = 0,
-            floatFields = 0,
-            doubleFields = 0,
-            enumFields = 0,
-            stringFields = 0,
-            ArrayFields = 0,
-            OtherFields = 4
-        });
-
         public static ResolvedType Map = new ResolvedType("Map", new ClassSignature()
         {
             nameLength = 27,
@@ -230,7 +142,7 @@ namespace Sector_dll.cheat
             nestedTypes = 0,
 
             privateMethods = 2,
-            publicMethods = 59,
+            publicMethods = 61,
             staticMethods = 3,
 
             publicFields = 37,
@@ -251,36 +163,6 @@ namespace Sector_dll.cheat
             OtherFields = 10
         });
 
-        public static ResolvedType CollisionHelper = new ResolvedType("CollisionHelper", new ClassSignature()
-        {
-            nameLength = 31,
-
-            publicClass = true,
-            abstractClass = false,
-            nestedTypes = 0,
-
-            privateMethods = 46,
-            publicMethods = 185,
-            staticMethods = 2,
-
-            publicFields = 128,
-            privateFields = 28,
-            staticFields = 5,
-            readonlyFields = 3,
-
-            boolFields = 34,
-            byteFields = 0,
-            shortFields = 0,
-            intFields = 12,
-            longFields = 1,
-            floatFields = 0,
-            doubleFields = 17,
-            enumFields = 8,
-            stringFields = 0,
-            ArrayFields = 10,
-            OtherFields = 106
-        });
-
         public static ResolvedType Helper1 = new ResolvedType("Helper1", new ClassSignature() 
         {
             nameLength = 27,
@@ -290,38 +172,38 @@ namespace Sector_dll.cheat
             nestedTypes = 0,
 
             privateMethods = 0,
-            publicMethods = 49,
-            staticMethods = 45,
+            publicMethods = 52,
+            staticMethods = 48,
 
-            publicFields = 103,
+            publicFields = 97,
             privateFields = 0,
-            staticFields = 103,
+            staticFields = 97,
             readonlyFields = 0,
 
-            boolFields = 16,
+            boolFields = 20,
             byteFields = 0,
             shortFields = 0,
-            intFields = 29,
+            intFields = 48,
             longFields = 0,
             floatFields = 0,
             doubleFields = 4,
-            enumFields = 4,
-            stringFields = 0,
+            enumFields = 3,
+            stringFields = 1,
             ArrayFields = 0,
-            OtherFields = 50
+            OtherFields = 21
         });
 
         public static ResolvedType Helper = new ResolvedType("Helper", new ClassSignature()
         {
-            nameLength = 39,
+            nameLength = 27,
 
             publicClass = true,
             abstractClass = true,
-            nestedTypes = 0,
+            nestedTypes = 8,
 
-            privateMethods = 2,
-            publicMethods = 59,
-            staticMethods = 57,
+            privateMethods = 8,
+            publicMethods = 45,
+            staticMethods = 49,
 
             publicFields = 0,
             privateFields = 0,
@@ -349,9 +231,9 @@ namespace Sector_dll.cheat
             abstractClass = false,
             nestedTypes = 0,
 
-            privateMethods = 0,
+            privateMethods = 2,
             publicMethods = 28,
-            staticMethods = 0,
+            staticMethods = 1,
 
             publicFields = 20,
             privateFields = 0,
@@ -588,14 +470,9 @@ namespace Sector_dll.cheat
         {
             Player,
             GClass49,
-            DrawingHelper,
             Vec4,
-            Font,
             RequestHelper,
-            ConnectionHelper,
-            //HistoryPlayer,
             Map,
-            CollisionHelper,
             Helper1,
             Helper,
             Bones,
@@ -692,41 +569,13 @@ namespace Sector_dll.cheat
 
         public static FieldInfo Settings_fov;
 
-        public static ConstructorInfo Font_Constructor;
-
         public static MethodInfo RequestHelper_POST;
 
         public static MethodInfo RequestHelper_GET;
 
         public static Type Drawing;
 
-        public static MethodInfo Drawing_DrawFilledRect;
-
-        public static MethodInfo Drawing_DrawString;
-
-        public static MethodInfo DrawingHelper_DrawRect;
-
-        public static Type Rect;
-
-        public static ConstructorInfo Rect_Constructor_vec2;
-
-        public static ConstructorInfo Rect_Constructor_standalone;
-
-        public static Type Vec2;
-
-        public static ConstructorInfo Vec2_Constructor;
-
-        public static Type Size;
-
-        public static ConstructorInfo Size_Constructor;
-
         public static Type Color;
-
-        public static ConstructorInfo Color_Constructor_uint;
-
-        public static ConstructorInfo Color_Constructor_byte;
-
-        public static ConstructorInfo Color_Constructor_float;
 
         public static Type Vec3;
 
@@ -748,28 +597,8 @@ namespace Sector_dll.cheat
 
         public static Type ModType;
 
-        //public static MethodInfo GenerateHistoryPlayer;
-
         public static Type MapBase;
 
-        public static Type WorldSpaceBone;
-
-        public static FieldInfo WorldSpaceBone_type;
-
-        public static FieldInfo WorldSpaceBone_head;
-        
-        public static FieldInfo WorldSpaceBone_tail;
-
-        public static FieldInfo WorldSpaceBone_radius;
-        
-        public static FieldInfo WorldSpaceBone_ID;
-
-        public static FieldInfo WorldSpaceBone_name;
-
-        public static ConstructorInfo CollisionHelper_Constructor;
-
-        public static MethodInfo CollisionHelper_GetBonesWorldSpace;
-        
         public static Type PlayerLoadout;
 
         public static Type WeaponType;
@@ -849,15 +678,17 @@ namespace Sector_dll.cheat
                 ClassSignature sig = ClassSignature.GenerateSignature(t);
                 foreach (ResolvedType rt in ResolvedTypes)
                     rt.Update(sig, t);
-                if(t.IsEnum)
-                    foreach(FieldInfo fi in t.GetFields(BindingFlags.Static | BindingFlags.Public))
+                foreach(ConstructorInfo ci in t.GetConstructors(BindingFlags.Instance | BindingFlags.Public))
+                {
+                    ParameterInfo[] pi = ci.GetParameters();
+                    if (pi.Length == 4 && pi[0].ParameterType == typeof(byte) && pi[1].ParameterType == typeof(byte)
+                            && pi[2].ParameterType == typeof(byte) && pi[3].ParameterType == typeof(byte) &&
+                            pi[3].HasDefaultValue)
                     {
-                        if(fi.Name == "Aegis")
-                        {
-                            TeamType = t;
-                            Log.Info("Found enum TeamType as: " + TeamType.ToString());
-                        }
+                        Color = t;
+                        Log.Info("Found struct Color as: " + Color.ToString());
                     }
+                }
                 foreach (MethodInfo method in t.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static))
                 {
                     foreach (Attribute attrib in method.GetCustomAttributes())
@@ -873,7 +704,7 @@ namespace Sector_dll.cheat
                     }
                 }
             }
-            if(TeamType == null) { Log.Info("TeamType is null"); return false; }
+            if(Color == null) { Log.Info("Color is null"); return false; }
 
             foreach (ResolvedType rt in ResolvedTypes)
             {
@@ -962,8 +793,9 @@ namespace Sector_dll.cheat
             foreach (MethodInfo mi in GameManager.GetMethods(BindingFlags.NonPublic | BindingFlags.Instance))
             {
                 if (mi.Name.Length == 15 && mi.ReturnType == typeof(void) && mi.GetParameters().Length == 1 &&
-                    mi.GetParameters()[0].ParameterType == Player.Type && mi.GetMethodBody().GetILAsByteArray().Length > 300)
+                    mi.GetParameters()[0].ParameterType == Player.Type && mi.GetMethodBody().GetILAsByteArray().Length > 200)
                 {
+                    //Log.Danger(mi.GetMethodBody().MaxStackSize + " " + mi.GetMethodBody().LocalVariables.Count + " " + mi.GetMethodBody().GetILAsByteArray().Length);
                     GameManager_SetupBones = mi;
                     Log.Info("Found GameManager_SetupBones as: " + GameManager_SetupBones.ToString());
                 }
@@ -1031,6 +863,28 @@ namespace Sector_dll.cheat
             if (Vec3 == null) { Log.Info("Vec3 is null"); return false; }
             //if (PlayerBase_crouching == null) { Log.Info("PlayerBase_crouching is null"); return false; }//missing
 
+            foreach (FieldInfo fi in PlayerBase.BaseType.GetFields(BindingFlags.Public | BindingFlags.Instance))
+            {
+                if (fi.Name.Length == 15 && fi.FieldType.Name.Length == 39 && IsStruct(fi.FieldType))
+                {
+                    CharacterTexture = fi.FieldType;
+                    PlayerBase_Base_CharacterTexture = fi;
+                    Log.Info("Found struct CharacterTexture as: " + CharacterTexture.ToString());
+                    Log.Info("Found PlayerBase_Base_CharacterTexture as: " + PlayerBase_Base_CharacterTexture.ToString());
+                }
+            }
+            if (CharacterTexture == null) { Log.Info("CharacterTexture is null"); return false; }
+            if (PlayerBase_Base_CharacterTexture == null) { Log.Info("PlayerBase_Base_CharacterTexture is null"); return false; }
+
+            foreach (FieldInfo fi in PlayerBase.BaseType.GetFields(BindingFlags.NonPublic | BindingFlags.Instance))
+            {
+                if (fi.Name.Length == 11 && fi.FieldType.Name.Length == 39 && fi.FieldType.IsEnum)
+                {
+                    TeamType = fi.FieldType;
+                    Log.Info("Found enum TeamType as: " + TeamType.ToString());
+                }
+            }
+
             foreach (MethodInfo mi in PlayerBase.GetMethods(BindingFlags.Public | BindingFlags.Instance))
             {
                 if (mi.IsPublic && mi.Name.Length == 23 && mi.GetParameters().Length == 1 &&
@@ -1047,9 +901,10 @@ namespace Sector_dll.cheat
                     Log.Info("Found PLayerBase_CurrentWeaponType as: " + PLayerBase_CurrentWeaponType.ToString());
                 }
                 if (mi.ReturnType == typeof(int) && mi.GetParameters().Length == 0 && mi.Name.Length == 15
-                    && mi.GetMethodBody().LocalVariables.Count == 0 && mi.GetMethodBody().MaxStackSize == 8
-                    && mi.GetMethodBody().GetILAsByteArray().Length > 20)
+                    && mi.GetMethodBody().LocalVariables.Count == 0 && mi.GetMethodBody().MaxStackSize == 7
+                    && mi.GetMethodBody().GetILAsByteArray().Length > 50)
                 {
+                    //Log.Danger(mi.GetMethodBody().MaxStackSize + " " + mi.GetMethodBody().LocalVariables.Count + " " + mi.GetMethodBody().GetILAsByteArray().Length);
                     PLayerBase_CurrentWeaponIndex = mi;
                     Log.Info("Found PLayerBase_CurrentWeaponIndex as: " + PLayerBase_CurrentWeaponIndex.ToString());
                 }
@@ -1110,32 +965,19 @@ namespace Sector_dll.cheat
             if (PlayerBase_name == null) { Log.Info("PlayerBase_name is null"); return false; }
             if (PlayerBase_health == null) { Log.Info("PlayerBase_health is null"); return false; }
 
-            foreach (FieldInfo fi in PlayerBase.BaseType.GetFields(BindingFlags.Public | BindingFlags.Instance))
-            {
-                if(fi.Name.Length == 15 && fi.FieldType.Name.Length == 39 && IsStruct(fi.FieldType))
-                {
-                    CharacterTexture = fi.FieldType;
-                    PlayerBase_Base_CharacterTexture = fi;
-                    Log.Info("Found struct CharacterTexture as: " + CharacterTexture.ToString());
-                    Log.Info("Found PlayerBase_Base_CharacterTexture as: " + PlayerBase_Base_CharacterTexture.ToString());
-                }
-            }
-            if (CharacterTexture == null) { Log.Info("CharacterTexture is null"); return false; }
-            if (PlayerBase_Base_CharacterTexture == null) { Log.Info("PlayerBase_Base_CharacterTexture is null"); return false; }
-
             foreach(FieldInfo fi in PlayerBase.BaseType.GetFields(BindingFlags.NonPublic | BindingFlags.Instance))
             {
                 if (fi.FieldType.IsArray && fi.FieldType == typeof(double[]))
                 {
-                    if(PlayerBase_Base_Pitch == null)
-                    {
-                        PlayerBase_Base_Pitch = fi;
-                        Log.Info("Found PlayerBase_Base_Pitch as: " + PlayerBase_Base_Pitch.ToString());
-                    }
-                    else if(PlayerBase_Base_Yaw == null)
+                    if(PlayerBase_Base_Yaw == null)
                     {
                         PlayerBase_Base_Yaw = fi;
                         Log.Info("Found PlayerBase_Base_Yaw as: " + PlayerBase_Base_Yaw.ToString());
+                    }
+                    else if(PlayerBase_Base_Pitch == null)
+                    {
+                        PlayerBase_Base_Pitch = fi;
+                        Log.Info("Found PlayerBase_Base_Pitch as: " + PlayerBase_Base_Pitch.ToString());
                     }
                     else
                     {
@@ -1219,55 +1061,9 @@ namespace Sector_dll.cheat
             }
             if (GClass49_player_list == null) { Log.Info("GClass49_player_list is null"); return false; }
 
-            foreach (MethodInfo m in DrawingHelper.Type.GetMethods(bindingFlags))
-            {
-                if (m.IsPublic && m.IsStatic && m.ReturnType == typeof(void) && m.GetParameters().Length == 4
-                    && m.GetParameters()[0].ParameterType == Drawing.BaseType && IsStruct(m.GetParameters()[1].ParameterType)
-                    && m.GetParameters()[2].ParameterType == typeof(double) && IsStruct(m.GetParameters()[3].ParameterType))
-                {
-                    DrawingHelper_DrawRect = m;
-                    Rect = m.GetParameters()[1].ParameterType;
-                    Color = m.GetParameters()[3].ParameterType;
-                    Log.Info("Found DrawingHelper.DrawRect as: " + m.ToString());
-                    Log.Info("Found class Rect as: " + Rect.ToString());
-                    Log.Info("Found class Color as: " + Color.ToString());
-                    break;
-                }
-            }
-            if (DrawingHelper_DrawRect == null) { Log.Info("DrawingHelper_DrawRect is null"); return false; }
-            if (Rect == null) { Log.Info("Rect is null"); return false; }
-            if (Color == null) { Log.Info("Color is null"); return false; }
-
-            foreach (MethodInfo mi in Drawing.GetMethods(bindingFlags))
-            {
-                if (mi.IsPublic && mi.Name.Length == 15 && mi.GetParameters().Length == 2
-                    && mi.GetParameters()[0].ParameterType == Rect && mi.GetParameters()[1].ParameterType == Color)
-                {
-                    Drawing_DrawFilledRect = mi;
-                    Log.Info("Found Drawing_DrawFilledRect as: " + Drawing_DrawFilledRect.ToString());
-                }
-                if (mi.IsPublic && mi.Name.Length == 11 && mi.GetParameters().Length == 7 && mi.GetParameters()[0].ParameterType == typeof(string))
-                {
-                    Drawing_DrawString = mi;
-                    Log.Info("Found Drawing_DrawString as: " + Drawing_DrawString.ToString());
-                }
-            }
-            if (Drawing_DrawFilledRect == null) { Log.Info("Drawing_DrawFilledRect is null"); return false; }
-            if (Drawing_DrawString == null) { Log.Info("Drawing_DrawString is null"); return false; }
-
-            foreach (ConstructorInfo ci in Font.Type.GetConstructors())
-            {
-                if (ci.IsPublic && ci.GetParameters().Length == 3 && ci.GetParameters()[2].ParameterType == typeof(int))
-                {
-                    Font_Constructor = ci;
-                    Log.Info("Found Font_Constructor constructor as: " + Font_Constructor.ToString());
-                }
-            }
-            if (Font_Constructor == null) { Log.Info("Font_Constructor is null"); return false; }
-
             foreach (MethodInfo mi in RequestHelper.Type.GetMethods(BindingFlags.Public | BindingFlags.Static))
             {
-                if (mi.GetParameters().Length == 3)
+                if (mi.GetParameters().Length == 2)
                 {
                     RequestHelper_POST = mi;
                     Log.Info("Found RequestHelper_POST as: " + RequestHelper_POST.ToString());
@@ -1280,60 +1076,6 @@ namespace Sector_dll.cheat
             }
             if (RequestHelper_POST == null) { Log.Info("RequestHelper_POST is null"); return false; }
             if (RequestHelper_GET == null) { Log.Info("RequestHelper_GET is null"); return false; }
-
-            foreach (ConstructorInfo ci in Rect.GetConstructors())
-            {
-                if (ci.GetParameters().Length == 2)
-                {
-                    Rect_Constructor_vec2 = ci;
-                    Vec2 = ci.GetParameters()[0].ParameterType;
-                    Size = ci.GetParameters()[1].ParameterType;
-                    Log.Info("Found Rect_Constructor_vec2 as: " + Rect_Constructor_vec2.ToString());
-                    Log.Info("Found class Vec2 as: " + Vec2.ToString());
-                    Log.Info("Found class Size as: " + Size.ToString());
-                }
-                else if (ci.GetParameters().Length == 4)
-                {
-                    Rect_Constructor_standalone = ci;
-                    Log.Info("Found Rect_Constructor_standalone as: " + Rect_Constructor_standalone.ToString());
-                }
-            }
-            if (Rect_Constructor_vec2 == null) { Log.Info("Rect_Constructor_vec2 is null"); return false; }
-            if (Vec2 == null) { Log.Info("Vec2 is null"); return false; }
-            if (Size == null) { Log.Info("Size is null"); return false; }
-            if (Rect_Constructor_standalone == null) { Log.Info("Rect_Constructor_standalone is null"); return false; }
-
-            Vec2_Constructor = Vec2.GetConstructors()[0];
-            Size_Constructor = Size.GetConstructors()[0];
-            if (Vec2_Constructor == null) { Log.Info("Vec2_Constructor is null"); return false; }
-            if (Size_Constructor == null) { Log.Info("Size_Constructor is null"); return false; }
-            Log.Info("Found Vec2_Constructor as: " + Vec2_Constructor.ToString());
-            Log.Info("Found Size_Constructor as: " + Size_Constructor.ToString());
-
-            foreach (ConstructorInfo ci in Color.GetConstructors())
-            {
-                if (ci.GetParameters().Length == 1)
-                {
-                    Color_Constructor_uint = ci;
-                    Log.Info("Found Color_Constructor_uint as: " + Color_Constructor_uint.ToString());
-                }
-                else if (ci.GetParameters().Length == 4)
-                {
-                    if (ci.GetParameters()[0].ParameterType == typeof(byte))
-                    {
-                        Color_Constructor_byte = ci;
-                        Log.Info("Found Color_Constructor_byte as: " + Color_Constructor_byte.ToString());
-                    }
-                    else if (ci.GetParameters()[0].ParameterType == typeof(float))
-                    {
-                        Color_Constructor_float = ci;
-                        Log.Info("Found Color_Constructor_float as: " + Color_Constructor_float.ToString());
-                    }
-                }
-            }
-            if (Color_Constructor_uint == null) { Log.Info("Color_Constructor_uint is null"); return false; }
-            if (Color_Constructor_byte == null) { Log.Info("Color_Constructor_byte is null"); return false; }
-            if (Color_Constructor_float == null) { Log.Info("Color_Constructor_float is null"); return false; }
 
             foreach (MethodInfo mi in Vec4.Type.GetMethods())
             {
@@ -1442,7 +1184,7 @@ namespace Sector_dll.cheat
             foreach (FieldInfo fi in GClass49.Type.BaseType.GetFields(BindingFlags.NonPublic | BindingFlags.Static))
             {
                 if (fi.FieldType.IsGenericType && fi.FieldType.GetGenericTypeDefinition() == typeof(Dictionary<,>)
-                    && fi.FieldType.GetGenericArguments()[0] == WeaponType && fi.FieldType.GetGenericArguments()[1] == Vec2)
+                    && fi.FieldType.GetGenericArguments()[0] == WeaponType )//&& fi.FieldType.GetGenericArguments()[1] == Vec2)
                 {
                     if (GClass49_Base_ScopeSizes1 == null)
                     {
@@ -1460,8 +1202,8 @@ namespace Sector_dll.cheat
                     }
                 }
             }
-            if (GClass49_Base_ScopeSizes1 == null) { Log.Info("GClass49_Base_ScopeSizes1 is null"); return false; }
-            if (GClass49_Base_ScopeSizes2 == null) { Log.Info("GClass49_Base_ScopeSizes2 is null"); return false; }
+            //if (GClass49_Base_ScopeSizes1 == null) { Log.Info("GClass49_Base_ScopeSizes1 is null"); return false; }
+            //if (GClass49_Base_ScopeSizes2 == null) { Log.Info("GClass49_Base_ScopeSizes2 is null"); return false; }
 
             foreach (MethodInfo mi in GClass49.Type.BaseType.GetMethods(BindingFlags.Instance | BindingFlags.Public))
             {
@@ -1471,9 +1213,10 @@ namespace Sector_dll.cheat
                     GClass49_Base_GetPlayerColor = mi;
                     Log.Info("Found GClass49_Base_GetPlayerColor as: " + GClass49_Base_GetPlayerColor.ToString());
                 }
-                if (mi.ReturnType == typeof(bool) && mi.GetParameters().Length == 0 && mi.Name.Length == 15
-                    && mi.GetMethodBody().LocalVariables.Count == 1 && mi.GetMethodBody().MaxStackSize == 9)
+                if (mi.ReturnType == typeof(bool) && mi.GetParameters().Length == 0 && mi.Name.Length == 15 &&
+                    mi.GetMethodBody().GetILAsByteArray().Length > 50)
                 {
+                    Log.Danger(mi.GetMethodBody().MaxStackSize + " " + mi.GetMethodBody().LocalVariables.Count + " " + mi.GetMethodBody().GetILAsByteArray().Length);
                     GClass49_Base_IsScoped = mi;
                     Log.Info("Found GClass49_Base_IsScoped as: " + GClass49_Base_IsScoped.ToString());
                 }
@@ -1546,68 +1289,6 @@ namespace Sector_dll.cheat
             }
             if (Settings_fov == null) { Log.Info("Settings_fov is null"); return false; }
 
-            foreach(MethodInfo mi in CollisionHelper.Type.GetMethods(BindingFlags.Public | BindingFlags.Instance))
-            {
-                if(mi.GetParameters().Length == 1 && mi.GetParameters()[0].ParameterType == Player.Type && mi.ReturnType.IsGenericType && 
-                    mi.ReturnType.GetGenericTypeDefinition() == typeof(List<>) && mi.ReturnType.GetGenericArguments().Length == 1 && mi.Name.Length == 27)
-                {
-                    CollisionHelper_GetBonesWorldSpace = mi;
-                    WorldSpaceBone = mi.ReturnType.GetGenericArguments()[0];
-                    Log.Info("Found CollisionHelper_GetBonesWorldSpace as: " + CollisionHelper_GetBonesWorldSpace.ToString());
-                    Log.Info("Found class WorldSpaceBone as: " + WorldSpaceBone.ToString());
-                }
-            }
-            if (CollisionHelper_GetBonesWorldSpace == null) { Log.Info("CollisionHelper_GetBonesWorldSpace is null"); return false; }
-            if (WorldSpaceBone == null) { Log.Info("WorldSpaceBone is null"); return false; }
-            CollisionHelper_Constructor = CollisionHelper.Type.GetConstructors()[0];
-            Log.Info("Found CollisionHelper_Constructor as: " + CollisionHelper_Constructor.ToString());
-
-            foreach (FieldInfo fi in WorldSpaceBone.GetFields(BindingFlags.Public | BindingFlags.Instance)) //relying on order beeing always thesame
-            {
-                if (WorldSpaceBone_type == null)
-                {
-                    WorldSpaceBone_type = fi;
-                    Log.Info("Found WorldSpaceBone_type as: " + WorldSpaceBone_type.ToString());
-                }
-                else if (WorldSpaceBone_head == null)
-                {
-                    WorldSpaceBone_head = fi;
-                    Log.Info("Found WorldSpaceBone_head as: " + WorldSpaceBone_head.ToString());
-                }
-                else if (WorldSpaceBone_tail == null)
-                {
-                    WorldSpaceBone_tail = fi;
-                    Log.Info("Found WorldSpaceBone_tail as: " + WorldSpaceBone_tail.ToString());
-                }
-                else if (WorldSpaceBone_radius == null)
-                {
-                    WorldSpaceBone_radius = fi;
-                    Log.Info("Found WorldSpaceBone_radius as: " + WorldSpaceBone_radius.ToString());
-                }
-                else if (WorldSpaceBone_ID == null)
-                {
-                    WorldSpaceBone_ID = fi;
-                    Log.Info("Found WorldSpaceBone_ID as: " + WorldSpaceBone_ID.ToString());
-                }
-                else if (WorldSpaceBone_name == null)
-                {
-                    WorldSpaceBone_name = fi;
-                    Log.Info("Found WorldSpaceBone_name as: " + WorldSpaceBone_name.ToString());
-                }
-                else
-                {
-                    Log.Info("WorldSpaceBone has changed !!!!!!!!!!!");
-                    return false;
-                }
-            }
-            if (WorldSpaceBone_type == null) { Log.Info("WorldSpaceBone_type is null"); return false; }
-            if (WorldSpaceBone_head == null) { Log.Info("WorldSpaceBone_head is null"); return false; }
-            if (WorldSpaceBone_tail == null) { Log.Info("WorldSpaceBone_tail is null"); return false; }
-            if (WorldSpaceBone_radius == null) { Log.Info("WorldSpaceBone_radius is null"); return false; }
-            if (WorldSpaceBone_ID == null) { Log.Info("WorldSpaceBone_ID is null"); return false; }
-            if (WorldSpaceBone_name == null) { Log.Info("WorldSpaceBone_name is null"); return false; }
-
-
             foreach (MethodInfo mi in Helper1.Type.GetMethods(BindingFlags.Public | BindingFlags.Static))
             {
                 if (mi.ReturnType.IsEnum && mi.GetParameters().Length == 2 && mi.GetParameters()[0].ParameterType == PlayerBase
@@ -1628,16 +1309,16 @@ namespace Sector_dll.cheat
             if (ScopeType == null) { Log.Info("ScopeType is null"); return false; }
             if (Helper1_GetProcAddress == null) { Log.Info("Helper1_GetProcAddress is null"); return false; }
 
-            foreach (MethodInfo mi in Helper.Type.GetMethods(BindingFlags.Static | BindingFlags.Public))
-            {
-                if(mi.ReturnType == typeof(double) && mi.Name.Length == 15 && mi.GetParameters().Length == 1 &&
-                    mi.GetParameters()[0].ParameterType == PlayerBase.BaseType)
-                {
-                    Helper_CurrentBloom = mi;
-                    Log.Info("Found Helper_CurrentBloom as: " + Helper_CurrentBloom.ToString());
-                }
-            }
-            if(Helper_CurrentBloom == null) { Log.Info("Helper_CurrentBloom is null"); return false; }
+            //foreach (MethodInfo mi in Helper.Type.GetMethods(BindingFlags.Static | BindingFlags.Public))
+            //{
+            //    if(mi.ReturnType == typeof(double) && mi.Name.Length == 15 && mi.GetParameters().Length == 1 &&
+            //        mi.GetParameters()[0].ParameterType == PlayerBase.BaseType)
+            //    {
+            //        Helper_CurrentBloom = mi;
+            //        Log.Info("Found Helper_CurrentBloom as: " + Helper_CurrentBloom.ToString());
+            //    }
+            //}
+            //if(Helper_CurrentBloom == null) { Log.Info("Helper_CurrentBloom is null"); return false; }
 
             foreach(MethodInfo mi in Bones.Type.BaseType.GetMethods(BindingFlags.Instance | BindingFlags.Public))
             {

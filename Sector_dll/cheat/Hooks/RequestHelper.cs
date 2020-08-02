@@ -8,7 +8,7 @@ namespace Sector_dll.cheat.Hooks
     {
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static object POST(Func<string, string, bool, object> orig, string url, string body, bool addDomain)
+        public static object POST(Func<string, string, object> orig, string url, string body)
         {
             Log.Info("POST: " + url + " body: " + body);
             //if (body.Contains("devices"))
@@ -16,7 +16,7 @@ namespace Sector_dll.cheat.Hooks
             //    System.Diagnostics.StackTrace t = new System.Diagnostics.StackTrace();
             //    Log.Info(t.ToString());
             //}
-            return orig(url, body, addDomain);
+            return orig(url, body);
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]

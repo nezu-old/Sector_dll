@@ -47,8 +47,8 @@ namespace Sector_dll.util
         {
             AssemblyDefinition definition = AssemblyDefinition.ReadAssembly(assembly.Location);
 
-            MethodDefinition md = definition.MainModule.GetType("#=qlP7Rck8fKTTAfxJeTbAdpGzgOJ5BuLGTE8xrRZOLGDs=")
-                .Methods.First(x => x.Name == "#=zE9ylfdY=");
+            MethodDefinition md = definition.MainModule.GetType("#=qdoFfi5oHiWQ_F2sP8WpOBcxXYtKebPWkOJgS_W$6XCc=")
+                .Methods.First(x => x.Name == "#=z6BNw_1w=");
 
             FileStream fileStream = new FileStream(Path.Combine(Directory.GetCurrentDirectory(), "strings.txt"), FileMode.Create);
             StreamWriter sw = new StreamWriter(fileStream);

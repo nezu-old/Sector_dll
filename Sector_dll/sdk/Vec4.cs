@@ -17,6 +17,11 @@ namespace Sector_dll.sdk
             return SignatureManager.Vec4_Constructor_Vec3.Invoke(new object[] { vec3 });
         }
 
+        public static object New(Vec3 vec3)
+        {
+            return SignatureManager.Vec4_Constructor_Vec3.Invoke(new object[] { vec3.ToInternal() });
+        }
+
         public static object Multiply(object vec4, object matrix4)
         {
             return SignatureManager.Vec4_Multiply_Matrix4.Invoke(null, new object[] { vec4, matrix4 });

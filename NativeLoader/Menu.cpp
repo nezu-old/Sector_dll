@@ -478,8 +478,12 @@ void draw_TAB_AIM(Menu::Settings* settings) {
 		ImGui::SetNextItemWidth(100);
 		ImGui::Combo("Mode", &settings->aimbot_mode, aimbotmodes, IM_ARRAYSIZE(aimbotmodes));
 
-		static int k = 0;
-		Hotkey("Aibot key##xd", &k);
+		ImGui::Checkbox("Silent", (bool*)&settings->esp_box);
+		ImGui::Checkbox("Autoscope", (bool*)&settings->esp_box);
+		ImGui::Checkbox("Friendly fire", (bool*)&settings->esp_box);
+		ImGui::Checkbox("Box", (bool*)&settings->esp_box);
+		ImGui::Checkbox("Box", (bool*)&settings->esp_box);
+
 
 	}
 

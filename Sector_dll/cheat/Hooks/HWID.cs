@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using Mono.Cecil;
 using Sector_dll.util;
 using System;
 using System.Management;
@@ -14,6 +15,68 @@ namespace Sector_dll.cheat.Hooks
         public static int Seed = 0;// new Random().Next();
 
         public static char[] A = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
+        public static char[] A1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890".ToCharArray();
+
+        public static string randomStr(char[] c, int len)
+        {
+            StringBuilder sb = new StringBuilder(len);
+            Random r = new Random(Seed + c.Length);
+            for (int i = 0; i < len; i++)
+            {
+                sb.Append(c[r.Next(c.Length)]);
+            }
+            return sb.ToString();
+        }
+
+        public static string randomGpu()
+        {
+            Random r = new Random(Seed + 69);
+            if(r.Next(100) > 50)
+            {
+                int gen = r.Next(6, 12);
+                if (gen == 11) 
+                    gen = 20;//cuz nvidia big brain 10 + 1 = 20 XD
+                string series = gen == 20 ? "RTX" : r.Next(2) == 0 && gen < 10 ? "GT" : "GTX";
+                int version = r.Next(6, 9) * 10;
+                return "NVIDIA GeForce " + series + " " + gen.ToString() + version.ToString();
+            }
+            else
+            {
+                int gen = r.Next(9);
+                int x1 = r.Next(7);
+                int x2 = r.Next(8);
+                return "Intel(R) HD Graphics " + (gen != 0 ? gen.ToString() : "") + x1.ToString() + x2.ToString() + "0";
+            }
+        }
+
+        public static string intelCpuId()
+        {
+            switch(new Random(Seed + 3).Next(3))
+            {
+                case 0: return "BFEBFBFF000306D4";
+                case 1: return "BFEBFBFF000906E9";
+                case 2: return "BFEBFBFF000306A9";
+            }
+            return "BFEBFBFF00030669"; //idk XD
+        }
+
+        public static string[] mobo_m = new string[] 
+        { 
+            "Insyde", 
+            "Dell Inc.", 
+            "Micro-Star International Co., Ltd.",
+            "Hewlett-Packard",
+            "HP", //LOL they use both XD
+        };
+
+        public static string[] mobo_p = new string[] // prefixes fo shit
+        {
+            "Insyde Version ",
+            "Dell - ",
+            "ALASKA - ",
+            "Hewlett-Packard - ",
+            "HPQOEM - ", //LOL they use both XD
+        };
 
         [StructLayout(LayoutKind.Sequential)]
         public struct MODULEINFO
@@ -60,34 +123,34 @@ namespace Sector_dll.cheat.Hooks
             if (path.EndsWith("Win32_Processor"))
             {
                 if (name == "UniqueId") val = "";
-                if (name == "ProcessorId") val = "BFEBFBFF000306D4";
+                if (name == "ProcessorId") val = intelCpuId();
             }
             if (path.EndsWith("Win32_BIOS"))
                 {
-                if (name == "Manufacturer") val = "Dell Inc.";
+                if (name == "Manufacturer") val = mobo_m[new Random(Seed).Next(mobo_m.Length)];
                 if (name == "SMBIOSBIOSVersion")
-                    val = ((new Random(Seed)).Next(100) % 2 == 0 ? "A" : "B") + "." + (new Random(Seed)).Next(20, 61).ToString();
+                    val = A[new Random(Seed).Next(A.Length)] + (new Random(Seed)).Next(20, 61).ToString();
                 if (name == "IdentificationCode") val = "";
-                if (name == "SerialNumber") val = "AJN5171";
+                if (name == "SerialNumber") val = randomStr(A1, new Random(Seed).Next(5, 10));
                 if (name == "ReleaseDate")
                     val = (new Random(Seed)).Next(2016, 2020).ToString() + 
                         (new Random(Seed)).Next(1, 13).ToString() +
                         (new Random(Seed)).Next(1, 13).ToString();
-                if (name == "Version") val = "DELL - 10" + (new Random(Seed)).Next(10000, 99999).ToString();
+                if (name == "Version") val = mobo_p[new Random(Seed).Next(mobo_m.Length)] +
+                        (new Random(Seed)).Next(10000, 99999).ToString(new Random(Seed - 1).Next(101) % 2 == 0 ? "X" : "D");
             }
             if (path.EndsWith("Win32_BaseBoard"))
             {
                 if (name == "Model") val = "";
-                if (name == "Manufacturer") val = "Dell Inc.";
+                if (name == "Manufacturer") val = mobo_m[new Random(Seed).Next(mobo_m.Length)];
                 if (name == "Name") val = "Base Board";
-                if (name == "SerialNumber") val = A[(new Random(Seed)).Next(A.Length)].ToString() 
-                        + (new Random(Seed)).Next(100000000, 999999999).ToString();
+                if (name == "SerialNumber") val = randomStr(A1, new Random(Seed).Next(4, 16));
             }
             if (path.EndsWith("Win32_VideoController"))
             {
-                if (name == "DriverVersion") val = "26.21.14.4614";
-                if (name == "Name") val = "NVIDIA GeForce " + ((new Random(Seed)).Next(50) % 2 == 0 ? "GTX 10" : "RTX 20") 
-                        + ((new Random(Seed)).Next(6, 9) * 10).ToString();
+                if (name == "DriverVersion") val = new Random(Seed).Next(10, 24) + "." + new Random(Seed).Next(18, 22) + 
+                        "." + new Random(Seed).Next(10, 50) + "." + new Random(Seed).Next(1000, 5000);
+                if (name == "Name") val = randomGpu();
             }
             if (path.EndsWith("Win32_USBHub")){
                 if(name == "Description")
@@ -161,7 +224,7 @@ namespace Sector_dll.cheat.Hooks
                     Array.Copy(bytes, 4, bytes2, 0, bytes2.Length);
                     string key_name = Encoding.Unicode.GetString(bytes2);
                     string full_name = key_name + "\\" + valueName;
-                    Log.Info("RegQueryValueEx(" + full_name + ")");
+                    Log.Danger("RegQueryValueEx(" + full_name + ")");
                     if(full_name.ToLower().EndsWith(@"Microsoft\Windows NT\CurrentVersion\DigitalProductId".ToLower()))
                     {
                         Random r = new Random(Seed);
@@ -176,7 +239,7 @@ namespace Sector_dll.cheat.Hooks
                         type = 0x69; // to lazy to google the actual type ( ͡• ͜ʖ ͡• )
                         Marshal.Copy(fake_key, 0, data, Math.Min(fake_key.Length, dataSize)); //to lazy to throw XD
                         dataSize = fake_key.Length;
-                        Log.Info("windows key spoofed!");
+                        Log.Danger("windows key spoofed!");
                         return 0U;
                     }
                 }
@@ -196,7 +259,7 @@ namespace Sector_dll.cheat.Hooks
             Random r = new Random(Seed);
             string s = "DESKTOP-" + A[r.Next(A.Length)] + A[r.Next(A.Length)] + r.Next(999).ToString()
                 + A[r.Next(A.Length)] + A[r.Next(A.Length)];
-            Log.Info("Spoffed get_MachineName as: " + s);
+            Log.Danger("Spoffed get_MachineName as: " + s);
             return s;
         }
 
@@ -212,7 +275,7 @@ namespace Sector_dll.cheat.Hooks
             {
                 name = "admin";
             }
-            Log.Info("Spoffed get_UserName as: " + name);
+            Log.Danger("Spoffed get_UserName as: " + name);
             return name;
         }
 
@@ -234,7 +297,7 @@ namespace Sector_dll.cheat.Hooks
             { 
                 time = time.Subtract(new TimeSpan(r.Next(200), r.Next(20), r.Next(50), r.Next(10)));
             }
-            Log.Info("Spoofing File.GetCreationTimeUtc(" + path + ") as " + time.ToString()); 
+            Log.Danger("Spoofing File.GetCreationTimeUtc(" + path + ") as " + time.ToString()); 
             return time;
         }
 

@@ -29,7 +29,9 @@ namespace Sector_dll.cheat
 		public struct Settings
 		{
 			public uint menu_color;
-
+			public int aimbot_mode;
+			public int aimbot_key;
+			
 			public EspModes esp_mode;
 			public EspTarget esp_team;
 			public int esp_box;
@@ -41,7 +43,7 @@ namespace Sector_dll.cheat
 			public int esp_weapon;
 			public int esp_oov_arrow;
 			public int esp_flags;
-
+			
 			public int no_recoil;
 
 			public float debug1;

@@ -14,7 +14,7 @@ namespace Sector_dll.cheat.Hooks
     class Tracing
     {
 
-        private static readonly string file = "hidden_log.txt";
+        public static readonly string file = "hidden_log.txt";
 
         public static void ApplyHooks()
         {
