@@ -17,14 +17,21 @@ namespace Sector_dll.cheat
             object gm = GameManager.instance.Target;
 
             object local = GameManager.GetLocalPLayer(gm);
-            if (Config.settings.esp_mode == Config.EspModes.Off ||
-                (Config.settings.esp_mode == Config.EspModes.OnDeath && (local != null && Player.GetHealth(local) > 0)))
-                return;
+            //if (Config.settings.esp_mode == Config.EspModes.Off ||
+            //    (Config.settings.esp_mode == Config.EspModes.OnDeath && (local != null && Player.GetHealth(local) > 0)))
+            //    return;
 
             byte local_team = local != null ? (byte)Player.GetTeam(local) : (byte)0xFF;
 
             List<object> players = GameManager.GetPlayers(gm);
 
+            d.DrawTextSmall(GameManager.W2SResolution.ToString(), 100, 100); ;
+
+            if(GameManager.W2s(new Vec3(0, 0, 0), out Vec2 test))
+            {
+                d.DrawTextSmall(test.ToString(), 100, 120);
+                d.DrawRect((int)test.x - 5, (int)test.y - 5, 10, 10, 2, Color.red);
+            }
 
             for (int i = 0; i < players.Count; i++)
             {
@@ -38,7 +45,7 @@ namespace Sector_dll.cheat
                     continue;
 
                 double hp = Player.GetHealth(player);
-                if (hp > 0.0)
+                //if (hp > 0.0)
                 {
                     Vec3 origin = Player.GetOrigin(player);
                     Vec3 origin_plus_1 = origin + new Vec3(0, 1, 0);

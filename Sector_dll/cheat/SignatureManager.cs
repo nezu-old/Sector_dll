@@ -23,10 +23,10 @@ namespace Sector_dll.cheat
             nestedTypes = 0,
 
             privateMethods = 2,
-            publicMethods = 113,
+            publicMethods = 118,
             staticMethods = 0,
 
-            publicFields = 117,
+            publicFields = 119,
             privateFields = 3,
             staticFields = 0,
             readonlyFields = 5,
@@ -34,13 +34,13 @@ namespace Sector_dll.cheat
             boolFields = 27,
             byteFields = 3,
             shortFields = 0,
-            intFields = 17,
+            intFields = 19,
             longFields = 0,
             floatFields = 1,
             doubleFields = 8,
             enumFields = 5,
             stringFields = 3,
-            ArrayFields = 4,
+            ArrayFields = 1,
             OtherFields = 55
         });
 
@@ -53,24 +53,24 @@ namespace Sector_dll.cheat
             nestedTypes = 3,
 
             privateMethods = 51,
-            publicMethods = 342,
+            publicMethods = 346,
             staticMethods = 0,
 
             publicFields = 145,
-            privateFields = 44,
+            privateFields = 43,
             staticFields = 5,
             readonlyFields = 6,
 
-            boolFields = 37,
+            boolFields = 38,
             byteFields = 1,
             shortFields = 0,
             intFields = 15,
             longFields = 1,
             floatFields = 0,
-            doubleFields = 22,
+            doubleFields = 21,
             enumFields = 8,
             stringFields = 0,
-            ArrayFields = 12,
+            ArrayFields = 10,
             OtherFields = 125
         });
 
@@ -142,25 +142,25 @@ namespace Sector_dll.cheat
             nestedTypes = 0,
 
             privateMethods = 2,
-            publicMethods = 61,
+            publicMethods = 59,
             staticMethods = 3,
 
-            publicFields = 37,
+            publicFields = 35,
             privateFields = 0,
             staticFields = 0,
             readonlyFields = 0,
 
-            boolFields = 1,
+            boolFields = 3,
             byteFields = 0,
             shortFields = 0,
-            intFields = 9,
+            intFields = 7,
             longFields = 0,
             floatFields = 3,
             doubleFields = 1,
             enumFields = 4,
-            stringFields = 1,
+            stringFields = 2,
             ArrayFields = 13,
-            OtherFields = 10
+            OtherFields = 8
         });
 
         public static ResolvedType Helper1 = new ResolvedType("Helper1", new ClassSignature() 
@@ -172,18 +172,18 @@ namespace Sector_dll.cheat
             nestedTypes = 0,
 
             privateMethods = 0,
-            publicMethods = 52,
-            staticMethods = 48,
+            publicMethods = 53,
+            staticMethods = 49,
 
-            publicFields = 97,
+            publicFields = 104,
             privateFields = 0,
-            staticFields = 97,
+            staticFields = 104,
             readonlyFields = 0,
 
-            boolFields = 20,
+            boolFields = 24,
             byteFields = 0,
             shortFields = 0,
-            intFields = 48,
+            intFields = 51,
             longFields = 0,
             floatFields = 0,
             doubleFields = 4,
@@ -293,14 +293,14 @@ namespace Sector_dll.cheat
 
             privateMethods = 0,
             publicMethods = 21,
-            staticMethods = 3,
+            staticMethods = 2,
 
-            publicFields = 30,
+            publicFields = 31,
             privateFields = 5,
             staticFields = 1,
             readonlyFields = 0,
 
-            boolFields = 11,
+            boolFields = 12,
             byteFields = 2,
             shortFields = 2,
             intFields = 1,
@@ -322,15 +322,15 @@ namespace Sector_dll.cheat
             nestedTypes = 0,
 
             privateMethods = 0,
-            publicMethods = 19,
+            publicMethods = 20,
             staticMethods = 1,
 
-            publicFields = 34,
+            publicFields = 35,
             privateFields = 0,
             staticFields = 1,
             readonlyFields = 0,
 
-            boolFields = 10,
+            boolFields = 11,
             byteFields = 2,
             shortFields = 1,
             intFields = 0,
@@ -352,15 +352,15 @@ namespace Sector_dll.cheat
             nestedTypes = 0,
 
             privateMethods = 0,
-            publicMethods = 18,
+            publicMethods = 19,
             staticMethods = 0,
 
-            publicFields = 37,
+            publicFields = 39,
             privateFields = 0,
             staticFields = 0,
             readonlyFields = 0,
 
-            boolFields = 13,
+            boolFields = 15,
             byteFields = 2,
             shortFields = 1,
             intFields = 0,
@@ -382,15 +382,15 @@ namespace Sector_dll.cheat
             nestedTypes = 0,
 
             privateMethods = 0,
-            publicMethods = 18,
+            publicMethods = 19,
             staticMethods = 0,
 
-            publicFields = 33,
+            publicFields = 34,
             privateFields = 0,
             staticFields = 1,
             readonlyFields = 0,
 
-            boolFields = 10,
+            boolFields = 11,
             byteFields = 2,
             shortFields = 1,
             intFields = 0,
@@ -412,15 +412,15 @@ namespace Sector_dll.cheat
             nestedTypes = 0,
 
             privateMethods = 0,
-            publicMethods = 18,
+            publicMethods = 19,
             staticMethods = 0,
 
-            publicFields = 30,
+            publicFields = 31,
             privateFields = 0,
             staticFields = 0,
             readonlyFields = 0,
 
-            boolFields = 10,
+            boolFields = 11,
             byteFields = 2,
             shortFields = 1,
             intFields = 0,
@@ -443,14 +443,14 @@ namespace Sector_dll.cheat
 
             privateMethods = 0,
             publicMethods = 21,
-            staticMethods = 3,
+            staticMethods = 2,
 
-            publicFields = 30,
+            publicFields = 31,
             privateFields = 5,
             staticFields = 1,
             readonlyFields = 0,
 
-            boolFields = 11,
+            boolFields = 12,
             byteFields = 2,
             shortFields = 2,
             intFields = 1,
@@ -901,8 +901,9 @@ namespace Sector_dll.cheat
                     Log.Info("Found PLayerBase_CurrentWeaponType as: " + PLayerBase_CurrentWeaponType.ToString());
                 }
                 if (mi.ReturnType == typeof(int) && mi.GetParameters().Length == 0 && mi.Name.Length == 15
-                    && mi.GetMethodBody().LocalVariables.Count == 0 && mi.GetMethodBody().MaxStackSize == 7
-                    && mi.GetMethodBody().GetILAsByteArray().Length > 50)
+                    && mi.GetMethodBody().LocalVariables.Count == 1 && mi.GetMethodBody().MaxStackSize == 12
+                    && mi.GetMethodBody().GetILAsByteArray().Length > 100
+                    )
                 {
                     //Log.Danger(mi.GetMethodBody().MaxStackSize + " " + mi.GetMethodBody().LocalVariables.Count + " " + mi.GetMethodBody().GetILAsByteArray().Length);
                     PLayerBase_CurrentWeaponIndex = mi;
@@ -967,7 +968,7 @@ namespace Sector_dll.cheat
 
             foreach(FieldInfo fi in PlayerBase.BaseType.GetFields(BindingFlags.NonPublic | BindingFlags.Instance))
             {
-                if (fi.FieldType.IsArray && fi.FieldType == typeof(double[]))
+                if (fi.FieldType == typeof(double) && fi.Name.Length == 15)
                 {
                     if(PlayerBase_Base_Yaw == null)
                     {
@@ -1043,7 +1044,7 @@ namespace Sector_dll.cheat
             if (Drawing == null) { Log.Info("Drawing is null"); return false; }
             if (GClass49_getPlayersToXray == null) { Log.Info("GClass49_getPlayersToXray is null"); return false; }
 
-            bool second = false;
+            bool second = true;
             foreach (FieldInfo f in GClass49.Type.GetFields(BindingFlags.Instance | BindingFlags.Public))
             {
                 if (f.IsPublic && f.Name.Length == 23 && f.FieldType.IsGenericType && f.FieldType.GetGenericTypeDefinition() == typeof(List<>)

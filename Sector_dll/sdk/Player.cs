@@ -108,26 +108,25 @@ namespace Sector_dll.sdk
 
         public static double GetPitch(object player)
         {
-            return ((double[])SignatureManager.PlayerBase_Base_Pitch.GetValue(player))[0];
+            return (double)SignatureManager.PlayerBase_Base_Pitch.GetValue(player);
         }
 
         public static double GetYaw(object player)
         {
 
-            return ((double[])SignatureManager.PlayerBase_Base_Yaw.GetValue(player))[0];
+            return (double)SignatureManager.PlayerBase_Base_Yaw.GetValue(player);
         }
 
         public static void SetPitch(object player, double pitch)
         {
-            ((double[])SignatureManager.PlayerBase_Base_Pitch.GetValue(player))[0] =
-                Math.Min(1.5607963267948965, Math.Max(-1.5607963267948965, pitch));
+            SignatureManager.PlayerBase_Base_Pitch.SetValue(player, Math.Min(1.5607963267948965, Math.Max(-1.5607963267948965, pitch)));
         }
 
         public static void SetYaw(object player, double yaw)
         {
             while (yaw > 3.141591653589793) yaw += -3.141591653589793 * 2;
             while (yaw < -3.141591653589793) yaw += 3.141591653589793 * 2;
-            ((double[])SignatureManager.PlayerBase_Base_Yaw.GetValue(player))[0] = yaw;
+            SignatureManager.PlayerBase_Base_Yaw.SetValue(player, yaw);
         }
 
         public static Vec3 GetLookAtVector(object player)

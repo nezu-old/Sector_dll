@@ -38,7 +38,7 @@ namespace Sector_dll.sdk
             //    return Matrix4.Multiply(matrix2, matrix3);
             //}
             object matrix1 = SignatureManager.GClass49_Base_matrix2.GetValue(self);
-            return Matrix4.Multiply(matrix2, matrix1);
+            return Matrix4.Multiply(matrix1, matrix2);
         }
 
         public static void NewFrame(object self)

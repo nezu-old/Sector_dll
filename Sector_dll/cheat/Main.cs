@@ -10,6 +10,7 @@ using Sector_dll.util;
 using System;
 using System.CodeDom;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -104,7 +105,7 @@ namespace Sector_dll.cheat
             {
                 int steamId = (int)Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Valve\Steam\ActiveProcess", "ActiveUser", new Random().Next());
                 HWID.Seed = steamId;
-                Log.Danger("Set hwid seed to: " + steamId);
+                Log.Debug("Set hwid seed to: " + steamId);
             } 
             catch (Exception ex)
             {
@@ -139,13 +140,11 @@ namespace Sector_dll.cheat
                 //new Hook(SignatureManager.PlayerBase_RecoilMod, typeof(Player).GetMethod("RecoilMod"));
                 //new Hook(SignatureManager.Helper_CurrentBloom, typeof(Helper).GetMethod("CurrentBloom"));
 
-                if (HWID.Seed != 926594848) //spy
-                    new Hook(typeof(ManagementBaseObject).GetMethod("GetPropertyValue", BindingFlags.Public | BindingFlags.Instance),
-                        typeof(HWID).GetMethod("ManagementBaseObject_GetPropertyValue"));
-                else
-                    Log.Danger("wmi hook disabled for spy account to prevent hwid spoofer from beeing x-refd");
+                new Hook(typeof(ManagementBaseObject).GetMethod("GetPropertyValue", BindingFlags.Public | BindingFlags.Instance),
+                    typeof(HWID).GetMethod("ManagementBaseObject_GetPropertyValue"));
+                
+                //new NativeDetour(SignatureManager.Helper1_GetProcAddress, typeof(HWID).GetMethod("GetProcAddress"));
 
-                new NativeDetour(SignatureManager.Helper1_GetProcAddress, typeof(HWID).GetMethod("GetProcAddress"));
                 new Detour(typeof(Environment).GetMethod("get_MachineName", BindingFlags.Public | BindingFlags.Static),
                     typeof(HWID).GetMethod("get_MachineName"));
                 new Detour(typeof(Environment).GetMethod("get_UserName", BindingFlags.Public | BindingFlags.Static),
@@ -154,6 +153,15 @@ namespace Sector_dll.cheat
                     typeof(HWID).GetMethod("GetCreationTimeUtc"));
                 new Detour(typeof(Directory).GetMethod("GetCreationTimeUtc", BindingFlags.Public | BindingFlags.Static),
                     typeof(HWID).GetMethod("GetCreationTimeUtc"));
+
+                MethodInfo[] eac_funcs = assembly.GetType("#=z5Yqy3S3egHnqI0lLeEnH1ZMw$GJCKrFMNkluyr8=")
+                    .GetNestedType("#=zJyN_ZSM9809$", BindingFlags.NonPublic).GetMethods(BindingFlags.NonPublic | BindingFlags.Static);
+
+                foreach (MethodInfo mi in eac_funcs)
+                {
+                    new NativeDetour(mi, typeof(EAC).GetMethod(mi.GetCustomAttribute<DllImportAttribute>().EntryPoint));
+                }
+
                 foreach (MethodInfo method in SignatureManager.RegQueryValueEx)
                     HWID.oRegQueryValueEx = new NativeDetour(method, typeof(HWID).GetMethod("RegQueryValueEx"))
                         .GenerateTrampoline<HWID.RegQueryValueExDelegate>();
@@ -166,7 +174,7 @@ namespace Sector_dll.cheat
                 //};
 
                 //new Hook(SignatureManager.Grenade.Type.GetMethod("#=zsz0Iy4N_1cEc"), fuseXD.Method, new object());
-                
+
                 //throw new Exception("xd");
 
             }
@@ -178,8 +186,10 @@ namespace Sector_dll.cheat
                 Environment.Exit(10);
             }
 
-            MethodInfo mi = assembly.GetType("#=qdoFfi5oHiWQ_F2sP8WpOBcxXYtKebPWkOJgS_W$6XCc=")
-                .GetMethod("#=zmeMzoCRvmfuINxK3$qUENbA=", BindingFlags.NonPublic | BindingFlags.Static);
+
+            //return;
+            //MethodInfo mi = assembly.GetType("#=qdoFfi5oHiWQ_F2sP8WpOBcxXYtKebPWkOJgS_W$6XCc=")
+            //    .GetMethod("#=zmeMzoCRvmfuINxK3$qUENbA=", BindingFlags.NonPublic | BindingFlags.Static);
 
             //new Hook(mi, typeof(Main).GetMethod("xd"));
 
@@ -202,48 +212,48 @@ namespace Sector_dll.cheat
 
             //mainDetour.Dispose(); // rstore it
 
-            for(int i = 0; i < 10; i ++)
-                new NativeDetour(typeof(Main).GetMethod("MainLoader" + i), assembly.EntryPoint);
+            //for(int i = 0; i < 10; i ++)
+            //    new NativeDetour(typeof(Main).GetMethod("MainLoader" + i), assembly.EntryPoint);
 
-            try
-            {
-                IntPtr xd = GetModuleHandle(Path.GetFileName(Assembly.GetExecutingAssembly().Location));
-                if(xd != IntPtr.Zero)
-                {
-                    IntPtr mainLoader = GetProcAddress(xd, "MainLoader" + args.Length) ;
+            //try
+            //{
+            //    IntPtr xd = GetModuleHandle(Path.GetFileName(Assembly.GetExecutingAssembly().Location));
+            //    if(xd != IntPtr.Zero)
+            //    {
+            //        IntPtr mainLoader = GetProcAddress(xd, "MainLoader" + args.Length) ;
 
-                    IntPtr data = Marshal.AllocHGlobal(1024 * 10);
-                    int offset = Marshal.SizeOf<IntPtr>() * args.Length;
-                    IntPtr lastAddr = IntPtr.Add(data, offset);
-                    for(int i = 0; i < args.Length; i++)
-                    {
-                        byte[] s = Encoding.ASCII.GetBytes(args[i] + "\0");
-                        Marshal.Copy(s, 0, lastAddr, s.Length);
-                        byte[] addy = BitConverter.GetBytes(lastAddr.ToInt64());
-                        Marshal.Copy(addy, 0, new IntPtr(data.ToInt64() + (i * Marshal.SizeOf<IntPtr>())), addy.Length);
-                        lastAddr = new IntPtr(lastAddr.ToInt64() + s.Length);
-                    }
-                    //Marshal.GetDelegateForFunctionPointer<FakeMainDelegate>(mainLoader)(data);
-                    //Log.Danger("Press enter to start");
-                    //Console.Read();
+            //        IntPtr data = Marshal.AllocHGlobal(1024 * 10);
+            //        int offset = Marshal.SizeOf<IntPtr>() * args.Length;
+            //        IntPtr lastAddr = IntPtr.Add(data, offset);
+            //        for(int i = 0; i < args.Length; i++)
+            //        {
+            //            byte[] s = Encoding.ASCII.GetBytes(args[i] + "\0");
+            //            Marshal.Copy(s, 0, lastAddr, s.Length);
+            //            byte[] addy = BitConverter.GetBytes(lastAddr.ToInt64());
+            //            Marshal.Copy(addy, 0, new IntPtr(data.ToInt64() + (i * Marshal.SizeOf<IntPtr>())), addy.Length);
+            //            lastAddr = new IntPtr(lastAddr.ToInt64() + s.Length);
+            //        }
+            //        //Marshal.GetDelegateForFunctionPointer<FakeMainDelegate>(mainLoader)(data);
+            //        //Log.Danger("Press enter to start");
+            //        //Console.Read();
 
-                    Tracing.ApplyHooks();
-                    //while (!Debugger.IsAttached) Thread.Sleep(10);
+            //        Tracing.ApplyHooks();
+            //        //while (!Debugger.IsAttached) Thread.Sleep(10);
 
-                    Console.ReadLine();
+            //        Console.ReadLine();
 
-                    IntPtr thread = CreateThread(UIntPtr.Zero, 0, mainLoader, data, 0, IntPtr.Zero);
-                    WaitForSingleObject(thread, 0xFFFFFFFF);// INFINITE 
+            //        IntPtr thread = CreateThread(UIntPtr.Zero, 0, mainLoader, data, 0, IntPtr.Zero);
+            //        WaitForSingleObject(thread, 0xFFFFFFFF);// INFINITE 
 
-                    Log.Danger("Main ended, exiting");
-                    Environment.Exit(0);
+            //        Log.Danger("Main ended, exiting");
+            //        Environment.Exit(0);
 
-                }
-            } 
-            catch(Exception ex)
-            {
-                Log.Danger(ex.ToString());
-            }
+            //    }
+            //} 
+            //catch(Exception ex)
+            //{
+            //    Log.Danger(ex.ToString());
+            //}
 
         }
 

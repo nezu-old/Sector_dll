@@ -91,6 +91,7 @@
     <Compile Include="cheat\Drawing.cs" />
     <Compile Include="cheat\ESP.cs" />
     <Compile Include="cheat\Hooks\Antycheat.cs" />
+    <Compile Include="cheat\Hooks\EAC.cs" />
     <Compile Include="cheat\Hooks\GClass49.cs" />
     <Compile Include="cheat\Hooks\Helper.cs" />
     <Compile Include="cheat\Hooks\HWID.cs" />

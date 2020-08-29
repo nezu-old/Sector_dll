@@ -72,31 +72,34 @@ int main(int argc, char* argv[])
     DetourAttach(&(PVOID&)oNtCreateUserProcess, NtCreateUserProcessHook);
     DetourTransactionCommit();
 
+
+
+   
+
     HANDLE hProc;
     HANDLE hThread;
 
-    if (argc > 1) {
+    if (argc == 2) {
 
-        std::string command;
-        for (int i = 1; i < argc; i++) {
-            command += argv[i];
+        char* p = argv[1];
+        PathRemoveFileSpecA(p); // just insers null terminator so buffer is same size;
+        CHAR gameExe[BUFSIZE];
+        strcpy_s(gameExe, p);
+        strcat_s(gameExe, "\\sectorsedge.exe");
 
-            if (i != argc - 1)
-                command += " ";
-        }
-        printf("CMD: %s\n", command.c_str());
+        printf("CMD: %s\n", gameExe);
 
         PROCESS_INFORMATION pi = { 0 };
         STARTUPINFOA si = { 0 };
         si.cb = sizeof(si);
-        if (!CreateProcessA(NULL, (char*)command.c_str(), NULL, NULL, FALSE, CREATE_SUSPENDED, NULL, NULL, &si, &pi)) {
+        if (!CreateProcessA(NULL, gameExe, NULL, NULL, FALSE, CREATE_SUSPENDED, NULL, NULL, &si, &pi)) {
             printError(TEXT("CreateProcessA"));
             return 11;
         }
         hProc = pi.hProcess;
         hThread = pi.hThread;
+
     } else {
-        ShellExecute(0, 0, TEXT("steam://rungameid/1024890"), 0, 0, SW_SHOW);
         exit(0);
         return 0;
     }
@@ -130,7 +133,7 @@ int main(int argc, char* argv[])
     _tcscat_s(managedPath, TEXT("\\Sector_dll.dll"));
     
     //injectDll(hProc, path) && 
-    if (injectDll(hProc, managedPath, "Entry")) {
+    if (injectDll(hProc, path) && injectDll(hProc, managedPath, "Entry")) {
         _tprintf(TEXT("[nezu.cc] Injected\n"));
         CloseHandle(hProc);
     } else {

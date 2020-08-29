@@ -32,6 +32,11 @@ namespace Sector_dll.sdk
 
         public double y;
 
+        public override string ToString()
+        {
+            return $"Vec2({x}, {y})";
+        }
+
 
     }
 }
