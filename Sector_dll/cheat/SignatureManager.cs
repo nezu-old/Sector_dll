@@ -1252,15 +1252,15 @@ namespace Sector_dll.cheat
             {
                 if (fi.IsPublic && fi.Name.Length == 15 && Type.GetTypeCode(fi.FieldType) == TypeCode.Double)
                 {
-                    if (GClass49_Base_Base_ScreenWidth == null)
-                    {
-                        GClass49_Base_Base_ScreenWidth = fi;
-                        Log.Info("Found GClass49_Base_Base_ScreenWidth field as: " + GClass49_Base_Base_ScreenWidth.ToString());
-                    }
-                    else if (GClass49_Base_Base_ScreenHeight == null)
+                    if (GClass49_Base_Base_ScreenHeight == null)
                     {
                         GClass49_Base_Base_ScreenHeight = fi;
                         Log.Info("Found GClass49_Base_Base_ScreenHeight field as: " + GClass49_Base_Base_ScreenHeight.ToString());
+                    }
+                    else if(GClass49_Base_Base_ScreenWidth == null)
+                    {
+                        GClass49_Base_Base_ScreenWidth = fi;
+                        Log.Info("Found GClass49_Base_Base_ScreenWidth field as: " + GClass49_Base_Base_ScreenWidth.ToString());
                     }
                     else
                     {

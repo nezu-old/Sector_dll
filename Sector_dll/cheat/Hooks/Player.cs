@@ -60,7 +60,7 @@ namespace Sector_dll.cheat.Hooks
                 if (players.Count < 1)
                 {
                     object pp = sdk.Player.New(gm, 10);
-                    sdk.Player.SetTeam(pp, TeamType.Bandit);
+                    sdk.Player.SetTeam(pp, TeamType.Helix);
                     sdk.Player.SetOrigin(pp, new Vec3(165.0, 35.0, 38.0));
                     //pp.GetType().GetMethod("#=zPQmkMUfB4gF$").Invoke(pp, new object[] { Enum.ToObject(pp.GetType().GetMethod("#=zPQmkMUfB4gF$").GetParameters()[0].ParameterType, 7) });
                     SignatureManager.PlayerBase_health.SetValue(pp, 100.0);
