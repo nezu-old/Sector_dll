@@ -43,27 +43,10 @@ thread = meson.get_compiler('c').find_library('pthread', required : false)
 base_files = ['mem.c', 'wintools.c', 'pmparser.c']
 hlapi_files = ['hlapi/windll.cpp', 'hlapi/winprocess.cpp', 'hlapi/winprocesslist.cpp']
 
-example = executable(
-	'example',
-	files(base_files + ['example.cpp', 'vmmem.c'] + hlapi_files),
+loader = executable(
+	'loader',
+	files(base_files + ['loader.cpp', 'vmmem.c'] + hlapi_files),
   c_args : c_compile_args + compile_args + compile_args_external,
   cpp_args : cpp_compile_args + compile_args + compile_args_external,
   link_args : compile_args + compile_args_external + link_args + link_args_external
-)
-
-example_kmod = executable(
-	'kmod_example',
-	files(base_files + ['example.cpp', 'intmem.c'] + hlapi_files),
-  c_args : c_compile_args + compile_args + compile_args_external + ['-DKMOD_MEMMAP'],
-  cpp_args : cpp_compile_args + compile_args + compile_args_external + ['-DKMOD_MEMMAP'],
-  link_args : compile_args + compile_args_external + link_args + link_args_external
-)
-
-example_lib = shared_library(
-	'example',
-	files(base_files + ['example.cpp', 'intmem.c'] + hlapi_files),
-  c_args : compile_args + compile_args_internal,
-  cpp_args : compile_args + compile_args_internal,
-  link_args : compile_args + compile_args_internal + link_args + link_args_internal,
-  dependencies: [dl]
 )
