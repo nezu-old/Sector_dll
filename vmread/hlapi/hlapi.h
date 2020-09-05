@@ -196,9 +196,9 @@ class WinProcess
 	}
 
 	template<typename T>
-	void Write(uint64_t address, const T& value)
+	ssize_t Write(uint64_t address, const T& value)
 	{
-		VMemWrite(&ctx->process, proc.dirBase, (uint64_t)&value, address, sizeof(T));
+		return VMemWrite(&ctx->process, proc.dirBase, (uint64_t)&value, address, sizeof(T));
 	}
 
 	WinProc proc;
