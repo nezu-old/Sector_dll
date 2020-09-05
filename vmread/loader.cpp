@@ -110,8 +110,10 @@ int main()
                 void* buff = malloc(chunk_size);
                 uint64_t base = peb.Ldr & 0xffffffff00000000;
                 uint64_t SwapBuffersPtr = 0;
+                printf("Searching for SwapBuffersPtr...\n");
                 for (uint64_t i = base - 0x100000000; i < base + 0x100000000; i += chunk_size)
                 {
+                    if(!VTranslate(&proc.ctx->process, proc.proc.dirBase, i)) continue;
                     proc.Read(i, buff, chunk_size);
                     for (size_t j = 0; j < chunk_size; j+=0x20)
                     {
@@ -155,7 +157,7 @@ int main()
                         0xC6, 0x00, 0x00, 
                         0x48, 0x05, 0x00, 0x10, 0x00, 0x00, 
                         0x48, 0xFF, 0xC1, 
-                        0x48, 0x81, 0xF9, 0x50, 0x00, 0x00, 0x00, 
+                        0x48, 0x81, 0xF9, 0xff, 0x00, 0x00, 0x00, 
                         0x7E, 0xEB,
 
                         0x41, 0x59, 
@@ -181,13 +183,14 @@ int main()
 
                     proc.Write(overlay_text_free, alloc_shellcode, sizeof(alloc_shellcode));
                     proc.Write(SwapBuffersPtr, overlay_text_free);
-                    printf("waiting");
+                    printf("waiting for allocation");
                     uint64_t allocation = 0;
                     do {
                         allocation = proc.Read<uint64_t>(overlay_data);
-                        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+                        if(allocation) break;
+                        std::this_thread::sleep_for(std::chrono::milliseconds(5));
                         printf(".");
-                    } while(allocation == 0);
+                    } while(true);
                     printf("\nalocated at: 0x%lX\n", allocation);
                     proc.Write(overlay_text_free, backup, sizeof(alloc_shellcode));
                     proc.Write(overlay_data, (uint64_t)0);
@@ -200,8 +203,6 @@ int main()
                     trans = VTranslate(&proc.ctx->process, proc.proc.dirBase, allocation + 0x1000);
                     printf("trans allocation2: %lX\n", trans);
                     if(!trans) return 9;
-
-                    std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
                     ddd d{0};
 

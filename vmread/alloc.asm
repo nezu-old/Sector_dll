@@ -31,7 +31,7 @@ loop:
 mov BYTE PTR [rax], 0x00
 add rax, 0x1000
 inc rcx
-cmp rcx, 0x100
+cmp rcx, 0xff
 jle loop
 
 
