@@ -59,6 +59,8 @@ namespace Sector_dll.cheat
 
         }
 
+        public delegate void DrawCallbackDelegate(ref DrawingFunctions d);
+
         public static void DrawCallback(ref DrawingFunctions d)
         {
             d.DrawMenu(ref Config.settings);

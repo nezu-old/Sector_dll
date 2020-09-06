@@ -4,6 +4,7 @@ using Sector_dll.util;
 using System;
 using System.IO;
 using System.Reflection;
+using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -35,6 +36,8 @@ namespace Sector_dll.cheat
             return s;
         }
 
+        private static Drawing.DrawCallbackDelegate dc;
+
         public unsafe static void Entry()
         {
             AllocConsole();
@@ -44,6 +47,26 @@ namespace Sector_dll.cheat
             Log.Info("Running in domain: " + AppDomain.CurrentDomain.FriendlyName);
             Log.Info("Domain base dir: " + AppDomain.CurrentDomain.BaseDirectory);
             Log.Info("Working directory: " + Directory.GetCurrentDirectory());
+
+
+            try
+            {
+                Log.Debug($"Injection: {1}");
+                using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(Assembly.GetExecutingAssembly().GetManifestResourceNames()[0]))
+                {
+                    Log.Debug($"len: {stream == null}");
+                    byte[] bytes = new byte[stream.Length];
+                    stream.Read(bytes, 0, bytes.Length);
+
+                    dc = new Drawing.DrawCallbackDelegate(Drawing.DrawCallback);
+                    bool injected = Injector.Inject(bytes, Marshal.GetFunctionPointerForDelegate(dc));
+                    Log.Debug($"Injection: {injected}");
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Danger(e);
+            }
 
             //new Hook(typeof(File).GetMethod("Exists"), typeof(Antycheat).GetMethod("FileExists"));
             //new Hook(typeof(Directory).GetMethod("Exists"), typeof(Antycheat).GetMethod("DirectoryExists"));

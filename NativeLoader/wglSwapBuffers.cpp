@@ -18,9 +18,6 @@
 
 f_wglSwapBuffers H::owglSwapBuffers = NULL;
 
-typedef void(__stdcall* f_DrawCallback)(DrawingFunctions* drawingFunctions);
-f_DrawCallback drawCallback = NULL;
-
 BOOL __stdcall H::wglSwapBuffers(HDC hDc) {
 	static bool once = true;
 	if (once) {
@@ -69,11 +66,6 @@ BOOL __stdcall H::wglSwapBuffers(HDC hDc) {
 		style.SelectableTextAlign = ImVec2(0, 0);
 		style.DisplaySafeAreaPadding = ImVec2(0, 0);
 		Menu::UpdateColors(ImColor(1.f, 0.f, 0.f, 1.f));
-		
-		HMODULE hModuleDll = GetModuleHandle(TEXT("Sector_dll.dll"));
-		if (hModuleDll) {
-			drawCallback = (f_DrawCallback)GetProcAddress(hModuleDll, "DrawCallback");
-		}
 	}
 
 	G::bIsImguiRunning = true;
@@ -84,14 +76,11 @@ BOOL __stdcall H::wglSwapBuffers(HDC hDc) {
 
 	D::drawList = ImGui::GetBackgroundDrawList();
 
-	if (drawCallback) {
+	if (G::drawCallback) {
 		DrawingFunctions functions = D::GetDrawinfFunctions();
-		drawCallback(&functions);
+		typedef void(__stdcall* f_DrawCallback)(DrawingFunctions* drawingFunctions);
+		reinterpret_cast<f_DrawCallback>(G::drawCallback)(&functions);
 	}
-
-	//if (Menu::open) {
-	//	Menu::DrawMenu(0);
-	//}
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
