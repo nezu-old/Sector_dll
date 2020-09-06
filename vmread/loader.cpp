@@ -1,7 +1,8 @@
 #include "hlapi/hlapi.h"
-#include "data.h"
 #include <chrono>
 #include <thread>
+#include <fstream>
+#include <vector>
 
 #pragma pack(1)
 typedef struct _GUID {
@@ -12,7 +13,6 @@ typedef struct _GUID {
 } GUID;
 
 #pragma pack(8)
-// typedef HRESULT(__stdcall* f_CLRCreateInstance)(REFCLSID clsid, REFIID riid, LPVOID* ppInterface);
 struct ddd {
     GUID CLSID_CLRMetaHost_l;// = { 0x9280188d,0xe8e,0x4867,{0xb3, 0xc, 0x7f, 0xa8, 0x38, 0x84, 0xe8, 0xde} };
     GUID IID_ICLRMetaHost_l;// = { 0xD332DB9E,0xB9B3,0x4125,{0x82, 0x07, 0xA1, 0x48, 0x84, 0xF5, 0x32, 0x16} };
@@ -28,24 +28,36 @@ struct ddd {
     uint64_t CLRCreateInstance;
 };
 
-void writeConfirm(WinProcess& proc, uint64_t from, uint64_t to, uint64_t szie){
-    printf("Writing");
-    int i = 0;
-    do {
-        printf(".");
-        FlushTlb(GetTlb());
-        ssize_t written = VMemWrite(&proc.ctx->process, proc.proc.dirBase, from, to, szie);
-        FlushTlb(GetTlb());
-        std::this_thread::sleep_for(std::chrono::milliseconds(5));
-        i++;
-    } while(i < 50);
-    printf("\n");
-}
-
-int main()
+int main(int argc, char* argv[])
 {
 	setvbuf(stdout, NULL, _IONBF, 0); 
     printf("[nezu.cc] staring vmread loader\n");
+
+    if(argc != 2) {
+        printf("usage: %s <file.dll>\n", argv[0]);
+        return 0;
+    }
+
+    std::vector<char> rawData;
+    try {
+        std::ifstream infile(argv[1], std::ios_base::binary);
+        infile.seekg(0, std::ios_base::end);
+        size_t length = infile.tellg();
+        infile.seekg(0, std::ios_base::beg);
+        if (length < 0x1000) {
+            printf("failed to load the dll\n");
+            return 1;
+        }
+        rawData.reserve(length);
+        std::copy(std::istreambuf_iterator<char>(infile),
+            std::istreambuf_iterator<char>(),
+            std::back_inserter(rawData));
+    }
+    catch (const std::system_error&) {
+        printf("failed to load the dll\n");
+        return 1;
+    }
+
     WinContext ctx(0);
     ctx.processList.Refresh();
     for (auto& proc : ctx.processList) {
@@ -74,36 +86,25 @@ int main()
                 IMAGE_SECTION_HEADER* sections = (IMAGE_SECTION_HEADER*)malloc(shsize);
                 VMemRead(&proc.ctx->process, proc.proc.dirBase, (uint64_t)sections, overlay->info.baseAddress + dosHeader->e_lfanew + sizeof(IMAGE_NT_HEADERS64), shsize);
                 
-                uint64_t overlay_text_free = overlay->info.baseAddress;
-                uint64_t overlay_text_free_size = 0;
+                uint64_t overlay_text = overlay->info.baseAddress;
+                uint64_t overlay_text_size = 0;
                 uint64_t overlay_data = overlay->info.baseAddress;
-                bool last_text = false;
-                // for (size_t i = 0; i < ntHeader64->FileHeader.NumberOfSections; i++) {
-                //     uint64_t addy = overlay->info.baseAddress + sections[i].VirtualAddress;
-                //     overlay_text_free_size = addy - overlay_text_free;
-                //     if(!strcmp(".text", (char*)&sections[i].Name)){
-                //         last_text = true;
-                //     } else if(last_text) {
-                //         break;
-                //     }
-                //     overlay_text_free = addy + sections[i].SizeOfRawData;
-                // }
-                // overlay_text_free -= 0x100;
+
                 for (size_t i = 0; i < ntHeader64->FileHeader.NumberOfSections; i++) {
                     if(!strcmp(".data", (char*)&sections[i].Name)){
                         overlay_data = overlay->info.baseAddress + sections[i].VirtualAddress + 0x10; //seems to be unused so i'll use it
                     }
                     if(!strcmp(".text", (char*)&sections[i].Name)){
-                        overlay_text_free = overlay->info.baseAddress + sections[i].VirtualAddress; //yolo
-                        overlay_text_free_size = sections[i].SizeOfRawData;
+                        overlay_text = overlay->info.baseAddress + sections[i].VirtualAddress; //yolo
+                        overlay_text_size = sections[i].SizeOfRawData;
                     }
                 }
                 
                 free(sections);
 
-                printf("overlay_text_free 0x%lX\n", overlay_text_free);
+                printf("overlay_text 0x%lX\n", overlay_text);
                 printf("overlay_data 0x%lX\n", overlay_data);
-                if(!overlay_text_free || !overlay_data) {
+                if(!overlay_text || !overlay_data) {
                     return 10;
                 }
 
@@ -116,7 +117,7 @@ int main()
                 {
                     if(!VTranslate(&proc.ctx->process, proc.proc.dirBase, i)) continue;
                     proc.Read(i, buff, chunk_size);
-                    for (size_t j = 0; j < chunk_size; j+=0x10)
+                    for (size_t j = 0; j < chunk_size; j+=0x8)
                     {
                         uint64_t val = *reinterpret_cast<uint64_t*>(reinterpret_cast<uint64_t>(buff) + j);
                         if(val == SwapBuffers) {
@@ -128,7 +129,9 @@ int main()
                 free(buff);
 
                 if(SwapBuffersPtr.size()){
-                    printf("Found SwapBuffersPtr as: %lx\n", SwapBuffersPtr);
+                    for (uint64_t ptr : SwapBuffersPtr) {
+                        printf("Found SwapBuffersPtr as: %lx\n", ptr);
+                    }
                     
                     unsigned char alloc_shellcode[] = { 
                         0x48, 0xB8, 0x88, 0x77, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11, //SwapBuffers  2
@@ -180,11 +183,11 @@ int main()
                     void* buff = malloc(0x1000);
                     int ccCountBest = 0;
                     uint64_t bestcc = 0;
-                    for (size_t i = 0; i < overlay_text_free_size; i += 0x1000)
+                    for (size_t i = 0; i < overlay_text_size; i += 0x1000)
                     {
-                        trans = VTranslate(&proc.ctx->process, proc.proc.dirBase, overlay_text_free + i);
+                        trans = VTranslate(&proc.ctx->process, proc.proc.dirBase, overlay_text + i);
                         if (trans) {
-                            proc.Read(overlay_text_free + i, buff, 0x1000);
+                            proc.Read(overlay_text + i, buff, 0x1000);
                             int ccCount = 0;
                             uint64_t curcc = 0;
                             for (size_t j = 0; j < 0x1000; j++)
@@ -195,7 +198,7 @@ int main()
                                 } else {
                                     if(ccCount > ccCountBest){
                                         ccCountBest = ccCount;
-                                        bestcc = curcc + i + overlay_text_free;
+                                        bestcc = curcc + i + overlay_text;
                                     }
                                     curcc = 0;
                                     ccCount = 0;
@@ -208,19 +211,16 @@ int main()
 
                     printf("Best CC 0x%lX: %d\n", bestcc, ccCountBest);
 
-                    overlay_text_free = bestcc;
-                    
-                    // return 3;
-                    // if(!trans) return 9;
+                    overlay_text = bestcc;
                     
                     void* backup = malloc(sizeof(alloc_shellcode));
-                    proc.Read(overlay_text_free, backup, sizeof(alloc_shellcode));
+                    proc.Read(overlay_text, backup, sizeof(alloc_shellcode));
                     uint64_t allocation = 0;
-                    int SwapBuffersPtrIndex = 0;
+                    size_t SwapBuffersPtrIndex = 0;
 
                     while (!allocation) {
-                        proc.Write(overlay_text_free, alloc_shellcode, sizeof(alloc_shellcode));
-                        proc.Write(SwapBuffersPtr[SwapBuffersPtrIndex], overlay_text_free);
+                        proc.Write(overlay_text, alloc_shellcode, sizeof(alloc_shellcode));
+                        proc.Write(SwapBuffersPtr[SwapBuffersPtrIndex], overlay_text);
                         printf("waiting for allocation");
                         int timeout = 10;
                         do {
@@ -230,10 +230,12 @@ int main()
                             printf(".");
                         } while(--timeout);
                         if(!allocation){
-                            printf("Failed to inject using SwapBuffers[%d], trying next one...\n", SwapBuffersPtrIndex);
+                            printf("Failed to inject using SwapBuffers[%ld], trying next one...\n", SwapBuffersPtrIndex);
                             proc.Write(SwapBuffersPtr[SwapBuffersPtrIndex], SwapBuffers);
                             SwapBuffersPtrIndex++;
                             if(SwapBuffersPtrIndex >= SwapBuffersPtr.size()) {
+                                proc.Write(overlay_text, backup, sizeof(alloc_shellcode));
+                                free(backup);
                                 printf("Failed to inject, bo more SwapBuffers pointers found\n");
                                 return 9;
                             }
@@ -242,7 +244,7 @@ int main()
                     }
                     
                     printf("\nalocated at: 0x%lX\n", allocation);
-                    proc.Write(overlay_text_free, backup, sizeof(alloc_shellcode));
+                    proc.Write(overlay_text, backup, sizeof(alloc_shellcode));
                     proc.Write(overlay_data, (uint64_t)0);
 
                     free(backup);
@@ -265,16 +267,16 @@ int main()
 
                     const char ver[] = "v\0004\000.\0000\000.\0003\0000\0003\0001\0009\000\000";
                     memcpy(d.ver, ver, sizeof(ver));
-                    const char cla[] = "H\000a\000c\000k\000.\000E\000v\000i\000l\000\000";
+                    const char cla[] = "S\000e\000c\000t\000o\000r\000_\000d\000l\000l\000.\000c\000h\000e\000a\000t\000.\000M\000a\000i\000n\000\000";
                     memcpy((reinterpret_cast<char*>(&d.cla) + 4), cla, sizeof(cla));
                     *reinterpret_cast<uint32_t*>(&d.cla) = sizeof(cla) - 2;
-                    const char fun[] = "M\000a\000i\000n\000\000";
+                    const char fun[] = "E\000n\000t\000r\000y\000\000";
                     memcpy((reinterpret_cast<char*>(&d.fun) + 4), fun, sizeof(fun));
                     *reinterpret_cast<uint32_t*>(&d.fun) = sizeof(fun) - 2;
 
-                    d.data_len = sizeof(rawData);
+                    d.data_len = (unsigned int)rawData.size();
                     d.data = allocation;
-                    d.CLRCreateInstance  = proc.GetModuleInfo("MSCOREE.DLL")->GetProcAddress("CLRCreateInstance");
+                    d.CLRCreateInstance  = proc.modules.GetModuleInfo("MSCOREE.DLL")->GetProcAddress("CLRCreateInstance");
                     printf("Found CLRCreateInstance as: %lx\n", d.CLRCreateInstance);
 
                     unsigned char injection_shellcode[] =
@@ -344,7 +346,7 @@ int main()
                     *(uint64_t*)(&injection_shellcode[12]) = SwapBuffersPtr[SwapBuffersPtrIndex];
                     *(uint64_t*)(&injection_shellcode[38]) = d.data + d.data_len;
 
-                    proc.Write(allocation, rawData, sizeof(rawData));
+                    proc.Write(allocation, rawData.data(), rawData.size());
                     proc.Write(allocation + d.data_len, &d, sizeof(d));
                     proc.Write(allocation + d.data_len + sizeof(d), injection_shellcode, sizeof(injection_shellcode));
 
