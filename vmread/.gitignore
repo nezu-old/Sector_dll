@@ -7,3 +7,4 @@ docs
 *.swo
 read_external
 read_kmod
+Sector_dll.dll
