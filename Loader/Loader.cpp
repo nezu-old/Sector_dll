@@ -28,15 +28,8 @@ typedef std::string String;
 #endif // !_DEBUG
 
 void printError(const TCHAR* msg);
-DWORD findProcess(const TCHAR* name);
 void* FindModule(DWORD dwPID, const TCHAR* cName);
 BOOL injectDll(HANDLE hProc, const TCHAR* dll, bool hide = false);
-
-struct injectionData {
-    void* pGetProcAddress;
-    void* pModule;
-    char entryName[16];
-};
 
 f_NtCreateUserProcess oNtCreateUserProcess = NULL;
 
@@ -118,16 +111,8 @@ int main(int argc, char* argv[])
         return 0;
     }
 
-//#ifdef DEBUG
-
-    //while (!::IsDebuggerPresent())
-    //    ::Sleep(100); // to avoid 100% CPU load
-    //DebugBreak();
-
-//#endif // DEBUG
-
     if (injectDll(hProc, TEXT("MSCOREE.DLL"))) {
-        _tprintf(TEXT("[nezu.cc] Injected\n"));
+        _tprintf(TEXT("[nezu.cc] Injected MSCOREE.DLL\n"));
     } else {
         TerminateProcess(hProc, 1);
         CloseHandle(hProc);
@@ -179,16 +164,20 @@ int main(int argc, char* argv[])
     PathRemoveFileSpec(path); // just insers null terminator so buffer is same size;
     _tcscat_s(path, TEXT("\\EACEmulator.dll"));
 
-    std::ifstream infile(String(path), std::ios_base::binary);
-    infile.seekg(0, std::ios_base::end);
-    size_t length = infile.tellg();
-    infile.seekg(0, std::ios_base::beg);
-
     std::vector<char> buffer;
-    buffer.reserve(length);
-    std::copy(std::istreambuf_iterator<char>(infile),
-        std::istreambuf_iterator<char>(),
-        std::back_inserter(buffer));
+    try {
+        std::ifstream infile(String(path), std::ios_base::binary);
+        infile.seekg(0, std::ios_base::end);
+        size_t length = infile.tellg();
+        infile.seekg(0, std::ios_base::beg);
+        buffer.reserve(length);
+        std::copy(std::istreambuf_iterator<char>(infile),
+            std::istreambuf_iterator<char>(),
+            std::back_inserter(buffer));
+    } catch (const std::system_error& e) {
+        printError(TEXT("ifstream EACEmulator.dll"));
+        return FALSE;
+    }
 
     void * pMem = VirtualAllocEx(hProc, 0, sizeof(ddd) + sizeof(shellcode) + buffer.size() + 0x100, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
 
@@ -218,18 +207,45 @@ int main(int argc, char* argv[])
     d->data_len = buffer.size();
 
     HMODULE hMod = LoadLibrary(TEXT("mscoree.dll"));
-    if (!hMod) return 1;
+
+    if (!hMod) {
+        VirtualFreeEx(hProc, pMem, 0, MEM_RELEASE);
+        printError(TEXT("LoadLibrary(mscoree.dll)[local]"));
+        return FALSE;
+    }
+
     d->CLRCreateInstance = (f_CLRCreateInstance)GetProcAddress(hMod, "CLRCreateInstance");
 
-    WriteProcessMemory(hProc, pMem, buffer.data(), buffer.size(), 0);
-    WriteProcessMemory(hProc, reinterpret_cast<void*>(reinterpret_cast<CHAR*>(pMem) + buffer.size()), d, sizeof(*d), 0);
+    if (!d->CLRCreateInstance) {
+        VirtualFreeEx(hProc, pMem, 0, MEM_RELEASE);
+        printError(TEXT("GetProcAddress(CLRCreateInstance)"));
+        return FALSE;
+    }
+
     *reinterpret_cast<void**>(reinterpret_cast<CHAR*>(shellcode) + 2) = reinterpret_cast<void*>(reinterpret_cast<CHAR*>(pMem) + buffer.size());
-    WriteProcessMemory(hProc, reinterpret_cast<void*>(reinterpret_cast<CHAR*>(pMem) + buffer.size() + sizeof(*d)), shellcode, sizeof(shellcode), 0);
 
-    CreateRemoteThread(hProc, 0, 0, reinterpret_cast<LPTHREAD_START_ROUTINE>(reinterpret_cast<CHAR*>(pMem) + buffer.size() + sizeof(*d)), 0, 0, 0);
+    if (!WriteProcessMemory(hProc, pMem, buffer.data(), buffer.size(), 0) ||
+        !WriteProcessMemory(hProc, reinterpret_cast<void*>(reinterpret_cast<CHAR*>(pMem) + buffer.size()), d, sizeof(*d), 0) ||
+        !WriteProcessMemory(hProc, reinterpret_cast<void*>(reinterpret_cast<CHAR*>(pMem) + buffer.size() + sizeof(*d)), shellcode, sizeof(shellcode), 0)) {
+        VirtualFreeEx(hProc, pMem, 0, MEM_RELEASE);
+        printError(TEXT("WriteProcessMemory (data | shellcode | file)"));
+        return FALSE;
+    }
 
+    HANDLE hThread2 = CreateRemoteThreadEx(hProc, 0, 0, reinterpret_cast<LPTHREAD_START_ROUTINE>(reinterpret_cast<CHAR*>(pMem) + buffer.size() + sizeof(*d)), 0, 0, 0, 0);
+
+    if (!hThread2) {
+        VirtualFreeEx(hProc, pMem, 0, MEM_RELEASE);
+        printError(TEXT("CreateRemoteThreadEx [1]"));
+        return FALSE;
+    }
+
+    CloseHandle(hThread2);
     CloseHandle(hProc);
-    //ResumeThread(hThread);
+    
+#pragma warning(disable:6258) //this thread never started so it's safe to kill
+    TerminateThread(hThread, -1);
+#pragma warning(default:6258)
 
     return 0;
 }
@@ -429,38 +445,6 @@ void* FindModule(DWORD dwPID, const TCHAR* cName) {
     _tprintf(TEXT("[nezu.cc] failed to find module %s\n"), cName);
 
     CloseHandle(hModuleSnap);
-    return NULL;
-}
-
-DWORD findProcess(const TCHAR* cName) {
-    HANDLE hProcessSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
-    if (hProcessSnap == INVALID_HANDLE_VALUE) {
-        printError(TEXT("CreateToolhelp32Snapshot"));
-        return NULL;
-    }
-
-    PROCESSENTRY32 pe32;
-    pe32.dwSize = sizeof(PROCESSENTRY32);
-
-    if (!Process32First(hProcessSnap, &pe32)) {
-        printError(TEXT("Process32First"));
-        CloseHandle(hProcessSnap);
-        return NULL;
-    }
-
-    do {
-
-        if (!_tcscmp(pe32.szExeFile, cName)) {
-            _tprintf(TEXT("[nezu.cc] process %s found with PID: %d\n"), cName, pe32.th32ProcessID);
-            CloseHandle(hProcessSnap);
-            return pe32.th32ProcessID;
-        }
-
-    } while (Process32Next(hProcessSnap, &pe32));
-
-    _tprintf(TEXT("[nezu.cc] failed to find process %s\n"), cName);
-
-    CloseHandle(hProcessSnap);
     return NULL;
 }
 
