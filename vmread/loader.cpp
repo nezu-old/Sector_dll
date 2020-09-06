@@ -95,6 +95,7 @@ int main()
                     }
                     if(!strcmp(".text", (char*)&sections[i].Name)){
                         overlay_text_free = overlay->info.baseAddress + sections[i].VirtualAddress; //yolo
+                        overlay_text_free_size = sections[i].SizeOfRawData;
                     }
                 }
                 
@@ -109,24 +110,24 @@ int main()
                 size_t chunk_size = 0x1000;
                 void* buff = malloc(chunk_size);
                 uint64_t base = peb.Ldr & 0xffffffff00000000;
-                uint64_t SwapBuffersPtr = 0;
+                std::vector<uint64_t> SwapBuffersPtr;
                 printf("Searching for SwapBuffersPtr...\n");
                 for (uint64_t i = base - 0x100000000; i < base + 0x100000000; i += chunk_size)
                 {
                     if(!VTranslate(&proc.ctx->process, proc.proc.dirBase, i)) continue;
                     proc.Read(i, buff, chunk_size);
-                    for (size_t j = 0; j < chunk_size; j+=0x20)
+                    for (size_t j = 0; j < chunk_size; j+=0x10)
                     {
                         uint64_t val = *reinterpret_cast<uint64_t*>(reinterpret_cast<uint64_t>(buff) + j);
-                        if(val == SwapBuffers){
-                            SwapBuffersPtr = i + j;
+                        if(val == SwapBuffers) {
+                            SwapBuffersPtr.push_back(i + j);
                             break;
                         }
                     }
                 }
                 free(buff);
 
-                if(SwapBuffersPtr){
+                if(SwapBuffersPtr.size()){
                     printf("Found SwapBuffersPtr as: %lx\n", SwapBuffersPtr);
                     
                     unsigned char alloc_shellcode[] = { 
@@ -144,7 +145,7 @@ int main()
                         0x48, 0x83, 0xEC, 0x28, 
                         0x48, 0xB8, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, //VirtualAlloc 48
                         0x48, 0xC7, 0xC1, 0x00, 0x00, 0x00, 0x00, 
-                        0x48, 0xC7, 0xC2, 0x00, 0x00, 0x10, 0x00, 
+                        0x48, 0xC7, 0xC2, 0x00, 0x00, 0x50, 0x00, 
                         0x41, 0xB8, 0x00, 0x30, 0x00, 0x00, 
                         0x41, 0xB9, 0x40, 0x00, 0x00, 0x00, 
                         0xFF, 0xD0, 
@@ -157,7 +158,7 @@ int main()
                         0xC6, 0x00, 0x00, 
                         0x48, 0x05, 0x00, 0x10, 0x00, 0x00, 
                         0x48, 0xFF, 0xC1, 
-                        0x48, 0x81, 0xF9, 0xff, 0x00, 0x00, 0x00, 
+                        0x48, 0x81, 0xF9, 0xff, 0x04, 0x00, 0x00, 
                         0x7E, 0xEB,
 
                         0x41, 0x59, 
@@ -170,27 +171,76 @@ int main()
                         0x41, 0xFF, 0x22 
                     };
                     *(uint64_t*)(&alloc_shellcode[2]) = SwapBuffers;
-                    *(uint64_t*)(&alloc_shellcode[12]) = SwapBuffersPtr;
+                    *(uint64_t*)(&alloc_shellcode[12]) = SwapBuffersPtr[0];
                     *(uint64_t*)(&alloc_shellcode[22]) = overlay_data;
                     *(uint64_t*)(&alloc_shellcode[48]) = VirtualAlloc;
 
-                    uint64_t trans = VTranslate(&proc.ctx->process, proc.proc.dirBase, overlay_text_free);
-                    printf("trans overlay_text_free: %lX\n", trans);
-                    if(!trans) return 9;
+                    uint64_t trans = 0;
+                    
+                    void* buff = malloc(0x1000);
+                    int ccCountBest = 0;
+                    uint64_t bestcc = 0;
+                    for (size_t i = 0; i < overlay_text_free_size; i += 0x1000)
+                    {
+                        trans = VTranslate(&proc.ctx->process, proc.proc.dirBase, overlay_text_free + i);
+                        if (trans) {
+                            proc.Read(overlay_text_free + i, buff, 0x1000);
+                            int ccCount = 0;
+                            uint64_t curcc = 0;
+                            for (size_t j = 0; j < 0x1000; j++)
+                            {
+                                if(((unsigned char*)buff)[j] == 0xCC){
+                                    if(!curcc) curcc = j;
+                                    ccCount++;
+                                } else {
+                                    if(ccCount > ccCountBest){
+                                        ccCountBest = ccCount;
+                                        bestcc = curcc + i + overlay_text_free;
+                                    }
+                                    curcc = 0;
+                                    ccCount = 0;
+                                }
+                            }
+                            
+                        }
+                    }
+                    free(buff);
+
+                    printf("Best CC 0x%lX: %d\n", bestcc, ccCountBest);
+
+                    overlay_text_free = bestcc;
+                    
+                    // return 3;
+                    // if(!trans) return 9;
                     
                     void* backup = malloc(sizeof(alloc_shellcode));
                     proc.Read(overlay_text_free, backup, sizeof(alloc_shellcode));
-
-                    proc.Write(overlay_text_free, alloc_shellcode, sizeof(alloc_shellcode));
-                    proc.Write(SwapBuffersPtr, overlay_text_free);
-                    printf("waiting for allocation");
                     uint64_t allocation = 0;
-                    do {
-                        allocation = proc.Read<uint64_t>(overlay_data);
-                        if(allocation) break;
-                        std::this_thread::sleep_for(std::chrono::milliseconds(5));
-                        printf(".");
-                    } while(true);
+                    int SwapBuffersPtrIndex = 0;
+
+                    while (!allocation) {
+                        proc.Write(overlay_text_free, alloc_shellcode, sizeof(alloc_shellcode));
+                        proc.Write(SwapBuffersPtr[SwapBuffersPtrIndex], overlay_text_free);
+                        printf("waiting for allocation");
+                        int timeout = 10;
+                        do {
+                            allocation = proc.Read<uint64_t>(overlay_data);
+                            if(allocation) break;
+                            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+                            printf(".");
+                        } while(--timeout);
+                        if(!allocation){
+                            printf("Failed to inject using SwapBuffers[%d], trying next one...\n", SwapBuffersPtrIndex);
+                            proc.Write(SwapBuffersPtr[SwapBuffersPtrIndex], SwapBuffers);
+                            SwapBuffersPtrIndex++;
+                            if(SwapBuffersPtrIndex >= SwapBuffersPtr.size()) {
+                                printf("Failed to inject, bo more SwapBuffers pointers found\n");
+                                return 9;
+                            }
+                            *(uint64_t*)(&alloc_shellcode[12]) = SwapBuffersPtr[SwapBuffersPtrIndex];
+                        }
+                    }
+                    
                     printf("\nalocated at: 0x%lX\n", allocation);
                     proc.Write(overlay_text_free, backup, sizeof(alloc_shellcode));
                     proc.Write(overlay_data, (uint64_t)0);
@@ -291,15 +341,17 @@ int main()
                     };
 
                     *(uint64_t*)(&injection_shellcode[2]) = SwapBuffers;
-                    *(uint64_t*)(&injection_shellcode[12]) = SwapBuffersPtr;
+                    *(uint64_t*)(&injection_shellcode[12]) = SwapBuffersPtr[SwapBuffersPtrIndex];
                     *(uint64_t*)(&injection_shellcode[38]) = d.data + d.data_len;
 
                     proc.Write(allocation, rawData, sizeof(rawData));
                     proc.Write(allocation + d.data_len, &d, sizeof(d));
                     proc.Write(allocation + d.data_len + sizeof(d), injection_shellcode, sizeof(injection_shellcode));
 
-                    proc.Write(SwapBuffersPtr, d.data + d.data_len + sizeof(d));
+                    proc.Write(SwapBuffersPtr[SwapBuffersPtrIndex], d.data + d.data_len + sizeof(d));
 
+                } else {
+                    printf("Failed top find SwapBuffersPtr\n");
                 }
 
             }
