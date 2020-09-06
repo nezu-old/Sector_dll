@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\ILMerge.3.0.40\build\ILMerge.props" Condition="Exists('..\packages\ILMerge.3.0.40\build\ILMerge.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -51,10 +50,6 @@
       <HintPath>..\packages\Microsoft.Win32.Registry.4.3.0\lib\net46\Microsoft.Win32.Registry.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="RGiesecke.DllExport.Metadata, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8f52d83c1a22df51, processorArchitecture=MSIL">
-      <HintPath>..\packages\UnmanagedExports.Repack.Upgrade.1.2.1\lib\netstandard20\RGiesecke.DllExport.Metadata.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Collections.Immutable, Version=1.2.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Collections.Immutable.1.5.0\lib\netstandard2.0\System.Collections.Immutable.dll</HintPath>
@@ -90,11 +85,8 @@
     <Compile Include="cheat\ClassSignature.cs" />
     <Compile Include="cheat\Drawing.cs" />
     <Compile Include="cheat\ESP.cs" />
-    <Compile Include="cheat\Hooks\Antycheat.cs" />
-    <Compile Include="cheat\Hooks\EAC.cs" />
     <Compile Include="cheat\Hooks\GClass49.cs" />
     <Compile Include="cheat\Hooks\Helper.cs" />
-    <Compile Include="cheat\Hooks\HWID.cs" />
     <Compile Include="cheat\Hooks\Player.cs" />
     <Compile Include="cheat\Hooks\RequestHelper.cs" />
     <Compile Include="cheat\Hooks\Tracing.cs" />
@@ -341,22 +333,4 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\UnmanagedExports.Repack.Upgrade.1.2.1\build\UnmanagedExports.Repack.Upgrade.targets" Condition="Exists('..\packages\UnmanagedExports.Repack.Upgrade.1.2.1\build\UnmanagedExports.Repack.Upgrade.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\UnmanagedExports.Repack.Upgrade.1.2.1\build\UnmanagedExports.Repack.Upgrade.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\UnmanagedExports.Repack.Upgrade.1.2.1\build\UnmanagedExports.Repack.Upgrade.targets'))" />
-    <Error Condition="!Exists('..\packages\ILMerge.3.0.40\build\ILMerge.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ILMerge.3.0.40\build\ILMerge.props'))" />
-  </Target>
-  <!--<Target Name="AfterBuild">
-    <CreateItem Include="@(ReferenceCopyLocalPaths)" Condition="'%(Extension)'=='.dll'">
-      <Output ItemName="AssembliesToMerge" TaskParameter="Include" />
-    </CreateItem>
-    <PropertyGroup>
-      <ReferenceAssemblies>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5</ReferenceAssemblies>
-    </PropertyGroup>
-    <Exec Command="&quot;$(ILMergeConsolePath)&quot; /out:$(OutDir)Sector_dll.dll @(MainAssembly) @(AssembliesToMerge->'&quot;%(FullPath)&quot;',' ')" />
-    <Delete Files="@(ReferenceCopyLocalPaths->'$(OutDir)%(DestinationSubDirectory)%(Filename)%(Extension)')" />
-  </Target>-->
 </Project>

@@ -1,14 +1,8 @@
-﻿using RGiesecke.DllExport;
-using Sector_dll.sdk;
+﻿using Sector_dll.sdk;
 using Sector_dll.util;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sector_dll.cheat
 {
@@ -65,7 +59,6 @@ namespace Sector_dll.cheat
 
         }
 
-        [DllExport("DrawCallback")]
         public static void DrawCallback(ref DrawingFunctions d)
         {
             d.DrawMenu(ref Config.settings);

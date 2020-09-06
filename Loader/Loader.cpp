@@ -174,7 +174,7 @@ int main(int argc, char* argv[])
         std::copy(std::istreambuf_iterator<char>(infile),
             std::istreambuf_iterator<char>(),
             std::back_inserter(buffer));
-    } catch (const std::system_error& e) {
+    } catch (const std::system_error&) {
         printError(TEXT("ifstream EACEmulator.dll"));
         return FALSE;
     }
@@ -204,7 +204,7 @@ int main(int argc, char* argv[])
     memcpy_s((reinterpret_cast<BYTE*>(&d->fun) + 4), sizeof(d->fun) - 4, fun, sizeof(fun));
     *reinterpret_cast<DWORD*>(&d->fun) = sizeof(fun) - 2;
     d->data = pMem;
-    d->data_len = buffer.size();
+    d->data_len = (ULONG)buffer.size();
 
     HMODULE hMod = LoadLibrary(TEXT("mscoree.dll"));
 

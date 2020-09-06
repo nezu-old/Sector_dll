@@ -25,9 +25,6 @@ namespace Sector_dll.cheat.Hooks
             {
                 GameManager.instance.Target = null;
             }
-            //throw new FileNotFoundException("XD");
-
-            //object localPlayer = GameManager.GetLocalPLayer(self);
          
             orig(self, p1);
         }

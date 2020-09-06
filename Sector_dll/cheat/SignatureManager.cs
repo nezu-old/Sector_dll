@@ -613,7 +613,7 @@ namespace Sector_dll.cheat
 
         public static MethodInfo DiscordCreate;
 
-        public static MethodInfo Helper_CurrentBloom;
+        //public static MethodInfo Helper_CurrentBloom;
 
         public static Type TeamType;
 

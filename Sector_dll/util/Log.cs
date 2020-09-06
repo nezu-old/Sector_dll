@@ -29,7 +29,7 @@ namespace Sector_dll.util
             {
                 Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.BackgroundColor = ConsoleColor.DarkYellow;
-                Console.WriteLine(msg);
+                Console.WriteLine("[nezu.cc] " + msg);
                 Console.ResetColor();
             }
         }
@@ -42,7 +42,7 @@ namespace Sector_dll.util
             {
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.BackgroundColor = ConsoleColor.Black;
-                Console.WriteLine(msg);
+                Console.WriteLine("[nezu.cc] " + msg);
                 Console.ResetColor();
             }
         }
