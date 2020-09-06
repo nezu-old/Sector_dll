@@ -1,6 +1,7 @@
 ﻿using MonoMod.RuntimeDetour;
 using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -27,12 +28,10 @@ namespace EACEmulator
 
 			AllocConsole();
 			Log.Eac("emulator starting");
-			Log.Eac("Running from: " + Assembly.GetExecutingAssembly().Location);
+			Log.Eac("Running from: " + (Assembly.GetExecutingAssembly().Location.Trim().Length == 0 ? "[Memory]" : Assembly.GetExecutingAssembly().Location));
 			Log.Eac("Running in domain: " + AppDomain.CurrentDomain.FriendlyName);
 			Log.Eac("Domain base dir: " + AppDomain.CurrentDomain.BaseDirectory);
 			Log.Eac("Working directory: " + Directory.GetCurrentDirectory());
-
-			//Console.Read();
 
 			Assembly assembly = Assembly.Load("sectorsedge");
 
@@ -41,11 +40,51 @@ namespace EACEmulator
 			Array.Copy(a, 1, args, 0, a.Length - 1);
 			Log.Eac("process args: " + string.Join(" ", args));
 
-			MethodInfo[] eac_funcs = assembly.GetType("#=z5Yqy3S3egHnqI0lLeEnH1ZMw$GJCKrFMNkluyr8=")
-					.GetNestedType("#=zJyN_ZSM9809$", BindingFlags.NonPublic).GetMethods(BindingFlags.NonPublic | BindingFlags.Static);
+			Type eac = assembly.GetTypes()
+				.Select(type => type.GetNestedTypes(BindingFlags.NonPublic).ToList())
+				.SelectMany(x => x)
+				.Distinct()
+				.FirstOrDefault(type => type.GetMethods(BindingFlags.NonPublic | BindingFlags.Static)
+					.Any(method =>
+						method.GetCustomAttribute<DllImportAttribute>() != null &&
+						method.GetCustomAttribute<DllImportAttribute>().EntryPoint == "CreateGameClient"
+					)
+				);
+			if(eac == null)
+            {
+				Log.Eac("Failed to find eac class!!\n\nPress any key to exit");
+				Console.ReadKey(true);
+				Environment.Exit(1);
+				return;
+			}
+			Log.Eac("Found eac class as: " + eac.ToString());
+
+			MethodInfo[] eac_funcs = eac.GetMethods(BindingFlags.NonPublic | BindingFlags.Static);
+
+			if (eac_funcs.Length != 11)
+			{
+				Log.Eac($"Number of eac functions does not match. Got {eac_funcs.Length} expected {11}!!\n\nPress any key to exit");
+				Console.ReadKey(true);
+				Environment.Exit(1);
+				return;
+			}
 
 			foreach (MethodInfo mi in eac_funcs)
-				new NativeDetour(mi, typeof(EACEmulator).GetMethod(mi.GetCustomAttribute<DllImportAttribute>().EntryPoint));
+            {
+				MethodInfo hook_mi = typeof(EACEmulator).GetMethod(mi.GetCustomAttribute<DllImportAttribute>().EntryPoint);
+				NativeDetour detour = new NativeDetour(mi, hook_mi);
+				if(detour.IsApplied && detour.IsValid)
+                {
+					Log.Eac("Hooked " + mi.Name + " -> " + hook_mi.Name);
+				} 
+				else
+                {
+					Log.Eac("Failed to hoook " + mi.Name + "\n\nPress any key to exit");
+					Console.ReadKey(true);
+					Environment.Exit(1);
+					return;
+				}
+			}
 
 			typeof(AppDomain).GetMethod("nExecuteAssembly", BindingFlags.NonPublic | BindingFlags.Instance)
 				.Invoke(AppDomain.CurrentDomain, new object[] { assembly, args });
