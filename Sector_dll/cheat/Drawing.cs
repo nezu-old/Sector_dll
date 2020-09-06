@@ -61,6 +61,8 @@ namespace Sector_dll.cheat
 
         public delegate void DrawCallbackDelegate(ref DrawingFunctions d);
 
+        public static DrawCallbackDelegate callback = new DrawCallbackDelegate(DrawCallback);
+
         public static void DrawCallback(ref DrawingFunctions d)
         {
             d.DrawMenu(ref Config.settings);
@@ -69,7 +71,7 @@ namespace Sector_dll.cheat
 
             if (GameManager.instance.IsAlive && GameManager.instance.Target.GetType().BaseType == SignatureManager.GClass49.Type.BaseType)
             {
-                object gm = GameManager.instance.Target;
+                //object gm = GameManager.instance.Target;
 
                 //d.DrawFilledRect(20, 20, 10, 10, 0xFF0000FF);
 

@@ -36,11 +36,9 @@ namespace Sector_dll.cheat
             return s;
         }
 
-        private static Drawing.DrawCallbackDelegate dc;
-
         public unsafe static void Entry()
         {
-            AllocConsole();
+            //AllocConsole();
             Log.enabled = true;
             Log.Info("Entry point called");
             Log.Info("Running from: " + (Assembly.GetExecutingAssembly().Location.Trim().Length == 0 ? "[Memory]" : Assembly.GetExecutingAssembly().Location));
@@ -51,15 +49,11 @@ namespace Sector_dll.cheat
 
             try
             {
-                Log.Debug($"Injection: {1}");
                 using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(Assembly.GetExecutingAssembly().GetManifestResourceNames()[0]))
                 {
-                    Log.Debug($"len: {stream == null}");
                     byte[] bytes = new byte[stream.Length];
                     stream.Read(bytes, 0, bytes.Length);
-
-                    dc = new Drawing.DrawCallbackDelegate(Drawing.DrawCallback);
-                    bool injected = Injector.Inject(bytes, Marshal.GetFunctionPointerForDelegate(dc));
+                    bool injected = Injector.Inject(bytes, Marshal.GetFunctionPointerForDelegate(Drawing.callback));
                     Log.Debug($"Injection: {injected}");
                 }
             }
@@ -106,8 +100,8 @@ namespace Sector_dll.cheat
                 if (!SignatureManager.FindSignatures(assembly))
                     throw new Exception("Failed to resolve all types/methods/fields");
                 
-                new Hook(SignatureManager.RequestHelper_POST, typeof(RequestHelper).GetMethod("POST"));
-                new Hook(SignatureManager.RequestHelper_GET, typeof(RequestHelper).GetMethod("GET"));
+                //new Hook(SignatureManager.RequestHelper_POST, typeof(RequestHelper).GetMethod("POST"));
+                //new Hook(SignatureManager.RequestHelper_GET, typeof(RequestHelper).GetMethod("GET"));
                 
                 new Hook(SignatureManager.GClass49_Base_Base_Draw, typeof(GClass49).GetMethod("vmethod_4"));
                 new Hook(SignatureManager.LocalPlayer_Update, typeof(Player).GetMethod("Update"));

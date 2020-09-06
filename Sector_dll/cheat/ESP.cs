@@ -25,13 +25,13 @@ namespace Sector_dll.cheat
 
             List<object> players = GameManager.GetPlayers(gm);
 
-            d.DrawTextSmall(GameManager.W2SResolution.ToString(), 100, 100); ;
+            //d.DrawTextSmall(GameManager.W2SResolution.ToString(), 100, 100);
 
-            if(GameManager.W2s(new Vec3(0, 0, 0), out Vec2 test))
-            {
-                d.DrawTextSmall(test.ToString(), 100, 120);
-                d.DrawRect((int)test.x - 5, (int)test.y - 5, 10, 10, 2, Color.red);
-            }
+            //if(GameManager.W2s(new Vec3(0, 0, 0), out Vec2 test))
+            //{
+            //    d.DrawTextSmall(test.ToString(), 100, 120);
+            //    d.DrawRect((int)test.x - 5, (int)test.y - 5, 10, 10, 2, Color.red);
+            //}
 
             for (int i = 0; i < players.Count; i++)
             {
