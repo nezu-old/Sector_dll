@@ -13,7 +13,7 @@ namespace Sector_dll.cheat
     {
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static string xd(Func<int, bool, string>orig, int i, bool b)//Func<IntPtr, string, IntPtr> orig, 
+        public static string Xd(Func<int, bool, string>orig, int i, bool b)//Func<IntPtr, string, IntPtr> orig, 
         {
             string s = orig(i, b);
             //if (s.ToLower().Contains("head"))

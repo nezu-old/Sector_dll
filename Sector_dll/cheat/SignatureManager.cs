@@ -1217,7 +1217,7 @@ namespace Sector_dll.cheat
                 if (mi.ReturnType == typeof(bool) && mi.GetParameters().Length == 0 && mi.Name.Length == 15 &&
                     mi.GetMethodBody().GetILAsByteArray().Length > 50)
                 {
-                    Log.Danger(mi.GetMethodBody().MaxStackSize + " " + mi.GetMethodBody().LocalVariables.Count + " " + mi.GetMethodBody().GetILAsByteArray().Length);
+                    //Log.Danger(mi.GetMethodBody().MaxStackSize + " " + mi.GetMethodBody().LocalVariables.Count + " " + mi.GetMethodBody().GetILAsByteArray().Length);
                     GClass49_Base_IsScoped = mi;
                     Log.Info("Found GClass49_Base_IsScoped as: " + GClass49_Base_IsScoped.ToString());
                 }
