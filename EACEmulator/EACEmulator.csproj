@@ -4,17 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6A8098C6-7166-42F9-8FDF-14704A6E4A25}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>StringsDumper</RootNamespace>
-    <AssemblyName>StringsDumper</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <ProjectGuid>{BE374201-B519-4B85-8B8F-CF559212D2F0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EACEmulator</RootNamespace>
+    <AssemblyName>EACEmulator</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -34,17 +32,17 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
+    <OutputPath>..\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\x64\Release\</OutputPath>
+    <OutputPath>..\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -52,7 +50,7 @@
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -195,13 +193,87 @@
     <Compile Include="cecil\VariableReference.cs" />
     <Compile Include="cecil\VariantType.cs" />
     <Compile Include="cecil\WindowsRuntimeProjections.cs" />
-    <Compile Include="ClassSignature.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="EACEmulator.cs" />
+    <Compile Include="MonoMod\CecilILGenerator.cs" />
+    <Compile Include="MonoMod\Detour.cs" />
+    <Compile Include="MonoMod\DetourContext.cs" />
+    <Compile Include="MonoMod\DetourHelper.cs" />
+    <Compile Include="MonoMod\DetourModManager.cs" />
+    <Compile Include="MonoMod\DetourNativeARMPlatform.cs" />
+    <Compile Include="MonoMod\DetourNativeLibcPlatform.cs" />
+    <Compile Include="MonoMod\DetourNativeMonoPlatform.cs" />
+    <Compile Include="MonoMod\DetourNativeMonoPosixPlatform.cs" />
+    <Compile Include="MonoMod\DetourNativeWindowsPlatform.cs" />
+    <Compile Include="MonoMod\DetourNativeX86Platform.cs" />
+    <Compile Include="MonoMod\DetourRuntimeILPlatform.cs" />
+    <Compile Include="MonoMod\DetourRuntimeMonoPlatform.cs" />
+    <Compile Include="MonoMod\DetourRuntimeNETCorePlatform.cs" />
+    <Compile Include="MonoMod\DetourRuntimeNETPlatform.cs" />
+    <Compile Include="MonoMod\DMDCecilGenerator.cs" />
+    <Compile Include="MonoMod\DMDEmit.CreateMethodProxy.cs" />
+    <Compile Include="MonoMod\DMDEmit.cs" />
+    <Compile Include="MonoMod\DMDEmit.EmitCallSite.cs" />
+    <Compile Include="MonoMod\DMDEmitDynamicMethodGenerator.cs" />
+    <Compile Include="MonoMod\DMDEmitMethodBuilderGenerator.cs" />
+    <Compile Include="MonoMod\DMDGenerator.cs" />
+    <Compile Include="MonoMod\DynamicData.cs" />
+    <Compile Include="MonoMod\DynamicHookGen.cs" />
+    <Compile Include="MonoMod\DynamicMethodDefinition.CopyMethodToDefinition.cs" />
+    <Compile Include="MonoMod\DynamicMethodDefinition.cs" />
+    <Compile Include="MonoMod\DynamicMethodHelper.cs" />
+    <Compile Include="MonoMod\DynamicMethodReference.cs" />
+    <Compile Include="MonoMod\DynData.cs" />
+    <Compile Include="MonoMod\DynDll.cs" />
+    <Compile Include="MonoMod\Extensions.Cecil.cs" />
+    <Compile Include="MonoMod\Extensions.CecilCIL.cs" />
+    <Compile Include="MonoMod\Extensions.CecilIsRefl.cs" />
+    <Compile Include="MonoMod\Extensions.CecilShims.cs" />
+    <Compile Include="MonoMod\Extensions.Collections.cs" />
+    <Compile Include="MonoMod\Extensions.cs" />
+    <Compile Include="MonoMod\Extensions.Delegate.cs" />
+    <Compile Include="MonoMod\Extensions.Find.cs" />
+    <Compile Include="MonoMod\Extensions.GetID.cs" />
+    <Compile Include="MonoMod\Extensions.GetPatchName.cs" />
+    <Compile Include="MonoMod\Extensions.Relinker.cs" />
+    <Compile Include="MonoMod\Extensions.Unsafe.cs" />
+    <Compile Include="MonoMod\Extensions.Utils.cs" />
+    <Compile Include="MonoMod\Extensions.UtilsIL.cs" />
+    <Compile Include="MonoMod\FastReflectionHelper.cs" />
+    <Compile Include="MonoMod\HarmonyDetourBridge.cs" />
+    <Compile Include="MonoMod\Hook.cs" />
+    <Compile Include="MonoMod\HookEndpoint.cs" />
+    <Compile Include="MonoMod\HookEndpointManager.cs" />
+    <Compile Include="MonoMod\ICallSiteGenerator.cs" />
+    <Compile Include="MonoMod\IDetour.cs" />
+    <Compile Include="MonoMod\IDetourNativePlatform.cs" />
+    <Compile Include="MonoMod\IDetourRuntimePlatform.cs" />
+    <Compile Include="MonoMod\IgnoresAccessChecksToAttribute.cs" />
+    <Compile Include="MonoMod\ILContext.cs" />
+    <Compile Include="MonoMod\ILCursor.cs" />
+    <Compile Include="MonoMod\ILGeneratorShim.cs" />
+    <Compile Include="MonoMod\ILGeneratorShim.Proxy.cs" />
+    <Compile Include="MonoMod\ILHook.cs" />
+    <Compile Include="MonoMod\ILLabel.cs" />
+    <Compile Include="MonoMod\ILPatternMatchingExt.cs" />
+    <Compile Include="MonoMod\ILReferenceBag.cs" />
+    <Compile Include="MonoMod\LazyDisposable.cs" />
+    <Compile Include="MonoMod\MMDbgLog.cs" />
+    <Compile Include="MonoMod\MMReflectionImporter.cs" />
+    <Compile Include="MonoMod\ModExportName.cs" />
+    <Compile Include="MonoMod\ModImportName.cs" />
+    <Compile Include="MonoMod\ModInteropManager.cs" />
+    <Compile Include="MonoMod\MultiTargetShims.cs" />
+    <Compile Include="MonoMod\NativeDetour.cs" />
+    <Compile Include="MonoMod\NativeDetourData.cs" />
+    <Compile Include="MonoMod\Platform.cs" />
+    <Compile Include="MonoMod\PlatformHelper.cs" />
+    <Compile Include="MonoMod\ReflectionHelper.cs" />
+    <Compile Include="MonoMod\ReflectionHelper.ParseCallSite.cs" />
+    <Compile Include="MonoMod\RelinkFailedException.cs" />
+    <Compile Include="MonoMod\RelinkTargetNotFoundException.cs" />
+    <Compile Include="MonoMod\SortableDetourComparer.cs" />
+    <Compile Include="MonoMod\WeakReferenceComparer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResolvedType.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
