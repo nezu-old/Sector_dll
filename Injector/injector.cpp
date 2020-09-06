@@ -58,6 +58,8 @@ int main(int argc, char* argv[]) {
     PathRemoveFileSpec(path); // just insers null terminator so buffer is same size;
     _tcscat_s(path, TEXT("\\Sector_dll.dll"));
 
+    _tprintf(TEXT("injecting %s into %d\n"), path, pid);
+
     if (!injectCLRDLL(hProc, path)) {
         _tprintf(TEXT("Failed to inject %s into %d\n"), path, pid);
         CloseHandle(hProc);

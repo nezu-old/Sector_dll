@@ -4,8 +4,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.30128.74
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sector_dll", "Sector_dll\Sector_dll.csproj", "{82B4E0FC-EFF6-454E-8EDF-DB8D5BDFC422}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B3A3D6A5-1A32-49B2-A748-2C053A651774} = {B3A3D6A5-1A32-49B2-A748-2C053A651774}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Loader", "Loader\Loader.vcxproj", "{62E72549-0B1C-4D61-B0CE-4155AE8A96B7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BE374201-B519-4B85-8B8F-CF559212D2F0} = {BE374201-B519-4B85-8B8F-CF559212D2F0}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NativeLoader", "NativeLoader\NativeLoader.vcxproj", "{B3A3D6A5-1A32-49B2-A748-2C053A651774}"
 EndProject
@@ -14,6 +20,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EACEmulator", "EACEmulator\EACEmulator.csproj", "{BE374201-B519-4B85-8B8F-CF559212D2F0}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Injector", "Injector\Injector.vcxproj", "{E6AAEF09-923B-405A-AF7A-7EB4A55C206C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{82B4E0FC-EFF6-454E-8EDF-DB8D5BDFC422} = {82B4E0FC-EFF6-454E-8EDF-DB8D5BDFC422}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
