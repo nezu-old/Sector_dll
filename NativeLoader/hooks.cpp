@@ -42,7 +42,7 @@ void H::HookSwapBuffers(HMODULE hModSteamOverlay) {
 
 void H::HookWindow(HWND hWindow) {
 
-	HMODULE hUser32 = LoadLibrary(TEXT("User32.dll"));
+	/*HMODULE hUser32 = LoadLibrary(TEXT("User32.dll"));
 	oSetCursorPos = (f_SetCursorPos)GetProcAddress(hUser32, "SetCursorPos");
 	oGetCursorPos = (f_GetCursorPos)GetProcAddress(hUser32, "GetCursorPos");
 	oGetRawInputData = (f_GetRawInputData)GetProcAddress(hUser32, "GetRawInputData");
@@ -60,7 +60,7 @@ void H::HookWindow(HWND hWindow) {
 	DetourAttach(&(PVOID&)oGetRawInputData, H::GetRawInputData);
 	DetourTransactionCommit();
 
-	oWndProc = (WNDPROC)SetWindowLongPtr(hWindow, GWLP_WNDPROC, (LONG_PTR)H::WndProc);
+	oWndProc = (WNDPROC)SetWindowLongPtr(hWindow, GWLP_WNDPROC, (LONG_PTR)H::WndProc);*/
 
 }
 
@@ -75,6 +75,6 @@ void H::UnhookAll() {
 	if (oGetRawInputData) DetourDetach(&(PVOID&)oGetRawInputData, H::GetRawInputData);
 	DetourTransactionCommit();
 
-	SetWindowLongPtr(G::hGameWindow, GWLP_WNDPROC, (LONG_PTR)oWndProc);
+	if(oWndProc) SetWindowLongPtr(G::hGameWindow, GWLP_WNDPROC, (LONG_PTR)oWndProc);
 
 }

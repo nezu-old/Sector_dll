@@ -87,6 +87,7 @@
     <Compile Include="cheat\ESP.cs" />
     <Compile Include="cheat\Hooks\GClass49.cs" />
     <Compile Include="cheat\Hooks\Helper.cs" />
+    <Compile Include="cheat\Hooks\GL.cs" />
     <Compile Include="cheat\Hooks\Player.cs" />
     <Compile Include="cheat\Hooks\RequestHelper.cs" />
     <Compile Include="cheat\Hooks\Tracing.cs" />
@@ -242,7 +243,6 @@
     <Compile Include="sdk\Vec3.cs" />
     <Compile Include="sdk\Vec4.cs" />
     <Compile Include="sdk\WorldSpaceBone.cs" />
-    <Compile Include="util\Injector.cs" />
     <Compile Include="util\Log.cs" />
     <Compile Include="cheat\Main.cs" />
     <Compile Include="MonoMod\CecilILGenerator.cs" />
@@ -326,15 +326,13 @@
     <Compile Include="MonoMod\WeakReferenceComparer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="util\ManagedPtr.cs" />
+    <Compile Include="util\OpenGL.cs" />
     <Compile Include="util\Util.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="..\Release\NativeLoader.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

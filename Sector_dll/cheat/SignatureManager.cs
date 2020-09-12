@@ -3,11 +3,9 @@ using Mono.Cecil.Cil;
 using Sector_dll.util;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Security.Policy;
 
 namespace Sector_dll.cheat
 {
@@ -23,20 +21,20 @@ namespace Sector_dll.cheat
             nestedTypes = 0,
 
             privateMethods = 2,
-            publicMethods = 118,
+            publicMethods = 120,
             staticMethods = 0,
 
-            publicFields = 119,
+            publicFields = 122,
             privateFields = 3,
             staticFields = 0,
             readonlyFields = 5,
 
-            boolFields = 27,
+            boolFields = 29,
             byteFields = 3,
             shortFields = 0,
             intFields = 19,
             longFields = 0,
-            floatFields = 1,
+            floatFields = 2,
             doubleFields = 8,
             enumFields = 5,
             stringFields = 3,
@@ -53,24 +51,24 @@ namespace Sector_dll.cheat
             nestedTypes = 3,
 
             privateMethods = 51,
-            publicMethods = 346,
+            publicMethods = 350,
             staticMethods = 0,
 
-            publicFields = 145,
-            privateFields = 43,
-            staticFields = 5,
+            publicFields = 148,
+            privateFields = 40,
+            staticFields = 6,
             readonlyFields = 6,
 
-            boolFields = 38,
+            boolFields = 37,
             byteFields = 1,
             shortFields = 0,
-            intFields = 15,
+            intFields = 16,
             longFields = 1,
             floatFields = 0,
-            doubleFields = 21,
+            doubleFields = 18,
             enumFields = 8,
             stringFields = 0,
-            ArrayFields = 10,
+            ArrayFields = 11,
             OtherFields = 125
         });
 
@@ -142,7 +140,7 @@ namespace Sector_dll.cheat
             nestedTypes = 0,
 
             privateMethods = 2,
-            publicMethods = 59,
+            publicMethods = 54,
             staticMethods = 3,
 
             publicFields = 35,
@@ -155,11 +153,11 @@ namespace Sector_dll.cheat
             shortFields = 0,
             intFields = 7,
             longFields = 0,
-            floatFields = 3,
+            floatFields = 2,
             doubleFields = 1,
             enumFields = 4,
             stringFields = 2,
-            ArrayFields = 13,
+            ArrayFields = 14,
             OtherFields = 8
         });
 
@@ -175,12 +173,12 @@ namespace Sector_dll.cheat
             publicMethods = 53,
             staticMethods = 49,
 
-            publicFields = 104,
+            publicFields = 112,
             privateFields = 0,
-            staticFields = 104,
+            staticFields = 112,
             readonlyFields = 0,
 
-            boolFields = 24,
+            boolFields = 28,
             byteFields = 0,
             shortFields = 0,
             intFields = 51,
@@ -190,7 +188,7 @@ namespace Sector_dll.cheat
             enumFields = 3,
             stringFields = 1,
             ArrayFields = 0,
-            OtherFields = 21
+            OtherFields = 25
         });
 
         public static ResolvedType Helper = new ResolvedType("Helper", new ClassSignature()
@@ -663,6 +661,8 @@ namespace Sector_dll.cheat
 
         public static FieldInfo CollisionEntity_Health;
 
+        public static MethodInfo SwapBuffers;
+
         public static bool FindSignatures(Assembly assembly)
         {
             //Log.Info("Waiting for debugger to attach");
@@ -697,9 +697,20 @@ namespace Sector_dll.cheat
                         {
                             DllImportAttribute dllImport = attrib as DllImportAttribute;
                             if (dllImport.EntryPoint == "RegQueryValueEx")
+                            {
                                 RegQueryValueEx.Add(method);
+                                Log.Info("Found RegQueryValueEx as: " + method.ToString());
+                            }
                             if (dllImport.EntryPoint == "DiscordCreate")
+                            {
                                 DiscordCreate = method;
+                                Log.Info("Found DiscordCreate as: " + DiscordCreate.ToString());
+                            }
+                            if (dllImport.EntryPoint == "SwapBuffers")
+                            {
+                                SwapBuffers = method;
+                                Log.Info("Found SwapBuffers as: " + SwapBuffers.ToString());
+                            }
                         }
                     }
                 }
@@ -928,7 +939,7 @@ namespace Sector_dll.cheat
             if (PLayerBase_EitherMod == null) { Log.Info("PLayerBase_EitherMod is null"); return false; }
             if (ModType == null) { Log.Info("ModType is null"); return false; }
             if (PLayerBase_CurrentWeaponType == null) { Log.Info("PLayerBase_CurrentWeaponType is null"); return false; }
-            if (PLayerBase_CurrentWeaponIndex == null) { Log.Info("PLayerBase_CurrentWeaponIndex is null"); return false; }
+            if (PLayerBase_CurrentWeaponIndex == null) { Log.Danger("PLayerBase_CurrentWeaponIndex is null"); /*return false;*/ }
             if (PlayerBase_RecoilMod == null) { Log.Info("PlayerBase_RecoilMod is null"); return false; }
             if (PlayerBase_Base_SetTeam == null) { Log.Info("PLayerBase_Base_SetTeam is null"); return false; }
             if (PlayerBase_Base_GetTeam == null) { Log.Info("PLayerBase_Base_GetTeam is null"); return false; }
@@ -1232,7 +1243,7 @@ namespace Sector_dll.cheat
                     Log.Info("Found GClass49_Base_GenerateGlBuffersForPlayer as: " + GClass49_Base_GenerateGlBuffersForPlayer.ToString());
                 }
             }
-            if (GClass49_Base_GetPlayerColor == null) { Log.Info("GClass49_Base_GetPlayerColor is null"); return false; }
+            if (GClass49_Base_GetPlayerColor == null) { Log.Danger("GClass49_Base_GetPlayerColor is null"); /*return false;*/ }
             if (GClass49_Base_IsScoped == null) { Log.Info("GClass49_Base_IsScoped is null"); return false; }
             if (GClass49_Base_GetCurrentPLayer == null) { Log.Info("GClass49_Base_GetCurrentPLayer is null"); return false; }
             if (GClass49_Base_GenerateGlBuffersForPlayer == null) { Log.Info("GClass49_Base_GenerateGlBuffersForPlayer is null"); return false; }

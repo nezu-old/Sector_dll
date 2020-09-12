@@ -47,20 +47,20 @@ namespace Sector_dll.cheat
             Log.Info("Working directory: " + Directory.GetCurrentDirectory());
 
 
-            try
-            {
-                using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(Assembly.GetExecutingAssembly().GetManifestResourceNames()[0]))
-                {
-                    byte[] bytes = new byte[stream.Length];
-                    stream.Read(bytes, 0, bytes.Length);
-                    bool injected = Injector.Inject(bytes, Marshal.GetFunctionPointerForDelegate(Drawing.callback));
-                    Log.Debug($"Injection: {injected}");
-                }
-            }
-            catch (Exception e)
-            {
-                Log.Danger(e);
-            }
+            //try
+            //{
+            //    using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(Assembly.GetExecutingAssembly().GetManifestResourceNames()[0]))
+            //    {
+            //        byte[] bytes = new byte[stream.Length];
+            //        stream.Read(bytes, 0, bytes.Length);
+            //        bool injected = Injector.Inject(bytes, Marshal.GetFunctionPointerForDelegate(Drawing.callback));
+            //        Log.Debug($"Injection: {injected}");
+            //    }
+            //}
+            //catch (Exception e)
+            //{
+            //    Log.Danger(e);
+            //}
 
             //new Hook(typeof(File).GetMethod("Exists"), typeof(Antycheat).GetMethod("FileExists"));
             //new Hook(typeof(Directory).GetMethod("Exists"), typeof(Antycheat).GetMethod("DirectoryExists"));
@@ -99,18 +99,27 @@ namespace Sector_dll.cheat
             {
                 if (!SignatureManager.FindSignatures(assembly))
                     throw new Exception("Failed to resolve all types/methods/fields");
-                
+
+                NativeDetour SwapBuffersDetour = new NativeDetour(SignatureManager.SwapBuffers, typeof(GL).GetMethod("SwapBuffers"), new NativeDetourConfig()
+                {
+                    ManualApply = true
+                });
+                GL.SwapBuffersOrig = SwapBuffersDetour.GenerateTrampoline<GL.SwapBuffersDelegate>();
+                SwapBuffersDetour.Apply();
+                Console.ReadKey(true);
+                SwapBuffersDetour.Dispose();
+
                 //new Hook(SignatureManager.RequestHelper_POST, typeof(RequestHelper).GetMethod("POST"));
                 //new Hook(SignatureManager.RequestHelper_GET, typeof(RequestHelper).GetMethod("GET"));
-                
-                new Hook(SignatureManager.GClass49_Base_Base_Draw, typeof(GClass49).GetMethod("vmethod_4"));
-                new Hook(SignatureManager.LocalPlayer_Update, typeof(Player).GetMethod("Update"));
+
+                //new Hook(SignatureManager.GClass49_Base_Base_Draw, typeof(GClass49).GetMethod("vmethod_4"));
+                //new Hook(SignatureManager.LocalPlayer_Update, typeof(Player).GetMethod("Update"));
                 //new Hook(SignatureManager.PlayerBase_RecoilMod, typeof(Player).GetMethod("RecoilMod"));
                 //new Hook(SignatureManager.Helper_CurrentBloom, typeof(Helper).GetMethod("CurrentBloom"));
 
                 //new Hook(typeof(ManagementBaseObject).GetMethod("GetPropertyValue", BindingFlags.Public | BindingFlags.Instance),
                 //    typeof(HWID).GetMethod("ManagementBaseObject_GetPropertyValue"));
-                
+
                 //new NativeDetour(SignatureManager.Helper1_GetProcAddress, typeof(HWID).GetMethod("GetProcAddress"));
 
                 //new Detour(typeof(Environment).GetMethod("get_MachineName", BindingFlags.Public | BindingFlags.Static),
@@ -217,9 +226,9 @@ namespace Sector_dll.cheat
 
         }
 
-        [DllImport("kernel32.dll", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool AllocConsole();
+        //[DllImport("kernel32.dll", SetLastError = true)]
+        //[return: MarshalAs(UnmanagedType.Bool)]
+        //static extern bool AllocConsole();
 
     }
 }
