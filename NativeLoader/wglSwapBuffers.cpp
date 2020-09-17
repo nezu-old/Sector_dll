@@ -38,72 +38,74 @@ BOOL __stdcall H::wglSwapBuffers(HDC hDc) {
 
 		glewInit();
 
-		static const char* g_GlslVersionString = "#version 130\n";
-
-		const GLchar* vertex_shader =
-			"uniform mat4 ProjMtx;\n"
-			"in vec2 Position;\n"
-			"in vec2 UV;\n"
-			"in vec4 Color;\n"
-			"out vec2 Frag_UV;\n"
-			"out vec4 Frag_Color;\n"
-			"void main()\n"
-			"{\n"
-			"    Frag_UV = UV;\n"
-			"    Frag_Color = Color;\n"
-			"    gl_Position = ProjMtx * vec4(Position.xy,0,1);\n"
-			"}\n";
-
-		const GLchar* fragment_shader =
-			"uniform sampler2D Texture;\n"
-			"in vec2 Frag_UV;\n"
-			"in vec4 Frag_Color;\n"
-			"out vec4 Out_Color;\n"
-			"void main()\n"
-			"{\n"
-			"    Out_Color = Frag_Color * texture(Texture, Frag_UV.st);\n"
-			"}\n";
-
-		// Create shaders
-		const GLchar* vertex_shader_with_version[2] = { g_GlslVersionString, vertex_shader };
-		g_VertHandle = glCreateShader(GL_VERTEX_SHADER);
-		glShaderSource(g_VertHandle, 2, vertex_shader_with_version, NULL);
-		glCompileShader(g_VertHandle);
-
-		const GLchar* fragment_shader_with_version[2] = { g_GlslVersionString, fragment_shader };
-		g_FragHandle = glCreateShader(GL_FRAGMENT_SHADER);
-		glShaderSource(g_FragHandle, 2, fragment_shader_with_version, NULL);
-		glCompileShader(g_FragHandle);
-
-		g_ShaderHandle = glCreateProgram();
-		glAttachShader(g_ShaderHandle, g_VertHandle);
-		glAttachShader(g_ShaderHandle, g_FragHandle);
-		glLinkProgram(g_ShaderHandle);
-
-		g_AttribLocationProjMtx = glGetUniformLocation(g_ShaderHandle, "ProjMtx");
-		g_AttribLocationVtxPos = (GLuint)glGetAttribLocation(g_ShaderHandle, "Position");
-		g_AttribLocationVtxUV = (GLuint)glGetAttribLocation(g_ShaderHandle, "UV");
-		g_AttribLocationVtxColor = (GLuint)glGetAttribLocation(g_ShaderHandle, "Color");
-
-		// Create buffers
-		glGenBuffers(1, &g_VboHandle);
-		glGenBuffers(1, &g_ElementsHandle);
-
-		GLint last_texture;
-		glGetIntegerv(GL_TEXTURE_BINDING_2D, &last_texture);
-		glGenTextures(1, &text_xd);
-		glBindTexture(GL_TEXTURE_2D, text_xd);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-#ifdef GL_UNPACK_ROW_LENGTH
-		glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-#endif
-		unsigned char reloadImg[] = {
-			0xFF, 0xFF, 0xFF, 0xFF,
-		};
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 1, 1, 0, GL_RGBA, GL_UNSIGNED_BYTE, reloadImg);
-
-		glBindTexture(GL_TEXTURE_2D, last_texture);
+//		static const char* g_GlslVersionString = "#version 130\n";
+//
+//		const GLchar* vertex_shader =
+//			"#version 130\n"
+//			"uniform mat4 ProjMtx;\n"
+//			"in vec2 Position;\n"
+//			"in vec2 UV;\n"
+//			"in vec4 Color;\n"
+//			"out vec2 Frag_UV;\n"
+//			"out vec4 Frag_Color;\n"
+//			"void main()\n"
+//			"{\n"
+//			"    Frag_UV = UV;\n"
+//			"    Frag_Color = Color;\n"
+//			"    gl_Position = ProjMtx * vec4(Position.xy,0,1);\n"
+//			"}\n";
+//
+//		const GLchar* fragment_shader =
+//			"#version 130\n"
+//			"uniform sampler2D Texture;\n"
+//			"in vec2 Frag_UV;\n"
+//			"in vec4 Frag_Color;\n"
+//			"out vec4 Out_Color;\n"
+//			"void main()\n"
+//			"{\n"
+//			"    Out_Color = Frag_Color * texture(Texture, Frag_UV.st);\n"
+//			"}\n";
+//
+//		// Create shaders
+//		//const GLchar* vertex_shader_with_version[] = { /*g_GlslVersionString,*/ vertex_shader };
+//		g_VertHandle = glCreateShader(GL_VERTEX_SHADER);
+//		glShaderSource(g_VertHandle, 1, &vertex_shader, NULL);
+//		glCompileShader(g_VertHandle);
+//
+//		const GLchar* fragment_shader_with_version[] = { /*g_GlslVersionString,*/ fragment_shader };
+//		g_FragHandle = glCreateShader(GL_FRAGMENT_SHADER);
+//		glShaderSource(g_FragHandle, 1, fragment_shader_with_version, NULL);
+//		glCompileShader(g_FragHandle);
+//
+//		g_ShaderHandle = glCreateProgram();
+//		glAttachShader(g_ShaderHandle, g_VertHandle);
+//		glAttachShader(g_ShaderHandle, g_FragHandle);
+//		glLinkProgram(g_ShaderHandle);
+//
+//		g_AttribLocationProjMtx = glGetUniformLocation(g_ShaderHandle, "ProjMtx");
+//		g_AttribLocationVtxPos = (GLuint)glGetAttribLocation(g_ShaderHandle, "Position");
+//		g_AttribLocationVtxUV = (GLuint)glGetAttribLocation(g_ShaderHandle, "UV");
+//		g_AttribLocationVtxColor = (GLuint)glGetAttribLocation(g_ShaderHandle, "Color");
+//
+//		// Create buffers
+//		glGenBuffers(1, &g_VboHandle);
+//		glGenBuffers(1, &g_ElementsHandle);
+//
+//		GLint last_texture;
+//		glGetIntegerv(GL_TEXTURE_BINDING_2D, &last_texture);
+//		glGenTextures(1, &text_xd);
+//		glBindTexture(GL_TEXTURE_2D, text_xd);
+//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+//#ifdef GL_UNPACK_ROW_LENGTH
+//		glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+//#endif
+//		unsigned char reloadImg[] = {
+//			0xFF, 0xFF, 0xFF, 0xFF,
+//		};
+//		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 1, 1, 0, GL_RGBA, GL_UNSIGNED_BYTE, reloadImg);
+//
+//		glBindTexture(GL_TEXTURE_2D, last_texture);
 
 		return true;
 	}
@@ -128,20 +130,20 @@ BOOL __stdcall H::wglSwapBuffers(HDC hDc) {
 		{ 0.0f,         0.0f,        -1.0f,   0.0f },
 		{ (R + L) / (L - R),  (T + B) / (B - T),  0.0f,   1.0f },
 	};
-	glUseProgram(g_ShaderHandle);
-	//glUniform1i(g_AttribLocationTex, 0);
+	//glUseProgram(g_ShaderHandle);
+	////glUniform1i(g_AttribLocationTex, 0);
 	glUniformMatrix4fv(g_AttribLocationProjMtx, 1, GL_FALSE, &ortho_projection[0][0]);
 
-	glBindBuffer(GL_ARRAY_BUFFER, g_VboHandle);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_ElementsHandle);
-	glEnableVertexAttribArray(g_AttribLocationVtxPos);
-	glEnableVertexAttribArray(g_AttribLocationVtxUV);
-	glEnableVertexAttribArray(g_AttribLocationVtxColor);
-	glVertexAttribPointer(g_AttribLocationVtxPos, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid*)IM_OFFSETOF(ImDrawVert, pos));
-	glVertexAttribPointer(g_AttribLocationVtxUV, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid*)IM_OFFSETOF(ImDrawVert, uv));
-	glVertexAttribPointer(g_AttribLocationVtxColor, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ImDrawVert), (GLvoid*)IM_OFFSETOF(ImDrawVert, col));
+	//glBindBuffer(GL_ARRAY_BUFFER, g_VboHandle);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_ElementsHandle);
+	//glEnableVertexAttribArray(g_AttribLocationVtxPos);
+	//glEnableVertexAttribArray(g_AttribLocationVtxUV);
+	//glEnableVertexAttribArray(g_AttribLocationVtxColor);
+	//glVertexAttribPointer(g_AttribLocationVtxPos, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid*)IM_OFFSETOF(ImDrawVert, pos));
+	//glVertexAttribPointer(g_AttribLocationVtxUV, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid*)IM_OFFSETOF(ImDrawVert, uv));
+	//glVertexAttribPointer(g_AttribLocationVtxColor, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ImDrawVert), (GLvoid*)IM_OFFSETOF(ImDrawVert, col));
 
-	
+	text_xd = 215;
 	ImVector<ImDrawIdx>     IdxBuffer;          // Index buffer. Each command consume ImDrawCmd::ElemCount of those
 	ImVector<ImDrawVert>    VtxBuffer;          // Vertex buffer.
 
@@ -153,8 +155,8 @@ BOOL __stdcall H::wglSwapBuffers(HDC hDc) {
 	IdxBuffer.resize(idx_buffer_old_size + 6);
 	ImDrawIdx* _IdxWritePtr = IdxBuffer.Data + idx_buffer_old_size;
 
-	ImVec2 a(100, 100);
-	ImVec2 c(50, 50);
+	ImVec2 a(50, 50);
+	ImVec2 c(100, 100);
 	ImVec2 b(c.x, a.y), d(a.x, c.y), uv(0, 0);
 	ImDrawIdx idx = (ImDrawIdx)0;
 	_IdxWritePtr[0] = idx; _IdxWritePtr[1] = (ImDrawIdx)(idx + 1); _IdxWritePtr[2] = (ImDrawIdx)(idx + 2);

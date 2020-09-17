@@ -290,53 +290,101 @@ namespace Sector_dll.util
 		public delegate void PFNGLDEPTHRANGEPROC(double n, double f);
 		public delegate void PFNGLVIEWPORTPROC(int x, int y, int width, int height);
 #if GL_GLEXT_PROTOTYPES
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCULLFACEPROC glCullFace;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLFRONTFACEPROC glFrontFace;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLHINTPROC glHint;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLLINEWIDTHPROC glLineWidth;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPOINTSIZEPROC glPointSize;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPOLYGONMODEPROC glPolygonMode;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLSCISSORPROC glScissor;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXPARAMETERFPROC glTexParameterf;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXPARAMETERFVPROC glTexParameterfv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXPARAMETERIPROC glTexParameteri;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXPARAMETERIVPROC glTexParameteriv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXIMAGE1DPROC glTexImage1D;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXIMAGE2DPROC glTexImage2D;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDRAWBUFFERPROC glDrawBuffer;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCLEARPROC glClear;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCLEARCOLORPROC glClearColor;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCLEARSTENCILPROC glClearStencil;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCLEARDEPTHPROC glClearDepth;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLSTENCILMASKPROC glStencilMask;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCOLORMASKPROC glColorMask;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDEPTHMASKPROC glDepthMask;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDISABLEPROC glDisable;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLENABLEPROC glEnable;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLFINISHPROC glFinish;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLFLUSHPROC glFlush;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBLENDFUNCPROC glBlendFunc;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLLOGICOPPROC glLogicOp;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLSTENCILFUNCPROC glStencilFunc;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLSTENCILOPPROC glStencilOp;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDEPTHFUNCPROC glDepthFunc;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPIXELSTOREFPROC glPixelStoref;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPIXELSTOREIPROC glPixelStorei;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLREADBUFFERPROC glReadBuffer;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLREADPIXELSPROC glReadPixels;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETBOOLEANVPROC glGetBooleanv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETDOUBLEVPROC glGetDoublev;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETERRORPROC glGetError;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETFLOATVPROC glGetFloatv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETINTEGERVPROC glGetIntegerv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETSTRINGPROC glGetString;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETTEXIMAGEPROC glGetTexImage;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETTEXPARAMETERFVPROC glGetTexParameterfv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETTEXPARAMETERIVPROC glGetTexParameteriv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETTEXLEVELPARAMETERFVPROC glGetTexLevelParameterfv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETTEXLEVELPARAMETERIVPROC glGetTexLevelParameteriv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLISENABLEDPROC glIsEnabled;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDEPTHRANGEPROC glDepthRange;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVIEWPORTPROC glViewport;
 #endif
 #endif // GL_VERSION_1_0
@@ -390,19 +438,33 @@ namespace Sector_dll.util
 		public delegate void PFNGLGENTEXTURESPROC(int n, uint* textures);
 		public delegate bool PFNGLISTEXTUREPROC(uint texture);
 #if GL_GLEXT_PROTOTYPES
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDRAWARRAYSPROC glDrawArrays;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDRAWELEMENTSPROC glDrawElements;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETPOINTERVPROC glGetPointerv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPOLYGONOFFSETPROC glPolygonOffset;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCOPYTEXIMAGE1DPROC glCopyTexImage1D;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCOPYTEXIMAGE2DPROC glCopyTexImage2D;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCOPYTEXSUBIMAGE1DPROC glCopyTexSubImage1D;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCOPYTEXSUBIMAGE2DPROC glCopyTexSubImage2D;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXSUBIMAGE1DPROC glTexSubImage1D;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXSUBIMAGE2DPROC glTexSubImage2D;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBINDTEXTUREPROC glBindTexture;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDELETETEXTURESPROC glDeleteTextures;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGENTEXTURESPROC glGenTextures;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLISTEXTUREPROC glIsTexture;
 #endif
 #endif // GL_VERSION_1_1
@@ -451,9 +513,13 @@ namespace Sector_dll.util
 		public delegate void PFNGLTEXSUBIMAGE3DPROC(uint target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, uint format, uint type, void* pixels);
 		public delegate void PFNGLCOPYTEXSUBIMAGE3DPROC(uint target, int level, int xoffset, int yoffset, int zoffset, int x, int y, int width, int height);
 #if GL_GLEXT_PROTOTYPES
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDRAWRANGEELEMENTSPROC glDrawRangeElements;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXIMAGE3DPROC glTexImage3D;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXSUBIMAGE3DPROC glTexSubImage3D;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCOPYTEXSUBIMAGE3DPROC glCopyTexSubImage3D;
 #endif
 #endif // GL_VERSION_1_2
@@ -530,14 +596,23 @@ namespace Sector_dll.util
 		public delegate void PFNGLCOMPRESSEDTEXSUBIMAGE1DPROC(uint target, int level, int xoffset, int width, uint format, int imageSize, void* data);
 		public delegate void PFNGLGETCOMPRESSEDTEXIMAGEPROC(uint target, int level, void* img);
 #if GL_GLEXT_PROTOTYPES
+		[Obfuscation(Exclude = true)]
 		public static PFNGLACTIVETEXTUREPROC glActiveTexture;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLSAMPLECOVERAGEPROC glSampleCoverage;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCOMPRESSEDTEXIMAGE3DPROC glCompressedTexImage3D;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCOMPRESSEDTEXIMAGE2DPROC glCompressedTexImage2D;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCOMPRESSEDTEXIMAGE1DPROC glCompressedTexImage1D;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCOMPRESSEDTEXSUBIMAGE3DPROC glCompressedTexSubImage3D;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCOMPRESSEDTEXSUBIMAGE2DPROC glCompressedTexSubImage2D;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCOMPRESSEDTEXSUBIMAGE1DPROC glCompressedTexSubImage1D;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETCOMPRESSEDTEXIMAGEPROC glGetCompressedTexImage;
 #endif
 #endif // GL_VERSION_1_3
@@ -583,14 +658,23 @@ namespace Sector_dll.util
 		public delegate void PFNGLBLENDEQUATIONPROC(uint mode);
 #if GL_GLEXT_PROTOTYPES
 
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBLENDFUNCSEPARATEPROC glBlendFuncSeparate;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLMULTIDRAWARRAYSPROC glMultiDrawArrays;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLMULTIDRAWELEMENTSPROC glMultiDrawElements;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPOINTPARAMETERFPROC glPointParameterf;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPOINTPARAMETERFVPROC glPointParameterfv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPOINTPARAMETERIPROC glPointParameteri;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPOINTPARAMETERIVPROC glPointParameteriv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBLENDCOLORPROC glBlendColor;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBLENDEQUATIONPROC glBlendEquation;
 #endif
 #endif // GL_VERSION_1_4
@@ -646,24 +730,43 @@ namespace Sector_dll.util
 		public delegate void PFNGLGETBUFFERPARAMETERIVPROC(uint target, uint pname, int* @params);
 		public delegate void PFNGLGETBUFFERPOINTERVPROC(uint target, uint pname, void** @params);
 #if GL_GLEXT_PROTOTYPES
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGENQUERIESPROC glGenQueries;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDELETEQUERIESPROC glDeleteQueries;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLISQUERYPROC glIsQuery;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBEGINQUERYPROC glBeginQuery;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLENDQUERYPROC glEndQuery;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETQUERYIVPROC glGetQueryiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETQUERYOBJECTIVPROC glGetQueryObjectiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETQUERYOBJECTUIVPROC glGetQueryObjectuiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBINDBUFFERPROC glBindBuffer;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDELETEBUFFERSPROC glDeleteBuffers;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGENBUFFERSPROC glGenBuffers;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLISBUFFERPROC glIsBuffer;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBUFFERDATAPROC glBufferData;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBUFFERSUBDATAPROC glBufferSubData;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETBUFFERSUBDATAPROC glGetBufferSubData;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLMAPBUFFERPROC glMapBuffer;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNMAPBUFFERPROC glUnmapBuffer;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETBUFFERPARAMETERIVPROC glGetBufferParameteriv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETBUFFERPOINTERVPROC glGetBufferPointerv;
 #endif
 #endif // GL_VERSION_1_5
@@ -845,98 +948,191 @@ namespace Sector_dll.util
 		public delegate void PFNGLVERTEXATTRIB4USVPROC(uint index, ushort* v);
 		public delegate void PFNGLVERTEXATTRIBPOINTERPROC(uint index, int size, uint type, bool normalized, int stride, void* pointer);
 #if GL_GLEXT_PROTOTYPES
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBLENDEQUATIONSEPARATEPROC glBlendEquationSeparate;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDRAWBUFFERSPROC glDrawBuffers;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLSTENCILOPSEPARATEPROC glStencilOpSeparate;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLSTENCILFUNCSEPARATEPROC glStencilFuncSeparate;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLSTENCILMASKSEPARATEPROC glStencilMaskSeparate;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLATTACHSHADERPROC glAttachShader;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBINDATTRIBLOCATIONPROC glBindAttribLocation;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCOMPILESHADERPROC glCompileShader;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCREATEPROGRAMPROC glCreateProgram;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCREATESHADERPROC glCreateShader;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDELETEPROGRAMPROC glDeleteProgram;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDELETESHADERPROC glDeleteShader;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDETACHSHADERPROC glDetachShader;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDISABLEVERTEXATTRIBARRAYPROC glDisableVertexAttribArray;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLENABLEVERTEXATTRIBARRAYPROC glEnableVertexAttribArray;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETACTIVEATTRIBPROC glGetActiveAttrib;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETACTIVEUNIFORMPROC glGetActiveUniform;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETATTACHEDSHADERSPROC glGetAttachedShaders;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETATTRIBLOCATIONPROC glGetAttribLocation;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETPROGRAMIVPROC glGetProgramiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETPROGRAMINFOLOGPROC glGetProgramInfoLog;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETSHADERIVPROC glGetShaderiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETSHADERINFOLOGPROC glGetShaderInfoLog;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETSHADERSOURCEPROC glGetShaderSource;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETUNIFORMLOCATIONPROC glGetUniformLocation;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETUNIFORMFVPROC glGetUniformfv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETUNIFORMIVPROC glGetUniformiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETVERTEXATTRIBDVPROC glGetVertexAttribdv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETVERTEXATTRIBFVPROC glGetVertexAttribfv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETVERTEXATTRIBIVPROC glGetVertexAttribiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETVERTEXATTRIBPOINTERVPROC glGetVertexAttribPointerv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLISPROGRAMPROC glIsProgram;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLISSHADERPROC glIsShader;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLLINKPROGRAMPROC glLinkProgram;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLSHADERSOURCEPROC glShaderSource;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUSEPROGRAMPROC glUseProgram;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORM1FPROC glUniform1f;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORM2FPROC glUniform2f;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORM3FPROC glUniform3f;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORM4FPROC glUniform4f;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORM1IPROC glUniform1i;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORM2IPROC glUniform2i;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORM3IPROC glUniform3i;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORM4IPROC glUniform4i;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORM1FVPROC glUniform1fv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORM2FVPROC glUniform2fv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORM3FVPROC glUniform3fv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORM4FVPROC glUniform4fv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORM1IVPROC glUniform1iv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORM2IVPROC glUniform2iv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORM3IVPROC glUniform3iv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORM4IVPROC glUniform4iv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORMMATRIX2FVPROC glUniformMatrix2fv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORMMATRIX3FVPROC glUniformMatrix3fv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORMMATRIX4FVPROC glUniformMatrix4fv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVALIDATEPROGRAMPROC glValidateProgram;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIB1DPROC glVertexAttrib1d;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIB1DVPROC glVertexAttrib1dv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIB1FPROC glVertexAttrib1f;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIB1FVPROC glVertexAttrib1fv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIB1SPROC glVertexAttrib1s;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIB1SVPROC glVertexAttrib1sv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIB2DPROC glVertexAttrib2d;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIB2DVPROC glVertexAttrib2dv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIB2FPROC glVertexAttrib2f;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIB2FVPROC glVertexAttrib2fv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIB2SPROC glVertexAttrib2s;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIB2SVPROC glVertexAttrib2sv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIB3DPROC glVertexAttrib3d;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIB3DVPROC glVertexAttrib3dv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIB3FPROC glVertexAttrib3f;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIB3FVPROC glVertexAttrib3fv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIB3SPROC glVertexAttrib3s;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIB3SVPROC glVertexAttrib3sv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIB4NBVPROC glVertexAttrib4Nbv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIB4NIVPROC glVertexAttrib4Niv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIB4NSVPROC glVertexAttrib4Nsv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIB4NUBPROC glVertexAttrib4Nub;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIB4NUBVPROC glVertexAttrib4Nubv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIB4NUIVPROC glVertexAttrib4Nuiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIB4NUSVPROC glVertexAttrib4Nusv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIB4BVPROC glVertexAttrib4bv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIB4DPROC glVertexAttrib4d;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIB4DVPROC glVertexAttrib4dv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIB4FPROC glVertexAttrib4f;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIB4FVPROC glVertexAttrib4fv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIB4IVPROC glVertexAttrib4iv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIB4SPROC glVertexAttrib4s;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIB4SVPROC glVertexAttrib4sv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIB4UBVPROC glVertexAttrib4ubv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIB4UIVPROC glVertexAttrib4uiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIB4USVPROC glVertexAttrib4usv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBPOINTERPROC glVertexAttribPointer;
 #endif
 #endif // GL_VERSION_2_0
@@ -967,11 +1163,17 @@ namespace Sector_dll.util
 		public delegate void PFNGLUNIFORMMATRIX3X4FVPROC(int location, int count, bool transpose, float* value);
 		public delegate void PFNGLUNIFORMMATRIX4X3FVPROC(int location, int count, bool transpose, float* value);
 #if GL_GLEXT_PROTOTYPES
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORMMATRIX2X3FVPROC glUniformMatrix2x3fv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORMMATRIX3X2FVPROC glUniformMatrix3x2fv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORMMATRIX2X4FVPROC glUniformMatrix2x4fv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORMMATRIX4X2FVPROC glUniformMatrix4x2fv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORMMATRIX3X4FVPROC glUniformMatrix3x4fv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORMMATRIX4X3FVPROC glUniformMatrix4x3fv;
 #endif
 #endif // GL_VERSION_2_1
@@ -1295,89 +1497,173 @@ namespace Sector_dll.util
 		public delegate void PFNGLGENVERTEXARRAYSPROC(int n, uint* arrays);
 		public delegate bool PFNGLISVERTEXARRAYPROC(uint array);
 #if GL_GLEXT_PROTOTYPES
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCOLORMASKIPROC glColorMaski;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETBOOLEANI_VPROC glGetBooleani_v;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETINTEGERI_VPROC glGetIntegeri_v;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLENABLEIPROC glEnablei;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDISABLEIPROC glDisablei;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLISENABLEDIPROC glIsEnabledi;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBEGINTRANSFORMFEEDBACKPROC glBeginTransformFeedback;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLENDTRANSFORMFEEDBACKPROC glEndTransformFeedback;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBINDBUFFERRANGEPROC glBindBufferRange;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBINDBUFFERBASEPROC glBindBufferBase;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTRANSFORMFEEDBACKVARYINGSPROC glTransformFeedbackVaryings;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETTRANSFORMFEEDBACKVARYINGPROC glGetTransformFeedbackVarying;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCLAMPCOLORPROC glClampColor;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBEGINCONDITIONALRENDERPROC glBeginConditionalRender;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLENDCONDITIONALRENDERPROC glEndConditionalRender;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBIPOINTERPROC glVertexAttribIPointer;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETVERTEXATTRIBIIVPROC glGetVertexAttribIiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETVERTEXATTRIBIUIVPROC glGetVertexAttribIuiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBI1IPROC glVertexAttribI1i;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBI2IPROC glVertexAttribI2i;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBI3IPROC glVertexAttribI3i;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBI4IPROC glVertexAttribI4i;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBI1UIPROC glVertexAttribI1ui;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBI2UIPROC glVertexAttribI2ui;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBI3UIPROC glVertexAttribI3ui;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBI4UIPROC glVertexAttribI4ui;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBI1IVPROC glVertexAttribI1iv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBI2IVPROC glVertexAttribI2iv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBI3IVPROC glVertexAttribI3iv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBI4IVPROC glVertexAttribI4iv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBI1UIVPROC glVertexAttribI1uiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBI2UIVPROC glVertexAttribI2uiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBI3UIVPROC glVertexAttribI3uiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBI4UIVPROC glVertexAttribI4uiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBI4BVPROC glVertexAttribI4bv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBI4SVPROC glVertexAttribI4sv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBI4UBVPROC glVertexAttribI4ubv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBI4USVPROC glVertexAttribI4usv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETUNIFORMUIVPROC glGetUniformuiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBINDFRAGDATALOCATIONPROC glBindFragDataLocation;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETFRAGDATALOCATIONPROC glGetFragDataLocation;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORM1UIPROC glUniform1ui;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORM2UIPROC glUniform2ui;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORM3UIPROC glUniform3ui;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORM4UIPROC glUniform4ui;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORM1UIVPROC glUniform1uiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORM2UIVPROC glUniform2uiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORM3UIVPROC glUniform3uiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORM4UIVPROC glUniform4uiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXPARAMETERIIVPROC glTexParameterIiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXPARAMETERIUIVPROC glTexParameterIuiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETTEXPARAMETERIIVPROC glGetTexParameterIiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETTEXPARAMETERIUIVPROC glGetTexParameterIuiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCLEARBUFFERIVPROC glClearBufferiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCLEARBUFFERUIVPROC glClearBufferuiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCLEARBUFFERFVPROC glClearBufferfv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCLEARBUFFERFIPROC glClearBufferfi;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETSTRINGIPROC glGetStringi;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLISRENDERBUFFERPROC glIsRenderbuffer;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBINDRENDERBUFFERPROC glBindRenderbuffer;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDELETERENDERBUFFERSPROC glDeleteRenderbuffers;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGENRENDERBUFFERSPROC glGenRenderbuffers;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLRENDERBUFFERSTORAGEPROC glRenderbufferStorage;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETRENDERBUFFERPARAMETERIVPROC glGetRenderbufferParameteriv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLISFRAMEBUFFERPROC glIsFramebuffer;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBINDFRAMEBUFFERPROC glBindFramebuffer;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDELETEFRAMEBUFFERSPROC glDeleteFramebuffers;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGENFRAMEBUFFERSPROC glGenFramebuffers;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCHECKFRAMEBUFFERSTATUSPROC glCheckFramebufferStatus;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLFRAMEBUFFERTEXTURE1DPROC glFramebufferTexture1D;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLFRAMEBUFFERTEXTURE2DPROC glFramebufferTexture2D;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLFRAMEBUFFERTEXTURE3DPROC glFramebufferTexture3D;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLFRAMEBUFFERRENDERBUFFERPROC glFramebufferRenderbuffer;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVPROC glGetFramebufferAttachmentParameteriv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGENERATEMIPMAPPROC glGenerateMipmap;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBLITFRAMEBUFFERPROC glBlitFramebuffer;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC glRenderbufferStorageMultisample;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLFRAMEBUFFERTEXTURELAYERPROC glFramebufferTextureLayer;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLMAPBUFFERRANGEPROC glMapBufferRange;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLFLUSHMAPPEDBUFFERRANGEPROC glFlushMappedBufferRange;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBINDVERTEXARRAYPROC glBindVertexArray;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDELETEVERTEXARRAYSPROC glDeleteVertexArrays;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGENVERTEXARRAYSPROC glGenVertexArrays;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLISVERTEXARRAYPROC glIsVertexArray;
 #endif
 #endif // GL_VERSION_3_0
@@ -1459,17 +1745,29 @@ namespace Sector_dll.util
 		public delegate void PFNGLGETACTIVEUNIFORMBLOCKNAMEPROC(uint program, uint uniformBlockIndex, int bufSize, int* length, char* uniformBlockName);
 		public delegate void PFNGLUNIFORMBLOCKBINDINGPROC(uint program, uint uniformBlockIndex, uint uniformBlockBinding);
 #if GL_GLEXT_PROTOTYPES
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDRAWARRAYSINSTANCEDPROC glDrawArraysInstanced;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDRAWELEMENTSINSTANCEDPROC glDrawElementsInstanced;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXBUFFERPROC glTexBuffer;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPRIMITIVERESTARTINDEXPROC glPrimitiveRestartIndex;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCOPYBUFFERSUBDATAPROC glCopyBufferSubData;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETUNIFORMINDICESPROC glGetUniformIndices;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETACTIVEUNIFORMSIVPROC glGetActiveUniformsiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETACTIVEUNIFORMNAMEPROC glGetActiveUniformName;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETUNIFORMBLOCKINDEXPROC glGetUniformBlockIndex;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETACTIVEUNIFORMBLOCKIVPROC glGetActiveUniformBlockiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETACTIVEUNIFORMBLOCKNAMEPROC glGetActiveUniformBlockName;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORMBLOCKBINDINGPROC glUniformBlockBinding;
 #endif
 #endif // GL_VERSION_3_1
@@ -1561,24 +1859,43 @@ namespace Sector_dll.util
 		public delegate void PFNGLGETMULTISAMPLEFVPROC(uint pname, uint index, float* val);
 		public delegate void PFNGLSAMPLEMASKIPROC(uint maskNumber, uint mask);
 #if GL_GLEXT_PROTOTYPES
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDRAWELEMENTSBASEVERTEXPROC glDrawElementsBaseVertex;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDRAWRANGEELEMENTSBASEVERTEXPROC glDrawRangeElementsBaseVertex;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDRAWELEMENTSINSTANCEDBASEVERTEXPROC glDrawElementsInstancedBaseVertex;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLMULTIDRAWELEMENTSBASEVERTEXPROC glMultiDrawElementsBaseVertex;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROVOKINGVERTEXPROC glProvokingVertex;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLFENCESYNCPROC glFenceSync;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLISSYNCPROC glIsSync;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDELETESYNCPROC glDeleteSync;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCLIENTWAITSYNCPROC glClientWaitSync;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLWAITSYNCPROC glWaitSync;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETINTEGER64VPROC glGetInteger64v;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETSYNCIVPROC glGetSynciv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETINTEGER64I_VPROC glGetInteger64i_v;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETBUFFERPARAMETERI64VPROC glGetBufferParameteri64v;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLFRAMEBUFFERTEXTUREPROC glFramebufferTexture;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXIMAGE2DMULTISAMPLEPROC glTexImage2DMultisample;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXIMAGE3DMULTISAMPLEPROC glTexImage3DMultisample;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETMULTISAMPLEFVPROC glGetMultisamplefv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLSAMPLEMASKIPROC glSampleMaski;
 #endif
 #endif // GL_VERSION_3_2
@@ -1631,33 +1948,61 @@ namespace Sector_dll.util
 		public delegate void PFNGLVERTEXATTRIBP4UIPROC(uint index, uint type, bool normalized, uint value);
 		public delegate void PFNGLVERTEXATTRIBP4UIVPROC(uint index, uint type, bool normalized, uint* value);
 #if GL_GLEXT_PROTOTYPES
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBINDFRAGDATALOCATIONINDEXEDPROC glBindFragDataLocationIndexed;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETFRAGDATAINDEXPROC glGetFragDataIndex;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGENSAMPLERSPROC glGenSamplers;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDELETESAMPLERSPROC glDeleteSamplers;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLISSAMPLERPROC glIsSampler;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBINDSAMPLERPROC glBindSampler;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLSAMPLERPARAMETERIPROC glSamplerParameteri;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLSAMPLERPARAMETERIVPROC glSamplerParameteriv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLSAMPLERPARAMETERFPROC glSamplerParameterf;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLSAMPLERPARAMETERFVPROC glSamplerParameterfv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLSAMPLERPARAMETERIIVPROC glSamplerParameterIiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLSAMPLERPARAMETERIUIVPROC glSamplerParameterIuiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETSAMPLERPARAMETERIVPROC glGetSamplerParameteriv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETSAMPLERPARAMETERIIVPROC glGetSamplerParameterIiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETSAMPLERPARAMETERFVPROC glGetSamplerParameterfv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETSAMPLERPARAMETERIUIVPROC glGetSamplerParameterIuiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLQUERYCOUNTERPROC glQueryCounter;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETQUERYOBJECTI64VPROC glGetQueryObjecti64v;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETQUERYOBJECTUI64VPROC glGetQueryObjectui64v;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBDIVISORPROC glVertexAttribDivisor;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBP1UIPROC glVertexAttribP1ui;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBP1UIVPROC glVertexAttribP1uiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBP2UIPROC glVertexAttribP2ui;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBP2UIVPROC glVertexAttribP2uiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBP3UIPROC glVertexAttribP3ui;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBP3UIVPROC glVertexAttribP3uiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBP4UIPROC glVertexAttribP4ui;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBP4UIVPROC glVertexAttribP4uiv;
 #endif
 #endif // GL_VERSION_3_3
@@ -1789,51 +2134,97 @@ namespace Sector_dll.util
 		public delegate void PFNGLENDQUERYINDEXEDPROC(uint target, uint index);
 		public delegate void PFNGLGETQUERYINDEXEDIVPROC(uint target, uint index, uint pname, int* @params);
 #if GL_GLEXT_PROTOTYPES
+		[Obfuscation(Exclude = true)]
 		public static PFNGLMINSAMPLESHADINGPROC glMinSampleShading;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBLENDEQUATIONIPROC glBlendEquationi;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBLENDEQUATIONSEPARATEIPROC glBlendEquationSeparatei;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBLENDFUNCIPROC glBlendFunci;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBLENDFUNCSEPARATEIPROC glBlendFuncSeparatei;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDRAWARRAYSINDIRECTPROC glDrawArraysIndirect;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDRAWELEMENTSINDIRECTPROC glDrawElementsIndirect;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORM1DPROC glUniform1d;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORM2DPROC glUniform2d;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORM3DPROC glUniform3d;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORM4DPROC glUniform4d;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORM1DVPROC glUniform1dv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORM2DVPROC glUniform2dv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORM3DVPROC glUniform3dv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORM4DVPROC glUniform4dv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORMMATRIX2DVPROC glUniformMatrix2dv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORMMATRIX3DVPROC glUniformMatrix3dv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORMMATRIX4DVPROC glUniformMatrix4dv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORMMATRIX2X3DVPROC glUniformMatrix2x3dv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORMMATRIX2X4DVPROC glUniformMatrix2x4dv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORMMATRIX3X2DVPROC glUniformMatrix3x2dv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORMMATRIX3X4DVPROC glUniformMatrix3x4dv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORMMATRIX4X2DVPROC glUniformMatrix4x2dv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORMMATRIX4X3DVPROC glUniformMatrix4x3dv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETUNIFORMDVPROC glGetUniformdv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETSUBROUTINEUNIFORMLOCATIONPROC glGetSubroutineUniformLocation;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETSUBROUTINEINDEXPROC glGetSubroutineIndex;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETACTIVESUBROUTINEUNIFORMIVPROC glGetActiveSubroutineUniformiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETACTIVESUBROUTINEUNIFORMNAMEPROC glGetActiveSubroutineUniformName;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETACTIVESUBROUTINENAMEPROC glGetActiveSubroutineName;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNIFORMSUBROUTINESUIVPROC glUniformSubroutinesuiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETUNIFORMSUBROUTINEUIVPROC glGetUniformSubroutineuiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETPROGRAMSTAGEIVPROC glGetProgramStageiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPATCHPARAMETERIPROC glPatchParameteri;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPATCHPARAMETERFVPROC glPatchParameterfv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBINDTRANSFORMFEEDBACKPROC glBindTransformFeedback;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDELETETRANSFORMFEEDBACKSPROC glDeleteTransformFeedbacks;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGENTRANSFORMFEEDBACKSPROC glGenTransformFeedbacks;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLISTRANSFORMFEEDBACKPROC glIsTransformFeedback;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPAUSETRANSFORMFEEDBACKPROC glPauseTransformFeedback;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLRESUMETRANSFORMFEEDBACKPROC glResumeTransformFeedback;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDRAWTRANSFORMFEEDBACKPROC glDrawTransformFeedback;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDRAWTRANSFORMFEEDBACKSTREAMPROC glDrawTransformFeedbackStream;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBEGINQUERYINDEXEDPROC glBeginQueryIndexed;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLENDQUERYINDEXEDPROC glEndQueryIndexed;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETQUERYINDEXEDIVPROC glGetQueryIndexediv;
 #endif
 #endif // GL_VERSION_4_0
@@ -1965,93 +2356,181 @@ namespace Sector_dll.util
 		public delegate void PFNGLGETFLOATI_VPROC(uint target, uint index, float* data);
 		public delegate void PFNGLGETDOUBLEI_VPROC(uint target, uint index, double* data);
 #if GL_GLEXT_PROTOTYPES
+		[Obfuscation(Exclude = true)]
 		public static PFNGLRELEASESHADERCOMPILERPROC glReleaseShaderCompiler;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLSHADERBINARYPROC glShaderBinary;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETSHADERPRECISIONFORMATPROC glGetShaderPrecisionFormat;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDEPTHRANGEFPROC glDepthRangef;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCLEARDEPTHFPROC glClearDepthf;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETPROGRAMBINARYPROC glGetProgramBinary;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMBINARYPROC glProgramBinary;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMPARAMETERIPROC glProgramParameteri;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUSEPROGRAMSTAGESPROC glUseProgramStages;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLACTIVESHADERPROGRAMPROC glActiveShaderProgram;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCREATESHADERPROGRAMVPROC glCreateShaderProgramv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBINDPROGRAMPIPELINEPROC glBindProgramPipeline;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDELETEPROGRAMPIPELINESPROC glDeleteProgramPipelines;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGENPROGRAMPIPELINESPROC glGenProgramPipelines;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLISPROGRAMPIPELINEPROC glIsProgramPipeline;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETPROGRAMPIPELINEIVPROC glGetProgramPipelineiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORM1IPROC glProgramUniform1i;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORM1IVPROC glProgramUniform1iv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORM1FPROC glProgramUniform1f;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORM1FVPROC glProgramUniform1fv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORM1DPROC glProgramUniform1d;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORM1DVPROC glProgramUniform1dv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORM1UIPROC glProgramUniform1ui;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORM1UIVPROC glProgramUniform1uiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORM2IPROC glProgramUniform2i;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORM2IVPROC glProgramUniform2iv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORM2FPROC glProgramUniform2f;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORM2FVPROC glProgramUniform2fv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORM2DPROC glProgramUniform2d;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORM2DVPROC glProgramUniform2dv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORM2UIPROC glProgramUniform2ui;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORM2UIVPROC glProgramUniform2uiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORM3IPROC glProgramUniform3i;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORM3IVPROC glProgramUniform3iv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORM3FPROC glProgramUniform3f;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORM3FVPROC glProgramUniform3fv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORM3DPROC glProgramUniform3d;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORM3DVPROC glProgramUniform3dv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORM3UIPROC glProgramUniform3ui;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORM3UIVPROC glProgramUniform3uiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORM4IPROC glProgramUniform4i;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORM4IVPROC glProgramUniform4iv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORM4FPROC glProgramUniform4f;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORM4FVPROC glProgramUniform4fv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORM4DPROC glProgramUniform4d;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORM4DVPROC glProgramUniform4dv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORM4UIPROC glProgramUniform4ui;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORM4UIVPROC glProgramUniform4uiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORMMATRIX2FVPROC glProgramUniformMatrix2fv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORMMATRIX3FVPROC glProgramUniformMatrix3fv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORMMATRIX4FVPROC glProgramUniformMatrix4fv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORMMATRIX2DVPROC glProgramUniformMatrix2dv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORMMATRIX3DVPROC glProgramUniformMatrix3dv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORMMATRIX4DVPROC glProgramUniformMatrix4dv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORMMATRIX2X3FVPROC glProgramUniformMatrix2x3fv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORMMATRIX3X2FVPROC glProgramUniformMatrix3x2fv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORMMATRIX2X4FVPROC glProgramUniformMatrix2x4fv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORMMATRIX4X2FVPROC glProgramUniformMatrix4x2fv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORMMATRIX3X4FVPROC glProgramUniformMatrix3x4fv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORMMATRIX4X3FVPROC glProgramUniformMatrix4x3fv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORMMATRIX2X3DVPROC glProgramUniformMatrix2x3dv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORMMATRIX3X2DVPROC glProgramUniformMatrix3x2dv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORMMATRIX2X4DVPROC glProgramUniformMatrix2x4dv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORMMATRIX4X2DVPROC glProgramUniformMatrix4x2dv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORMMATRIX3X4DVPROC glProgramUniformMatrix3x4dv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPROGRAMUNIFORMMATRIX4X3DVPROC glProgramUniformMatrix4x3dv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVALIDATEPROGRAMPIPELINEPROC glValidateProgramPipeline;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETPROGRAMPIPELINEINFOLOGPROC glGetProgramPipelineInfoLog;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBL1DPROC glVertexAttribL1d;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBL2DPROC glVertexAttribL2d;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBL3DPROC glVertexAttribL3d;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBL4DPROC glVertexAttribL4d;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBL1DVPROC glVertexAttribL1dv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBL2DVPROC glVertexAttribL2dv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBL3DVPROC glVertexAttribL3dv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBL4DVPROC glVertexAttribL4dv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBLPOINTERPROC glVertexAttribLPointer;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETVERTEXATTRIBLDVPROC glGetVertexAttribLdv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVIEWPORTARRAYVPROC glViewportArrayv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVIEWPORTINDEXEDFPROC glViewportIndexedf;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVIEWPORTINDEXEDFVPROC glViewportIndexedfv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLSCISSORARRAYVPROC glScissorArrayv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLSCISSORINDEXEDPROC glScissorIndexed;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLSCISSORINDEXEDVPROC glScissorIndexedv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDEPTHRANGEARRAYVPROC glDepthRangeArrayv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDEPTHRANGEINDEXEDPROC glDepthRangeIndexed;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETFLOATI_VPROC glGetFloati_v;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETDOUBLEI_VPROC glGetDoublei_v;
 #endif
 #endif // GL_VERSION_4_1
@@ -2184,17 +2663,29 @@ namespace Sector_dll.util
 		public delegate void PFNGLDRAWTRANSFORMFEEDBACKINSTANCEDPROC(uint mode, uint id, int instancecount);
 		public delegate void PFNGLDRAWTRANSFORMFEEDBACKSTREAMINSTANCEDPROC(uint mode, uint id, uint stream, int instancecount);
 #if GL_GLEXT_PROTOTYPES
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDRAWARRAYSINSTANCEDBASEINSTANCEPROC glDrawArraysInstancedBaseInstance;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDRAWELEMENTSINSTANCEDBASEINSTANCEPROC glDrawElementsInstancedBaseInstance;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDRAWELEMENTSINSTANCEDBASEVERTEXBASEINSTANCEPROC glDrawElementsInstancedBaseVertexBaseInstance;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETINTERNALFORMATIVPROC glGetInternalformativ;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETACTIVEATOMICCOUNTERBUFFERIVPROC glGetActiveAtomicCounterBufferiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBINDIMAGETEXTUREPROC glBindImageTexture;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLMEMORYBARRIERPROC glMemoryBarrier;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXSTORAGE1DPROC glTexStorage1D;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXSTORAGE2DPROC glTexStorage2D;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXSTORAGE3DPROC glTexStorage3D;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDRAWTRANSFORMFEEDBACKINSTANCEDPROC glDrawTransformFeedbackInstanced;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDRAWTRANSFORMFEEDBACKSTREAMINSTANCEDPROC glDrawTransformFeedbackStreamInstanced;
 #endif
 #endif // GL_VERSION_4_2
@@ -2505,48 +2996,91 @@ namespace Sector_dll.util
 		public delegate void PFNGLOBJECTPTRLABELPROC(void* ptr, int length, char* label);
 		public delegate void PFNGLGETOBJECTPTRLABELPROC(void* ptr, int bufSize, int* length, char* label);
 #if GL_GLEXT_PROTOTYPES
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCLEARBUFFERDATAPROC glClearBufferData;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCLEARBUFFERSUBDATAPROC glClearBufferSubData;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDISPATCHCOMPUTEPROC glDispatchCompute;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDISPATCHCOMPUTEINDIRECTPROC glDispatchComputeIndirect;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCOPYIMAGESUBDATAPROC glCopyImageSubData;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLFRAMEBUFFERPARAMETERIPROC glFramebufferParameteri;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETFRAMEBUFFERPARAMETERIVPROC glGetFramebufferParameteriv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETINTERNALFORMATI64VPROC glGetInternalformati64v;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLINVALIDATETEXSUBIMAGEPROC glInvalidateTexSubImage;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLINVALIDATETEXIMAGEPROC glInvalidateTexImage;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLINVALIDATEBUFFERSUBDATAPROC glInvalidateBufferSubData;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLINVALIDATEBUFFERDATAPROC glInvalidateBufferData;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLINVALIDATEFRAMEBUFFERPROC glInvalidateFramebuffer;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLINVALIDATESUBFRAMEBUFFERPROC glInvalidateSubFramebuffer;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLMULTIDRAWARRAYSINDIRECTPROC glMultiDrawArraysIndirect;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLMULTIDRAWELEMENTSINDIRECTPROC glMultiDrawElementsIndirect;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETPROGRAMINTERFACEIVPROC glGetProgramInterfaceiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETPROGRAMRESOURCEINDEXPROC glGetProgramResourceIndex;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETPROGRAMRESOURCENAMEPROC glGetProgramResourceName;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETPROGRAMRESOURCEIVPROC glGetProgramResourceiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETPROGRAMRESOURCELOCATIONPROC glGetProgramResourceLocation;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETPROGRAMRESOURCELOCATIONINDEXPROC glGetProgramResourceLocationIndex;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLSHADERSTORAGEBLOCKBINDINGPROC glShaderStorageBlockBinding;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXBUFFERRANGEPROC glTexBufferRange;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXSTORAGE2DMULTISAMPLEPROC glTexStorage2DMultisample;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXSTORAGE3DMULTISAMPLEPROC glTexStorage3DMultisample;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXTUREVIEWPROC glTextureView;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBINDVERTEXBUFFERPROC glBindVertexBuffer;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBFORMATPROC glVertexAttribFormat;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBIFORMATPROC glVertexAttribIFormat;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBLFORMATPROC glVertexAttribLFormat;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXATTRIBBINDINGPROC glVertexAttribBinding;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXBINDINGDIVISORPROC glVertexBindingDivisor;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDEBUGMESSAGECONTROLPROC glDebugMessageControl;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDEBUGMESSAGEINSERTPROC glDebugMessageInsert;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDEBUGMESSAGECALLBACKPROC glDebugMessageCallback;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETDEBUGMESSAGELOGPROC glGetDebugMessageLog;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPUSHDEBUGGROUPPROC glPushDebugGroup;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPOPDEBUGGROUPPROC glPopDebugGroup;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLOBJECTLABELPROC glObjectLabel;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETOBJECTLABELPROC glGetObjectLabel;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLOBJECTPTRLABELPROC glObjectPtrLabel;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETOBJECTPTRLABELPROC glGetObjectPtrLabel;
 #endif
 #endif // GL_VERSION_4_3
@@ -2583,14 +3117,23 @@ namespace Sector_dll.util
 		public delegate void PFNGLBINDIMAGETEXTURESPROC(uint first, int count, uint* textures);
 		public delegate void PFNGLBINDVERTEXBUFFERSPROC(uint first, int count, uint* buffers, int** offsets, int* strides);
 #if GL_GLEXT_PROTOTYPES
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBUFFERSTORAGEPROC glBufferStorage;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCLEARTEXIMAGEPROC glClearTexImage;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCLEARTEXSUBIMAGEPROC glClearTexSubImage;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBINDBUFFERSBASEPROC glBindBuffersBase;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBINDBUFFERSRANGEPROC glBindBuffersRange;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBINDTEXTURESPROC glBindTextures;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBINDSAMPLERSPROC glBindSamplers;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBINDIMAGETEXTURESPROC glBindImageTextures;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBINDVERTEXBUFFERSPROC glBindVertexBuffers;
 #endif
 #endif // GL_VERSION_4_4
@@ -2731,115 +3274,225 @@ namespace Sector_dll.util
 		public delegate void PFNGLREADNPIXELSPROC(int x, int y, int width, int height, uint format, uint type, int bufSize, void* data);
 		public delegate void PFNGLTEXTUREBARRIERPROC();
 #if GL_GLEXT_PROTOTYPES
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCLIPCONTROLPROC glClipControl;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCREATETRANSFORMFEEDBACKSPROC glCreateTransformFeedbacks;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTRANSFORMFEEDBACKBUFFERBASEPROC glTransformFeedbackBufferBase;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTRANSFORMFEEDBACKBUFFERRANGEPROC glTransformFeedbackBufferRange;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETTRANSFORMFEEDBACKIVPROC glGetTransformFeedbackiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETTRANSFORMFEEDBACKI_VPROC glGetTransformFeedbacki_v;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETTRANSFORMFEEDBACKI64_VPROC glGetTransformFeedbacki64_v;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCREATEBUFFERSPROC glCreateBuffers;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLNAMEDBUFFERSTORAGEPROC glNamedBufferStorage;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLNAMEDBUFFERDATAPROC glNamedBufferData;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLNAMEDBUFFERSUBDATAPROC glNamedBufferSubData;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCOPYNAMEDBUFFERSUBDATAPROC glCopyNamedBufferSubData;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCLEARNAMEDBUFFERDATAPROC glClearNamedBufferData;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCLEARNAMEDBUFFERSUBDATAPROC glClearNamedBufferSubData;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLMAPNAMEDBUFFERPROC glMapNamedBuffer;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLMAPNAMEDBUFFERRANGEPROC glMapNamedBufferRange;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLUNMAPNAMEDBUFFERPROC glUnmapNamedBuffer;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLFLUSHMAPPEDNAMEDBUFFERRANGEPROC glFlushMappedNamedBufferRange;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETNAMEDBUFFERPARAMETERIVPROC glGetNamedBufferParameteriv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETNAMEDBUFFERPARAMETERI64VPROC glGetNamedBufferParameteri64v;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETNAMEDBUFFERPOINTERVPROC glGetNamedBufferPointerv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETNAMEDBUFFERSUBDATAPROC glGetNamedBufferSubData;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCREATEFRAMEBUFFERSPROC glCreateFramebuffers;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLNAMEDFRAMEBUFFERRENDERBUFFERPROC glNamedFramebufferRenderbuffer;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLNAMEDFRAMEBUFFERPARAMETERIPROC glNamedFramebufferParameteri;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLNAMEDFRAMEBUFFERTEXTUREPROC glNamedFramebufferTexture;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLNAMEDFRAMEBUFFERTEXTURELAYERPROC glNamedFramebufferTextureLayer;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLNAMEDFRAMEBUFFERDRAWBUFFERPROC glNamedFramebufferDrawBuffer;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLNAMEDFRAMEBUFFERDRAWBUFFERSPROC glNamedFramebufferDrawBuffers;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLNAMEDFRAMEBUFFERREADBUFFERPROC glNamedFramebufferReadBuffer;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLINVALIDATENAMEDFRAMEBUFFERDATAPROC glInvalidateNamedFramebufferData;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLINVALIDATENAMEDFRAMEBUFFERSUBDATAPROC glInvalidateNamedFramebufferSubData;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCLEARNAMEDFRAMEBUFFERIVPROC glClearNamedFramebufferiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCLEARNAMEDFRAMEBUFFERUIVPROC glClearNamedFramebufferuiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCLEARNAMEDFRAMEBUFFERFVPROC glClearNamedFramebufferfv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCLEARNAMEDFRAMEBUFFERFIPROC glClearNamedFramebufferfi;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBLITNAMEDFRAMEBUFFERPROC glBlitNamedFramebuffer;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCHECKNAMEDFRAMEBUFFERSTATUSPROC glCheckNamedFramebufferStatus;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETNAMEDFRAMEBUFFERPARAMETERIVPROC glGetNamedFramebufferParameteriv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETNAMEDFRAMEBUFFERATTACHMENTPARAMETERIVPROC glGetNamedFramebufferAttachmentParameteriv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCREATERENDERBUFFERSPROC glCreateRenderbuffers;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLNAMEDRENDERBUFFERSTORAGEPROC glNamedRenderbufferStorage;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLNAMEDRENDERBUFFERSTORAGEMULTISAMPLEPROC glNamedRenderbufferStorageMultisample;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETNAMEDRENDERBUFFERPARAMETERIVPROC glGetNamedRenderbufferParameteriv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCREATETEXTURESPROC glCreateTextures;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXTUREBUFFERPROC glTextureBuffer;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXTUREBUFFERRANGEPROC glTextureBufferRange;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXTURESTORAGE1DPROC glTextureStorage1D;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXTURESTORAGE2DPROC glTextureStorage2D;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXTURESTORAGE3DPROC glTextureStorage3D;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXTURESTORAGE2DMULTISAMPLEPROC glTextureStorage2DMultisample;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXTURESTORAGE3DMULTISAMPLEPROC glTextureStorage3DMultisample;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXTURESUBIMAGE1DPROC glTextureSubImage1D;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXTURESUBIMAGE2DPROC glTextureSubImage2D;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXTURESUBIMAGE3DPROC glTextureSubImage3D;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCOMPRESSEDTEXTURESUBIMAGE1DPROC glCompressedTextureSubImage1D;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCOMPRESSEDTEXTURESUBIMAGE2DPROC glCompressedTextureSubImage2D;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCOMPRESSEDTEXTURESUBIMAGE3DPROC glCompressedTextureSubImage3D;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCOPYTEXTURESUBIMAGE1DPROC glCopyTextureSubImage1D;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCOPYTEXTURESUBIMAGE2DPROC glCopyTextureSubImage2D;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCOPYTEXTURESUBIMAGE3DPROC glCopyTextureSubImage3D;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXTUREPARAMETERFPROC glTextureParameterf;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXTUREPARAMETERFVPROC glTextureParameterfv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXTUREPARAMETERIPROC glTextureParameteri;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXTUREPARAMETERIIVPROC glTextureParameterIiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXTUREPARAMETERIUIVPROC glTextureParameterIuiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXTUREPARAMETERIVPROC glTextureParameteriv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGENERATETEXTUREMIPMAPPROC glGenerateTextureMipmap;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBINDTEXTUREUNITPROC glBindTextureUnit;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETTEXTUREIMAGEPROC glGetTextureImage;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETCOMPRESSEDTEXTUREIMAGEPROC glGetCompressedTextureImage;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETTEXTURELEVELPARAMETERFVPROC glGetTextureLevelParameterfv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETTEXTURELEVELPARAMETERIVPROC glGetTextureLevelParameteriv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETTEXTUREPARAMETERFVPROC glGetTextureParameterfv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETTEXTUREPARAMETERIIVPROC glGetTextureParameterIiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETTEXTUREPARAMETERIUIVPROC glGetTextureParameterIuiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETTEXTUREPARAMETERIVPROC glGetTextureParameteriv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCREATEVERTEXARRAYSPROC glCreateVertexArrays;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDISABLEVERTEXARRAYATTRIBPROC glDisableVertexArrayAttrib;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLENABLEVERTEXARRAYATTRIBPROC glEnableVertexArrayAttrib;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXARRAYELEMENTBUFFERPROC glVertexArrayElementBuffer;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXARRAYVERTEXBUFFERPROC glVertexArrayVertexBuffer;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXARRAYVERTEXBUFFERSPROC glVertexArrayVertexBuffers;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXARRAYATTRIBBINDINGPROC glVertexArrayAttribBinding;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXARRAYATTRIBFORMATPROC glVertexArrayAttribFormat;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXARRAYATTRIBIFORMATPROC glVertexArrayAttribIFormat;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXARRAYATTRIBLFORMATPROC glVertexArrayAttribLFormat;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXARRAYBINDINGDIVISORPROC glVertexArrayBindingDivisor;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETVERTEXARRAYIVPROC glGetVertexArrayiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETVERTEXARRAYINDEXEDIVPROC glGetVertexArrayIndexediv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETVERTEXARRAYINDEXED64IVPROC glGetVertexArrayIndexed64iv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCREATESAMPLERSPROC glCreateSamplers;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCREATEPROGRAMPIPELINESPROC glCreateProgramPipelines;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCREATEQUERIESPROC glCreateQueries;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETQUERYBUFFEROBJECTI64VPROC glGetQueryBufferObjecti64v;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETQUERYBUFFEROBJECTIVPROC glGetQueryBufferObjectiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETQUERYBUFFEROBJECTUI64VPROC glGetQueryBufferObjectui64v;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETQUERYBUFFEROBJECTUIVPROC glGetQueryBufferObjectuiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLMEMORYBARRIERBYREGIONPROC glMemoryBarrierByRegion;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETTEXTURESUBIMAGEPROC glGetTextureSubImage;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETCOMPRESSEDTEXTURESUBIMAGEPROC glGetCompressedTextureSubImage;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETGRAPHICSRESETSTATUSPROC glGetGraphicsResetStatus;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETNCOMPRESSEDTEXIMAGEPROC glGetnCompressedTexImage;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETNTEXIMAGEPROC glGetnTexImage;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETNUNIFORMDVPROC glGetnUniformdv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETNUNIFORMFVPROC glGetnUniformfv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETNUNIFORMIVPROC glGetnUniformiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETNUNIFORMUIVPROC glGetnUniformuiv;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLREADNPIXELSPROC glReadnPixels;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXTUREBARRIERPROC glTextureBarrier;
 #endif
 #endif // GL_VERSION_4_5
@@ -2874,9 +3527,13 @@ namespace Sector_dll.util
 		public delegate void PFNGLMULTIDRAWELEMENTSINDIRECTCOUNTPROC(uint mode, uint type, void* indirect, int* drawcount, int maxdrawcount, int stride);
 		public delegate void PFNGLPOLYGONOFFSETCLAMPPROC(float factor, float units, float clamp);
 #if GL_GLEXT_PROTOTYPES
+		[Obfuscation(Exclude = true)]
 		public static PFNGLSPECIALIZESHADERPROC glSpecializeShader;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLMULTIDRAWARRAYSINDIRECTCOUNTPROC glMultiDrawArraysIndirectCount;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLMULTIDRAWELEMENTSINDIRECTCOUNTPROC glMultiDrawElementsIndirectCount;
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPOLYGONOFFSETCLAMPPROC glPolygonOffsetClamp;
 #endif
 #endif // GL_VERSION_4_6
@@ -3023,114 +3680,169 @@ namespace Sector_dll.util
 
 #if GL_GLEXT_PROTOTYPES
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLALPHAFUNCPROC glAlphaFunc;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBEGINPROC glBegin;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLBITMAPPROC glBitmap;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCALLLISTSPROC glCallLists;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCLIENTACTIVETEXTUREPROC glClientActiveTexture;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCOLOR4FPROC glColor4f;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCOLOR4FVPROC glColor4fv;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCOLOR4UBPROC glColor4ub;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCOLORPOINTERPROC glColorPointer;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLCOPYPIXELSPROC glCopyPixels;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDISABLECLIENTSTATEPROC glDisableClientState;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLDRAWPIXELSPROC glDrawPixels;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLENABLECLIENTSTATEPROC glEnableClientState;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLENDPROC glEnd;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLENDLISTPROC glEndList;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLFRUSTUMFPROC glFrustumf;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGENLISTSPROC glGenLists;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETLIGHTFVPROC glGetLightfv;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETMATERIALFVPROC glGetMaterialfv;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETPOLYGONSTIPPLEPROC glGetPolygonStipple;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETTEXENVFVPROC glGetTexEnvfv;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLGETTEXENVIVPROC glGetTexEnviv;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLLIGHTFVPROC glLightfv;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLLIGHTMODELFPROC glLightModelf;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLLIGHTMODELFVPROC glLightModelfv;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLLINESTIPPLEPROC glLineStipple;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLLISTBASEPROC glListBase;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLLOADIDENTITYPROC glLoadIdentity;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLLOADMATRIXFPROC glLoadMatrixf;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLMATERIALFPROC glMaterialf;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLMATERIALFVPROC glMaterialfv;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLMATRIXMODEPROC glMatrixMode;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLMULTMATRIXFPROC glMultMatrixf;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLMULTITEXCOORD2FPROC glMultiTexCoord2f;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLNEWLISTPROC glNewList;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLNORMAL3FPROC glNormal3f;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLNORMAL3FVPROC glNormal3fv;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLNORMALPOINTERPROC glNormalPointer;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLORTHOFPROC glOrthof;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPOLYGONSTIPPLEPROC glPolygonStipple;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPOPMATRIXPROC glPopMatrix;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLPUSHMATRIXPROC glPushMatrix;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLRASTERPOS3FPROC glRasterPos3f;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLROTATEFPROC glRotatef;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLSCALEFPROC glScalef;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLSHADEMODELPROC glShadeModel;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXCOORDPOINTERPROC glTexCoordPointer;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXENVFVPROC glTexEnvfv;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTEXENVIPROC glTexEnvi;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLTRANSLATEFPROC glTranslatef;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEX2FPROC glVertex2f;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEX2FVPROC glVertex2fv;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEX3FPROC glVertex3f;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEX3FVPROC glVertex3fv;
 		[Obsolete]
+		[Obfuscation(Exclude = true)]
 		public static PFNGLVERTEXPOINTERPROC glVertexPointer;
 #endif
 #endif

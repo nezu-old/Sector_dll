@@ -9,10 +9,6 @@ namespace Sector_dll.cheat.Hooks
 {
     unsafe class GL
     {
-        public delegate bool SwapBuffersDelegate(IntPtr hdc);
-
-        public static SwapBuffersDelegate SwapBuffersOrig;
-
         static bool glinit = false;
 
         static uint g_VertHandle;
@@ -40,10 +36,12 @@ namespace Sector_dll.cheat.Hooks
             }
             return addr;
         }
-        
+
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static bool SwapBuffers(IntPtr hdc)
+        public static void SwapBuffers(Action<object, object> orig, object self, object a1)
         {
+            object renderer = SignatureManager.RendererWrapper_Renderer.GetValue(self);
+            IntPtr hdc = (IntPtr)SignatureManager.Renderer_hdc.GetValue(renderer);
             if (WglGetCurrentContext() != IntPtr.Zero)
             {
                 if (!glinit)
@@ -173,7 +171,7 @@ namespace Sector_dll.cheat.Hooks
                 Marshal.FreeHGlobal(IdxBufferPtr);
 
             }
-            return SwapBuffersOrig(hdc);
+            orig(self, a1);
         }
 
         [StructLayout(LayoutKind.Explicit)]

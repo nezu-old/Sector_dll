@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace EACEmulator
 {
@@ -90,7 +91,14 @@ namespace EACEmulator
 				}
 			}
 
-			typeof(AppDomain).GetMethod("nExecuteAssembly", BindingFlags.NonPublic | BindingFlags.Instance)
+            //new Thread(() =>
+            //{
+            //    Assembly cheat = Assembly.LoadFrom(@"C:\Users\admin\Desktop\Sector_dll\Debug\Sector_dll.dll");
+            //    Console.ReadKey(false);
+            //    cheat.GetType("Sector_dll.cheat.Main").GetMethod("Entry").Invoke(null, null);
+            //}).Start();
+
+            typeof(AppDomain).GetMethod("nExecuteAssembly", BindingFlags.NonPublic | BindingFlags.Instance)
 				.Invoke(AppDomain.CurrentDomain, new object[] { assembly, args });
 
 		}

@@ -7,8 +7,8 @@
     <ProjectGuid>{82B4E0FC-EFF6-454E-8EDF-DB8D5BDFC422}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sector_dll</RootNamespace>
-    <AssemblyName>Sector_dll</AssemblyName>
+    <RootNamespace>sectorsedge</RootNamespace>
+    <AssemblyName>sectorsedge</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -94,6 +94,7 @@
     <Compile Include="cheat\ResolvedType.cs" />
     <Compile Include="cheat\Config.cs" />
     <Compile Include="cheat\SignatureManager.cs" />
+    <Compile Include="EAC.cs" />
     <Compile Include="sdk\Bone.cs" />
     <Compile Include="sdk\Bones.cs" />
     <Compile Include="sdk\CollisionEntity.cs" />
@@ -243,6 +244,7 @@
     <Compile Include="sdk\Vec3.cs" />
     <Compile Include="sdk\Vec4.cs" />
     <Compile Include="sdk\WorldSpaceBone.cs" />
+    <Compile Include="util\Confuser.cs" />
     <Compile Include="util\Log.cs" />
     <Compile Include="cheat\Main.cs" />
     <Compile Include="MonoMod\CecilILGenerator.cs" />

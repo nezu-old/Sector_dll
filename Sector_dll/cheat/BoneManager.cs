@@ -75,7 +75,7 @@ namespace Sector_dll.cheat
                     HeadBones[index] = worldSpaceBone;
             }
             if (HeadBones[index] == null) 
-                throw new Exception("Failed to find headbone in skin: " + skinType + ", t: " + team);
+                throw new Exception("Failed to find headbone in skin: " + skinType + ", t: " + (byte)team);
         }
 
     }

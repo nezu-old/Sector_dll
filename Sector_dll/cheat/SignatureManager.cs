@@ -1,5 +1,6 @@
 ﻿using Mono.Cecil;
 using Mono.Cecil.Cil;
+using MonoMod.Utils;
 using Sector_dll.util;
 using System;
 using System.Collections.Generic;
@@ -663,6 +664,12 @@ namespace Sector_dll.cheat
 
         public static MethodInfo SwapBuffers;
 
+        public static MethodInfo SwapBuffersWrapper;
+
+        public static FieldInfo Renderer_hdc;
+
+        public static FieldInfo RendererWrapper_Renderer;
+
         public static bool FindSignatures(Assembly assembly)
         {
             //Log.Info("Waiting for debugger to attach");
@@ -716,6 +723,47 @@ namespace Sector_dll.cheat
                 }
             }
             if(Color == null) { Log.Info("Color is null"); return false; }
+            if(SwapBuffers == null) { Log.Info("SwapBuffers is null"); return false; }
+            if(DiscordCreate == null) { Log.Info("DiscordCreate is null"); return false; }
+            if(RegQueryValueEx == null) { Log.Info("RegQueryValueEx is null"); return false; }
+
+            AssemblyDefinition definition = AssemblyDefinition.ReadAssembly(assembly.Location);
+
+            MethodInfo[] SwapBuffersReferences = Util.UsedBy(SwapBuffers, definition);
+            if (SwapBuffersReferences.Length != 1)
+                { Log.Info("[1] SwapBuffersReferences.length != 1 (" + SwapBuffersReferences.Length + ")"); return false; }
+            MethodInfo SawpBuffersLowWrapper = SwapBuffersReferences[0];
+            SwapBuffersReferences = Util.UsedBy(SwapBuffersReferences[0], definition);
+            if (SwapBuffersReferences.Length != 1)
+                { Log.Info("[2] SwapBuffersReferences.length != 1 (" + SwapBuffersReferences.Length + ")"); return false; }
+            SwapBuffersReferences = Util.UsedBy(SwapBuffersReferences[0], definition);
+            if (SwapBuffersReferences.Length != 1)
+                { Log.Info("[3] SwapBuffersReferences.length != 1 (" + SwapBuffersReferences.Length + ")"); return false; } 
+            SwapBuffersWrapper = SwapBuffersReferences[0];
+            Log.Info("Found SwapBuffersWrapper as: " + SwapBuffersWrapper.ToString());
+
+            MethodDefinition SawpBuffersLowWrapperDef = definition.MainModule.GetType(SawpBuffersLowWrapper.DeclaringType.Name).FindMethod(SawpBuffersLowWrapper.Name);
+            foreach (var il in SawpBuffersLowWrapperDef.Body.Instructions)
+            {
+                if(il.OpCode == OpCodes.Ldfld && il.operand is FieldReference)
+                {
+                    FieldReference fr = il.Operand as FieldReference;
+                    Renderer_hdc = assembly.GetType(fr.DeclaringType.Name).GetField(fr.Name, BindingFlags.Instance | BindingFlags.NonPublic);
+                    Log.Info("Found Renderer_hdc as: " + Renderer_hdc.ToString());
+                    break;
+                }
+            }
+            if(Renderer_hdc == null) { Log.Info("Renderer_hdc is null"); return false; }
+
+            foreach(FieldInfo fi in SwapBuffersWrapper.DeclaringType.GetFields(BindingFlags.Instance | BindingFlags.NonPublic))
+            {
+                if(fi.FieldType == Renderer_hdc.DeclaringType)
+                {
+                    RendererWrapper_Renderer = fi;
+                    Log.Info("Found RendererWrapper_Renderer as: " + RendererWrapper_Renderer.ToString());
+                    break;
+                }
+            }
 
             foreach (ResolvedType rt in ResolvedTypes)
             {

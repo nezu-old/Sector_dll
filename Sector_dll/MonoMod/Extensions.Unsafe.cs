@@ -10,6 +10,7 @@ using Mono.Cecil;
 using System.Text;
 using Mono.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Sector_dll.util;
 
 namespace MonoMod.Utils {
 #if !MONOMOD_INTERNAL

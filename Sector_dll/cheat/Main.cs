@@ -1,4 +1,5 @@
-﻿using MonoMod.RuntimeDetour;
+﻿using Mono.Cecil;
+using MonoMod.RuntimeDetour;
 using Sector_dll.cheat.Hooks;
 using Sector_dll.util;
 using System;
@@ -7,16 +8,18 @@ using System.Reflection;
 using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace Sector_dll.cheat
 {
+
     public class Main
     {
 
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static string Xd(Func<int, bool, string>orig, int i, bool b)//Func<IntPtr, string, IntPtr> orig, 
         {
-            string s = orig(i, b);
+            string s = orig(i, b); 
             //if (s.ToLower().Contains("head"))
             {
                 Log.Info("I: " + i + " S: " + s);
@@ -45,7 +48,7 @@ namespace Sector_dll.cheat
             Log.Info("Running in domain: " + AppDomain.CurrentDomain.FriendlyName);
             Log.Info("Domain base dir: " + AppDomain.CurrentDomain.BaseDirectory);
             Log.Info("Working directory: " + Directory.GetCurrentDirectory());
-
+            ReversibleRenamer.inst = new ReversibleRenamer("fuckverc");
 
             //try
             //{
@@ -90,7 +93,7 @@ namespace Sector_dll.cheat
             //}
 
             //while (!Debugger.IsAttached) Thread.Sleep(100);
-            
+
             Assembly assembly = Assembly.GetEntryAssembly();
 
             //Log.Info(SignatureManager.GenerateSig("#=z1q5LvvTvJVHL95mpiAw3sxdwWtd5ROgm6g==")); Console.Read();
@@ -100,17 +103,23 @@ namespace Sector_dll.cheat
                 if (!SignatureManager.FindSignatures(assembly))
                     throw new Exception("Failed to resolve all types/methods/fields");
 
-                NativeDetour SwapBuffersDetour = new NativeDetour(SignatureManager.SwapBuffers, typeof(GL).GetMethod("SwapBuffers"), new NativeDetourConfig()
-                {
-                    ManualApply = true
-                });
-                GL.SwapBuffersOrig = SwapBuffersDetour.GenerateTrampoline<GL.SwapBuffersDelegate>();
-                SwapBuffersDetour.Apply();
-                Console.ReadKey(true);
-                SwapBuffersDetour.Dispose();
-
                 //new Hook(SignatureManager.RequestHelper_POST, typeof(RequestHelper).GetMethod("POST"));
                 //new Hook(SignatureManager.RequestHelper_GET, typeof(RequestHelper).GetMethod("GET"));
+
+                Log.Debug(SignatureManager.SwapBuffersWrapper);
+
+                new Hook(SignatureManager.SwapBuffersWrapper, typeof(GL).GetMethod(ReversibleRenamer.Encrypt("SwapBuffers")));
+                //new Hook(SignatureManager.SwapBuffersWrapper, typeof(GL).GetMethod("SwapBuffers2"));
+
+                //NativeDetour SwapBuffersDetour = new NativeDetour(SignatureManager.SwapBuffers, typeof(GL).GetMethod(namexx), new NativeDetourConfig()
+                //{
+                //    ManualApply = true
+                //});
+                ////GL.SwapBuffersOrig = SwapBuffersDetour.GenerateTrampoline<GL.SwapBuffersDelegate>();
+                //SwapBuffersDetour.Apply();
+                //Console.ReadKey(true);
+                //SwapBuffersDetour.Dispose();
+
 
                 //new Hook(SignatureManager.GClass49_Base_Base_Draw, typeof(GClass49).GetMethod("vmethod_4"));
                 //new Hook(SignatureManager.LocalPlayer_Update, typeof(Player).GetMethod("Update"));
