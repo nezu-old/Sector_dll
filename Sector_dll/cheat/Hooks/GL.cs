@@ -1,4 +1,7 @@
-﻿using Sector_dll.util;
+﻿using MonoMod.RuntimeDetour;
+using Sector_dll.util;
+using sectorsedge.cheat.Drawing;
+using sectorsedge.cheat.Drawing.Fonts;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -9,7 +12,7 @@ namespace Sector_dll.cheat.Hooks
 {
     unsafe class GL
     {
-        static bool glinit = false;
+        public static bool glinit = false;
 
         static uint g_VertHandle;
         static uint g_FragHandle;
@@ -21,7 +24,6 @@ namespace Sector_dll.cheat.Hooks
 #pragma warning disable IDE0044 // Add readonly modifier
         static uint g_VboHandle;
         static uint g_ElementsHandle;
-        static uint g_texture;
 #pragma warning restore IDE0044 // Add readonly modifier
 
         static IntPtr ListToPtr<T>(IList<T> list, out int size) where T: unmanaged
@@ -50,7 +52,7 @@ namespace Sector_dll.cheat.Hooks
                     InitOpenGL();
 
                     string vertex_shader =
-                        "#version 130\n"
+                          "#version 130\n"
                         + "uniform mat4 ProjMtx;\n"
                         + "in vec2 Position;\n"
                         + "in vec2 UV;\n"
@@ -65,7 +67,7 @@ namespace Sector_dll.cheat.Hooks
                         + "}\n";
 
                     string fragment_shader =
-                        "#version 130\n"
+                          "#version 130\n"
                         + "uniform sampler2D Texture;\n"
                         + "in vec2 Frag_UV;\n"
                         + "in vec4 Frag_Color;\n"
@@ -100,15 +102,20 @@ namespace Sector_dll.cheat.Hooks
 
                     int last_texture;
                     glGetIntegerv(GL_TEXTURE_BINDING_2D, &last_texture);
-                    fixed (uint* g_texturePtr = &g_texture)
-                        glGenTextures(1, g_texturePtr);
-                    glBindTexture(GL_TEXTURE_2D, g_texture);
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-                    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-                    byte[] texture = { 0xFF, 0xFF, 0xFF, 0xFF }; //white
-                    fixed (void* texturePtr = texture)
-                        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 1, 1, 0, GL_RGBA, GL_UNSIGNED_BYTE, texturePtr);
+                    foreach (IFont font in Drawing.fonts)
+                    {
+                        uint new_texture;
+                        glGenTextures(1, &new_texture);
+                        glBindTexture(GL_TEXTURE_2D, new_texture);
+                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                        glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+
+                        byte[] texture = font.GetTextureData(out int w, out int h);
+                        fixed (void* texturePtr = texture)
+                            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, texturePtr);
+                        font.Texture_id = new_texture;
+                    }
                     glBindTexture(GL_TEXTURE_2D, (uint)last_texture);
 
                     Log.Info(g_ShaderHandle);
@@ -140,62 +147,26 @@ namespace Sector_dll.cheat.Hooks
                 glVertexAttribPointer(g_AttribLocationVtxUV,    2, GL_FLOAT,         false, 20, (void*)8);
                 glVertexAttribPointer(g_AttribLocationVtxColor, 4, GL_UNSIGNED_BYTE, true,  20, (void*)16);
 
+                Drawing.NewFrame();
+                Drawing.Draw();
 
-                List<DrawVert>  VtxBuffer = new List<DrawVert>();
-                List<ushort>    IdxBuffer = new List<ushort>();
-
-                VtxBuffer.Add(new DrawVert(50,  50,  0xFF0000FF));
-                VtxBuffer.Add(new DrawVert(100, 50,  0xFFFF0000));
-                VtxBuffer.Add(new DrawVert(50,  100, 0xFFFF0000));
-                VtxBuffer.Add(new DrawVert(100, 100, 0xFF0000FF));
-
-                ushort idx = 0;
-                IdxBuffer.Add((ushort)(idx + 0));
-                IdxBuffer.Add((ushort)(idx + 1));
-                IdxBuffer.Add((ushort)(idx + 2));
-
-                IdxBuffer.Add((ushort)(idx + 1));
-                IdxBuffer.Add((ushort)(idx + 2));
-                IdxBuffer.Add((ushort)(idx + 3));
-
-                IntPtr VtxBufferPtr = ListToPtr(VtxBuffer, out int VtxBufferSize);
-                IntPtr IdxBufferPtr = ListToPtr(IdxBuffer, out int IdxBufferSize);
+                IntPtr VtxBufferPtr = ListToPtr(Drawing.VtxBuffer, out int VtxBufferSize);
+                IntPtr IdxBufferPtr = ListToPtr(Drawing.IdxBuffer, out int IdxBufferSize);
 
                 glBufferData(GL_ARRAY_BUFFER,         (int*)VtxBufferSize, VtxBufferPtr.ToPointer(), GL_STREAM_DRAW);
                 glBufferData(GL_ELEMENT_ARRAY_BUFFER, (int*)IdxBufferSize, IdxBufferPtr.ToPointer(), GL_STREAM_DRAW);
 
-                glBindTexture(GL_TEXTURE_2D, g_texture);
-                glDrawElements(GL_TRIANGLES, IdxBuffer.Count, GL_UNSIGNED_SHORT, (void*)0);
+                foreach (DrawCmd cmd in Drawing.CmdBuffer)
+                {
+                    glBindTexture(GL_TEXTURE_2D, cmd.TextureId);
+                    glDrawElements(GL_TRIANGLES, cmd.ElemCount, GL_UNSIGNED_INT, (void*)(cmd.IdxOffset * 4));
+                }
 
                 Marshal.FreeHGlobal(VtxBufferPtr);
                 Marshal.FreeHGlobal(IdxBufferPtr);
 
             }
             orig(self, a1);
-        }
-
-        [StructLayout(LayoutKind.Explicit)]
-        public struct DrawVert
-        {
-            public DrawVert(float x, float y, uint color)
-            {
-                posX = x;
-                posY = y;
-                uvX = 0;
-                uvY = 0;
-                col = color;
-            }
-
-            [FieldOffset(0)]
-            public float posX;
-            [FieldOffset(4)]
-            public float posY;
-            [FieldOffset(8)]
-            public float uvX;
-            [FieldOffset(12)]
-            public float uvY;
-            [FieldOffset(16)]
-            public uint col;
         }
 
         [DllImport("opengl32.dll", EntryPoint = "wglGetCurrentContext", SetLastError = true)]

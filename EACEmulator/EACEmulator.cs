@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace EACEmulator
 {
@@ -91,12 +92,12 @@ namespace EACEmulator
 				}
 			}
 
-            //new Thread(() =>
-            //{
-            //    Assembly cheat = Assembly.LoadFrom(@"C:\Users\admin\Desktop\Sector_dll\Debug\Sector_dll.dll");
-            //    Console.ReadKey(false);
-            //    cheat.GetType("Sector_dll.cheat.Main").GetMethod("Entry").Invoke(null, null);
-            //}).Start();
+            new Thread(() =>
+            {
+				if(MessageBox.Show("Inject?", "[nezu.cc]", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+					Assembly.LoadFrom(@"C:\Users\admin\Desktop\Sector_dll\Release\Sector_dll.dll")
+						.GetType("EAC").GetMethod("Main").Invoke(null, null);
+            }).Start();
 
             typeof(AppDomain).GetMethod("nExecuteAssembly", BindingFlags.NonPublic | BindingFlags.Instance)
 				.Invoke(AppDomain.CurrentDomain, new object[] { assembly, args });

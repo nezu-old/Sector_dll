@@ -17,9 +17,9 @@ namespace Sector_dll.cheat
     {
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static string Xd(Func<int, bool, string>orig, int i, bool b)//Func<IntPtr, string, IntPtr> orig, 
+        public static string Xd(Func<int, bool, string> orig, int i, bool b)//Func<IntPtr, string, IntPtr> orig, 
         {
-            string s = orig(i, b); 
+            string s = orig(i, b);
             //if (s.ToLower().Contains("head"))
             {
                 Log.Info("I: " + i + " S: " + s);
@@ -34,7 +34,7 @@ namespace Sector_dll.cheat
                 //        sw.WriteLine(s);
                 //    }
                 //}
-                 
+
             }
             return s;
         }
@@ -42,28 +42,15 @@ namespace Sector_dll.cheat
         public unsafe static void Entry()
         {
             //AllocConsole();
-            Log.enabled = true;
+            //Log.enabled = true;
+            //Log.Prefix = "[nezu.cc]";
+
             Log.Info("Entry point called");
             Log.Info("Running from: " + (Assembly.GetExecutingAssembly().Location.Trim().Length == 0 ? "[Memory]" : Assembly.GetExecutingAssembly().Location));
             Log.Info("Running in domain: " + AppDomain.CurrentDomain.FriendlyName);
             Log.Info("Domain base dir: " + AppDomain.CurrentDomain.BaseDirectory);
             Log.Info("Working directory: " + Directory.GetCurrentDirectory());
             ReversibleRenamer.inst = new ReversibleRenamer("fuckverc");
-
-            //try
-            //{
-            //    using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(Assembly.GetExecutingAssembly().GetManifestResourceNames()[0]))
-            //    {
-            //        byte[] bytes = new byte[stream.Length];
-            //        stream.Read(bytes, 0, bytes.Length);
-            //        bool injected = Injector.Inject(bytes, Marshal.GetFunctionPointerForDelegate(Drawing.callback));
-            //        Log.Debug($"Injection: {injected}");
-            //    }
-            //}
-            //catch (Exception e)
-            //{
-            //    Log.Danger(e);
-            //}
 
             //new Hook(typeof(File).GetMethod("Exists"), typeof(Antycheat).GetMethod("FileExists"));
             //new Hook(typeof(Directory).GetMethod("Exists"), typeof(Antycheat).GetMethod("DirectoryExists"));
@@ -108,52 +95,13 @@ namespace Sector_dll.cheat
 
                 Log.Debug(SignatureManager.SwapBuffersWrapper);
 
-                new Hook(SignatureManager.SwapBuffersWrapper, typeof(GL).GetMethod(ReversibleRenamer.Encrypt("SwapBuffers")));
-                //new Hook(SignatureManager.SwapBuffersWrapper, typeof(GL).GetMethod("SwapBuffers2"));
-
-                //NativeDetour SwapBuffersDetour = new NativeDetour(SignatureManager.SwapBuffers, typeof(GL).GetMethod(namexx), new NativeDetourConfig()
-                //{
-                //    ManualApply = true
-                //});
-                ////GL.SwapBuffersOrig = SwapBuffersDetour.GenerateTrampoline<GL.SwapBuffersDelegate>();
-                //SwapBuffersDetour.Apply();
-                //Console.ReadKey(true);
-                //SwapBuffersDetour.Dispose();
-
-
-                //new Hook(SignatureManager.GClass49_Base_Base_Draw, typeof(GClass49).GetMethod("vmethod_4"));
-                //new Hook(SignatureManager.LocalPlayer_Update, typeof(Player).GetMethod("Update"));
+                new Hook(SignatureManager.SwapBuffersWrapper, new Action<Action<object, object>, object, object>((orig, self, a1) => GL.SwapBuffers(orig, self, a1)).Method, new object());
+                new Hook(SignatureManager.GClass49_Base_Base_Draw, new Action<Action<object, object>, object, object>((orig, self, p1) => GClass49.vmethod_4(orig, self, p1)).Method, new object());
+                new Hook(SignatureManager.LocalPlayer_Update, new Action<Action<object, object>, object, object>((orig, self, a1) => Player.Update(orig, self, a1)).Method, new object());
+                
                 //new Hook(SignatureManager.PlayerBase_RecoilMod, typeof(Player).GetMethod("RecoilMod"));
+
                 //new Hook(SignatureManager.Helper_CurrentBloom, typeof(Helper).GetMethod("CurrentBloom"));
-
-                //new Hook(typeof(ManagementBaseObject).GetMethod("GetPropertyValue", BindingFlags.Public | BindingFlags.Instance),
-                //    typeof(HWID).GetMethod("ManagementBaseObject_GetPropertyValue"));
-
-                //new NativeDetour(SignatureManager.Helper1_GetProcAddress, typeof(HWID).GetMethod("GetProcAddress"));
-
-                //new Detour(typeof(Environment).GetMethod("get_MachineName", BindingFlags.Public | BindingFlags.Static),
-                //    typeof(HWID).GetMethod("get_MachineName"));
-                //new Detour(typeof(Environment).GetMethod("get_UserName", BindingFlags.Public | BindingFlags.Static),
-                //    typeof(HWID).GetMethod("get_UserName"));
-                //new Detour(typeof(File).GetMethod("GetCreationTimeUtc", BindingFlags.Public | BindingFlags.Static),
-                //    typeof(HWID).GetMethod("GetCreationTimeUtc"));
-                //new Detour(typeof(Directory).GetMethod("GetCreationTimeUtc", BindingFlags.Public | BindingFlags.Static),
-                //    typeof(HWID).GetMethod("GetCreationTimeUtc"));
-
-                //foreach (MethodInfo method in SignatureManager.RegQueryValueEx)
-                //    HWID.oRegQueryValueEx = new NativeDetour(method, typeof(HWID).GetMethod("RegQueryValueEx"))
-                //        .GenerateTrampoline<HWID.RegQueryValueExDelegate>();
-                //new NativeDetour(SignatureManager.DiscordCreate, typeof(HWID).GetMethod("DiscordCreate"));
-
-                //Func<Func<object, int>, object, int> fuseXD = (Func<object, int> orig, object self) => {
-                //    //int ret = orig(self);
-                //    //Log.Info(ret);
-                //    return 3000;// ret;
-                //};
-
-                //new Hook(SignatureManager.Grenade.Type.GetMethod("#=zsz0Iy4N_1cEc"), fuseXD.Method, new object());
-
-                //throw new Exception("xd");
 
             }
             catch (Exception e)
@@ -234,6 +182,8 @@ namespace Sector_dll.cheat
             //}
 
         }
+
+        MethodInfo GetMethodInfo(Action a) => a.Method;
 
         //[DllImport("kernel32.dll", SetLastError = true)]
         //[return: MarshalAs(UnmanagedType.Bool)]

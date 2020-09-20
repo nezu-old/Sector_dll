@@ -66,12 +66,9 @@ namespace Sector_dll.cheat.Hooks
                 //    SignatureManager.PlayerBase_health.SetValue(pp, 100.0);
                 //    SignatureManager.PlayerBase_name.SetValue(pp, "BOT");
 
-
-
                 //    object all_pp = SignatureManager.GClass49_player_list.GetValue(gm);
                 //    SignatureManager.GClass49_player_list.FieldType.GetMethod("Add").Invoke(all_pp, new[] { pp });
 
-                //    if (Config.settings.debug6 > 0) Log.Info("BOT: " + pp);
                 //    //SignatureManager.GameManager.GetField("#=z18zI4Xnk8_$T").SetValue(gm, Enum.ToObject(SignatureManager.GameManager.GetField("#=z18zI4Xnk8_$T").FieldType, Config.settings.debug3));
 
                 //}

@@ -3849,7 +3849,7 @@ namespace Sector_dll.util
 		#endregion
 
 		[DllImport("opengl32.dll", EntryPoint = "wglGetProcAddress")]
-		public static extern IntPtr wglGetProcAddress([MarshalAs(UnmanagedType.LPStr)][In] string name);
+		public static extern IntPtr WglGetProcAddress([MarshalAs(UnmanagedType.LPStr)][In] string name);
 
 		[DllImport("kernel32", SetLastError = true, CharSet = CharSet.Ansi)]
 		static extern IntPtr LoadLibrary([MarshalAs(UnmanagedType.LPStr)] string lpFileName);
@@ -3878,7 +3878,7 @@ namespace Sector_dll.util
                 {
                     linkableDelegates++;
 
-					IntPtr ptr = wglGetProcAddress(fi.Name);
+					IntPtr ptr = WglGetProcAddress(fi.Name);
 					if (ptr == IntPtr.Zero)
 					{
 						IntPtr gl = LoadLibrary("opengl32.dll");

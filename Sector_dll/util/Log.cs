@@ -9,6 +9,8 @@ namespace Sector_dll.util
 
         public static ConsoleColor color = ConsoleColor.Green;
 
+        public static string Prefix = null;
+
         public static void Info(object msg) => Info(msg.ToString());
 
         public static void Info(string msg)
@@ -16,7 +18,7 @@ namespace Sector_dll.util
             if (enabled)
             {
                 Console.ForegroundColor = color;
-                Console.WriteLine("[nezu.cc] " + msg);
+                Console.WriteLine((Prefix != null ? Prefix + " " : "") + msg);
                 Console.ResetColor();
             }
         }
@@ -29,7 +31,7 @@ namespace Sector_dll.util
             {
                 Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.BackgroundColor = ConsoleColor.DarkYellow;
-                Console.WriteLine("[nezu.cc] " + msg);
+                Console.WriteLine((Prefix != null ? Prefix + " " : "") + msg);
                 Console.ResetColor();
             }
         }
@@ -42,7 +44,7 @@ namespace Sector_dll.util
             {
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.BackgroundColor = ConsoleColor.Black;
-                Console.WriteLine("[nezu.cc] " + msg);
+                Console.WriteLine((Prefix != null ? Prefix + " " : "") + msg);
                 Console.ResetColor();
             }
         }

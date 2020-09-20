@@ -38,7 +38,7 @@ namespace Sector_dll.sdk
             //    return Matrix4.Multiply(matrix2, matrix3);
             //}
             object matrix1 = SignatureManager.GClass49_Base_matrix2.GetValue(self);
-            return Matrix4.Multiply(matrix1, matrix2);
+            return Matrix4.Multiply(matrix2, matrix1);
         }
 
         public static void NewFrame(object self)
@@ -104,9 +104,9 @@ namespace Sector_dll.sdk
             return SignatureManager.GClass49_Base_GetCurrentPLayer.Invoke(self, new object[] { });
         }
 
-        public static Color GetPlayerColor(object self, object player)
+        public static Color GetPlayerColor(object self, object player, bool use_rel_colors)
         {
-            return new Color(SignatureManager.GClass49_Base_GetPlayerColor.Invoke(self, new object[] { player }));
+            return new Color(SignatureManager.GClass49_Base_GetPlayerColor.Invoke(self, new object[] { player, use_rel_colors }));
         }
 
         public static object GetMap(object self)
