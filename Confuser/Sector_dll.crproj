@@ -1,0 +1,16 @@
+<project outputDir="C:\Users\admin\Desktop\Sector_dll\Confuser\Confused" baseDir="C:\Users\admin\Desktop\Sector_dll\Release" xmlns="http://confuser.codeplex.com">
+  <rule pattern="true" inherit="false">
+    <protection id="rename">
+      <argument name="mode" value="reversible" />
+      <argument name="password" value="fuckverc" />
+      <argument name="renEnum" value="true" />
+      <argument name="renPublic" value="true" />
+    </protection>
+    <protection id="constants">
+      <argument name="mode" value="normal" />
+      <argument name="decoderCount" value="5" />
+      <argument name="elements" value="S" />
+    </protection>
+  </rule>
+  <module path="Sector_dll.dll" />
+</project>

@@ -9,7 +9,7 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 WNDPROC H::oWndProc = NULL;
 
 LRESULT CALLBACK H::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
-	if ((uMsg == WM_KEYUP || uMsg == WM_KEYDOWN) && wParam == VK_INSERT) {
+	/*if ((uMsg == WM_KEYUP || uMsg == WM_KEYDOWN) && wParam == VK_INSERT) {
 		if(uMsg == WM_KEYUP)
 			Menu::open = (Menu::open == 0) ? 1 : 0;
 		return FALSE;
@@ -22,6 +22,6 @@ LRESULT CALLBACK H::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 
 		if (ret && !((uMsg >= WM_KEYFIRST && uMsg <= WM_KEYLAST) && !ImGui::GetIO().WantCaptureKeyboard))
 			return true;
-	}
+	}*/
 	return CallWindowProc(oWndProc, hWnd, uMsg, wParam, lParam);
 }

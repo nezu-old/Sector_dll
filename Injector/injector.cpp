@@ -147,10 +147,10 @@ BOOL injectCLRDLL(HANDLE hProc, const TCHAR* path)
     d->IID_AppDomain_l = { 0x05f696dc, 0x2b29, 0x3663, {0xad, 0x8b, 0xc4, 0x38, 0x9c, 0xf2, 0xa7, 0x13} };
     const wchar_t ver[] = L"v4.0.30319";
     memcpy_s(d->ver, sizeof(d->ver), ver, sizeof(ver));
-    const wchar_t cla[] = L"Sector_dll.cheat.Main";
+    const wchar_t cla[] = L"EAC";
     memcpy_s((reinterpret_cast<BYTE*>(&d->cla) + 4), sizeof(d->cla) - 4, cla, sizeof(cla));
     *reinterpret_cast<DWORD*>(&d->cla) = sizeof(cla) - 2;
-    const wchar_t fun[] = L"Entry";
+    const wchar_t fun[] = L"Main";
     memcpy_s((reinterpret_cast<BYTE*>(&d->fun) + 4), sizeof(d->fun) - 4, fun, sizeof(fun));
     *reinterpret_cast<DWORD*>(&d->fun) = sizeof(fun) - 2;
     d->data = pMem;

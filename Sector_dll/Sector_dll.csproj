@@ -7,8 +7,8 @@
     <ProjectGuid>{82B4E0FC-EFF6-454E-8EDF-DB8D5BDFC422}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sector_dll</RootNamespace>
-    <AssemblyName>Sector_dll</AssemblyName>
+    <RootNamespace>sectorsedge</RootNamespace>
+    <AssemblyName>sectorsedge</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -28,14 +28,18 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>..\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Build.Framework, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -84,15 +88,22 @@
     <Compile Include="cheat\BoneManager.cs" />
     <Compile Include="cheat\ClassSignature.cs" />
     <Compile Include="cheat\Drawing.cs" />
+    <Compile Include="cheat\Drawing\FontGlyph.cs" />
+    <Compile Include="cheat\Drawing\DrawCmd.cs" />
+    <Compile Include="cheat\Drawing\DrawVert.cs" />
+    <Compile Include="cheat\Drawing\Fonts\IFont.cs" />
+    <Compile Include="cheat\Drawing\Fonts\ProggyClean.cs" />
     <Compile Include="cheat\ESP.cs" />
     <Compile Include="cheat\Hooks\GClass49.cs" />
     <Compile Include="cheat\Hooks\Helper.cs" />
+    <Compile Include="cheat\Hooks\GL.cs" />
     <Compile Include="cheat\Hooks\Player.cs" />
     <Compile Include="cheat\Hooks\RequestHelper.cs" />
     <Compile Include="cheat\Hooks\Tracing.cs" />
     <Compile Include="cheat\ResolvedType.cs" />
     <Compile Include="cheat\Config.cs" />
     <Compile Include="cheat\SignatureManager.cs" />
+    <Compile Include="EAC.cs" />
     <Compile Include="sdk\Bone.cs" />
     <Compile Include="sdk\Bones.cs" />
     <Compile Include="sdk\CollisionEntity.cs" />
@@ -239,10 +250,11 @@
     <Compile Include="sdk\Settings.cs" />
     <Compile Include="sdk\ToolType.cs" />
     <Compile Include="sdk\Vec2.cs" />
+    <Compile Include="sdk\Vec2f.cs" />
     <Compile Include="sdk\Vec3.cs" />
     <Compile Include="sdk\Vec4.cs" />
     <Compile Include="sdk\WorldSpaceBone.cs" />
-    <Compile Include="util\Injector.cs" />
+    <Compile Include="util\Confuser.cs" />
     <Compile Include="util\Log.cs" />
     <Compile Include="cheat\Main.cs" />
     <Compile Include="MonoMod\CecilILGenerator.cs" />
@@ -326,6 +338,7 @@
     <Compile Include="MonoMod\WeakReferenceComparer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="util\ManagedPtr.cs" />
+    <Compile Include="util\OpenGL.cs" />
     <Compile Include="util\Util.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -333,8 +346,10 @@
     <None Include="packages.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="..\Release\NativeLoader.dll" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>cmd.exe /c copy /Y $(OutDir)$(TargetFileName) $(ProjectName)$(TargetExt)
+$(SolutionDir)..\ConfuserEx\Confuser.CLI\bin\Release\Confuser.CLI.exe -n $(SolutionDir)Confuser\$(ProjectName).crproj
+cmd.exe /c copy /Y $(SolutionDir)Confuser\Confused\$(ProjectName)$(TargetExt) $(OutDir)$(ProjectName)$(TargetExt)</PostBuildEvent>
+  </PropertyGroup>
 </Project>

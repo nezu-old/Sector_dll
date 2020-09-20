@@ -57,6 +57,14 @@ namespace Sector_dll.cheat
 		public static Settings settings = new Settings()
 		{
 			menu_color = Color.red,
+			esp_mode = EspModes.Always,
+			esp_team = EspTarget.All,
+			esp_box = 1,
+			esp_skeleton = 0,
+			esp_snaplines = 0,
+			esp_health_bar = 1,
+			esp_health_num = 0,
+			esp_name = 0,
 		};
 
 	}

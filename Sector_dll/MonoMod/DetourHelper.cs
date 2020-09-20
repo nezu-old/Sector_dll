@@ -7,6 +7,7 @@ using MonoMod.RuntimeDetour.Platforms;
 using Mono.Cecil.Cil;
 using System.Threading;
 using Mono.Cecil;
+using Sector_dll.util;
 
 namespace MonoMod.RuntimeDetour {
 #if !MONOMOD_INTERNAL
@@ -203,10 +204,10 @@ namespace MonoMod.RuntimeDetour {
                 Extra = extra
             };
 
-        private static readonly FieldInfo _f_Native = typeof(DetourHelper).GetField("_Native", BindingFlags.NonPublic | BindingFlags.Static);
-        private static readonly MethodInfo _m_ToNativeDetourData = typeof(DetourHelper).GetMethod("ToNativeDetourData", BindingFlags.NonPublic | BindingFlags.Static);
-        private static readonly MethodInfo _m_Copy = typeof(IDetourNativePlatform).GetMethod("Copy");
-        private static readonly MethodInfo _m_Apply = typeof(IDetourNativePlatform).GetMethod("Apply");
+        private static readonly FieldInfo _f_Native = typeof(DetourHelper).GetField(ReversibleRenamer.Encrypt("_Native"), BindingFlags.NonPublic | BindingFlags.Static);
+        private static readonly MethodInfo _m_ToNativeDetourData = typeof(DetourHelper).GetMethod(ReversibleRenamer.Encrypt("ToNativeDetourData"), BindingFlags.NonPublic | BindingFlags.Static);
+        private static readonly MethodInfo _m_Copy = typeof(IDetourNativePlatform).GetMethod(ReversibleRenamer.Encrypt("Copy"));
+        private static readonly MethodInfo _m_Apply = typeof(IDetourNativePlatform).GetMethod(ReversibleRenamer.Encrypt("Apply"));
         private static readonly ConstructorInfo _ctor_Exception = typeof(Exception).GetConstructor(new Type[] { typeof(string) });
 
         /// <summary>

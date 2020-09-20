@@ -1,4 +1,5 @@
-﻿using MonoMod.RuntimeDetour;
+﻿using Mono.Cecil;
+using MonoMod.RuntimeDetour;
 using Sector_dll.cheat.Hooks;
 using Sector_dll.util;
 using System;
@@ -7,14 +8,16 @@ using System.Reflection;
 using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace Sector_dll.cheat
 {
+
     public class Main
     {
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static string Xd(Func<int, bool, string>orig, int i, bool b)//Func<IntPtr, string, IntPtr> orig, 
+        public static string Xd(Func<int, bool, string> orig, int i, bool b)//Func<IntPtr, string, IntPtr> orig, 
         {
             string s = orig(i, b);
             //if (s.ToLower().Contains("head"))
@@ -31,42 +34,23 @@ namespace Sector_dll.cheat
                 //        sw.WriteLine(s);
                 //    }
                 //}
-                 
+
             }
             return s;
         }
 
-        private static Drawing.DrawCallbackDelegate dc;
-
         public unsafe static void Entry()
         {
-            AllocConsole();
-            Log.enabled = true;
+            //AllocConsole();
+            //Log.enabled = true;
+            //Log.Prefix = "[nezu.cc]";
+
             Log.Info("Entry point called");
             Log.Info("Running from: " + (Assembly.GetExecutingAssembly().Location.Trim().Length == 0 ? "[Memory]" : Assembly.GetExecutingAssembly().Location));
             Log.Info("Running in domain: " + AppDomain.CurrentDomain.FriendlyName);
             Log.Info("Domain base dir: " + AppDomain.CurrentDomain.BaseDirectory);
             Log.Info("Working directory: " + Directory.GetCurrentDirectory());
-
-
-            try
-            {
-                Log.Debug($"Injection: {1}");
-                using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(Assembly.GetExecutingAssembly().GetManifestResourceNames()[0]))
-                {
-                    Log.Debug($"len: {stream == null}");
-                    byte[] bytes = new byte[stream.Length];
-                    stream.Read(bytes, 0, bytes.Length);
-
-                    dc = new Drawing.DrawCallbackDelegate(Drawing.DrawCallback);
-                    bool injected = Injector.Inject(bytes, Marshal.GetFunctionPointerForDelegate(dc));
-                    Log.Debug($"Injection: {injected}");
-                }
-            }
-            catch (Exception e)
-            {
-                Log.Danger(e);
-            }
+            ReversibleRenamer.inst = new ReversibleRenamer("fuckverc");
 
             //new Hook(typeof(File).GetMethod("Exists"), typeof(Antycheat).GetMethod("FileExists"));
             //new Hook(typeof(Directory).GetMethod("Exists"), typeof(Antycheat).GetMethod("DirectoryExists"));
@@ -96,7 +80,7 @@ namespace Sector_dll.cheat
             //}
 
             //while (!Debugger.IsAttached) Thread.Sleep(100);
-            
+
             Assembly assembly = Assembly.GetEntryAssembly();
 
             //Log.Info(SignatureManager.GenerateSig("#=z1q5LvvTvJVHL95mpiAw3sxdwWtd5ROgm6g==")); Console.Read();
@@ -105,43 +89,19 @@ namespace Sector_dll.cheat
             {
                 if (!SignatureManager.FindSignatures(assembly))
                     throw new Exception("Failed to resolve all types/methods/fields");
+
+                //new Hook(SignatureManager.RequestHelper_POST, typeof(RequestHelper).GetMethod("POST"));
+                //new Hook(SignatureManager.RequestHelper_GET, typeof(RequestHelper).GetMethod("GET"));
+
+                Log.Debug(SignatureManager.SwapBuffersWrapper);
+
+                new Hook(SignatureManager.SwapBuffersWrapper, new Action<Action<object, object>, object, object>((orig, self, a1) => GL.SwapBuffers(orig, self, a1)).Method, new object());
+                new Hook(SignatureManager.GClass49_Base_Base_Draw, new Action<Action<object, object>, object, object>((orig, self, p1) => GClass49.vmethod_4(orig, self, p1)).Method, new object());
+                new Hook(SignatureManager.LocalPlayer_Update, new Action<Action<object, object>, object, object>((orig, self, a1) => Player.Update(orig, self, a1)).Method, new object());
                 
-                new Hook(SignatureManager.RequestHelper_POST, typeof(RequestHelper).GetMethod("POST"));
-                new Hook(SignatureManager.RequestHelper_GET, typeof(RequestHelper).GetMethod("GET"));
-                
-                new Hook(SignatureManager.GClass49_Base_Base_Draw, typeof(GClass49).GetMethod("vmethod_4"));
-                new Hook(SignatureManager.LocalPlayer_Update, typeof(Player).GetMethod("Update"));
                 //new Hook(SignatureManager.PlayerBase_RecoilMod, typeof(Player).GetMethod("RecoilMod"));
+
                 //new Hook(SignatureManager.Helper_CurrentBloom, typeof(Helper).GetMethod("CurrentBloom"));
-
-                //new Hook(typeof(ManagementBaseObject).GetMethod("GetPropertyValue", BindingFlags.Public | BindingFlags.Instance),
-                //    typeof(HWID).GetMethod("ManagementBaseObject_GetPropertyValue"));
-                
-                //new NativeDetour(SignatureManager.Helper1_GetProcAddress, typeof(HWID).GetMethod("GetProcAddress"));
-
-                //new Detour(typeof(Environment).GetMethod("get_MachineName", BindingFlags.Public | BindingFlags.Static),
-                //    typeof(HWID).GetMethod("get_MachineName"));
-                //new Detour(typeof(Environment).GetMethod("get_UserName", BindingFlags.Public | BindingFlags.Static),
-                //    typeof(HWID).GetMethod("get_UserName"));
-                //new Detour(typeof(File).GetMethod("GetCreationTimeUtc", BindingFlags.Public | BindingFlags.Static),
-                //    typeof(HWID).GetMethod("GetCreationTimeUtc"));
-                //new Detour(typeof(Directory).GetMethod("GetCreationTimeUtc", BindingFlags.Public | BindingFlags.Static),
-                //    typeof(HWID).GetMethod("GetCreationTimeUtc"));
-
-                //foreach (MethodInfo method in SignatureManager.RegQueryValueEx)
-                //    HWID.oRegQueryValueEx = new NativeDetour(method, typeof(HWID).GetMethod("RegQueryValueEx"))
-                //        .GenerateTrampoline<HWID.RegQueryValueExDelegate>();
-                //new NativeDetour(SignatureManager.DiscordCreate, typeof(HWID).GetMethod("DiscordCreate"));
-
-                //Func<Func<object, int>, object, int> fuseXD = (Func<object, int> orig, object self) => {
-                //    //int ret = orig(self);
-                //    //Log.Info(ret);
-                //    return 3000;// ret;
-                //};
-
-                //new Hook(SignatureManager.Grenade.Type.GetMethod("#=zsz0Iy4N_1cEc"), fuseXD.Method, new object());
-
-                //throw new Exception("xd");
 
             }
             catch (Exception e)
@@ -223,9 +183,11 @@ namespace Sector_dll.cheat
 
         }
 
-        [DllImport("kernel32.dll", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool AllocConsole();
+        MethodInfo GetMethodInfo(Action a) => a.Method;
+
+        //[DllImport("kernel32.dll", SetLastError = true)]
+        //[return: MarshalAs(UnmanagedType.Bool)]
+        //static extern bool AllocConsole();
 
     }
 }

@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using MonoMod.Utils;
 using System.Collections.Generic;
 using Mono.Cecil;
+using Sector_dll.util;
 
 namespace MonoMod.Utils {
 #if !MONOMOD_INTERNAL
@@ -25,8 +26,8 @@ namespace MonoMod.Utils {
         }
         public static void FreeReference(int id) => References[id] = null;
 
-        private static readonly MethodInfo _GetMethodFromHandle = typeof(MethodBase).GetMethod("GetMethodFromHandle", new Type[] { typeof(RuntimeMethodHandle) });
-        private static readonly MethodInfo _GetReference = typeof(DynamicMethodHelper).GetMethod("GetReference");
+        private static readonly MethodInfo _GetMethodFromHandle = typeof(MethodBase).GetMethod(ReversibleRenamer.Encrypt("GetMethodFromHandle"), new Type[] { typeof(RuntimeMethodHandle) });
+        private static readonly MethodInfo _GetReference = typeof(DynamicMethodHelper).GetMethod(ReversibleRenamer.Encrypt("GetReference"));
 
         /// <summary>
         /// Fill the DynamicMethod with a stub.

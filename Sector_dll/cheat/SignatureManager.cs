@@ -1,13 +1,12 @@
 ﻿using Mono.Cecil;
 using Mono.Cecil.Cil;
+using MonoMod.Utils;
 using Sector_dll.util;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Security.Policy;
 
 namespace Sector_dll.cheat
 {
@@ -23,20 +22,20 @@ namespace Sector_dll.cheat
             nestedTypes = 0,
 
             privateMethods = 2,
-            publicMethods = 118,
+            publicMethods = 121,
             staticMethods = 0,
 
-            publicFields = 119,
+            publicFields = 123,
             privateFields = 3,
             staticFields = 0,
             readonlyFields = 5,
 
-            boolFields = 27,
-            byteFields = 3,
+            boolFields = 29,
+            byteFields = 4,
             shortFields = 0,
             intFields = 19,
             longFields = 0,
-            floatFields = 1,
+            floatFields = 2,
             doubleFields = 8,
             enumFields = 5,
             stringFields = 3,
@@ -53,24 +52,24 @@ namespace Sector_dll.cheat
             nestedTypes = 3,
 
             privateMethods = 51,
-            publicMethods = 346,
+            publicMethods = 355,
             staticMethods = 0,
 
-            publicFields = 145,
-            privateFields = 43,
-            staticFields = 5,
+            publicFields = 148,
+            privateFields = 40,
+            staticFields = 6,
             readonlyFields = 6,
 
-            boolFields = 38,
+            boolFields = 37,
             byteFields = 1,
             shortFields = 0,
-            intFields = 15,
+            intFields = 16,
             longFields = 1,
             floatFields = 0,
-            doubleFields = 21,
+            doubleFields = 18,
             enumFields = 8,
             stringFields = 0,
-            ArrayFields = 10,
+            ArrayFields = 11,
             OtherFields = 125
         });
 
@@ -142,7 +141,7 @@ namespace Sector_dll.cheat
             nestedTypes = 0,
 
             privateMethods = 2,
-            publicMethods = 59,
+            publicMethods = 55,
             staticMethods = 3,
 
             publicFields = 35,
@@ -155,11 +154,11 @@ namespace Sector_dll.cheat
             shortFields = 0,
             intFields = 7,
             longFields = 0,
-            floatFields = 3,
+            floatFields = 2,
             doubleFields = 1,
             enumFields = 4,
             stringFields = 2,
-            ArrayFields = 13,
+            ArrayFields = 14,
             OtherFields = 8
         });
 
@@ -172,25 +171,25 @@ namespace Sector_dll.cheat
             nestedTypes = 0,
 
             privateMethods = 0,
-            publicMethods = 53,
-            staticMethods = 49,
+            publicMethods = 54,
+            staticMethods = 50,
 
-            publicFields = 104,
+            publicFields = 115,
             privateFields = 0,
-            staticFields = 104,
+            staticFields = 115,
             readonlyFields = 0,
 
-            boolFields = 24,
+            boolFields = 30,
             byteFields = 0,
             shortFields = 0,
             intFields = 51,
             longFields = 0,
             floatFields = 0,
-            doubleFields = 4,
+            doubleFields = 5,
             enumFields = 3,
             stringFields = 1,
             ArrayFields = 0,
-            OtherFields = 21
+            OtherFields = 25
         });
 
         public static ResolvedType Helper = new ResolvedType("Helper", new ClassSignature()
@@ -235,12 +234,12 @@ namespace Sector_dll.cheat
             publicMethods = 28,
             staticMethods = 1,
 
-            publicFields = 20,
+            publicFields = 19,
             privateFields = 0,
             staticFields = 0,
             readonlyFields = 1,
 
-            boolFields = 7,
+            boolFields = 6,
             byteFields = 0,
             shortFields = 0,
             intFields = 4,
@@ -262,7 +261,7 @@ namespace Sector_dll.cheat
             nestedTypes = 0,
 
             privateMethods = 2,
-            publicMethods = 23,
+            publicMethods = 24,
             staticMethods = 0,
 
             publicFields = 2,
@@ -295,8 +294,8 @@ namespace Sector_dll.cheat
             publicMethods = 21,
             staticMethods = 2,
 
-            publicFields = 31,
-            privateFields = 5,
+            publicFields = 32,
+            privateFields = 4,
             staticFields = 1,
             readonlyFields = 0,
 
@@ -325,7 +324,7 @@ namespace Sector_dll.cheat
             publicMethods = 20,
             staticMethods = 1,
 
-            publicFields = 35,
+            publicFields = 36,
             privateFields = 0,
             staticFields = 1,
             readonlyFields = 0,
@@ -340,7 +339,7 @@ namespace Sector_dll.cheat
             enumFields = 2,
             stringFields = 0,
             ArrayFields = 0,
-            OtherFields = 15
+            OtherFields = 16
         });
 
         public static ResolvedType C4 = new ResolvedType("C4", new ClassSignature()
@@ -355,27 +354,27 @@ namespace Sector_dll.cheat
             publicMethods = 19,
             staticMethods = 0,
 
-            publicFields = 39,
+            publicFields = 38,
             privateFields = 0,
-            staticFields = 0,
+            staticFields = 1,
             readonlyFields = 0,
 
-            boolFields = 15,
+            boolFields = 13,
             byteFields = 2,
             shortFields = 1,
             intFields = 0,
             longFields = 0,
             floatFields = 1,
             doubleFields = 3,
-            enumFields = 3,
+            enumFields = 2,
             stringFields = 0,
             ArrayFields = 0,
-            OtherFields = 14
+            OtherFields = 16
         });
 
         public static ResolvedType Grenade = new ResolvedType("Grenade", new ClassSignature()
         {
-            nameLength = 43,
+            nameLength = 39,
 
             publicClass = true,
             abstractClass = false,
@@ -385,9 +384,9 @@ namespace Sector_dll.cheat
             publicMethods = 19,
             staticMethods = 0,
 
-            publicFields = 34,
+            publicFields = 32,
             privateFields = 0,
-            staticFields = 1,
+            staticFields = 0,
             readonlyFields = 0,
 
             boolFields = 11,
@@ -400,7 +399,7 @@ namespace Sector_dll.cheat
             enumFields = 2,
             stringFields = 0,
             ArrayFields = 0,
-            OtherFields = 14
+            OtherFields = 12
         });
 
         public static ResolvedType GLauncher = new ResolvedType("GLauncher", new ClassSignature()
@@ -415,7 +414,7 @@ namespace Sector_dll.cheat
             publicMethods = 19,
             staticMethods = 0,
 
-            publicFields = 31,
+            publicFields = 32,
             privateFields = 0,
             staticFields = 0,
             readonlyFields = 0,
@@ -430,7 +429,7 @@ namespace Sector_dll.cheat
             enumFields = 2,
             stringFields = 0,
             ArrayFields = 0,
-            OtherFields = 11
+            OtherFields = 12
         });
 
         public static ResolvedType Projectile = new ResolvedType("Projectile", new ClassSignature()
@@ -445,8 +444,8 @@ namespace Sector_dll.cheat
             publicMethods = 21,
             staticMethods = 2,
 
-            publicFields = 31,
-            privateFields = 5,
+            publicFields = 32,
+            privateFields = 4,
             staticFields = 1,
             readonlyFields = 0,
 
@@ -663,6 +662,14 @@ namespace Sector_dll.cheat
 
         public static FieldInfo CollisionEntity_Health;
 
+        public static MethodInfo SwapBuffers;
+
+        public static MethodInfo SwapBuffersWrapper;
+
+        public static FieldInfo Renderer_hdc;
+
+        public static FieldInfo RendererWrapper_Renderer;
+
         public static bool FindSignatures(Assembly assembly)
         {
             //Log.Info("Waiting for debugger to attach");
@@ -697,14 +704,66 @@ namespace Sector_dll.cheat
                         {
                             DllImportAttribute dllImport = attrib as DllImportAttribute;
                             if (dllImport.EntryPoint == "RegQueryValueEx")
+                            {
                                 RegQueryValueEx.Add(method);
+                                Log.Info("Found RegQueryValueEx as: " + method.ToString());
+                            }
                             if (dllImport.EntryPoint == "DiscordCreate")
+                            {
                                 DiscordCreate = method;
+                                Log.Info("Found DiscordCreate as: " + DiscordCreate.ToString());
+                            }
+                            if (dllImport.EntryPoint == "SwapBuffers")
+                            {
+                                SwapBuffers = method;
+                                Log.Info("Found SwapBuffers as: " + SwapBuffers.ToString());
+                            }
                         }
                     }
                 }
             }
             if(Color == null) { Log.Info("Color is null"); return false; }
+            if(SwapBuffers == null) { Log.Info("SwapBuffers is null"); return false; }
+            if(DiscordCreate == null) { Log.Info("DiscordCreate is null"); return false; }
+            if(RegQueryValueEx == null) { Log.Info("RegQueryValueEx is null"); return false; }
+
+            AssemblyDefinition definition = AssemblyDefinition.ReadAssembly(assembly.Location);
+
+            MethodInfo[] SwapBuffersReferences = Util.UsedBy(SwapBuffers, definition);
+            if (SwapBuffersReferences.Length != 1)
+                { Log.Info("[1] SwapBuffersReferences.length != 1 (" + SwapBuffersReferences.Length + ")"); return false; }
+            MethodInfo SawpBuffersLowWrapper = SwapBuffersReferences[0];
+            SwapBuffersReferences = Util.UsedBy(SwapBuffersReferences[0], definition);
+            if (SwapBuffersReferences.Length != 1)
+                { Log.Info("[2] SwapBuffersReferences.length != 1 (" + SwapBuffersReferences.Length + ")"); return false; }
+            SwapBuffersReferences = Util.UsedBy(SwapBuffersReferences[0], definition);
+            if (SwapBuffersReferences.Length != 1)
+                { Log.Info("[3] SwapBuffersReferences.length != 1 (" + SwapBuffersReferences.Length + ")"); return false; } 
+            SwapBuffersWrapper = SwapBuffersReferences[0];
+            Log.Info("Found SwapBuffersWrapper as: " + SwapBuffersWrapper.ToString());
+
+            MethodDefinition SawpBuffersLowWrapperDef = definition.MainModule.GetType(SawpBuffersLowWrapper.DeclaringType.Name).FindMethod(SawpBuffersLowWrapper.Name);
+            foreach (var il in SawpBuffersLowWrapperDef.Body.Instructions)
+            {
+                if(il.OpCode == OpCodes.Ldfld && il.operand is FieldReference)
+                {
+                    FieldReference fr = il.Operand as FieldReference;
+                    Renderer_hdc = assembly.GetType(fr.DeclaringType.Name).GetField(fr.Name, BindingFlags.Instance | BindingFlags.NonPublic);
+                    Log.Info("Found Renderer_hdc as: " + Renderer_hdc.ToString());
+                    break;
+                }
+            }
+            if(Renderer_hdc == null) { Log.Info("Renderer_hdc is null"); return false; }
+
+            foreach(FieldInfo fi in SwapBuffersWrapper.DeclaringType.GetFields(BindingFlags.Instance | BindingFlags.NonPublic))
+            {
+                if(fi.FieldType == Renderer_hdc.DeclaringType)
+                {
+                    RendererWrapper_Renderer = fi;
+                    Log.Info("Found RendererWrapper_Renderer as: " + RendererWrapper_Renderer.ToString());
+                    break;
+                }
+            }
 
             foreach (ResolvedType rt in ResolvedTypes)
             {
@@ -901,7 +960,7 @@ namespace Sector_dll.cheat
                     Log.Info("Found PLayerBase_CurrentWeaponType as: " + PLayerBase_CurrentWeaponType.ToString());
                 }
                 if (mi.ReturnType == typeof(int) && mi.GetParameters().Length == 0 && mi.Name.Length == 15
-                    && mi.GetMethodBody().LocalVariables.Count == 1 && mi.GetMethodBody().MaxStackSize == 12
+                    && mi.GetMethodBody().LocalVariables.Count == 1 && mi.GetMethodBody().MaxStackSize == 14
                     && mi.GetMethodBody().GetILAsByteArray().Length > 100
                     )
                 {
@@ -928,7 +987,7 @@ namespace Sector_dll.cheat
             if (PLayerBase_EitherMod == null) { Log.Info("PLayerBase_EitherMod is null"); return false; }
             if (ModType == null) { Log.Info("ModType is null"); return false; }
             if (PLayerBase_CurrentWeaponType == null) { Log.Info("PLayerBase_CurrentWeaponType is null"); return false; }
-            if (PLayerBase_CurrentWeaponIndex == null) { Log.Info("PLayerBase_CurrentWeaponIndex is null"); return false; }
+            if (PLayerBase_CurrentWeaponIndex == null) { Log.Danger("PLayerBase_CurrentWeaponIndex is null"); return false; }
             if (PlayerBase_RecoilMod == null) { Log.Info("PlayerBase_RecoilMod is null"); return false; }
             if (PlayerBase_Base_SetTeam == null) { Log.Info("PLayerBase_Base_SetTeam is null"); return false; }
             if (PlayerBase_Base_GetTeam == null) { Log.Info("PLayerBase_Base_GetTeam is null"); return false; }
@@ -1208,8 +1267,8 @@ namespace Sector_dll.cheat
 
             foreach (MethodInfo mi in GClass49.Type.BaseType.GetMethods(BindingFlags.Instance | BindingFlags.Public))
             {
-                if (mi.IsPublic && mi.ReturnType == Color && mi.GetParameters().Length == 1
-                    && mi.GetParameters()[0].ParameterType == PlayerBase.BaseType)
+                if (mi.IsPublic && mi.ReturnType == Color && mi.GetParameters().Length == 2
+                    && mi.GetParameters()[0].ParameterType == PlayerBase.BaseType && mi.GetParameters()[1].ParameterType == typeof(bool))
                 {
                     GClass49_Base_GetPlayerColor = mi;
                     Log.Info("Found GClass49_Base_GetPlayerColor as: " + GClass49_Base_GetPlayerColor.ToString());
@@ -1232,7 +1291,7 @@ namespace Sector_dll.cheat
                     Log.Info("Found GClass49_Base_GenerateGlBuffersForPlayer as: " + GClass49_Base_GenerateGlBuffersForPlayer.ToString());
                 }
             }
-            if (GClass49_Base_GetPlayerColor == null) { Log.Info("GClass49_Base_GetPlayerColor is null"); return false; }
+            if (GClass49_Base_GetPlayerColor == null) { Log.Danger("GClass49_Base_GetPlayerColor is null"); return false; }
             if (GClass49_Base_IsScoped == null) { Log.Info("GClass49_Base_IsScoped is null"); return false; }
             if (GClass49_Base_GetCurrentPLayer == null) { Log.Info("GClass49_Base_GetCurrentPLayer is null"); return false; }
             if (GClass49_Base_GenerateGlBuffersForPlayer == null) { Log.Info("GClass49_Base_GenerateGlBuffersForPlayer is null"); return false; }

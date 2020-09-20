@@ -2,6 +2,7 @@
 using Mono.Cecil.Cil;
 using Sector_dll.sdk;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -16,6 +17,39 @@ namespace Sector_dll.util
         public static double Map(double x, double in_min, double in_max, double out_min, double out_max)
         {
             return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+        }
+
+        public static MethodInfo[] UsedBy(MethodInfo mi, bool single = true)
+        {
+            AssemblyDefinition definition = AssemblyDefinition.ReadAssembly(mi.DeclaringType.Assembly.Location);
+            return UsedBy(mi, definition, single);
+        }
+
+        public static MethodInfo[] UsedBy(MethodInfo mi, AssemblyDefinition definition, bool single = true)
+        {
+            List<MethodInfo> references = new List<MethodInfo>();
+            foreach (var type in definition.MainModule.Types)
+            {
+                foreach (var m in type.Methods)
+                {
+                    if (m.HasBody)
+                    {
+                        foreach (var il in m.Body.Instructions)
+                        {
+                            if (il.OpCode == OpCodes.Call || il.OpCode == OpCodes.Callvirt)
+                            {
+                                var mRef = il.Operand as MethodReference;
+                                if (mRef.Name == mi.Name && mRef.DeclaringType.Name == mi.DeclaringType.Name)
+                                {
+                                    references.Add(mi.DeclaringType.Assembly.GetType(m.DeclaringType.Name).GetMethod(m.Name,
+                                        BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return references.ToArray();
         }
 
         public static void DumpShit(Assembly assembly)
