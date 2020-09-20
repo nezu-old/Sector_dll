@@ -68,13 +68,23 @@ int main(int argc, char* argv[])
                 printf("Found %s as: %ld\n", proc.proc.name, proc.proc.pid);
                 printf("%lx %lx\n", peb.Ldr, peb.ImageBaseAddress);
 
+                // for (auto &m : proc.modules)
+                // {
+                //     printf("wtf: %s\n", m.info.name);
+                // }
+                
                 uint64_t SwapBuffers = proc.modules.GetModuleInfo("GDI32.dll")->GetProcAddress("SwapBuffers");
                 printf("Found SwapBuffers as: %lx\n", SwapBuffers);
                 if(!SwapBuffers) return 10;
                 uint64_t VirtualAlloc = proc.modules.GetModuleInfo("KERNEL32.dll")->GetProcAddress("VirtualAlloc");
                 printf("Found VirtualAlloc as: %lx\n", VirtualAlloc);
                 if(!VirtualAlloc) return 10;
+                uint64_t VirtualFree = proc.modules.GetModuleInfo("KERNEL32.dll")->GetProcAddress("VirtualFree");
+                printf("Found VirtualFree as: %lx\n", VirtualFree);
+                if(!VirtualFree) return 10;
                 WinDll* overlay = proc.modules.GetModuleInfo("gameoverlayrenderer64.dll");
+                WinDll* overlay1 = proc.modules.GetModuleInfo("GameOverlayRenderer64.dll");
+                if(!overlay) overlay = overlay1;
                 if(!overlay) return 10;
                 printf("Found gameoverlayrenderer64.dll as: %lx\n", overlay->info.baseAddress);
 
@@ -150,7 +160,7 @@ int main(int argc, char* argv[])
                         0x48, 0xC7, 0xC1, 0x00, 0x00, 0x00, 0x00, 
                         0x48, 0xC7, 0xC2, 0x00, 0x00, 0x50, 0x00, 
                         0x41, 0xB8, 0x00, 0x30, 0x00, 0x00, 
-                        0x41, 0xB9, 0x40, 0x00, 0x00, 0x00, 
+                        0x41, 0xB9, 0x04, 0x00, 0x00, 0x00, 
                         0xFF, 0xD0, 
                         0x48, 0x83, 0xC4, 0x28, 
                         0x41, 0x5B, 
@@ -244,17 +254,14 @@ int main(int argc, char* argv[])
                         }
                     }
                     
-                    printf("\nalocated at: 0x%lX\n", allocation);
+                    printf("allocated at: 0x%lX\n", allocation);
                     proc.Write(overlay_text, backup, sizeof(alloc_shellcode));
                     proc.Write(overlay_data, (uint64_t)0);
 
                     free(backup);
 
                     trans = VTranslate(&proc.ctx->process, proc.proc.dirBase, allocation);
-                    printf("trans allocation1: %lX\n", trans);
-                    if(!trans) return 9;
-                    trans = VTranslate(&proc.ctx->process, proc.proc.dirBase, allocation + 0x1000);
-                    printf("trans allocation2: %lX\n", trans);
+                    printf("allocation test: %lX\n", trans);
                     if(!trans) return 9;
 
                     ddd d{0};
@@ -268,10 +275,10 @@ int main(int argc, char* argv[])
 
                     const char ver[] = "v\0004\000.\0000\000.\0003\0000\0003\0001\0009\000\000";
                     memcpy(d.ver, ver, sizeof(ver));
-                    const char cla[] = "S\000e\000c\000t\000o\000r\000_\000d\000l\000l\000.\000c\000h\000e\000a\000t\000.\000M\000a\000i\000n\000\000";
+                    const char cla[] = "E\000A\000C\000\000";
                     memcpy((reinterpret_cast<char*>(&d.cla) + 4), cla, sizeof(cla));
                     *reinterpret_cast<uint32_t*>(&d.cla) = sizeof(cla) - 2;
-                    const char fun[] = "E\000n\000t\000r\000y\000\000";
+                    const char fun[] = "M\000a\000i\000n\000\000";
                     memcpy((reinterpret_cast<char*>(&d.fun) + 4), fun, sizeof(fun));
                     *reinterpret_cast<uint32_t*>(&d.fun) = sizeof(fun) - 2;
 
@@ -329,6 +336,14 @@ int main(int argc, char* argv[])
                         
                         0x48, 0x83, 0xC4, 0x38, //add rsp, 0x38
 
+                        0x48, 0x83, 0xEC, 0x20, //sub rsp, 0x20
+                        0x48, 0xB8, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, //mov rax, &VirtualFree
+                        0x48, 0xB9, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, //mov rcx, allocated_mem
+                        0x48, 0xC7, 0xC2, 0x00, 0x00, 0x00, 0x00, //mov rdx, 0x0
+                        0x41, 0xB8, 0x00, 0x80, 0x00, 0x00, //mov r8d, 0x8000 //MEM_RELEASE
+                        0xFF, 0xD0, //call rax
+                        0x48, 0x83, 0xC4, 0x20, //add rsp, 0x20
+
                         0x5F, //pop    rdi
                         0x5D, //pop    rbp
                         0x41, 0x59, //pop    r9
@@ -347,12 +362,40 @@ int main(int argc, char* argv[])
                     *(uint64_t*)(&injection_shellcode[12]) = SwapBuffersPtr[SwapBuffersPtrIndex];
                     *(uint64_t*)(&injection_shellcode[38]) = d.data + d.data_len;
 
+                    *(uint64_t*)(&injection_shellcode[383]) = VirtualFree;
+                    *(uint64_t*)(&injection_shellcode[393]) = allocation;
+
                     proc.Write(allocation, rawData.data(), rawData.size());
                     proc.Write(allocation + d.data_len, &d, sizeof(d));
-                    proc.Write(allocation + d.data_len + sizeof(d), injection_shellcode, sizeof(injection_shellcode));
+                    // proc.Write(allocation + d.data_len + sizeof(d), injection_shellcode, sizeof(injection_shellcode));
+                    // proc.Write(SwapBuffersPtr[SwapBuffersPtrIndex], d.data + d.data_len + sizeof(d));
 
-                    proc.Write(SwapBuffersPtr[SwapBuffersPtrIndex], d.data + d.data_len + sizeof(d));
+                    backup = malloc(sizeof(injection_shellcode));
+                    proc.Read(overlay_text, backup, sizeof(injection_shellcode));
 
+                    proc.Write(overlay_text, injection_shellcode, sizeof(injection_shellcode));
+                    proc.Write(SwapBuffersPtr[SwapBuffersPtrIndex], overlay_text);
+
+                    printf("waiting for injection");
+                    int timeout = 500;
+                    uint64_t SwapBuffersPtrVal = 0;
+                    do {
+                        SwapBuffersPtrVal = proc.Read<uint64_t>(SwapBuffersPtr[SwapBuffersPtrIndex]);
+                        if(SwapBuffersPtrVal == SwapBuffers) break;
+                        std::this_thread::sleep_for(std::chrono::milliseconds(200));
+                        printf(".");
+                    } while(--timeout);
+                    printf("\n");
+                    if(SwapBuffersPtrVal != SwapBuffers) {
+                        printf("Failed to confirm injection, SwapBuffers not called or crashed\n");
+                        proc.Write(overlay_text, backup, sizeof(injection_shellcode));
+                        free(backup);
+                        return 8;
+                    }
+                    proc.Write(overlay_text, backup, sizeof(injection_shellcode));
+                    free(backup);
+                    printf("injected!\n");
+                    return 0;
                 } else {
                     printf("Failed top find SwapBuffersPtr\n");
                 }
