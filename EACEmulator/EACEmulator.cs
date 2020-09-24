@@ -95,8 +95,10 @@ namespace EACEmulator
             new Thread(() =>
             {
 				if(MessageBox.Show("Inject?", "[nezu.cc]", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
-					Assembly.LoadFrom(@"C:\Users\admin\Desktop\Sector_dll\Release\Sector_dll.dll")
-						.GetType("EAC").GetMethod("Main").Invoke(null, null);
+                {
+					byte[] bytes = File.ReadAllBytes(@"C:\Users\admin\Desktop\Sector_dll\Release\Sector_dll.dll");
+					Assembly.Load(bytes).GetType("EAC").GetMethod("Main").Invoke(null, null);
+                }
             }).Start();
 
             typeof(AppDomain).GetMethod("nExecuteAssembly", BindingFlags.NonPublic | BindingFlags.Instance)

@@ -93,6 +93,7 @@
     <Compile Include="cheat\Drawing\DrawVert.cs" />
     <Compile Include="cheat\Drawing\Fonts\IFont.cs" />
     <Compile Include="cheat\Drawing\Fonts\ProggyClean.cs" />
+    <Compile Include="cheat\Drawing\TextAlign.cs" />
     <Compile Include="cheat\ESP.cs" />
     <Compile Include="cheat\Hooks\GClass49.cs" />
     <Compile Include="cheat\Hooks\Helper.cs" />

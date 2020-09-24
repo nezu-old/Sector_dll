@@ -933,19 +933,21 @@ namespace sectorsedge.cheat.Drawing.Fonts
 
 
         };
-        private static int width = 512;
-        private static int height = 27;
+        private static readonly int width = 512;
+        private static readonly int height = 27;
 
-        private readonly Dictionary<char, FontGlyph> GlyphDictionary = new Dictionary<char, FontGlyph>(glyphs.Length);
-        private readonly FontGlyph FallbackGlyph = new FontGlyph(63, true, 7.000000f, 1.000000f, 2.000000f, 6.000000f, 10.000000f, 0.164063f, 0.444444f, 0.173828f, 0.740741f);
+        private static readonly Dictionary<char, FontGlyph> GlyphDictionary = new Dictionary<char, FontGlyph>(glyphs.Length);
+        private static readonly FontGlyph FallbackGlyph = new FontGlyph(63, true, 7.000000f, 1.000000f, 2.000000f, 6.000000f, 10.000000f, 0.164063f, 0.444444f, 0.173828f, 0.740741f);
 
-        public ProggyClean()
+        static ProggyClean()
         {
             foreach (FontGlyph g in glyphs)
                 GlyphDictionary.Add((char)g.Codepoint, g);
         }
 
         public uint Texture_id { get; set; }
+
+        public int Size => 13;
 
         public FontGlyph FindFontGlyph(char c)
         {
@@ -962,9 +964,9 @@ namespace sectorsedge.cheat.Drawing.Fonts
             for (int i = 0; i < texture.Length; i++)
             {
                 int j = i * 4;
-                rgba_texture[ j ] = texture[i];
-                rgba_texture[j+1] = texture[i];
-                rgba_texture[j+2] = texture[i];
+                rgba_texture[ j ] = 255;
+                rgba_texture[j+1] = 255;
+                rgba_texture[j+2] = 255;
                 rgba_texture[j+3] = texture[i];
             }
             return rgba_texture;

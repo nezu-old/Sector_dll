@@ -58,13 +58,13 @@ namespace Sector_dll.cheat
 		{
 			menu_color = Color.red,
 			esp_mode = EspModes.Always,
-			esp_team = EspTarget.All,
+			esp_team = EspTarget.Enemy,
 			esp_box = 1,
-			esp_skeleton = 0,
-			esp_snaplines = 0,
+			esp_skeleton = 1,
+			esp_snaplines = 1,
 			esp_health_bar = 1,
-			esp_health_num = 0,
-			esp_name = 0,
+			esp_health_num = 1,
+			esp_name = 1,
 		};
 
 	}

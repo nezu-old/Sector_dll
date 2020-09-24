@@ -23,9 +23,39 @@ namespace Sector_dll.sdk
             y = (double)fields[1].GetValue(vec2);
         }
 
+        public static Vec2 operator +(Vec2 v1, Vec2 v2)
+        {
+            return new Vec2(v1.x + v2.x, v1.y + v2.y);
+        }
+
+        public static Vec2 operator -(Vec2 v1, Vec2 v2)
+        {
+            return new Vec2(v1.x - v2.x, v1.y - v2.y);
+        }
+
+        public static Vec2 operator *(Vec2 v1, Vec2 v2)
+        {
+            return new Vec2(v1.x * v2.x, v1.y * v2.y);
+        }
+
+        public static Vec2 operator *(Vec2 v1, double d)
+        {
+            return new Vec2(v1.x * d, v1.y * d);
+        }
+
+        public static Vec2 operator /(Vec2 v1, double d)
+        {
+            return new Vec2(v1.x / d, v1.y / d);
+        }
+
         public double DistTo(Vec2 v)
         {
             return Math.Sqrt((x - v.x) * (x - v.x) + (y - v.y) * (y - v.y));
+        }
+
+        public double Len()
+        {
+            return Math.Sqrt(x * x + y * y);
         }
 
         public double x;

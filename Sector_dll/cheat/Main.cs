@@ -3,12 +3,15 @@ using MonoMod.RuntimeDetour;
 using Sector_dll.cheat.Hooks;
 using Sector_dll.util;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace Sector_dll.cheat
 {
@@ -42,14 +45,14 @@ namespace Sector_dll.cheat
         public unsafe static void Entry()
         {
             //AllocConsole();
-            //Log.enabled = true;
-            //Log.Prefix = "[nezu.cc]";
+            Log.enabled = true;
+            Log.Prefix = "[nezu.cc]";
 
             Log.Info("Entry point called");
-            Log.Info("Running from: " + (Assembly.GetExecutingAssembly().Location.Trim().Length == 0 ? "[Memory]" : Assembly.GetExecutingAssembly().Location));
-            Log.Info("Running in domain: " + AppDomain.CurrentDomain.FriendlyName);
-            Log.Info("Domain base dir: " + AppDomain.CurrentDomain.BaseDirectory);
-            Log.Info("Working directory: " + Directory.GetCurrentDirectory());
+            //Log.Info("Running from: " + (Assembly.GetExecutingAssembly().Location.Trim().Length == 0 ? "[Memory]" : Assembly.GetExecutingAssembly().Location));
+            //Log.Info("Running in domain: " + AppDomain.CurrentDomain.FriendlyName);
+            //Log.Info("Domain base dir: " + AppDomain.CurrentDomain.BaseDirectory);
+            //Log.Info("Working directory: " + Directory.GetCurrentDirectory());
             ReversibleRenamer.inst = new ReversibleRenamer("fuckverc");
 
             //new Hook(typeof(File).GetMethod("Exists"), typeof(Antycheat).GetMethod("FileExists"));
@@ -83,7 +86,7 @@ namespace Sector_dll.cheat
 
             Assembly assembly = Assembly.GetEntryAssembly();
 
-            //Log.Info(SignatureManager.GenerateSig("#=z1q5LvvTvJVHL95mpiAw3sxdwWtd5ROgm6g==")); Console.Read();
+            //Log.Debug(SignatureManager.GenerateSig("#=zaRmD6HfM_mntgBqTQB3dfALAvnZv")); Console.Read();
 
             try
             {
@@ -93,12 +96,32 @@ namespace Sector_dll.cheat
                 //new Hook(SignatureManager.RequestHelper_POST, typeof(RequestHelper).GetMethod("POST"));
                 //new Hook(SignatureManager.RequestHelper_GET, typeof(RequestHelper).GetMethod("GET"));
 
-                Log.Debug(SignatureManager.SwapBuffersWrapper);
+                //new Thread(() =>
+                //{
+                //    try
+                //    {
+                //        Type type = assembly.GetType("#=zjIQApYtv96HwCbHWyPQ5EKqErtHs", true);
+                //        Log.Debug(type);
+                //        //FieldInfo fieldInfo = type.GetField("#=zfxpo$Rw=", BindingFlags.Public | BindingFlags.Static);
+                //        while (true)
+                //        {
+                //            //object val = fieldInfo.GetValue(null);
+                //            //Log.Debug(val ?? "[null]");
+                //            //Thread.Sleep(1000);
+                //        }
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        Log.Debug(ex);
+                //    }
+                //}).Start();
+
+                Log.Debug("All types resolved");
 
                 new Hook(SignatureManager.SwapBuffersWrapper, new Action<Action<object, object>, object, object>((orig, self, a1) => GL.SwapBuffers(orig, self, a1)).Method, new object());
-                new Hook(SignatureManager.GClass49_Base_Base_Draw, new Action<Action<object, object>, object, object>((orig, self, p1) => GClass49.vmethod_4(orig, self, p1)).Method, new object());
+                new Hook(SignatureManager.GClass49_Base_Base_Draw, new Action<Action<object, object>, object, object>((orig, self, a1) => GClass49.vmethod_4(orig, self, a1)).Method, new object());
                 new Hook(SignatureManager.LocalPlayer_Update, new Action<Action<object, object>, object, object>((orig, self, a1) => Player.Update(orig, self, a1)).Method, new object());
-                
+
                 //new Hook(SignatureManager.PlayerBase_RecoilMod, typeof(Player).GetMethod("RecoilMod"));
 
                 //new Hook(SignatureManager.Helper_CurrentBloom, typeof(Helper).GetMethod("CurrentBloom"));

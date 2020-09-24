@@ -1,11 +1,9 @@
 ﻿using Sector_dll.sdk;
 using Sector_dll.util;
+using sectorsedge.cheat.Drawing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sector_dll.cheat
 {
@@ -25,11 +23,11 @@ namespace Sector_dll.cheat
 
             List<object> players = GameManager.GetPlayers(gm);
 
-            //Drawing.DrawString(GameManager.W2SResolution.ToString(), 100, 80, Color.white);
+            Drawing.DrawText(GameManager.W2SResolution.ToString(), 100, 80, Color.white);
 
             //GameManager.W2s(new Vec3(0, 0, 0), out Vec2 test);
             //{
-            //    Drawing.DrawString(test.ToString(), 100, 50, Color.white);
+            //    Drawing.DrawText(test.ToString(), 100, 50, Color.white);
             //    Drawing.DrawRect((int)test.x - 5, (int)test.y - 5, 10, 10, 2, Color.red);
             //}
 
@@ -107,18 +105,15 @@ namespace Sector_dll.cheat
                             Drawing.DrawRectFilled((int)bb_min.x - 6, (int)bb_min.y - 1, 4, h + 2, Color.black);
                             Drawing.DrawRectFilled((int)bb_min.x - 5, (int)bb_min.y + (h - hp_h), 2, hp_h, Color.green);
                             if (Config.settings.esp_health_num > 0)
-                                Drawing.DrawString(hp.ToString(), (int)bb_min.x - 7, (int)(bb_min.y + hp_h_t), Color.white);//,
-                                    //Drawing.DrawingFunctions.TextAlignment.ALIGN_RIGHT | Drawing.DrawingFunctions.TextAlignment.ALIGN_TOP);
+                                Drawing.DrawText(hp.ToString(), (int)bb_min.x - 7, (int)(bb_min.y + hp_h_t), Color.white, TextAlign.RIGHT | TextAlign.TOP);
                         }
                         else if (Config.settings.esp_health_num > 0)
                         {
-                            Drawing.DrawString(hp.ToString(), (int)bb_min.x - 7, (int)(bb_min.y), Color.white);//,
-                                //Drawing.DrawingFunctions.TextAlignment.ALIGN_RIGHT | Drawing.DrawingFunctions.TextAlignment.ALIGN_TOP);
+                            Drawing.DrawText(hp.ToString(), (int)bb_min.x - 7, (int)(bb_min.y), Color.white, TextAlign.RIGHT | TextAlign.TOP);
                         }
 
                         if (Config.settings.esp_name > 0)
-                            Drawing.DrawString(Player.GetName(player), (int)bb_min.x + (w / 2), (int)(bb_min.y) - 5, Color.white);//,
-                                //Drawing.DrawingFunctions.TextAlignment.ALIGN_BOTTOM | Drawing.DrawingFunctions.TextAlignment.ALIGN_HCENTER);
+                            Drawing.DrawText(Player.GetName(player), (int)bb_min.x + (w / 2), (int)(bb_min.y) - 5, color, TextAlign.BOTTOM | TextAlign.H_CENTER);
 
                         if (Config.settings.esp_snaplines > 0)
                             Drawing.DrawLine((float)GameManager.ScreenResolution.x / 2, (float)GameManager.ScreenResolution.y,
@@ -143,7 +138,7 @@ namespace Sector_dll.cheat
             foreach (object e in ents)
             {
                 Type et = e.GetType();
-                Drawing.DrawString(et.Name, 100, 100 + (i * 14), Color.green);
+                Drawing.DrawText(et.Name, 100, 100 + (i * 14), Color.green);
                 if (et == SignatureManager.Grenade.Type || et == SignatureManager.GLauncher.Type)
                 {
                     Vec3 pos = CollisionEntity.GetPosition(e);
@@ -158,8 +153,7 @@ namespace Sector_dll.cheat
                         Color color = player != null ? (player == GameManager.GetLocalPLayer(gm) ? Color.white :
                             GameManager.GetPlayerColor(gm, player, false)) : Color.white;
 
-                        Drawing.DrawString("Grenade", (int)pos2d.x, (int)pos2d.y - 2, color);//,
-                            //Drawing.DrawingFunctions.TextAlignment.ALIGN_BOTTOM | Drawing.DrawingFunctions.TextAlignment.ALIGN_HCENTER);
+                        Drawing.DrawText("Grenade", (int)pos2d.x, (int)pos2d.y - 2, color, TextAlign.BOTTOM | TextAlign.H_CENTER);
 
                         Drawing.DrawRectFilled((int)pos2d.x - (w / 2) - 1, (int)pos2d.y, w + 2, 3, Color.black);
                         Drawing.DrawRectFilled((int)pos2d.x - (w / 2), (int)pos2d.y + 1, life_w, 1, color);
@@ -176,14 +170,13 @@ namespace Sector_dll.cheat
                         Color color = player != null ? (player == GameManager.GetLocalPLayer(gm) ? Color.white :
                             GameManager.GetPlayerColor(gm, player, false)) : Color.white;
 
-                        Drawing.DrawString(isC4 ? "C4" : "Disruptor", (int)pos2d.x, (int)pos2d.y, color);//,
-                        //Drawing.DrawingFunctions.TextAlignment.ALIGN_CENTER);
+                        Drawing.DrawText(isC4 ? "C4" : "Disruptor", (int)pos2d.x, (int)pos2d.y, color, TextAlign.CENTER);
                     }
                 }
                 else if (et == SignatureManager.Scanner.Type)
                 {
                     Vec3 pos = CollisionEntity.GetPosition(e);
-                    Drawing.DrawString(pos.ToString(), 100, 100 + (++i * 14), Color.red);
+                    Drawing.DrawText(pos.ToString(), 100, 100 + (++i * 14), Color.red);
                     if (GameManager.W2s(pos, out Vec2 pos2d))
                     {
                         int life = CollisionEntity.GetLifetime(e);
@@ -196,14 +189,12 @@ namespace Sector_dll.cheat
                         Color color = player != null ? (player == GameManager.GetLocalPLayer(gm) ? Color.white :
                             GameManager.GetPlayerColor(gm, player, false)) : Color.white;
 
-                        Drawing.DrawString("Health: " + hp, (int)pos2d.x, (int)pos2d.y - 20, color);//,
-                        //Drawing.DrawingFunctions.TextAlignment.ALIGN_CENTER);
+                        Drawing.DrawText("Health: " + hp, (int)pos2d.x, (int)pos2d.y - 20, color, TextAlign.CENTER);
 
                         Drawing.DrawRectFilled((int)pos2d.x - (w / 2) - 1, (int)pos2d.y - 11, w + 2, 3, Color.black);
                         Drawing.DrawRectFilled((int)pos2d.x - (w / 2), (int)pos2d.y - 10, hp_w, 1, Color.red);
 
-                        Drawing.DrawString("Scanner", (int)pos2d.x, (int)pos2d.y - 2, color);//,
-                        //Drawing.DrawingFunctions.TextAlignment.ALIGN_CENTER);
+                        Drawing.DrawText("Scanner", (int)pos2d.x, (int)pos2d.y - 2, color, TextAlign.CENTER);
 
                         Drawing.DrawRectFilled((int)pos2d.x - (w / 2) - 1, (int)pos2d.y + 9, w + 2, 3, Color.black);
                         Drawing.DrawRectFilled((int)pos2d.x - (w / 2), (int)pos2d.y + 10, life_w, 1, color);

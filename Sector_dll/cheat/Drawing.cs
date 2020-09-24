@@ -1,14 +1,14 @@
 ﻿using Sector_dll.sdk;
-using Sector_dll.util;
 using sectorsedge.cheat.Drawing;
 using sectorsedge.cheat.Drawing.Fonts;
 using sectorsedge.sdk;
 using System;
 using System.Collections.Generic;
+using System.Windows.Forms.VisualStyles;
 
 namespace Sector_dll.cheat
 {
-    class Drawing
+    static class Drawing
     {
         public static List<DrawVert> VtxBuffer;
         public static List<int>      IdxBuffer;//we will never exceeed 31 bits so not using uint for simpler maths
@@ -23,8 +23,27 @@ namespace Sector_dll.cheat
             proggyClean
         };
 
-        public static void DrawString(string s, int x, int y, Color color)
+        public static int CalcTextWidth(string s, IFont font)
         {
+            int total = 0;
+            foreach (char c in s.ToCharArray())
+                total += (int)font.FindFontGlyph(c).AdvanceX;
+            return total;
+        }
+
+        public static void DrawText(string s, int x, int y) => DrawText(s, x, y, Color.white);
+
+        public static void DrawText(string s, int x, int y, Color color, TextAlign align = TextAlign.DEFAULT)
+        {
+            if ((align & TextAlign.H_CENTER) == TextAlign.H_CENTER)
+                x -= CalcTextWidth(s, fonts[0]) / 2;
+            else if ((align & TextAlign.RIGHT) != 0)
+                x -= CalcTextWidth(s, fonts[0]);
+            if ((align & TextAlign.V_CENTER) == TextAlign.V_CENTER)
+                y -= fonts[0].Size / 2;
+            else if ((align & TextAlign.BOTTOM) != 0)
+                y -= fonts[0].Size;
+
             char[] chars = s.ToCharArray();
             int elems = 0;
             foreach (char c in chars)
@@ -194,15 +213,17 @@ namespace Sector_dll.cheat
 
         public static void Draw()
         {
-            DrawRectFilled(300, 100, 50, 50, Color.red);
-            DrawRect(301, 101, 48, 48, 3, Color.green);
-            DrawLine(304, 104, 346, 146, 1, Color.white);
-            DrawLine(346, 104, 304, 146, 1, Color.white);
-            //DrawString("The quick brown fox jumps over the lazy dog", 200, 200, Color.white);
-
+            //DrawRectFilled(300, 100, 50, 50, Color.red);
+            //DrawRect(301, 101, 48, 48, 3, Color.green);
+            //DrawLine(304, 104, 346, 146, 1, Color.white);
+            //DrawLine(346, 104, 304, 146, 1, Color.white);
+            int w = CalcTextWidth("nezu.cc", fonts[0]);
+            DrawRectFilled(8, 9, w + 4, fonts[0].Size + 2, new Color(0, 0, 0, 100));
+            DrawText("nezu.cc", 10, 10, Color.green);
             if (GameManager.instance.IsAlive && GameManager.instance.Target.GetType().BaseType == SignatureManager.GClass49.Type.BaseType)
             {
                 ESP.DrawPlayerEsp();
+                //ESP.DrawProjectiles();
             }
         }
 

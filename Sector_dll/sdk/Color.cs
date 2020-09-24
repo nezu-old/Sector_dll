@@ -1,15 +1,23 @@
-﻿using Sector_dll.cheat;
-using System.Net.Http;
+﻿using System;
 using System.Reflection;
 
 namespace Sector_dll.sdk
 {
-    class Color
+    class Color : IEquatable<Color>
     {
 
         public static uint GetColor(object c)
         {
             return (uint)c.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public)[0].GetValue(c);
+        }
+
+        public bool Equals(Color other)
+        {
+            if (other is null)
+            {
+                return false;
+            }
+            return ReferenceEquals(this, other) || other.color == color;
         }
 
         public Color(object o)
@@ -29,6 +37,10 @@ namespace Sector_dll.sdk
             this((byte)(r * 255f), (byte)(g * 255f), (byte)(b * 255f), (byte)(a * 255f)) { }
 
         public static implicit operator uint(Color c) { return c.color; }
+
+        public static implicit operator Color(uint c) { return new Color(c); }
+
+        
 
         public uint color;
 

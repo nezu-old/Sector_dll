@@ -22,15 +22,15 @@ namespace Sector_dll.cheat
             nestedTypes = 0,
 
             privateMethods = 2,
-            publicMethods = 121,
+            publicMethods = 122,
             staticMethods = 0,
 
-            publicFields = 123,
+            publicFields = 124,
             privateFields = 3,
             staticFields = 0,
             readonlyFields = 5,
 
-            boolFields = 29,
+            boolFields = 30,
             byteFields = 4,
             shortFields = 0,
             intFields = 19,
@@ -51,11 +51,11 @@ namespace Sector_dll.cheat
             abstractClass = false,
             nestedTypes = 3,
 
-            privateMethods = 51,
-            publicMethods = 355,
+            privateMethods = 52,
+            publicMethods = 356,
             staticMethods = 0,
 
-            publicFields = 148,
+            publicFields = 151,
             privateFields = 40,
             staticFields = 6,
             readonlyFields = 6,
@@ -66,11 +66,11 @@ namespace Sector_dll.cheat
             intFields = 16,
             longFields = 1,
             floatFields = 0,
-            doubleFields = 18,
+            doubleFields = 19,
             enumFields = 8,
             stringFields = 0,
             ArrayFields = 11,
-            OtherFields = 125
+            OtherFields = 127
         });
 
         public static ResolvedType Vec4 = new ResolvedType("Vec4", new ClassSignature()
@@ -108,11 +108,11 @@ namespace Sector_dll.cheat
 
             publicClass = true,
             abstractClass = true,
-            nestedTypes = 3,
+            nestedTypes = 4,
 
             privateMethods = 1,
-            publicMethods = 6,
-            staticMethods = 3,
+            publicMethods = 7,
+            staticMethods = 4,
 
             publicFields = 0,
             privateFields = 0,
@@ -141,7 +141,7 @@ namespace Sector_dll.cheat
             nestedTypes = 0,
 
             privateMethods = 2,
-            publicMethods = 55,
+            publicMethods = 56,
             staticMethods = 3,
 
             publicFields = 35,
@@ -149,7 +149,7 @@ namespace Sector_dll.cheat
             staticFields = 0,
             readonlyFields = 0,
 
-            boolFields = 3,
+            boolFields = 2,
             byteFields = 0,
             shortFields = 0,
             intFields = 7,
@@ -158,7 +158,7 @@ namespace Sector_dll.cheat
             doubleFields = 1,
             enumFields = 4,
             stringFields = 2,
-            ArrayFields = 14,
+            ArrayFields = 15,
             OtherFields = 8
         });
 
@@ -234,7 +234,7 @@ namespace Sector_dll.cheat
             publicMethods = 28,
             staticMethods = 1,
 
-            publicFields = 19,
+            publicFields = 20,
             privateFields = 0,
             staticFields = 0,
             readonlyFields = 1,
@@ -249,7 +249,7 @@ namespace Sector_dll.cheat
             enumFields = 1,
             stringFields = 0,
             ArrayFields = 1,
-            OtherFields = 8
+            OtherFields = 9
         });
 
         public static ResolvedType CustomWatch = new ResolvedType("CustomWatch", new ClassSignature()
@@ -261,7 +261,7 @@ namespace Sector_dll.cheat
             nestedTypes = 0,
 
             privateMethods = 2,
-            publicMethods = 24,
+            publicMethods = 25,
             staticMethods = 0,
 
             publicFields = 2,
@@ -284,37 +284,7 @@ namespace Sector_dll.cheat
 
         public static ResolvedType CollisionEntity = new ResolvedType("CollisionEntity", new ClassSignature()
         {
-            nameLength = 39,
-
-            publicClass = true,
-            abstractClass = false,
-            nestedTypes = 0,
-
-            privateMethods = 0,
-            publicMethods = 21,
-            staticMethods = 2,
-
-            publicFields = 32,
-            privateFields = 4,
-            staticFields = 1,
-            readonlyFields = 0,
-
-            boolFields = 12,
-            byteFields = 2,
-            shortFields = 2,
-            intFields = 1,
-            longFields = 0,
-            floatFields = 1,
-            doubleFields = 3,
-            enumFields = 2,
-            stringFields = 0,
-            ArrayFields = 0,
-            OtherFields = 13
-        });
-
-        public static ResolvedType Scanner = new ResolvedType("Scanner", new ClassSignature()
-        {
-            nameLength = 39,
+            nameLength = 31,
 
             publicClass = true,
             abstractClass = false,
@@ -322,9 +292,39 @@ namespace Sector_dll.cheat
 
             privateMethods = 0,
             publicMethods = 20,
+            staticMethods = 0,
+
+            publicFields = 31,
+            privateFields = 1,
+            staticFields = 0,
+            readonlyFields = 0,
+
+            boolFields = 11,
+            byteFields = 2,
+            shortFields = 1,
+            intFields = 0,
+            longFields = 0,
+            floatFields = 1,
+            doubleFields = 3,
+            enumFields = 2,
+            stringFields = 0,
+            ArrayFields = 0,
+            OtherFields = 12
+        });
+
+        public static ResolvedType Scanner = new ResolvedType("Scanner", new ClassSignature()
+        {
+            nameLength = 27,
+
+            publicClass = true,
+            abstractClass = false,
+            nestedTypes = 0,
+
+            privateMethods = 0,
+            publicMethods = 21,
             staticMethods = 1,
 
-            publicFields = 36,
+            publicFields = 35,
             privateFields = 0,
             staticFields = 1,
             readonlyFields = 0,
@@ -339,7 +339,7 @@ namespace Sector_dll.cheat
             enumFields = 2,
             stringFields = 0,
             ArrayFields = 0,
-            OtherFields = 16
+            OtherFields = 15
         });
 
         public static ResolvedType C4 = new ResolvedType("C4", new ClassSignature()
@@ -875,7 +875,7 @@ namespace Sector_dll.cheat
             foreach (FieldInfo fi in GameManager.GetFields(BindingFlags.Public | BindingFlags.Instance))
             {
                 if(fi.Name.Length == 11 && fi.FieldType.IsGenericType && fi.FieldType.GetGenericTypeDefinition() == typeof(List<>)
-                    && fi.FieldType.GetGenericArguments().Length == 1 && fi.FieldType.GetGenericArguments()[0] == CollisionEntity.Type)
+                    && fi.FieldType.GetGenericArguments().Length == 1)// && fi.FieldType.GetGenericArguments()[0] == CollisionEntity.Type)
                 {
                     GameManager_CollisionEntityList = fi;
                     Log.Info("Found GameManager_CollisionEntityList as: " + GameManager_CollisionEntityList.ToString());
@@ -960,11 +960,11 @@ namespace Sector_dll.cheat
                     Log.Info("Found PLayerBase_CurrentWeaponType as: " + PLayerBase_CurrentWeaponType.ToString());
                 }
                 if (mi.ReturnType == typeof(int) && mi.GetParameters().Length == 0 && mi.Name.Length == 15
-                    && mi.GetMethodBody().LocalVariables.Count == 1 && mi.GetMethodBody().MaxStackSize == 14
+                    && mi.GetMethodBody().LocalVariables.Count == 1 //&& mi.GetMethodBody().MaxStackSize == 14
                     && mi.GetMethodBody().GetILAsByteArray().Length > 100
                     )
                 {
-                    //Log.Danger(mi.GetMethodBody().MaxStackSize + " " + mi.GetMethodBody().LocalVariables.Count + " " + mi.GetMethodBody().GetILAsByteArray().Length);
+                    //Log.Debug(mi.ToString() + " - s:" + mi.GetMethodBody().MaxStackSize + " v:" + mi.GetMethodBody().LocalVariables.Count + " l:" + mi.GetMethodBody().GetILAsByteArray().Length);
                     PLayerBase_CurrentWeaponIndex = mi;
                     Log.Info("Found PLayerBase_CurrentWeaponIndex as: " + PLayerBase_CurrentWeaponIndex.ToString());
                 }
@@ -1029,15 +1029,15 @@ namespace Sector_dll.cheat
             {
                 if (fi.FieldType == typeof(double) && fi.Name.Length == 15)
                 {
-                    if(PlayerBase_Base_Yaw == null)
-                    {
-                        PlayerBase_Base_Yaw = fi;
-                        Log.Info("Found PlayerBase_Base_Yaw as: " + PlayerBase_Base_Yaw.ToString());
-                    }
-                    else if(PlayerBase_Base_Pitch == null)
+                    if(PlayerBase_Base_Pitch == null)
                     {
                         PlayerBase_Base_Pitch = fi;
                         Log.Info("Found PlayerBase_Base_Pitch as: " + PlayerBase_Base_Pitch.ToString());
+                    }
+                    else if(PlayerBase_Base_Yaw == null)
+                    {
+                        PlayerBase_Base_Yaw = fi;
+                        Log.Info("Found PlayerBase_Base_Yaw as: " + PlayerBase_Base_Yaw.ToString());
                     }
                     else
                     {
@@ -1103,7 +1103,7 @@ namespace Sector_dll.cheat
             if (Drawing == null) { Log.Info("Drawing is null"); return false; }
             if (GClass49_getPlayersToXray == null) { Log.Info("GClass49_getPlayersToXray is null"); return false; }
 
-            bool second = true;
+            bool second = false;
             foreach (FieldInfo f in GClass49.Type.GetFields(BindingFlags.Instance | BindingFlags.Public))
             {
                 if (f.IsPublic && f.Name.Length == 23 && f.FieldType.IsGenericType && f.FieldType.GetGenericTypeDefinition() == typeof(List<>)
@@ -1210,7 +1210,7 @@ namespace Sector_dll.cheat
                     }
                     else
                     {
-                        Log.Info("Found unexpected third matrix4 field as: " + f.ToString());
+                        Log.Danger("Found unexpected third matrix4 field as: " + f.ToString());
                     }
                 }
                 if (f.IsPublic && f.FieldType.BaseType != null && f.FieldType.BaseType == PlayerBase && f.Name.Length == 15)
@@ -1311,15 +1311,15 @@ namespace Sector_dll.cheat
             {
                 if (fi.IsPublic && fi.Name.Length == 15 && Type.GetTypeCode(fi.FieldType) == TypeCode.Double)
                 {
-                    if (GClass49_Base_Base_ScreenHeight == null)
-                    {
-                        GClass49_Base_Base_ScreenHeight = fi;
-                        Log.Info("Found GClass49_Base_Base_ScreenHeight field as: " + GClass49_Base_Base_ScreenHeight.ToString());
-                    }
-                    else if(GClass49_Base_Base_ScreenWidth == null)
+                    if(GClass49_Base_Base_ScreenWidth == null)
                     {
                         GClass49_Base_Base_ScreenWidth = fi;
                         Log.Info("Found GClass49_Base_Base_ScreenWidth field as: " + GClass49_Base_Base_ScreenWidth.ToString());
+                    }
+                    else if(GClass49_Base_Base_ScreenHeight == null)
+                    {
+                        GClass49_Base_Base_ScreenHeight = fi;
+                        Log.Info("Found GClass49_Base_Base_ScreenHeight field as: " + GClass49_Base_Base_ScreenHeight.ToString());
                     }
                     else
                     {
@@ -1476,88 +1476,88 @@ namespace Sector_dll.cheat
             }
             if (CustomWatch_get_Progress == null) { Log.Info("CustomWatch_get_Progress is null"); return false; }
 
-            foreach(MethodInfo mi in CollisionEntity.Type.GetMethods(BindingFlags.Public | BindingFlags.Instance))
-            {
-                if(mi.ReturnType == typeof(int) && mi.GetParameters().Length == 0 && mi.Name.Length == 15)
-                {
-                    CollisionEntity_Get_Lifetime = mi;
-                    Log.Info("Found CollisionEntity_Get_Lifetime as: " + CollisionEntity_Get_Lifetime.ToString());
-                }
-            }
-            if (CollisionEntity_Get_Lifetime == null) { Log.Info("CollisionEntity_Get_Lifetime is null"); return false; }
+            //foreach(MethodInfo mi in CollisionEntity.Type.GetMethods(BindingFlags.Public | BindingFlags.Instance))
+            //{
+            //    if(mi.ReturnType == typeof(int) && mi.GetParameters().Length == 0 && mi.Name.Length == 15)
+            //    {
+            //        CollisionEntity_Get_Lifetime = mi;
+            //        Log.Info("Found CollisionEntity_Get_Lifetime as: " + CollisionEntity_Get_Lifetime.ToString());
+            //    }
+            //}
+            //if (CollisionEntity_Get_Lifetime == null) { Log.Info("CollisionEntity_Get_Lifetime is null"); return false; }
 
-            foreach(FieldInfo fi in CollisionEntity.Type.GetFields(BindingFlags.Public | BindingFlags.Instance))
-            {
-                if (fi.FieldType == CustomWatch.Type && fi.Name.Length == 23)
-                {
-                    CollisionEntity_BounceWatch = fi;
-                    Log.Info("Found CollisionEntity_BounceWatch as: " + CollisionEntity_BounceWatch.ToString());
-                }
-                if (fi.FieldType == WeaponType)
-                {
-                    CollisionEntity_type = fi;
-                    Log.Info("Found CollisionEntity_type as: " + CollisionEntity_type.ToString());
-                }
-                if (fi.FieldType == Matrix4)
-                {
-                    CollisionEntity_Matrix = fi;
-                    Log.Info("Found CollisionEntity_Matrix as: " + CollisionEntity_Matrix.ToString());
-                }
-            }
-            if (CollisionEntity_BounceWatch == null) { Log.Info("CollisionEntity_BounceWatch is null"); return false; }
-            if (CollisionEntity_type == null) { Log.Info("CollisionEntity_type is null"); return false; }
-            if (CollisionEntity_Matrix == null) { Log.Info("CollisionEntity_Matrix is null"); return false; }
+            //foreach(FieldInfo fi in CollisionEntity.Type.BaseType.GetFields(BindingFlags.Public | BindingFlags.Instance))
+            //{
+            //    if (fi.FieldType == CustomWatch.Type && fi.Name.Length == 23)
+            //    {
+            //        CollisionEntity_BounceWatch = fi;
+            //        Log.Info("Found CollisionEntity_BounceWatch as: " + CollisionEntity_BounceWatch.ToString());
+            //    }
+            //    if (fi.FieldType == WeaponType)
+            //    {
+            //        CollisionEntity_type = fi;
+            //        Log.Info("Found CollisionEntity_type as: " + CollisionEntity_type.ToString());
+            //    }
+            //    if (fi.FieldType == Matrix4)
+            //    {
+            //        CollisionEntity_Matrix = fi;
+            //        Log.Info("Found CollisionEntity_Matrix as: " + CollisionEntity_Matrix.ToString());
+            //    }
+            //}
+            //if (CollisionEntity_BounceWatch == null) { Log.Danger("CollisionEntity_BounceWatch is null"); /*return false;*/ }
+            //if (CollisionEntity_type == null) { Log.Info("CollisionEntity_type is null"); return false; }
+            //if (CollisionEntity_Matrix == null) { Log.Info("CollisionEntity_Matrix is null"); return false; }
 
-            ModuleDefinition moduleDefinition = AssemblyDefinition.ReadAssembly(assembly.Location).MainModule;
-            if (moduleDefinition == null) { Log.Info("moduleDefinition is null"); return false; }
+            //ModuleDefinition moduleDefinition = AssemblyDefinition.ReadAssembly(assembly.Location).MainModule;
+            //if (moduleDefinition == null) { Log.Info("moduleDefinition is null"); return false; }
 
-            TypeDefinition CollisionEntityType = moduleDefinition.GetType(CollisionEntity.Type.Name);
-            if (CollisionEntityType == null) { Log.Info("CollisionEntityType is null"); return false; }
+            //TypeDefinition CollisionEntityType = moduleDefinition.GetType(CollisionEntity.Type.Name);
+            //if (CollisionEntityType == null) { Log.Info("CollisionEntityType is null"); return false; }
 
-            MethodDefinition CollisionEntity_CloneConst = CollisionEntityType.Methods.Where(x => x.Name == ".ctor" && x.Parameters.Count == 1).First();
-            if (CollisionEntity_CloneConst == null) { Log.Info("CollisionEntity_CloneConst is null"); return false; }
+            //MethodDefinition CollisionEntity_CloneConst = CollisionEntityType.Methods.Where(x => x.Name == ".ctor" && x.Parameters.Count == 1).First();
+            //if (CollisionEntity_CloneConst == null) { Log.Info("CollisionEntity_CloneConst is null"); return false; }
 
-            OpCode LastopCode = OpCodes.Nop;
-            int fieldNum = 0;
-            bool healthNext = false;
-            foreach (var il in CollisionEntity_CloneConst.Body.Instructions)
-            {
-                if (il.OpCode == OpCodes.Ldc_R8)
-                {
-                    double val = (double)il.Operand;
-                    if (val == 100.0)
-                        healthNext = true;
-                }
-                if (healthNext && il.OpCode == OpCodes.Stfld)
-                {
-                    healthNext = false;
-                    FieldDefinition field = il.Operand as FieldDefinition;
-                    CollisionEntity_Health = CollisionEntity.Type.GetField(field.Name, BindingFlags.Public | BindingFlags.Instance);
-                    if (CollisionEntity_Health != null)
-                        Log.Info("Found CollisionEntity_Health as: " + CollisionEntity_Health.ToString());
-                }
-                else if (il.OpCode == OpCodes.Stfld && LastopCode == OpCodes.Ldfld)
-                {
-                    FieldDefinition field = il.Operand as FieldDefinition;
-                    if (fieldNum == 2) //OwnerID
-                    {
-                        CollisionEntity_OwnerID = CollisionEntity.Type.GetField(field.Name, BindingFlags.Public | BindingFlags.Instance);
-                        if (CollisionEntity_OwnerID != null)
-                            Log.Info("Found CollisionEntity_OwnerID as: " + CollisionEntity_OwnerID.ToString());
-                    }
-                    if (fieldNum == 4) //position
-                    {
-                        CollisionEntity_Position = CollisionEntity.Type.GetField(field.Name, BindingFlags.Public | BindingFlags.Instance);
-                        if(CollisionEntity_Position != null)
-                            Log.Info("Found CollisionEntity_Position as: " + CollisionEntity_Position.ToString());
-                    }
-                    fieldNum++;
-                }
-                LastopCode = il.OpCode;
-            }
-            if (CollisionEntity_OwnerID == null) { Log.Info("CollisionEntity_OwnerID is null"); return false; }
-            if (CollisionEntity_Position == null) { Log.Info("CollisionEntity_Position is null"); return false; }
-            if (CollisionEntity_Health == null) { Log.Info("CollisionEntity_Health is null"); return false; }
+            //OpCode LastopCode = OpCodes.Nop;
+            //int fieldNum = 0;
+            //bool healthNext = false;
+            //foreach (var il in CollisionEntity_CloneConst.Body.Instructions)
+            //{
+            //    if (il.OpCode == OpCodes.Ldc_R8)
+            //    {
+            //        double val = (double)il.Operand;
+            //        if (val == 100.0)
+            //            healthNext = true;
+            //    }
+            //    if (healthNext && il.OpCode == OpCodes.Stfld)
+            //    {
+            //        healthNext = false;
+            //        FieldDefinition field = il.Operand as FieldDefinition;
+            //        CollisionEntity_Health = CollisionEntity.Type.GetField(field.Name, BindingFlags.Public | BindingFlags.Instance);
+            //        if (CollisionEntity_Health != null)
+            //            Log.Info("Found CollisionEntity_Health as: " + CollisionEntity_Health.ToString());
+            //    }
+            //    else if (il.OpCode == OpCodes.Stfld && LastopCode == OpCodes.Ldfld)
+            //    {
+            //        FieldDefinition field = il.Operand as FieldDefinition;
+            //        if (fieldNum == 2) //OwnerID
+            //        {
+            //            CollisionEntity_OwnerID = CollisionEntity.Type.GetField(field.Name, BindingFlags.Public | BindingFlags.Instance);
+            //            if (CollisionEntity_OwnerID != null)
+            //                Log.Info("Found CollisionEntity_OwnerID as: " + CollisionEntity_OwnerID.ToString());
+            //        }
+            //        if (fieldNum == 4) //position
+            //        {
+            //            CollisionEntity_Position = CollisionEntity.Type.GetField(field.Name, BindingFlags.Public | BindingFlags.Instance);
+            //            if(CollisionEntity_Position != null)
+            //                Log.Info("Found CollisionEntity_Position as: " + CollisionEntity_Position.ToString());
+            //        }
+            //        fieldNum++;
+            //    }
+            //    LastopCode = il.OpCode;
+            //}
+            //if (CollisionEntity_OwnerID == null) { Log.Info("CollisionEntity_OwnerID is null"); return false; }
+            //if (CollisionEntity_Position == null) { Log.Info("CollisionEntity_Position is null"); return false; }
+            //if (CollisionEntity_Health == null) { Log.Info("CollisionEntity_Health is null"); return false; }
 
             //Log.Info(CollisionEntity_CloneConst);
 
@@ -1600,7 +1600,7 @@ namespace Sector_dll.cheat
 
         public static string GenerateSig(string className)
         {
-            Assembly aassembly = AppDomain.CurrentDomain.GetAssemblies().Single(x => x.GetName().Name == "sectorsedge");
+            Assembly aassembly = Assembly.GetEntryAssembly();
             Type t = aassembly.GetType(className, true);
             if(t != null) 
                 return ClassSignature.GenerateSignature(t).ToString();

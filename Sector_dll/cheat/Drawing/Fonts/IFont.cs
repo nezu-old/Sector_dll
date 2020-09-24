@@ -15,5 +15,7 @@ namespace sectorsedge.cheat.Drawing.Fonts
 
         uint Texture_id { get; set; }
 
+        int Size { get; }
+
     }
 }
