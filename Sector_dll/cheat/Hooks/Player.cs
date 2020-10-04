@@ -62,6 +62,9 @@ namespace Sector_dll.cheat.Hooks
                             {
                                 object player = players[i];
 
+                                if (sdk.Player.GetHealth(player) <= 0)
+                                    continue;
+
                                 if (sdk.Player.GetTeam(player) == my_team)
                                     continue;
 
@@ -87,7 +90,7 @@ namespace Sector_dll.cheat.Hooks
                                 }
 
                             }
-                            Log.Debug("target!");
+                            //Log.Debug("target!");
                         }
 
                         if (aimbot_target_index != -1)
@@ -105,9 +108,9 @@ namespace Sector_dll.cheat.Hooks
                             while (diff_a.x > 3.141591653589793) diff_a.x += -3.141591653589793 * 2;
                             while (diff_a.x < -3.141591653589793) diff_a.x += 3.141591653589793 * 2;
 
-                            diff_a /= 20.0;
+                            diff_a /= 15.0;
 
-                            Drawing.DrawText(diff_a.ToString(), 130, 100);
+                            //Drawing.DrawText(diff_a.ToString(), 130, 100);
 
                             sdk.Player.SetYaw(self, my_a.x + diff_a.x);
                             sdk.Player.SetPitch(self, my_a.y + diff_a.y);
@@ -118,7 +121,7 @@ namespace Sector_dll.cheat.Hooks
 
                 }
 
-                if ((GetAsyncKeyState(Keys.O) & 0x1) == 0x1)
+                if ((GetAsyncKeyState(Keys.Insert) & 0x1) == 0x1)
                 {
                     object pp = sdk.Player.New(gm, 2);
                     sdk.Player.SetTeam(pp, TeamType.Helix);

@@ -1,4 +1,5 @@
 ﻿using Sector_dll.sdk;
+using sectorsedge.cheat;
 using sectorsedge.cheat.Drawing;
 using sectorsedge.cheat.Drawing.Fonts;
 using sectorsedge.sdk;
@@ -31,10 +32,13 @@ namespace Sector_dll.cheat
             return total;
         }
 
-        public static void DrawText(string s, int x, int y) => DrawText(s, x, y, Color.white);
+        public static void DrawText(string s, double x, double y, Color color = null) => DrawText(s, (int)x, (int)y, color);
+        public static void DrawText(string s, float x, float y, Color color = null) => DrawText(s, (int)x, (int)y, color);
 
-        public static void DrawText(string s, int x, int y, Color color, TextAlign align = TextAlign.DEFAULT)
+        public static void DrawText(string s, int x, int y, Color color = null, TextAlign align = TextAlign.DEFAULT)
         {
+            if (color == null) 
+                color = Color.white;
             if ((align & TextAlign.H_CENTER) == TextAlign.H_CENTER)
                 x -= CalcTextWidth(s, fonts[0]) / 2;
             else if ((align & TextAlign.RIGHT) != 0)
@@ -217,14 +221,15 @@ namespace Sector_dll.cheat
             //DrawRect(301, 101, 48, 48, 3, Color.green);
             //DrawLine(304, 104, 346, 146, 1, Color.white);
             //DrawLine(346, 104, 304, 146, 1, Color.white);
-            int w = CalcTextWidth("nezu.cc", fonts[0]);
-            DrawRectFilled(8, 9, w + 4, fonts[0].Size + 2, new Color(0, 0, 0, 100));
-            DrawText("nezu.cc", 10, 10, Color.green);
+            //int w = CalcTextWidth("nezu.cc", fonts[0]);
+            DrawRectFilled(0, 0, (int)GameManager.ScreenResolution.x, 1, new Color(0, 255, 0, 100));
+            //DrawText("nezu.cc", 10, 10, Color.green);
             if (GameManager.instance.IsAlive && GameManager.instance.Target.GetType().BaseType == SignatureManager.GClass49.Type.BaseType)
             {
                 ESP.DrawPlayerEsp();
-                //ESP.DrawProjectiles();
+                ESP.DrawProjectiles();
             }
+            //Menu.Draw();
         }
 
 

@@ -21,6 +21,7 @@ namespace Sector_dll.sdk
             return (byte)SignatureManager.CollisionEntity_OwnerID.GetValue(e);
         }
 
+        //only g lanuncher!
         public static double GetBounceWatchProgress(object e)
         {
             object watch = SignatureManager.CollisionEntity_BounceWatch.GetValue(e);

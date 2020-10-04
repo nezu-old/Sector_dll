@@ -48,12 +48,12 @@ namespace Sector_dll.cheat
             Log.enabled = true;
             Log.Prefix = "[nezu.cc]";
 
-            Log.Info("Entry point called");
+            //Log.Info("Entry point called");
             //Log.Info("Running from: " + (Assembly.GetExecutingAssembly().Location.Trim().Length == 0 ? "[Memory]" : Assembly.GetExecutingAssembly().Location));
             //Log.Info("Running in domain: " + AppDomain.CurrentDomain.FriendlyName);
             //Log.Info("Domain base dir: " + AppDomain.CurrentDomain.BaseDirectory);
             //Log.Info("Working directory: " + Directory.GetCurrentDirectory());
-            ReversibleRenamer.inst = new ReversibleRenamer("fuckverc");
+            ReversibleRenamer.inst = new ReversibleRenamer("fuckyouverc");
 
             //new Hook(typeof(File).GetMethod("Exists"), typeof(Antycheat).GetMethod("FileExists"));
             //new Hook(typeof(Directory).GetMethod("Exists"), typeof(Antycheat).GetMethod("DirectoryExists"));
@@ -86,7 +86,9 @@ namespace Sector_dll.cheat
 
             Assembly assembly = Assembly.GetEntryAssembly();
 
-            //Log.Debug(SignatureManager.GenerateSig("#=zaRmD6HfM_mntgBqTQB3dfALAvnZv")); Console.Read();
+            //Log.Debug(SignatureManager.GenerateSig("#=zqKRe7fk$ALgZW5c3sxcLvWP8sJ7P")); 
+            ////Log.Debug(SignatureManager.GenerateSig(""));
+            //Console.Read();
 
             try
             {

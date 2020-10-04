@@ -2,7 +2,7 @@
   <rule pattern="true" inherit="false">
     <protection id="rename">
       <argument name="mode" value="reversible" />
-      <argument name="password" value="fuckverc" />
+      <argument name="password" value="fuckyouverc" />
       <argument name="renEnum" value="true" />
       <argument name="renPublic" value="true" />
     </protection>

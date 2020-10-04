@@ -220,7 +220,7 @@ namespace Sector_dll.cheat.Hooks
                     if (last_enable_scissor_test) glEnable(GL_SCISSOR_TEST); else glDisable(GL_SCISSOR_TEST);
                     glPolygonMode(GL_FRONT_AND_BACK, (uint)last_polygon_mode[0]);
                     glViewport(last_viewport[0], last_viewport[1], last_viewport[2], last_viewport[3]);
-                    glScissor(last_scissor_box[0], last_scissor_box[1], last_scissor_box[2], last_scissor_box[3]);
+                    //glScissor(last_scissor_box[0], last_scissor_box[1], last_scissor_box[2], last_scissor_box[3]);
                 }
                 catch (Exception ed)
                 {
