@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using static Sector_dll.cheat.Drawing;
+using static Sector_dll.cheat.Config;
+using System.Configuration;
 
 namespace Sector_dll.cheat
 {
@@ -16,21 +18,20 @@ namespace Sector_dll.cheat
             object gm = GameManager.instance.Target;
 
             object local = GameManager.GetLocalPLayer(gm);
-            if (Config.settings.esp_mode == Config.EspModes.Off ||
-                (Config.settings.esp_mode == Config.EspModes.OnDeath && (local != null && Player.GetHealth(local) > 0)))
+            if (settings.esp_mode == EspModes.Off ||
+                (settings.esp_mode == EspModes.OnDeath && (local != null && Player.GetHealth(local) > 0)))
                 return;
 
             byte local_team = local != null ? (byte)Player.GetTeam(local) : (byte)0xFF;
 
             List<object> players = GameManager.GetPlayers(gm);
 
-            //Drawing.DrawText(GameManager.W2SResolution.ToString(), 100, 80, Color.white);
-
-            //GameManager.W2s(new Vec3(0, 0, 0), out Vec2 test);
-            //{
-            //    Drawing.DrawText(test.ToString(), 100, 50, Color.white);
-            //    Drawing.DrawRect((int)test.x - 5, (int)test.y - 5, 10, 10, 2, Color.red);
-            //}
+            DrawText(GameManager.W2SResolution.ToString(), 100, 80, Color.white);
+            GameManager.W2s(new Vec3(0, 0, 0), out Vec2 test);
+            {
+                DrawText(test.ToString(), 100, 50, Color.white);
+                DrawRect((int)test.x - 5, (int)test.y - 5, 10, 10, 2, Color.red);
+            }
 
             for (int i = 0; i < players.Count; i++)
             {
@@ -38,9 +39,9 @@ namespace Sector_dll.cheat
 
                 byte team = (byte)Player.GetTeam(player);
 
-                if (Config.settings.esp_team != Config.EspTarget.All && (
-                    (Config.settings.esp_team == Config.EspTarget.Enemy && team == local_team) ||
-                    (Config.settings.esp_team == Config.EspTarget.Team && team != local_team)))
+                if (settings.esp_target != EspTarget.All && (
+                    (settings.esp_target == EspTarget.Enemy && team == local_team) ||
+                    (settings.esp_target == EspTarget.Team && team != local_team)))
                     continue;
 
                 double hp = Player.GetHealth(player);
@@ -81,7 +82,7 @@ namespace Sector_dll.cheat
                                 if (max_x > bb_max.x) bb_max.x = max_x;
                                 if (max_y > bb_max.y) bb_max.y = max_y;
 
-                                if (Config.settings.esp_skeleton > 0)
+                                if (Config.settings.esp_skeleton)
                                     DrawLine((int)head_b.x, (int)head_b.y, (int)tail_b.x, (int)tail_b.y, 1, Color.white);
                                 //d.DrawText(Bone.GetName(bone), (float)head_b.x, (float)head_b.y, 18, Color.white,
                                 //    DrawingFunctions.TextAlignment.ALIGN_CENTER);
@@ -94,30 +95,30 @@ namespace Sector_dll.cheat
                         int w = (int)(bb_max.x - bb_min.x);
                         Color color = GameManager.GetPlayerColor(gm, player, false);
 
-                        if (Config.settings.esp_box > 0)
+                        if (settings.esp_box)
                         {
                             DrawRect((int)bb_min.x - 1, (int)bb_min.y - 1, w + 2, h + 2, 3, Color.black);
                             DrawRect((int)bb_min.x, (int)bb_min.y, w, h, 1, color);
                         }
-                        if (Config.settings.esp_health_bar > 0)
+                        if (settings.esp_health_bar)
                         {
                             int hp_h = (int)Util.Map(hp, 0, Player.GetMaxHealth(player), 0, h);
                             int hp_h_t = (int)Util.Map(hp, 0, Player.GetMaxHealth(player), h - 13, 0);
                             DrawRectFilled((int)bb_min.x - 6, (int)bb_min.y - 1, 4, h + 2, Color.black);
                             DrawRectFilled((int)bb_min.x - 5, (int)bb_min.y + (h - hp_h), 2, hp_h, Color.green);
-                            if (Config.settings.esp_health_num > 0)
-                                DrawText(hp.ToString(), (int)bb_min.x - 7, (int)(bb_min.y + hp_h_t), Color.white, TextAlign.RIGHT | TextAlign.TOP);
+                            if (settings.esp_health_num)
+                                DrawTextOutlined(hp.ToString(), (int)bb_min.x - 7, (int)(bb_min.y + hp_h_t), Color.white, TextAlign.RIGHT | TextAlign.TOP);
                         }
-                        else if (Config.settings.esp_health_num > 0)
-                            DrawText(hp.ToString(), (int)bb_min.x - 7, (int)(bb_min.y), Color.white, TextAlign.RIGHT | TextAlign.TOP);
+                        else if (settings.esp_health_num)
+                            DrawTextOutlined(hp.ToString(), (int)bb_min.x - 7, (int)(bb_min.y), Color.white, TextAlign.RIGHT | TextAlign.TOP);
 
-                        if (Config.settings.esp_name > 0)
-                            DrawText(Player.GetName(player), (int)bb_min.x + (w / 2), (int)(bb_min.y) - 5, color, TextAlign.BOTTOM | TextAlign.H_CENTER);
+                        if (settings.esp_name)
+                            DrawTextOutlined(Player.GetName(player), (int)bb_min.x + (w / 2), (int)(bb_min.y) - 5, color, TextAlign.BOTTOM | TextAlign.H_CENTER);
 
-                        if (Config.settings.esp_snaplines > 0)
+                        if (settings.esp_snaplines)
                             DrawLine((float)GameManager.ScreenResolution.x / 2, (float)GameManager.ScreenResolution.y,
-                                Config.settings.esp_box > 0 ? (float)(bb_min.x + (w / 2)) : (float)origin2d.x,
-                                Config.settings.esp_box > 0 ? (float)bb_max.y : (float)origin2d.y, 1, color);
+                                settings.esp_box ? (float)(bb_min.x + (w / 2)) : (float)origin2d.x,
+                                settings.esp_box ? (float)bb_max.y : (float)origin2d.y, 1, color);
                     }
                 }
 
@@ -136,8 +137,9 @@ namespace Sector_dll.cheat
             foreach (object e in ents)
             {
                 Type et = e.GetType();
-                DrawText(et.Name, 100, 100 + (i * 14), Color.green);
-                if (et == SignatureManager.Grenade.Type || et == SignatureManager.GLauncher.Type)
+                //DrawText(et.Name, 100, 100 + (i * 14), Color.green);
+                if ((et == SignatureManager.Grenade.Type && settings.esp_grenade) 
+                    || (et == SignatureManager.GLauncher.Type && settings.esp_grenade_launcher))
                 {
                     Vec3 pos = CollisionEntity.GetPosition(e);
                     if (GameManager.W2s(pos + new Vec3(0, Config.settings.debug1, 0), out Vec2 pos2d))
@@ -151,27 +153,30 @@ namespace Sector_dll.cheat
                         Color color = player != null ? (player == GameManager.GetLocalPLayer(gm) ? Color.white :
                             GameManager.GetPlayerColor(gm, player, false)) : Color.white;
 
-                        DrawText("Grenade", (int)pos2d.x, (int)pos2d.y - 2, color, TextAlign.BOTTOM | TextAlign.H_CENTER);
+                        DrawTextOutlined("Grenade", (int)pos2d.x, (int)pos2d.y - 2, color, TextAlign.BOTTOM | TextAlign.H_CENTER);
 
                         DrawRectFilled((int)pos2d.x - (w / 2) - 1, (int)pos2d.y, w + 2, 3, Color.black);
                         DrawRectFilled((int)pos2d.x - (w / 2), (int)pos2d.y + 1, life_w, 1, color);
                     }
 
                 }
-                else if (et == SignatureManager.C4.Type)
+                else if (et == SignatureManager.C4.Type && (settings.esp_c4 || settings.esp_disruptor))
                 {
                     Vec3 pos = CollisionEntity.GetPosition(e, true);
                     if (GameManager.W2s(pos, out Vec2 pos2d))
                     {
                         bool isC4 = CollisionEntity.GetTool(e) == ToolType.C4;
-                        object player = GameManager.GetPlayerByID(gm, CollisionEntity.GetOwnerID(e));
-                        Color color = player != null ? (player == GameManager.GetLocalPLayer(gm) ? Color.white :
-                            GameManager.GetPlayerColor(gm, player, false)) : Color.white;
+                        if((isC4 && settings.esp_c4) || (!isC4 && settings.esp_disruptor))
+                        {
+                            object player = GameManager.GetPlayerByID(gm, CollisionEntity.GetOwnerID(e));
+                            Color color = player != null ? (player == GameManager.GetLocalPLayer(gm) ? Color.white :
+                                GameManager.GetPlayerColor(gm, player, false)) : Color.white;
 
-                        DrawText(isC4 ? "C4" : "Disruptor", (int)pos2d.x, (int)pos2d.y, color, TextAlign.CENTER);
+                            DrawTextOutlined(isC4 ? "C4" : "Disruptor", (int)pos2d.x, (int)pos2d.y, color, TextAlign.CENTER);
+                        }
                     }
                 }
-                else if (et == SignatureManager.Scanner.Type)
+                else if (et == SignatureManager.Scanner.Type && settings.esp_scanner)
                 {
                     Vec3 pos = CollisionEntity.GetPosition(e);
                     if (GameManager.W2s(pos, out Vec2 pos2d))
@@ -189,7 +194,7 @@ namespace Sector_dll.cheat
                         DrawRectFilled((int)pos2d.x - (w / 2) - 1, (int)pos2d.y - 11, w + 2, 3, Color.black);
                         DrawRectFilled((int)pos2d.x - (w / 2), (int)pos2d.y - 10, hp_w, 1, Color.red);
 
-                        DrawText("Scanner", (int)pos2d.x, (int)pos2d.y - 2, color, TextAlign.CENTER);
+                        DrawTextOutlined("Scanner", (int)pos2d.x, (int)pos2d.y - 2, color, TextAlign.CENTER);
 
                         DrawRectFilled((int)pos2d.x - (w / 2) - 1, (int)pos2d.y + 9, w + 2, 3, Color.black);
                         DrawRectFilled((int)pos2d.x - (w / 2), (int)pos2d.y + 10, life_w, 1, color);

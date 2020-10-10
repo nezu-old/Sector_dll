@@ -121,7 +121,7 @@ namespace Sector_dll.cheat.Hooks
 
                 }
 
-                if ((GetAsyncKeyState(Keys.Insert) & 0x1) == 0x1)
+                if ((GetAsyncKeyState(Keys.Delete) & 0x1) == 0x1)
                 {
                     object pp = sdk.Player.New(gm, 2);
                     sdk.Player.SetTeam(pp, TeamType.Helix);

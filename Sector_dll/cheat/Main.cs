@@ -2,6 +2,7 @@
 using MonoMod.RuntimeDetour;
 using Sector_dll.cheat.Hooks;
 using Sector_dll.util;
+using sectorsedge.cheat.Hooks;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -86,8 +87,8 @@ namespace Sector_dll.cheat
 
             Assembly assembly = Assembly.GetEntryAssembly();
 
-            //Log.Debug(SignatureManager.GenerateSig("#=zqKRe7fk$ALgZW5c3sxcLvWP8sJ7P")); 
-            ////Log.Debug(SignatureManager.GenerateSig(""));
+            //Log.Debug(SignatureManager.GenerateSig(""));
+            //Log.Debug(SignatureManager.GenerateSig("#=zRsX4txdQDTxgN8oVxlVdd73PgAcJ"));
             //Console.Read();
 
             try
@@ -123,6 +124,8 @@ namespace Sector_dll.cheat
                 new Hook(SignatureManager.SwapBuffersWrapper, new Action<Action<object, object>, object, object>((orig, self, a1) => GL.SwapBuffers(orig, self, a1)).Method, new object());
                 new Hook(SignatureManager.GClass49_Base_Base_Draw, new Action<Action<object, object>, object, object>((orig, self, a1) => GClass49.vmethod_4(orig, self, a1)).Method, new object());
                 new Hook(SignatureManager.LocalPlayer_Update, new Action<Action<object, object>, object, object>((orig, self, a1) => Player.Update(orig, self, a1)).Method, new object());
+                new Hook(SignatureManager.WindowHandler_WindowProc, new Func<Func<object, IntPtr, uint, IntPtr, IntPtr, IntPtr>, object, IntPtr, uint, IntPtr, IntPtr, IntPtr>(
+                    (self, orig, hwnd, uMsg, wParam, lParam) => WindowHandler.WindowProc(self, orig, hwnd, uMsg, wParam, lParam)).Method, new object());
 
                 //new Hook(SignatureManager.PlayerBase_RecoilMod, typeof(Player).GetMethod("RecoilMod"));
 

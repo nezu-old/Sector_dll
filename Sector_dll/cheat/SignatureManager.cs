@@ -25,7 +25,7 @@ namespace Sector_dll.cheat
             publicMethods = 122,
             staticMethods = 0,
 
-            publicFields = 124,
+            publicFields = 125,
             privateFields = 3,
             staticFields = 0,
             readonlyFields = 5,
@@ -40,7 +40,7 @@ namespace Sector_dll.cheat
             enumFields = 5,
             stringFields = 3,
             ArrayFields = 1,
-            OtherFields = 55
+            OtherFields = 56
         });
 
         public static ResolvedType GClass49 = new ResolvedType("GClass49", new ClassSignature() 
@@ -171,25 +171,25 @@ namespace Sector_dll.cheat
             nestedTypes = 0,
 
             privateMethods = 0,
-            publicMethods = 54,
-            staticMethods = 50,
+            publicMethods = 57,
+            staticMethods = 53,
 
-            publicFields = 115,
+            publicFields = 118,
             privateFields = 0,
-            staticFields = 115,
+            staticFields = 118,
             readonlyFields = 0,
 
-            boolFields = 30,
+            boolFields = 31,
             byteFields = 0,
             shortFields = 0,
-            intFields = 51,
+            intFields = 52,
             longFields = 0,
             floatFields = 0,
-            doubleFields = 5,
+            doubleFields = 4,
             enumFields = 3,
             stringFields = 1,
-            ArrayFields = 0,
-            OtherFields = 25
+            ArrayFields = 1,
+            OtherFields = 26
         });
 
         public static ResolvedType Helper = new ResolvedType("Helper", new ClassSignature()
@@ -432,7 +432,37 @@ namespace Sector_dll.cheat
             OtherFields = 12
         });
 
-        //public static ResolvedType XXX = new ResolvedType("XXX", new ClassSignature());
+        public static ResolvedType WindowHandler = new ResolvedType("WindowHandler", new ClassSignature()
+        {
+            nameLength = 31,
+
+            publicClass = false,
+            abstractClass = false,
+            nestedTypes = 0,
+
+            privateMethods = 1,
+            publicMethods = 12,
+            staticMethods = 0,
+
+            publicFields = 0,
+            privateFields = 8,
+            staticFields = 2,
+            readonlyFields = 0,
+
+            boolFields = 2,
+            byteFields = 0,
+            shortFields = 0,
+            intFields = 1,
+            longFields = 0,
+            floatFields = 0,
+            doubleFields = 0,
+            enumFields = 0,
+            stringFields = 0,
+            ArrayFields = 0,
+            OtherFields = 5
+        });
+
+
         //public static ResolvedType XXX = new ResolvedType("XXX", new ClassSignature());
 
         public static ResolvedType[] ResolvedTypes = new ResolvedType[]
@@ -451,6 +481,7 @@ namespace Sector_dll.cheat
             C4,
             Grenade,
             GLauncher,
+            WindowHandler,
         };
 
         public static Type PlayerBase;
@@ -638,6 +669,8 @@ namespace Sector_dll.cheat
         public static FieldInfo Renderer_hdc;
 
         public static FieldInfo RendererWrapper_Renderer;
+
+        public static MethodInfo WindowHandler_WindowProc;
 
         public static bool FindSignatures(Assembly assembly)
         {
@@ -1167,15 +1200,15 @@ namespace Sector_dll.cheat
             {
                 if (f.IsPublic && f.Name.Length == 11 && f.FieldType == Matrix4)
                 {
-                    if (GClass49_Base_matrix2 == null)
-                    {
-                        GClass49_Base_matrix2 = f;
-                        Log.Info("Found GClass49_Base_matrix2 field as: " + GClass49_Base_matrix2.ToString());
-                    }
-                    else if(GClass49_Base_matrix1 == null)
+                    if(GClass49_Base_matrix1 == null)
                     {
                         GClass49_Base_matrix1 = f;
                         Log.Info("Found GClass49_Base_matrix1 field as: " + GClass49_Base_matrix1.ToString());
+                    }
+                    else if (GClass49_Base_matrix2 == null)
+                    {
+                        GClass49_Base_matrix2 = f;
+                        Log.Info("Found GClass49_Base_matrix2 field as: " + GClass49_Base_matrix2.ToString());
                     }
                     else
                     {
@@ -1280,15 +1313,15 @@ namespace Sector_dll.cheat
             {
                 if (fi.IsPublic && fi.Name.Length == 15 && Type.GetTypeCode(fi.FieldType) == TypeCode.Double)
                 {
-                    if(GClass49_Base_Base_ScreenHeight == null)
-                    {
-                        GClass49_Base_Base_ScreenHeight = fi;
-                        Log.Info("Found GClass49_Base_Base_ScreenHeight field as: " + GClass49_Base_Base_ScreenHeight.ToString());
-                    }
-                    else if (GClass49_Base_Base_ScreenWidth == null)
+                    if (GClass49_Base_Base_ScreenWidth == null)
                     {
                         GClass49_Base_Base_ScreenWidth = fi;
                         Log.Info("Found GClass49_Base_Base_ScreenWidth field as: " + GClass49_Base_Base_ScreenWidth.ToString());
+                    }
+                    else if(GClass49_Base_Base_ScreenHeight == null)
+                    {
+                        GClass49_Base_Base_ScreenHeight = fi;
+                        Log.Info("Found GClass49_Base_Base_ScreenHeight field as: " + GClass49_Base_Base_ScreenHeight.ToString());
                     }
                     else
                     {
@@ -1481,6 +1514,16 @@ namespace Sector_dll.cheat
                 }
             }
             if (CollisionEntity_BounceWatch == null) { Log.Danger("CollisionEntity_BounceWatch is null"); return false; }
+
+            foreach (MethodInfo mi in WindowHandler.Type.GetMethods(BindingFlags.NonPublic | BindingFlags.Instance))
+            {
+                if(mi.Name.Length == 15 && mi.GetParameters().Length == 4 && mi.ReturnType == typeof(IntPtr))
+                {
+                    WindowHandler_WindowProc = mi;
+                    Log.Info("Found WindowHandler_WindowProc as: " + WindowHandler_WindowProc.ToString());
+                }
+            }
+            if (WindowHandler_WindowProc == null) { Log.Danger("WindowHandler_WindowProc is null"); return false; }
 
             ModuleDefinition moduleDefinition = AssemblyDefinition.ReadAssembly(assembly.Location).MainModule;
             if (moduleDefinition == null) { Log.Info("moduleDefinition is null"); return false; }

@@ -1,10 +1,6 @@
 ﻿using Sector_dll.sdk;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Sector_dll.cheat
 {
@@ -18,6 +14,17 @@ namespace Sector_dll.cheat
 			OnDeath
 		};
 
+		public static string EspModesStrings(EspModes espMode)
+        {
+            switch (espMode)
+            {
+                case EspModes.Off: return "OFF";
+                case EspModes.Always: return "ON";
+                case EspModes.OnDeath: return "On Death";
+				default: return "Error";
+            }
+        } 
+
 		public enum EspTarget : int
         {
 			All,
@@ -25,25 +32,59 @@ namespace Sector_dll.cheat
 			Team
         }
 
+		public static string EspTargetStrings(EspTarget espMode)
+		{
+			switch (espMode)
+			{
+				case EspTarget.All: return "All";
+				case EspTarget.Enemy: return "Enemy";
+				case EspTarget.Team: return "Friendly";
+				default: return "Error";
+			}
+		}
+
+		public enum AimbotMode : int
+        {
+			Off,
+			Always,
+			OnKey
+        }
+
+		public static string AimbotModeStrings(AimbotMode espMode)
+		{
+			switch (espMode)
+			{
+				case AimbotMode.Off: return "OFF";
+				case AimbotMode.Always: return "Always";
+				case AimbotMode.OnKey: return "On Key";
+				default: return "Error";
+			}
+		}
+
 		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 0)]
 		public struct Settings
 		{
-			public uint menu_color;
-			public int aimbot_mode;
-			public int aimbot_key;
-			
 			public EspModes esp_mode;
-			public EspTarget esp_team;
-			public int esp_box;
-			public int esp_skeleton;
-			public int esp_snaplines;
-			public int esp_name;
-			public int esp_health_num;
-			public int esp_health_bar;
-			public int esp_weapon;
-			public int esp_oov_arrow;
-			public int esp_flags;
-			
+			public EspTarget esp_target;
+			public bool esp_box;
+			public bool esp_skeleton;
+			public bool esp_snaplines;
+			public bool esp_name;
+			public bool esp_health_num;
+			public bool esp_health_bar;
+			public bool esp_weapon;
+			public bool esp_oov_arrow;
+			public bool esp_flags;
+
+			public bool esp_grenade;
+			public bool esp_grenade_launcher;
+			public bool esp_scanner;
+			public bool esp_c4;
+			public bool esp_disruptor;
+
+			public AimbotMode aimbot_mode;
+			public Keys aimbot_key;
+
 			public int no_recoil;
 
 			public float debug1;
@@ -56,15 +97,6 @@ namespace Sector_dll.cheat
 
 		public static Settings settings = new Settings()
 		{
-			menu_color = Color.red,
-			esp_mode = EspModes.Always,
-			esp_team = EspTarget.Enemy,
-			esp_box = 1,
-			esp_skeleton = 0,
-			esp_snaplines = 0,
-			esp_health_bar = 1,
-			esp_health_num = 1,
-			esp_name = 1,
 		};
 
 	}
