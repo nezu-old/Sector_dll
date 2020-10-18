@@ -24,15 +24,15 @@ namespace Sector_dll.cheat
             nestedTypes = 0,
 
             privateMethods = 2,
-            publicMethods = 122,
+            publicMethods = 124,
             staticMethods = 0,
 
-            publicFields = 125,
+            publicFields = 127,
             privateFields = 3,
             staticFields = 0,
             readonlyFields = 5,
 
-            boolFields = 30,
+            boolFields = 31,
             byteFields = 4,
             shortFields = 0,
             intFields = 19,
@@ -42,7 +42,7 @@ namespace Sector_dll.cheat
             enumFields = 5,
             stringFields = 3,
             ArrayFields = 1,
-            OtherFields = 56
+            OtherFields = 57
         });
 
         public static ResolvedType GClass49 = new ResolvedType("GClass49", new ClassSignature() 
@@ -54,10 +54,10 @@ namespace Sector_dll.cheat
             nestedTypes = 3,
 
             privateMethods = 52,
-            publicMethods = 356,
+            publicMethods = 358,
             staticMethods = 0,
 
-            publicFields = 151,
+            publicFields = 152,
             privateFields = 40,
             staticFields = 6,
             readonlyFields = 6,
@@ -68,7 +68,7 @@ namespace Sector_dll.cheat
             intFields = 16,
             longFields = 1,
             floatFields = 0,
-            doubleFields = 19,
+            doubleFields = 20,
             enumFields = 8,
             stringFields = 0,
             ArrayFields = 11,
@@ -236,7 +236,7 @@ namespace Sector_dll.cheat
             publicMethods = 28,
             staticMethods = 1,
 
-            publicFields = 20,
+            publicFields = 21,
             privateFields = 0,
             staticFields = 0,
             readonlyFields = 1,
@@ -251,7 +251,7 @@ namespace Sector_dll.cheat
             enumFields = 1,
             stringFields = 0,
             ArrayFields = 1,
-            OtherFields = 9
+            OtherFields = 10
         });
 
         public static ResolvedType CustomWatch = new ResolvedType("CustomWatch", new ClassSignature()
@@ -296,7 +296,7 @@ namespace Sector_dll.cheat
             publicMethods = 20,
             staticMethods = 0,
 
-            publicFields = 31,
+            publicFields = 35,
             privateFields = 1,
             staticFields = 0,
             readonlyFields = 0,
@@ -304,14 +304,14 @@ namespace Sector_dll.cheat
             boolFields = 11,
             byteFields = 2,
             shortFields = 1,
-            intFields = 0,
-            longFields = 0,
+            intFields = 1,
+            longFields = 1,
             floatFields = 1,
             doubleFields = 3,
             enumFields = 2,
             stringFields = 0,
             ArrayFields = 0,
-            OtherFields = 12
+            OtherFields = 14
         });
 
         public static ResolvedType Scanner = new ResolvedType("Scanner", new ClassSignature()
@@ -326,7 +326,7 @@ namespace Sector_dll.cheat
             publicMethods = 21,
             staticMethods = 1,
 
-            publicFields = 35,
+            publicFields = 39,
             privateFields = 0,
             staticFields = 1,
             readonlyFields = 0,
@@ -334,14 +334,14 @@ namespace Sector_dll.cheat
             boolFields = 11,
             byteFields = 2,
             shortFields = 1,
-            intFields = 0,
-            longFields = 0,
+            intFields = 1,
+            longFields = 1,
             floatFields = 1,
             doubleFields = 3,
             enumFields = 2,
             stringFields = 0,
             ArrayFields = 0,
-            OtherFields = 15
+            OtherFields = 17
         });
 
         public static ResolvedType C4 = new ResolvedType("C4", new ClassSignature()
@@ -356,7 +356,7 @@ namespace Sector_dll.cheat
             publicMethods = 21,
             staticMethods = 0,
 
-            publicFields = 42,
+            publicFields = 46,
             privateFields = 0,
             staticFields = 0,
             readonlyFields = 0,
@@ -364,14 +364,14 @@ namespace Sector_dll.cheat
             boolFields = 17,
             byteFields = 3,
             shortFields = 1,
-            intFields = 0,
-            longFields = 0,
+            intFields = 1,
+            longFields = 1,
             floatFields = 1,
             doubleFields = 3,
             enumFields = 3,
             stringFields = 0,
             ArrayFields = 0,
-            OtherFields = 14
+            OtherFields = 16
         });
 
         public static ResolvedType Grenade = new ResolvedType("Grenade", new ClassSignature()
@@ -386,7 +386,7 @@ namespace Sector_dll.cheat
             publicMethods = 20,
             staticMethods = 0,
 
-            publicFields = 37,
+            publicFields = 41,
             privateFields = 0,
             staticFields = 1,
             readonlyFields = 0,
@@ -394,14 +394,14 @@ namespace Sector_dll.cheat
             boolFields = 13,
             byteFields = 2,
             shortFields = 1,
-            intFields = 0,
-            longFields = 0,
+            intFields = 1,
+            longFields = 1,
             floatFields = 1,
             doubleFields = 3,
             enumFields = 2,
             stringFields = 0,
             ArrayFields = 0,
-            OtherFields = 15
+            OtherFields = 17
         });
 
         public static ResolvedType GLauncher = new ResolvedType("GLauncher", new ClassSignature()
@@ -416,7 +416,7 @@ namespace Sector_dll.cheat
             publicMethods = 20,
             staticMethods = 0,
 
-            publicFields = 32,
+            publicFields = 36,
             privateFields = 0,
             staticFields = 0,
             readonlyFields = 0,
@@ -424,14 +424,14 @@ namespace Sector_dll.cheat
             boolFields = 11,
             byteFields = 2,
             shortFields = 1,
-            intFields = 0,
-            longFields = 0,
+            intFields = 1,
+            longFields = 1,
             floatFields = 1,
             doubleFields = 3,
             enumFields = 2,
             stringFields = 0,
             ArrayFields = 0,
-            OtherFields = 12
+            OtherFields = 14
         });
 
         public static ResolvedType WindowHandler = new ResolvedType("WindowHandler", new ClassSignature()
@@ -640,9 +640,9 @@ namespace Sector_dll.cheat
 
         public static FieldInfo GClass49_player_list;
 
-        public static FieldInfo GClass49_Base_matrix1;
+        //public static FieldInfo GClass49_Base_matrix1;
 
-        public static FieldInfo GClass49_Base_matrix2;
+        //public static FieldInfo GClass49_Base_matrix2;
 
         public static FieldInfo GCLass49_Base_Map;
 
@@ -749,6 +749,8 @@ namespace Sector_dll.cheat
         public static MethodInfo GameManager_GetPlayerByID;
 
         public static FieldInfo GameManager_CollisionEntityList;
+
+        public static MethodInfo GameManager_GetViewMatrix;
 
         public static MethodInfo CustomWatch_get_Progress;
 
@@ -1159,15 +1161,15 @@ namespace Sector_dll.cheat
             {
                 if (fi.FieldType == typeof(double) && fi.Name.Length == 15)
                 {
-                    if (PlayerBase_Base_Pitch == null)
-                    {
-                        PlayerBase_Base_Pitch = fi;
-                        Log.Info("Found PlayerBase_Base_Pitch as: " + PlayerBase_Base_Pitch.ToString());
-                    }
-                    else if (PlayerBase_Base_Yaw == null)
+                    if (PlayerBase_Base_Yaw == null)
                     {
                         PlayerBase_Base_Yaw = fi;
                         Log.Info("Found PlayerBase_Base_Yaw as: " + PlayerBase_Base_Yaw.ToString());
+                    }
+                    else if(PlayerBase_Base_Pitch == null)
+                    {
+                        PlayerBase_Base_Pitch = fi;
+                        Log.Info("Found PlayerBase_Base_Pitch as: " + PlayerBase_Base_Pitch.ToString());
                     }
                     else
                     {
@@ -1326,23 +1328,23 @@ namespace Sector_dll.cheat
 
             foreach (FieldInfo f in GClass49.Type.BaseType.GetFields(BindingFlags.Instance | BindingFlags.Public))
             {
-                if (f.IsPublic && f.Name.Length == 11 && f.FieldType == Matrix4)
-                {
-                    if(GClass49_Base_matrix1 == null)
-                    {
-                        GClass49_Base_matrix1 = f;
-                        Log.Info("Found GClass49_Base_matrix1 field as: " + GClass49_Base_matrix1.ToString());
-                    }
-                    else if (GClass49_Base_matrix2 == null)
-                    {
-                        GClass49_Base_matrix2 = f;
-                        Log.Info("Found GClass49_Base_matrix2 field as: " + GClass49_Base_matrix2.ToString());
-                    }
-                    else
-                    {
-                        Log.Danger("Found unexpected third matrix4 field as: " + f.ToString());
-                    }
-                }
+                //if (f.IsPublic && f.Name.Length == 11 && f.FieldType == Matrix4)
+                //{
+                //    if (GClass49_Base_matrix2 == null)
+                //    {
+                //        GClass49_Base_matrix2 = f;
+                //        Log.Info("Found GClass49_Base_matrix2 field as: " + GClass49_Base_matrix2.ToString());
+                //    }
+                //    else if(GClass49_Base_matrix1 == null)
+                //    {
+                //        GClass49_Base_matrix1 = f;
+                //        Log.Info("Found GClass49_Base_matrix1 field as: " + GClass49_Base_matrix1.ToString());
+                //    }
+                //    else
+                //    {
+                //        Log.Danger("Found unexpected third matrix4 field as: " + f.ToString());
+                //    }
+                //}
                 if (f.IsPublic && f.FieldType.BaseType != null && f.FieldType.BaseType == PlayerBase && f.Name.Length == 15)
                 {
                     LocalPlayer = f.FieldType;
@@ -1356,10 +1358,20 @@ namespace Sector_dll.cheat
                     Log.Info("Found class GCLass49_Base_Map as: " + GCLass49_Base_Map.ToString());
                 }
             }
-            if (GClass49_Base_matrix1 == null) { Log.Info("GClass49_Base_matrix1 is null"); return false; }
-            if (GClass49_Base_matrix2 == null) { Log.Info("GClass49_Base_matrix2 is null"); return false; }
+            //if (GClass49_Base_matrix1 == null) { Log.Info("GClass49_Base_matrix1 is null"); return false; }
+            //if (GClass49_Base_matrix2 == null) { Log.Info("GClass49_Base_matrix2 is null"); return false; }
             if (LocalPlayer == null) { Log.Info("LocalPlayer is null"); return false; }
             if (GCLass49_Base_Map == null) { Log.Info("GCLass49_Base_Map is null"); return false; }
+
+            foreach (MethodInfo mi in GameManager.GetMethods(BindingFlags.Public | BindingFlags.Instance))
+            {
+                if (mi.ReturnType == Matrix4 && mi.Name.Length == 15 && mi.GetParameters().Length == 0 && mi.GetMethodBody().MaxStackSize == 8)
+                {
+                    GameManager_GetViewMatrix = mi;
+                    Log.Info("Found GameManager_GetViewMatrix as: " + GameManager_GetViewMatrix.ToString());
+                }
+            }
+            if (GameManager_GetViewMatrix == null) { Log.Info("GameManager_GetViewMatrix is null"); return false; }
 
             foreach (MethodInfo mi in LocalPlayer.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)){
                 if(mi.Name.Length == 15 && mi.ReturnType == typeof(void) && mi.GetParameters().Length == 1 &&

@@ -272,6 +272,8 @@ namespace Sector_dll.cheat
 
         public static void DrawLine(float x1, float y1, float x2, float y2, float t, Color color)
         {
+            uint col_trans = color.color & 0x00FFFFFF;
+
             float dx = x2 - x1;
             float dy = y2 - y1;
 
@@ -281,25 +283,82 @@ namespace Sector_dll.cheat
                 dx *= inv_len; 
                 dy *= inv_len; 
             }
-            dx *= (t * 0.5f);
-            dy *= (t * 0.5f);
-
             int idx = VtxBuffer.Count;
 
-            VtxBuffer.Add(new DrawVert(x1 + dy, y1 - dx, TexUvWhitePixel.x, TexUvWhitePixel.y, color));
-            VtxBuffer.Add(new DrawVert(x2 + dy, y2 - dx, TexUvWhitePixel.x, TexUvWhitePixel.y, color));
-            VtxBuffer.Add(new DrawVert(x2 - dy, y2 + dx, TexUvWhitePixel.x, TexUvWhitePixel.y, color));
-            VtxBuffer.Add(new DrawVert(x1 - dy, y1 + dx, TexUvWhitePixel.x, TexUvWhitePixel.y, color));
+            if (t <= 1)
+            {
+                VtxBuffer.Add(new DrawVert(x1, y1, TexUvWhitePixel.x, TexUvWhitePixel.y, color));
+                VtxBuffer.Add(new DrawVert(x2, y2, TexUvWhitePixel.x, TexUvWhitePixel.y, color));
 
-            IdxBuffer.Add(idx + 0);
-            IdxBuffer.Add(idx + 1);
-            IdxBuffer.Add(idx + 2);
+                VtxBuffer.Add(new DrawVert(x1 + dy, y1 - dx, TexUvWhitePixel.x, TexUvWhitePixel.y, col_trans));
+                VtxBuffer.Add(new DrawVert(x2 + dy, y2 - dx, TexUvWhitePixel.x, TexUvWhitePixel.y, col_trans));
+                VtxBuffer.Add(new DrawVert(x2 - dy, y2 + dx, TexUvWhitePixel.x, TexUvWhitePixel.y, col_trans));
+                VtxBuffer.Add(new DrawVert(x1 - dy, y1 + dx, TexUvWhitePixel.x, TexUvWhitePixel.y, col_trans));
 
-            IdxBuffer.Add(idx + 0);
-            IdxBuffer.Add(idx + 2);
-            IdxBuffer.Add(idx + 3);
+                IdxBuffer.Add(idx + 2);
+                IdxBuffer.Add(idx + 3);
+                IdxBuffer.Add(idx + 1);
 
-            CurrentDrawCmd.IncrementElemCount(6);
+                IdxBuffer.Add(idx + 2);
+                IdxBuffer.Add(idx + 1);
+                IdxBuffer.Add(idx + 0);
+
+                IdxBuffer.Add(idx + 0);
+                IdxBuffer.Add(idx + 1);
+                IdxBuffer.Add(idx + 4);
+
+                IdxBuffer.Add(idx + 0);
+                IdxBuffer.Add(idx + 4);
+                IdxBuffer.Add(idx + 5);
+
+                CurrentDrawCmd.IncrementElemCount(12);
+            }
+            else
+            {
+                float half_inner_thickness = (t - 1) * 0.5f;
+
+                float dxo = dx * (half_inner_thickness + 1);
+                float dyo = dy * (half_inner_thickness + 1);
+
+                dx *= half_inner_thickness;
+                dy *= half_inner_thickness;
+
+                VtxBuffer.Add(new DrawVert(x1 + dy, y1 - dx, TexUvWhitePixel.x, TexUvWhitePixel.y, color));
+                VtxBuffer.Add(new DrawVert(x2 + dy, y2 - dx, TexUvWhitePixel.x, TexUvWhitePixel.y, color));
+                VtxBuffer.Add(new DrawVert(x2 - dy, y2 + dx, TexUvWhitePixel.x, TexUvWhitePixel.y, color));
+                VtxBuffer.Add(new DrawVert(x1 - dy, y1 + dx, TexUvWhitePixel.x, TexUvWhitePixel.y, color));
+
+                VtxBuffer.Add(new DrawVert(x1 + dyo, y1 - dxo, TexUvWhitePixel.x, TexUvWhitePixel.y, col_trans));
+                VtxBuffer.Add(new DrawVert(x2 + dyo, y2 - dxo, TexUvWhitePixel.x, TexUvWhitePixel.y, col_trans));
+                VtxBuffer.Add(new DrawVert(x2 - dyo, y2 + dxo, TexUvWhitePixel.x, TexUvWhitePixel.y, col_trans));
+                VtxBuffer.Add(new DrawVert(x1 - dyo, y1 + dxo, TexUvWhitePixel.x, TexUvWhitePixel.y, col_trans));
+
+                IdxBuffer.Add(idx + 4);
+                IdxBuffer.Add(idx + 5);
+                IdxBuffer.Add(idx + 1);
+
+                IdxBuffer.Add(idx + 4);
+                IdxBuffer.Add(idx + 1);
+                IdxBuffer.Add(idx + 0);
+
+                IdxBuffer.Add(idx + 0);
+                IdxBuffer.Add(idx + 1);
+                IdxBuffer.Add(idx + 2);
+
+                IdxBuffer.Add(idx + 0);
+                IdxBuffer.Add(idx + 2);
+                IdxBuffer.Add(idx + 3);
+
+                IdxBuffer.Add(idx + 3);
+                IdxBuffer.Add(idx + 2);
+                IdxBuffer.Add(idx + 6);
+
+                IdxBuffer.Add(idx + 3);
+                IdxBuffer.Add(idx + 6);
+                IdxBuffer.Add(idx + 7);
+
+                CurrentDrawCmd.IncrementElemCount(18);
+            }
         }
 
         public static void DrawTexture(int x, int y, int w, int h, Color color)
@@ -347,7 +406,11 @@ namespace Sector_dll.cheat
 
         public static void Draw()
         {
-            DrawLine(100, 100, 150, 200, 2, Color.green);
+            DrawLine(100, 100, 150, 200, 1, Color.green); 
+            DrawLine(100, 110, 150, 210, 2, Color.red);
+            DrawLine(100, 120, 150, 220, 3, Color.blue);
+
+
             if (GameManager.instance.IsAlive && GameManager.instance.Target.GetType().BaseType == SignatureManager.GClass49.Type.BaseType)
             {
                 ESP.DrawPlayerEsp();

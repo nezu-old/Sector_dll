@@ -259,7 +259,7 @@ namespace Sector_dll.cheat
                         sim_pos += velocity * simulationStep;
                     }
                 }
-                if ((bounce_pos != null && (GameManager.W2s(bounce_pos, out Vec2 sim_pos2d))) || ((t % drawingStep == 0 || life - t - 1 < simulationStep) && GameManager.W2s(sim_pos, out sim_pos2d)))
+                if ((bounce_pos != null && GameManager.W2s(bounce_pos, out Vec2 sim_pos2d)) || ((t % drawingStep == 0 || life - t - 1 < simulationStep) && GameManager.W2s(sim_pos, out sim_pos2d)))
                 {
                     if(lastLineVisible)
                         DrawLine(lastSim_pos.x, lastSim_pos.y, sim_pos2d.x, sim_pos2d.y, 1, color);

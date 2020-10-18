@@ -23,30 +23,30 @@ namespace Sector_dll.sdk
 
         public static WeakReference instance = new WeakReference(null);
 
-        public static object GetViewMatrix(object self, object player)
+        public static object GetViewMatrix(object self)
         {
-            object matrix2 = SignatureManager.GClass49_Base_matrix1.GetValue(self);
-            //if (player != null && IsScoped(self))
-            //{
-            //    object weaponType = Player.GetCurrentWeaponType(player);
-            //    byte scopeType = (byte)Helper.GetEquippedScopeType(player, weaponType);
-            //    Vec2 ss = GetScopeSize(self, scopeType, weaponType);
-            //    double ratio = ss.x / ss.y;
-            //    double zoom = scopeType == 3 ? 4.7 : 5.1;
-            //    double fov = 3.1415926535897931 * (Settings.GetFov(GetSettings(self)) / zoom / 180.0);
-            //    object matrix3 = Matrix4.Generate(fov, ratio, 0.05, 4500.0);
-            //    return Matrix4.Multiply(matrix2, matrix3);
-            //}
-            object matrix1 = SignatureManager.GClass49_Base_matrix2.GetValue(self);
-            return Matrix4.Multiply(matrix2, matrix1);
+            //object matrix2 = SignatureManager.GClass49_Base_matrix1.GetValue(self);
+            ////if (player != null && IsScoped(self))
+            ////{
+            ////    object weaponType = Player.GetCurrentWeaponType(player);
+            ////    byte scopeType = (byte)Helper.GetEquippedScopeType(player, weaponType);
+            ////    Vec2 ss = GetScopeSize(self, scopeType, weaponType);
+            ////    double ratio = ss.x / ss.y;
+            ////    double zoom = scopeType == 3 ? 4.7 : 5.1;
+            ////    double fov = 3.1415926535897931 * (Settings.GetFov(GetSettings(self)) / zoom / 180.0);
+            ////    object matrix3 = Matrix4.Generate(fov, ratio, 0.05, 4500.0);
+            ////    return Matrix4.Multiply(matrix2, matrix3);
+            ////}
+            //object matrix1 = SignatureManager.GClass49_Base_matrix2.GetValue(self);
+            //return Matrix4.Multiply(matrix2, matrix1);
+            return SignatureManager.GameManager_GetViewMatrix.Invoke(self, null);
         }
 
         public static void NewFrame(object self)
         {
             object player = GetCurrentPLayer(self);
-            viewMatrix = GetViewMatrix(self, player);
-            ScreenResolution = new Vec2((double)SignatureManager.GClass49_Base_Base_ScreenWidth.GetValue(self),
-                (double)SignatureManager.GClass49_Base_Base_ScreenHeight.GetValue(self));
+            viewMatrix = GetViewMatrix(self);
+            ScreenResolution = new Vec2(GL.W, GL.H);
             W2SResolution = ScreenResolution;
 
             //if (player != null && IsScoped(self))
