@@ -88,7 +88,7 @@ namespace Sector_dll.cheat
             Assembly assembly = Assembly.GetEntryAssembly();
 
             //Log.Debug(SignatureManager.GenerateSig(""));
-            //Log.Debug(SignatureManager.GenerateSig("#=zRsX4txdQDTxgN8oVxlVdd73PgAcJ"));
+            //Log.Debug(SignatureManager.GenerateSig("#=zfbNV$YedFsOqkHjRMa4skSv0QGjdsCEGtA=="));
             //Console.Read();
 
             try

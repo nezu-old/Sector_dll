@@ -12,6 +12,9 @@ namespace Sector_dll.cheat.Hooks
 {
     unsafe class GL
     {
+        public static int W;
+        public static int H;
+
         public static bool glinit = false;
 
         static uint g_VertHandle;
@@ -44,6 +47,10 @@ namespace Sector_dll.cheat.Hooks
         {
             object renderer = SignatureManager.RendererWrapper_Renderer.GetValue(self);
             IntPtr hdc = (IntPtr)SignatureManager.Renderer_hdc.GetValue(renderer);
+            IntPtr hGameWindow = WindowFromDC(hdc);
+            GetClientRect(hGameWindow, out RECT rect);
+            W = rect.Right - rect.Left;
+            H = rect.Bottom - rect.Top;
             if (WglGetCurrentContext() != IntPtr.Zero)
             {
 
@@ -151,6 +158,7 @@ namespace Sector_dll.cheat.Hooks
                     bool last_enable_depth_test = glIsEnabled(GL_DEPTH_TEST);
                     bool last_enable_scissor_test = glIsEnabled(GL_SCISSOR_TEST);
 
+
                     glEnable(GL_BLEND);
                     glBlendEquation(GL_FUNC_ADD);
                     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -159,17 +167,13 @@ namespace Sector_dll.cheat.Hooks
                     glEnable(GL_SCISSOR_TEST);
                     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-                    IntPtr hGameWindow = WindowFromDC(hdc);
-                    GetClientRect(hGameWindow, out RECT rect);
-                    int width = rect.Right - rect.Left;
-                    int height = rect.Bottom - rect.Top;
-                    glViewport(0, 0, width, height);
+                    glViewport(0, 0, W, H);
                     float[,] ortho_projection = new float[4, 4]
                     {
-                        { 2.0f/width, 0.0f,         0.0f,  0.0f },
-                        { 0.0f,       2.0f/-height, 0.0f,  0.0f },
-                        { 0.0f,       0.0f,         -1.0f, 0.0f },
-                        { -1.0f,      1.0f,         0.0f,  1.0f },
+                        { 2.0f/W, 0.0f,    0.0f,  0.0f },
+                        { 0.0f,   2.0f/-H, 0.0f,  0.0f },
+                        { 0.0f,   0.0f,    -1.0f, 0.0f },
+                        { -1.0f,  1.0f,    0.0f,  1.0f },
                     };
                     glUseProgram(g_ShaderHandle);
                     fixed (float* ortho_projectionePtr = ortho_projection)
@@ -194,7 +198,7 @@ namespace Sector_dll.cheat.Hooks
                     glBufferData(GL_ARRAY_BUFFER, (int*)VtxBufferSize, VtxBufferPtr.ToPointer(), GL_STREAM_DRAW);
                     glBufferData(GL_ELEMENT_ARRAY_BUFFER, (int*)IdxBufferSize, IdxBufferPtr.ToPointer(), GL_STREAM_DRAW);
 
-                    glScissor(0, 0, width, height);
+                    glScissor(0, 0, W, H);
                     foreach (DrawCmd cmd in Drawing.CmdBuffer)
                     {
                         glBindTexture(GL_TEXTURE_2D, cmd.TextureId);

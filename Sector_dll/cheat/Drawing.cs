@@ -267,6 +267,9 @@ namespace Sector_dll.cheat
             }
         }
 
+        public static void DrawLine(double x1, double y1, double x2, double y2, double t, Color color)
+            => DrawLine((float)x1, (float)y1, (float)x2, (float)y2, (float)t, color);
+
         public static void DrawLine(float x1, float y1, float x2, float y2, float t, Color color)
         {
             float dx = x2 - x1;
@@ -344,17 +347,23 @@ namespace Sector_dll.cheat
 
         public static void Draw()
         {
-            //DrawRectFilled(300, 100, 50, 50, Color.red);
-            //DrawRect(301, 101, 48, 48, 3, Color.green);
-            //DrawLine(304, 104, 346, 146, 1, Color.white);
-            //DrawLine(346, 104, 304, 146, 1, Color.white);
-            //int w = CalcTextWidth("nezu.cc", fonts[0]);
-            DrawRectFilled(0, 0, (int)GameManager.ScreenResolution.x, 1, new Color(0, 255, 0, 100));
-            //DrawText("nezu.cc", 10, 10, Color.green);
+            DrawLine(100, 100, 150, 200, 2, Color.green);
             if (GameManager.instance.IsAlive && GameManager.instance.Target.GetType().BaseType == SignatureManager.GClass49.Type.BaseType)
             {
                 ESP.DrawPlayerEsp();
                 ESP.DrawProjectiles();
+
+                object gm = GameManager.instance.Target;
+
+                object localPlayer = GameManager.GetLocalPLayer(gm);
+                if(localPlayer != null && Player.GetHealth(localPlayer) > 0)
+                {
+
+                    if(Config.settings.esp_grenade_launcher && Player.GetCurrentWeaponType(localPlayer) == ToolType.GLauncher)
+                    ESP.DrawGrenade(gm, Player.GetHeadPos(localPlayer), CollisionHelper.GetShootVectorBase(localPlayer), Enum.ToObject(SignatureManager.WeaponType, 14), int.MaxValue, Color.green, 5, 50);
+
+                }
+
             }
             Menu.Draw();
         }

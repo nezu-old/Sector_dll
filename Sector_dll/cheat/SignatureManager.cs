@@ -6,7 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Xml.Schema;
 
 namespace Sector_dll.cheat
 {
@@ -462,6 +464,103 @@ namespace Sector_dll.cheat
             OtherFields = 5
         });
 
+        public static ResolvedType CollisionHelper = new ResolvedType("CollisionHelper", new ClassSignature()
+        {
+            nameLength = 39,
+
+            publicClass = true,
+            abstractClass = true,
+            nestedTypes = 0,
+
+            privateMethods = 7,
+            publicMethods = 80,
+            staticMethods = 83,
+
+            publicFields = 0,
+            privateFields = 8,
+            staticFields = 8,
+            readonlyFields = 0,
+
+            boolFields = 0,
+            byteFields = 0,
+            shortFields = 0,
+            intFields = 0,
+            longFields = 0,
+            floatFields = 0,
+            doubleFields = 0,
+            enumFields = 0,
+            stringFields = 0,
+            ArrayFields = 0,
+            OtherFields = 8
+        });
+
+        public static ResolvedType CollisionResult = new ResolvedType("CollisionResult", new ClassSignature()
+        {
+            nameLength = 39,
+
+            publicClass = true,
+            abstractClass = false,
+            nestedTypes = 0,
+
+            privateMethods = 0,
+            publicMethods = 6,
+            staticMethods = 1,
+
+            publicFields = 24,
+            privateFields = 0,
+            staticFields = 4,
+            readonlyFields = 0,
+
+            boolFields = 5,
+            byteFields = 4,
+            shortFields = 1,
+            intFields = 1,
+            longFields = 0,
+            floatFields = 0,
+            doubleFields = 1,
+            enumFields = 4,
+            stringFields = 0,
+            ArrayFields = 3,
+            OtherFields = 5
+        });
+
+        public static ResolvedType Weapon = new ResolvedType("Weapon", new ClassSignature()
+        {
+            nameLength = 39,
+
+            publicClass = true,
+            abstractClass = false,
+            nestedTypes = 0,
+
+            privateMethods = 1,
+            publicMethods = 21,
+            staticMethods = 0,
+
+            publicFields = 34,
+            privateFields = 2,
+            staticFields = 0,
+            readonlyFields = 0,
+
+            boolFields = 10,
+            byteFields = 0,
+            shortFields = 0,
+            intFields = 13,
+            longFields = 0,
+            floatFields = 0,
+            doubleFields = 3,
+            enumFields = 6,
+            stringFields = 0,
+            ArrayFields = 0,
+            OtherFields = 4
+        });
+
+        //public static ResolvedType XXX = new ResolvedType("XXX", new ClassSignature());
+
+        //public static ResolvedType XXX = new ResolvedType("XXX", new ClassSignature());
+
+        //public static ResolvedType XXX = new ResolvedType("XXX", new ClassSignature());
+
+        //public static ResolvedType XXX = new ResolvedType("XXX", new ClassSignature());
 
         //public static ResolvedType XXX = new ResolvedType("XXX", new ClassSignature());
 
@@ -482,6 +581,9 @@ namespace Sector_dll.cheat
             Grenade,
             GLauncher,
             WindowHandler,
+            CollisionHelper,
+            CollisionResult,
+            Weapon,
         };
 
         public static Type PlayerBase;
@@ -515,6 +617,8 @@ namespace Sector_dll.cheat
         public static MethodInfo PlayerBase_RecoilMod;
 
         public static MethodInfo PlayerBase_Base_SetTeam;
+
+        public static MethodInfo PlayerBase_Base_GetCurrentWeapon;
 
         public static MethodInfo PlayerBase_Base_GetTeam;
 
@@ -650,6 +754,8 @@ namespace Sector_dll.cheat
 
         public static FieldInfo CollisionEntity_Position;
 
+        public static FieldInfo CollisionEntity_Velocity;
+
         public static FieldInfo CollisionEntity_OwnerID;
 
         public static FieldInfo CollisionEntity_type;
@@ -671,6 +777,22 @@ namespace Sector_dll.cheat
         public static FieldInfo RendererWrapper_Renderer;
 
         public static MethodInfo WindowHandler_WindowProc;
+
+        public static MethodInfo CollisionHelper_TraceProjectile;
+
+        public static MethodInfo CollisionHelper_GetShootVector;
+
+        public static Type CollisionType;
+
+        public static FieldInfo CollisionResult_BounceVector;
+
+        public static Type HitType;
+
+        public static FieldInfo CollisionResult_HitType;
+
+        public static MethodInfo PlayerBase_Base_IsScoped;
+
+        public static FieldInfo Weapon_Velocity;
 
         public static bool FindSignatures(Assembly assembly)
         {
@@ -985,6 +1107,11 @@ namespace Sector_dll.cheat
                     PlayerBase_Base_GetTeam = mi;
                     Log.Info("Found PLayerBase_Base_GetTeam as: " + PlayerBase_Base_GetTeam.ToString());
                 }
+                if(mi.ReturnType == Weapon.Type && mi.Name.Length == 15 && mi.GetMethodBody().MaxStackSize == 10)
+                {
+                    PlayerBase_Base_GetCurrentWeapon = mi;
+                    Log.Info("Found PlayerBase_Base_GetCurrentWeapon as: " + PlayerBase_Base_GetCurrentWeapon.ToString());
+                }
             }
             if (PLayerBase_EitherMod == null) { Log.Info("PLayerBase_EitherMod is null"); return false; }
             if (ModType == null) { Log.Info("ModType is null"); return false; }
@@ -993,6 +1120,7 @@ namespace Sector_dll.cheat
             if (PlayerBase_RecoilMod == null) { Log.Info("PlayerBase_RecoilMod is null"); return false; }
             if (PlayerBase_Base_SetTeam == null) { Log.Info("PLayerBase_Base_SetTeam is null"); return false; }
             if (PlayerBase_Base_GetTeam == null) { Log.Info("PLayerBase_Base_GetTeam is null"); return false; }
+            if (PlayerBase_Base_GetCurrentWeapon == null) { Log.Info("PlayerBase_Base_GetCurrentWeapon is null"); return false; }
 
             foreach (ConstructorInfo ci in PlayerBase.GetConstructors())
             {
@@ -1031,15 +1159,15 @@ namespace Sector_dll.cheat
             {
                 if (fi.FieldType == typeof(double) && fi.Name.Length == 15)
                 {
-                    if(PlayerBase_Base_Yaw == null)
-                    {
-                        PlayerBase_Base_Yaw = fi;
-                        Log.Info("Found PlayerBase_Base_Yaw as: " + PlayerBase_Base_Yaw.ToString());
-                    }
-                    else if (PlayerBase_Base_Pitch == null)
+                    if (PlayerBase_Base_Pitch == null)
                     {
                         PlayerBase_Base_Pitch = fi;
                         Log.Info("Found PlayerBase_Base_Pitch as: " + PlayerBase_Base_Pitch.ToString());
+                    }
+                    else if (PlayerBase_Base_Yaw == null)
+                    {
+                        PlayerBase_Base_Yaw = fi;
+                        Log.Info("Found PlayerBase_Base_Yaw as: " + PlayerBase_Base_Yaw.ToString());
                     }
                     else
                     {
@@ -1500,9 +1628,15 @@ namespace Sector_dll.cheat
                     CollisionEntity_Matrix = fi;
                     Log.Info("Found CollisionEntity_Matrix as: " + CollisionEntity_Matrix.ToString());
                 }
+                if (fi.FieldType == Vec3 && fi.Name.Length == 23)
+                {
+                    CollisionEntity_Velocity = fi;
+                    Log.Info("Found CollisionEntity_Velocity as: " + CollisionEntity_Velocity.ToString());
+                }
             }
             if (CollisionEntity_type == null) { Log.Info("CollisionEntity_type is null"); return false; }
             if (CollisionEntity_Matrix == null) { Log.Info("CollisionEntity_Matrix is null"); return false; }
+            if (CollisionEntity_Velocity == null) { Log.Info("CollisionEntity_Velocity is null"); return false; }
 
 
             foreach (FieldInfo fi in GLauncher.Type.GetFields(BindingFlags.Public | BindingFlags.Instance))
@@ -1524,6 +1658,61 @@ namespace Sector_dll.cheat
                 }
             }
             if (WindowHandler_WindowProc == null) { Log.Danger("WindowHandler_WindowProc is null"); return false; }
+
+            foreach(MethodInfo mi in CollisionHelper.Type.GetMethods(BindingFlags.Static | BindingFlags.Public))
+            {
+                if(mi.ReturnType == CollisionResult.Type && mi.Name.Length == 15 && mi.GetParameters().Length == 5)
+                {
+                    CollisionHelper_TraceProjectile = mi;
+                    CollisionType = mi.GetParameters()[1].ParameterType;
+                    Log.Info("Found CollisionHelper_TraceProjectile as: " + CollisionHelper_TraceProjectile.ToString());
+                    Log.Info("Found Enum CollisionType as: " + CollisionType.ToString());
+                }
+                if(mi.Name.Length == 15 && mi.ReturnType == Vec3 && mi.GetParameters().Length == 1 && mi.GetParameters()[0].ParameterType == PlayerBase.BaseType)
+                {
+                    CollisionHelper_GetShootVector = mi;
+                    Log.Info("Found CollisionHelper_GetShootVector as: " + CollisionHelper_GetShootVector.ToString());
+                }
+            }
+            if (CollisionHelper_TraceProjectile == null) { Log.Danger("CollisionHelper_TraceProjectile is null"); return false; }
+            if (CollisionType == null) { Log.Danger("CollisionType is null"); return false; }
+            if (CollisionHelper_GetShootVector == null) { Log.Danger("CollisionHelper_GetShootVector is null"); return false; }
+
+            foreach (ConstructorInfo ci in CollisionResult.Type.GetConstructors())
+            {
+                if(ci.GetParameters().Length == 1)
+                {
+                    HitType = ci.GetParameters()[0].ParameterType;
+                    Log.Info("Found HitType as: " + HitType.ToString());
+                }
+            }
+            if (HitType == null) { Log.Danger("HitType is null"); return false; }
+
+            foreach(FieldInfo fi in CollisionResult.Type.GetFields(BindingFlags.Public | BindingFlags.Instance))
+            {
+                if(fi.FieldType == Vec3 && fi.Name.Length == 15)
+                {
+                    CollisionResult_BounceVector = fi;
+                    Log.Info("Found CollisionResult_BounceVector as: " + CollisionResult_BounceVector.ToString());
+                }
+                if(fi.FieldType == HitType)
+                {
+                    CollisionResult_HitType = fi;
+                    Log.Info("Found CollisionResult_HitType as: " + CollisionResult_HitType.ToString());
+                }
+            }
+            if (CollisionResult_BounceVector == null) { Log.Danger("CollisionResult_BounceVector is null"); return false; }
+            if (CollisionResult_HitType == null) { Log.Danger("CollisionResult_HitType is null"); return false; }
+
+            foreach (FieldInfo fi in Weapon.Type.GetFields(BindingFlags.Public | BindingFlags.Instance))
+            {
+                if(fi.FieldType == typeof(double) && fi.Name.Length == 11)
+                {
+                    Weapon_Velocity = fi;
+                    Log.Info("Found Weapon_Velocity as: " + Weapon_Velocity.ToString());
+                }
+            }
+            if (Weapon_Velocity == null) { Log.Danger("Weapon_Velocity is null"); return false; }
 
             ModuleDefinition moduleDefinition = AssemblyDefinition.ReadAssembly(assembly.Location).MainModule;
             if (moduleDefinition == null) { Log.Info("moduleDefinition is null"); return false; }
@@ -1576,6 +1765,27 @@ namespace Sector_dll.cheat
             if (CollisionEntity_Position == null) { Log.Info("CollisionEntity_Position is null"); return false; }
             if (CollisionEntity_Health == null) { Log.Info("CollisionEntity_Health is null"); return false; }
 
+            TypeDefinition CollisionHelperDefinition = moduleDefinition.GetType(CollisionHelper.Type.Name);
+            if (CollisionHelperDefinition == null) { Log.Info("CollisionHelperDefinition is null"); return false; }
+
+            MethodDefinition CollisionHelperDefinition_GetShootVector = CollisionHelperDefinition.Methods.Where(x => x.Name == CollisionHelper_GetShootVector.Name).First();
+            if (CollisionHelperDefinition_GetShootVector == null) { Log.Info("CollisionHelperDefinition_GetShootVector is null"); return false; }
+
+            foreach (var il in CollisionHelperDefinition_GetShootVector.Body.Instructions)
+            {
+                if (il.OpCode == OpCodes.Callvirt)
+                {
+                    MethodDefinition method = il.Operand as MethodDefinition;
+                    if(method.ReturnType.TypeFullName() == "System.Boolean")
+                    {
+                        PlayerBase_Base_IsScoped = PlayerBase.BaseType.GetMethod(method.Name, BindingFlags.Public | BindingFlags.Instance);
+                        if (CollisionEntity_OwnerID != null)
+                            Log.Info("Found PlayerBase_Base_IsScoped as: " + PlayerBase_Base_IsScoped.ToString());
+                        break;
+                    }
+                }
+            }
+            if (PlayerBase_Base_IsScoped == null) { Log.Info("PlayerBase_Base_IsScoped is null"); return false; }
             //Log.Info(CollisionEntity_CloneConst);
 
             return true;

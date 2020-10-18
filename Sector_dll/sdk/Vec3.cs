@@ -40,39 +40,59 @@ namespace Sector_dll.sdk
             z = (double)fields[2].GetValue(vec3);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public object ToInternal()
         {
             return New(x, y, z);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double Len()
         {
             return Math.Sqrt(x * x + y * y + z * z);
         }
 
-        public override string ToString()
+        public override string ToString() => ToString(2);
+
+        public string ToString(int acc)
         {
-            return string.Format("({0:F2},{1:F2},{2:F2})", x, y, z);
+            return string.Format("({0:F"+ acc + "},{1:F" + acc + "},{2:F" + acc + "})", x, y, z);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vec3 operator +(Vec3 v1, Vec3 v2)
         {
             return new Vec3(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vec3 operator -(Vec3 v1, Vec3 v2)
         {
             return new Vec3(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vec3 operator *(Vec3 v1, Vec3 v2)
         {
             return new Vec3(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vec3 operator *(Vec3 v1, double d)
         {
             return new Vec3(v1.x * d, v1.y * d, v1.z * d);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vec3 Dot(Vec3 v2)
+        {
+            return new Vec3(x * v2.x, y * v2.y, z * v2.z);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vec3 FromAngle(double pitch, double yaw)
+        {
+            return new Vec3(Math.Cos(pitch) * Math.Sin(yaw), Math.Sin(pitch), Math.Cos(pitch) * Math.Cos(yaw));
         }
 
         public double x;

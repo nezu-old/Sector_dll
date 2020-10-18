@@ -8,6 +8,7 @@ using static Sector_dll.cheat.Drawing;
 using static Sector_dll.cheat.Config;
 using System;
 using System.Linq;
+using Sector_dll.cheat.Hooks;
 
 namespace sectorsedge.cheat
 {
@@ -19,10 +20,10 @@ namespace sectorsedge.cheat
         private const int MenuItemH = 15;
         private const int MenuIndent = 8;
         private const int MenuPadding = 5;
-        private static readonly Color backgroundColor = new Color(0, 0, 0, 230);
+        private static readonly Color backgroundColor = new Color(0, 0, 0, 180);
         private static readonly Color primaryColor = new Color(200, 80, 0);
-        private static readonly Color textColor = new Color(0, 205, 255);
-        private static readonly Color activeTextColor = new Color(0, 255, 0);
+        private static readonly Color textColor = new Color(0, 60, 255);
+        private static readonly Color activeTextColor = new Color(25, 200, 0);
 
         public delegate T GetValueDelegate<T>();
         public delegate void SetValueDelegate<T>(T value);
@@ -34,8 +35,6 @@ namespace sectorsedge.cheat
         public static float test3 = 0;
 
         public static bool open = true;
-        public static int menuX = 300;
-        public static int menuY = 100;
         public static int selectedIndex = 0;
         public static int MaxIndex = 0;
         private static int maxMenuX = 0;
@@ -81,6 +80,15 @@ namespace sectorsedge.cheat
 
             menuItems.Add(aim);
 
+            Category misc = new Category("misc");
+
+            Category menu = new Category("menu");
+            menu.AddChild(new IntValue("x", () => settings.menuX, v => settings.menuX = v, 0, GL.W, 5));
+            menu.AddChild(new IntValue("y", () => settings.menuY, v => settings.menuY = v, 0, GL.H, 5));
+            misc.AddChild(menu);
+
+            menuItems.Add(misc);
+
         }
 
         /// <summary>
@@ -123,6 +131,9 @@ namespace sectorsedge.cheat
             if (!open)
                 return;
             //DrawRectFilled(menuX, menuY, 100, 300, backgroundColor);
+
+            int menuX = settings.menuX;
+            int menuY = settings.menuY;
 
             int y = menuY + MenuPadding * 2 + font.Size;
             int x = menuX + MenuPadding;
@@ -239,16 +250,14 @@ namespace sectorsedge.cheat
                     case Keys.Right:
                         {
                             int newVal = getValue().ToInt32(null) + 1;
-                            if (newVal < min) newVal = min;
-                            if (newVal > max) newVal = max;
+                            if (newVal > max) newVal = min;
                             setValue((T)(object)newVal);
                             return true;
                         }
                     case Keys.Left:
                         {
                             int newVal = getValue().ToInt32(null) - 1;
-                            if (newVal < min) newVal = min;
-                            if (newVal > max) newVal = max;
+                            if (newVal < min) newVal = max;
                             setValue((T)(object)newVal);
                             return true;
                         }
@@ -305,16 +314,14 @@ namespace sectorsedge.cheat
                     case Keys.Right:
                     {
                         int newVal = getValue() + step;
-                        if (newVal < min) newVal = min;
-                        if (newVal > max) newVal = max;
+                        if (newVal > max) newVal = min;
                         setValue(newVal);
                         return true;
                     }
                     case Keys.Left:
                     {
                         int newVal = getValue() - step;
-                        if (newVal < min) newVal = min;
-                        if (newVal > max) newVal = max;
+                        if (newVal < min) newVal = max;
                         setValue(newVal);
                         return true;
                     }

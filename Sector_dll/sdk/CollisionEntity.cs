@@ -16,6 +16,11 @@ namespace Sector_dll.sdk
             return useTransform ? GetTransform(e).GetTranslation() : new Vec3(SignatureManager.CollisionEntity_Position.GetValue(e));
         }
 
+        public static Vec3 GetVelocity(object e)
+        {
+            return new Vec3(SignatureManager.CollisionEntity_Velocity.GetValue(e));
+        }
+
         public static byte GetOwnerID(object e)
         {
             return (byte)SignatureManager.CollisionEntity_OwnerID.GetValue(e);
@@ -38,6 +43,11 @@ namespace Sector_dll.sdk
         public static ToolType GetTool(object e)
         {
             return (ToolType)(byte)Convert.ChangeType(SignatureManager.CollisionEntity_type.GetValue(e), typeof(byte));
+        }
+
+        public static object GetToolRaw(object e)
+        {
+            return SignatureManager.CollisionEntity_type.GetValue(e);
         }
 
         public static Matrix4 GetTransform(object e)

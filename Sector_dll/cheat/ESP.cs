@@ -7,6 +7,10 @@ using System.Linq;
 using static Sector_dll.cheat.Drawing;
 using static Sector_dll.cheat.Config;
 using System.Configuration;
+using System.Reflection;
+using System.Diagnostics;
+using System.Runtime.InteropServices.ComTypes;
+using sectorsedge.sdk;
 
 namespace Sector_dll.cheat
 {
@@ -137,28 +141,39 @@ namespace Sector_dll.cheat
             foreach (object e in ents)
             {
                 Type et = e.GetType();
-                //DrawText(et.Name, 100, 100 + (i * 14), Color.green);
+                
                 if ((et == SignatureManager.Grenade.Type && settings.esp_grenade) 
                     || (et == SignatureManager.GLauncher.Type && settings.esp_grenade_launcher))
                 {
                     Vec3 pos = CollisionEntity.GetPosition(e);
-                    if (GameManager.W2s(pos + new Vec3(0, Config.settings.debug1, 0), out Vec2 pos2d))
+                    object toolType = CollisionEntity.GetToolRaw(e);
+                    bool isGL = (byte)toolType == (byte)ToolType.GLauncher;
+                    int life;
+                    double ep = 0;
+                    if (isGL)
                     {
-                        int life = et == SignatureManager.GLauncher.Type ? (int)(CollisionEntity.GetBounceWatchProgress(e) * 3000)
-                            : CollisionEntity.GetLifetime(e);
+                        ep = CollisionEntity.GetBounceWatchProgress(e);
+                        life = (int)(ep * 3000);
+                    }
+                    else
+                        life = CollisionEntity.GetLifetime(e);
+                    object player = GameManager.GetPlayerByID(gm, CollisionEntity.GetOwnerID(e));
+                    Color color = player != null ? (player == GameManager.GetLocalPLayer(gm) ? Color.white :
+                        GameManager.GetPlayerColor(gm, player, false)) : Color.white;
+                    if (GameManager.W2s(pos, out Vec2 pos2d))
+                    {
                         int w = 30;
                         int life_w = (int)Util.Map(life, 0, 3000, 0, w);
 
-                        object player = GameManager.GetPlayerByID(gm, CollisionEntity.GetOwnerID(e));
-                        Color color = player != null ? (player == GameManager.GetLocalPLayer(gm) ? Color.white :
-                            GameManager.GetPlayerColor(gm, player, false)) : Color.white;
-
                         DrawTextOutlined("Grenade", (int)pos2d.x, (int)pos2d.y - 2, color, TextAlign.BOTTOM | TextAlign.H_CENTER);
 
-                        DrawRectFilled((int)pos2d.x - (w / 2) - 1, (int)pos2d.y, w + 2, 3, Color.black);
-                        DrawRectFilled((int)pos2d.x - (w / 2), (int)pos2d.y + 1, life_w, 1, color);
+                        DrawRectFilled((int)pos2d.x - (w / 2) - 1, (int)pos2d.y,     w + 2,  3, Color.black);
+                        DrawRectFilled((int)pos2d.x - (w / 2),     (int)pos2d.y + 1, life_w, 1, color);
                     }
-
+                    {
+                        int trace_life = isGL ? (ep == 1.0 ? int.MaxValue : (int)(ep * 750)) : life;
+                        DrawGrenade(gm, pos, CollisionEntity.GetVelocity(e), toolType, trace_life, color, 5, 50);
+                    }
                 }
                 else if (et == SignatureManager.C4.Type && (settings.esp_c4 || settings.esp_disruptor))
                 {
@@ -203,6 +218,55 @@ namespace Sector_dll.cheat
                 i++;
             }
 
+        }
+
+        public static void DrawGrenade(object gm, Vec3 start, Vec3 startVelocity, object toolType, double life, Color color, int simulationStep, int drawingStep)
+        {
+            if (drawingStep < simulationStep || drawingStep % simulationStep != 0)
+                throw new ArgumentException("drawingStep must not be lower than simulationStep and must be divisible by simulationStep!");
+            object map = GameManager.GetMap(gm);
+            bool lastLineVisible = GameManager.W2s(start, out Vec2 lastSim_pos);
+            Vec3 sim_pos = start;
+            Vec3 velocity = startVelocity;
+            bool isGL = (byte)toolType == (byte)ToolType.GLauncher;
+            for (double t = 0; t < life; t += Math.Max(Math.Min(simulationStep, life - t - 1), 1))
+            {
+                object trace = CollisionHelper.TraceProjectile(map, toolType, sim_pos, velocity * simulationStep);
+                Vec3 bounce_pos = null;
+                if (CollisionResult.DidHitWall(trace))
+                {
+                    Vec3 bounce = CollisionResult.GetBounceVector(trace);
+                    if (isGL)
+                    {
+                        velocity = velocity.Dot(bounce);
+                        if (life == int.MaxValue)
+                            life = t + 750;
+                    }
+                    else
+                        velocity = velocity.Dot(bounce * 0.33);
+                    bounce_pos = sim_pos += velocity * simulationStep;
+                }
+                else
+                {
+                    if (isGL)
+                    {
+                        sim_pos += velocity * simulationStep;
+                        velocity.y += -0.000025 * simulationStep;
+                    }
+                    else
+                    {
+                        velocity.y += -0.000025 * simulationStep;
+                        sim_pos += velocity * simulationStep;
+                    }
+                }
+                if ((bounce_pos != null && (GameManager.W2s(bounce_pos, out Vec2 sim_pos2d))) || ((t % drawingStep == 0 || life - t - 1 < simulationStep) && GameManager.W2s(sim_pos, out sim_pos2d)))
+                {
+                    if(lastLineVisible)
+                        DrawLine(lastSim_pos.x, lastSim_pos.y, sim_pos2d.x, sim_pos2d.y, 1, color);
+                    lastLineVisible = true;
+                    lastSim_pos = sim_pos2d;
+                }
+            }
         }
     }
 }

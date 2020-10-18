@@ -87,6 +87,9 @@ namespace Sector_dll.cheat
 
 			public int no_recoil;
 
+			public int menuX;
+			public int menuY;
+
 			public float debug1;
 			public float debug2;
 			public int debug3;

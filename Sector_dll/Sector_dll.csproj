@@ -110,6 +110,8 @@
     <Compile Include="sdk\Bone.cs" />
     <Compile Include="sdk\Bones.cs" />
     <Compile Include="sdk\CollisionEntity.cs" />
+    <Compile Include="sdk\CollisionHelper.cs" />
+    <Compile Include="sdk\CollisionResult.cs" />
     <Compile Include="sdk\CustomWatch.cs" />
     <Compile Include="sdk\TeamType.cs" />
     <Compile Include="sdk\CollisionType.cs" />
@@ -256,6 +258,7 @@
     <Compile Include="sdk\Vec2f.cs" />
     <Compile Include="sdk\Vec3.cs" />
     <Compile Include="sdk\Vec4.cs" />
+    <Compile Include="sdk\Weapon.cs" />
     <Compile Include="sdk\WorldSpaceBone.cs" />
     <Compile Include="util\Confuser.cs" />
     <Compile Include="util\Log.cs" />

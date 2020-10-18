@@ -72,9 +72,14 @@ namespace Sector_dll.sdk
             return (int)SignatureManager.PLayerBase_CurrentWeaponIndex.Invoke(player, new object[] { });
         }
 
-        public static object GetCurrentWeaponType(object player)
+        public static ToolType GetCurrentWeaponType(object player)
         {
-            return SignatureManager.PLayerBase_CurrentWeaponType.Invoke(player, new object[] { });
+            return (ToolType)(byte)SignatureManager.PLayerBase_CurrentWeaponType.Invoke(player, new object[] { });
+        }
+
+        public static object GetCurrentWeapon(object player)
+        {
+            return SignatureManager.PlayerBase_Base_GetCurrentWeapon.Invoke(player, null);
         }
 
         public static TeamType GetTeam(object player)
@@ -137,7 +142,12 @@ namespace Sector_dll.sdk
             return new Vec3(cos_pitch * Math.Sin(yaw), Math.Sin(pitch), cos_pitch * Math.Cos(yaw));
         }
 
-        public const double HeightStanding = 2.7;
+        public static bool IsScopped(object player)
+        {
+            return (bool)SignatureManager.PlayerBase_Base_IsScoped.Invoke(player, null);
+        }
+
+        public const double HeightStanding = 2.52;
 
         public const double HeightCrouching = 1.6;
 
