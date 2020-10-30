@@ -276,8 +276,10 @@ class WinContext
 	WinContext(pid_t pid)
 	{
 		int ret = InitializeContext(&ctx, pid);
-		if (ret)
+		if (ret){
+			printf("aaa = %d\n", ret); 
 			throw VMException(ret);
+		}
 		processList = WinProcessList(&ctx);
 		systemModuleList.proc.ctx = &ctx;
 	}

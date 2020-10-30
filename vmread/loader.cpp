@@ -33,14 +33,14 @@ int main(int argc, char* argv[])
 	setvbuf(stdout, NULL, _IONBF, 0); 
     printf("[nezu.cc] staring vmread loader\n");
 
-    if(argc != 2) {
-        printf("usage: %s <file.dll>\n", argv[0]);
+    if(argc != 3) {
+        printf("usage: %s <pid> <file.dll>\n", argv[0]);
         return 0;
     }
 
     std::vector<char> rawData;
     try {
-        std::ifstream infile(argv[1], std::ios_base::binary);
+        std::ifstream infile(argv[2], std::ios_base::binary);
         infile.seekg(0, std::ios_base::end);
         size_t length = infile.tellg();
         infile.seekg(0, std::ios_base::beg);
@@ -58,14 +58,14 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    WinContext ctx(0);
+    WinContext ctx(atoi(argv[1]));
     ctx.processList.Refresh();
     for (auto& proc : ctx.processList) {
         if (!strcasecmp("sectorsedge.exe", proc.proc.name)) {
+            printf("Found %s as: %ld\n", proc.proc.name, proc.proc.pid);
             PEB peb = proc.GetPeb();
             if (proc.Read<short>(peb.ImageBaseAddress) == IMAGE_DOS_SIGNATURE) {
 
-                printf("Found %s as: %ld\n", proc.proc.name, proc.proc.pid);
                 printf("%lx %lx\n", peb.Ldr, peb.ImageBaseAddress);
 
                 // for (auto &m : proc.modules)
