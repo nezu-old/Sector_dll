@@ -361,6 +361,27 @@ namespace Sector_dll.cheat
             }
         }
 
+        public static void DrawCircleFilled(float x, float y, float r, int points, Color color, Color centerColor = null)
+        {
+            float step = (float)Math.PI * 2.0f / points;
+            if (centerColor == null) 
+                centerColor = color;
+
+            int idx = VtxBuffer.Count;
+
+            VtxBuffer.Add(new DrawVert(x, y, TexUvWhitePixel.x, TexUvWhitePixel.y, centerColor));
+            VtxBuffer.Add(new DrawVert(r * (float)Math.Cos(0) + x, r * (float)Math.Sin(0) + y, TexUvWhitePixel.x, TexUvWhitePixel.y, color));
+            int i = 2;
+            for (float a = step; a < (Math.PI * 2.0f) + step; a += step, i++)
+            {
+                VtxBuffer.Add(new DrawVert(r * (float)Math.Cos(a) + x, r * (float)Math.Sin(a) + y, TexUvWhitePixel.x, TexUvWhitePixel.y, color));
+                IdxBuffer.Add(idx);//center
+                IdxBuffer.Add(idx + (i - 1));//previous
+                IdxBuffer.Add(idx + i);//current
+            }
+            CurrentDrawCmd.IncrementElemCount(i*3);
+        }
+
         public static void DrawTexture(int x, int y, int w, int h, Color color)
         {
             int idx = VtxBuffer.Count;
@@ -406,11 +427,6 @@ namespace Sector_dll.cheat
 
         public static void Draw()
         {
-            DrawLine(100, 100, 150, 200, 1, Color.green); 
-            DrawLine(100, 110, 150, 210, 2, Color.red);
-            DrawLine(100, 120, 150, 220, 3, Color.blue);
-
-
             if (GameManager.instance.IsAlive && GameManager.instance.Target.GetType().BaseType == SignatureManager.GClass49.Type.BaseType)
             {
                 ESP.DrawPlayerEsp();
@@ -421,14 +437,24 @@ namespace Sector_dll.cheat
                 object localPlayer = GameManager.GetLocalPLayer(gm);
                 if(localPlayer != null && Player.GetHealth(localPlayer) > 0)
                 {
+                    Vec3 shhot_vec = CollisionHelper.GetShootVectorBase(localPlayer);
+                    Vec3 head = Player.GetHeadPos(localPlayer);
 
-                    if(Config.settings.esp_grenade_launcher && Player.GetCurrentWeaponType(localPlayer) == ToolType.GLauncher)
-                    ESP.DrawGrenade(gm, Player.GetHeadPos(localPlayer), CollisionHelper.GetShootVectorBase(localPlayer), Enum.ToObject(SignatureManager.WeaponType, 14), int.MaxValue, Color.green, 5, 50);
+                    if (Config.settings.esp_grenade_launcher && (Player.GetCurrentWeaponType(localPlayer) == ToolType.GLauncher || Player.GetCurrentWeaponType(localPlayer) == ToolType.C4))
+                        ESP.DrawGrenade(gm, head, shhot_vec, Enum.ToObject(SignatureManager.WeaponType, (byte)ToolType.GLauncher), int.MaxValue, Color.green, 5, 50);
+
+                    if (Config.settings.spread_croshair)
+                    {
+                        float r = (float)(CollisionHelper.CalcSpread(localPlayer) / GameManager.fov * Hooks.GL.W);
+                        DrawCircleFilled(Hooks.GL.W / 2, Hooks.GL.H / 2, r, 50, new Color(50, 50, 50, 100), Color.transparent);
+                    }
 
                 }
 
             }
             Menu.Draw();
+
+            BoneManager.InvalidateBones();
         }
 
 

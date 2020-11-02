@@ -27,5 +27,10 @@ namespace sectorsedge.sdk
             return Vec3.FromAngle(pitch, yaw) * Weapon.GetVelocity(Player.GetCurrentWeapon(player));
         }
 
+        public static double CalcSpread(object player)
+        {
+            return (double)SignatureManager.CollisionHelper_CalcSpread.Invoke(null, new object[] { player });
+        }
+
     }
 }

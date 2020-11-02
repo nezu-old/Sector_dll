@@ -49,6 +49,19 @@ namespace Sector_dll.util
             }
         }
 
+        public static void Warning(object msg) => Warning(msg.ToString());
+
+        public static void Warning(string msg)
+        {
+            if (enabled)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.BackgroundColor = ConsoleColor.Black;
+                Console.WriteLine((Prefix != null ? Prefix + " " : "") + msg);
+                Console.ResetColor();
+            }
+        }
+
         public static void Dump(string file, string msg)
         {
             Console.ForegroundColor = ConsoleColor.Cyan;

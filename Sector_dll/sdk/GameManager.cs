@@ -1,70 +1,45 @@
 ﻿using Sector_dll.cheat;
 using Sector_dll.cheat.Hooks;
+using Sector_dll.util;
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Windows.Forms;
 
 namespace Sector_dll.sdk
 {
+    public enum PlayerFlags
+    {
+        None = 0,
+        Visible = 1,
+    }
+
     class GameManager
     {
 
-        private static int SmallerScopeIndex = -1;
-
         public static object viewMatrix;
 
-        public static Vec2 W2SResolution = new Vec2(1, 1);
+        public static double fov = -1;
 
         public static Vec2 ScreenResolution = new Vec2(1, 1);
 
-        public static Vec2 W2SOffset = new Vec2(0, 0);
-
         public static WeakReference instance = new WeakReference(null);
 
-        public static object GetViewMatrix(object self)
-        {
-            //object matrix2 = SignatureManager.GClass49_Base_matrix1.GetValue(self);
-            ////if (player != null && IsScoped(self))
-            ////{
-            ////    object weaponType = Player.GetCurrentWeaponType(player);
-            ////    byte scopeType = (byte)Helper.GetEquippedScopeType(player, weaponType);
-            ////    Vec2 ss = GetScopeSize(self, scopeType, weaponType);
-            ////    double ratio = ss.x / ss.y;
-            ////    double zoom = scopeType == 3 ? 4.7 : 5.1;
-            ////    double fov = 3.1415926535897931 * (Settings.GetFov(GetSettings(self)) / zoom / 180.0);
-            ////    object matrix3 = Matrix4.Generate(fov, ratio, 0.05, 4500.0);
-            ////    return Matrix4.Multiply(matrix2, matrix3);
-            ////}
-            //object matrix1 = SignatureManager.GClass49_Base_matrix2.GetValue(self);
-            //return Matrix4.Multiply(matrix2, matrix1);
-            return SignatureManager.GameManager_GetViewMatrix.Invoke(self, null);
-        }
+        public static readonly int MaxPlayers = 32;
 
+        public static PlayerFlags[] PlayerFlags = new PlayerFlags[MaxPlayers];
+
+        private static FieldInfo matrix_22 = null;
         public static void NewFrame(object self)
         {
-            object player = GetCurrentPLayer(self);
-            viewMatrix = GetViewMatrix(self);
+            viewMatrix = SignatureManager.GameManager_GetViewMatrix.Invoke(self, null);
             ScreenResolution = new Vec2(GL.W, GL.H);
-            W2SResolution = ScreenResolution;
-
-            //if (player != null && IsScoped(self))
-            //{
-            //    object weaponType = Player.GetCurrentWeaponType(player);
-            //    byte scopeType = (byte)Helper.GetEquippedScopeType(player, weaponType);
-            //    Vec2 ss = GetScopeSize(self, scopeType, weaponType);
-
-            //    W2SOffset = new Vec2((W2SResolution.x - ss.x) / 2, (W2SResolution.y - ss.y) / 2);
-            //    W2SResolution = ss;
-            //} 
-            //else
-            {
-                W2SOffset = new Vec2(0, 0);
-            }
+            if (matrix_22 == null)
+                matrix_22 = SignatureManager.Matrix4.GetFields(BindingFlags.Instance | BindingFlags.Public)[5];
+            fov = 2.0 * Math.Atan(1.0 / (double)matrix_22.GetValue(viewMatrix));
         }
-
-        // 3: 4.7 - 4: 5.1
 
         public static bool W2s(Vec3 vec3, out Vec2 vec2)
         {
@@ -83,9 +58,9 @@ namespace Sector_dll.sdk
             res.y /= res.w;
             res.z /= res.w;
 
-            double x = (res.x / 2.0 + 0.5) * W2SResolution.x;
-            double y = (-res.y / 2.0 + 0.5) * W2SResolution.y;
-            vec2 = new Vec2(x + W2SOffset.x, y + W2SOffset.y);
+            double x = (res.x / 2.0 + 0.5) * ScreenResolution.x;
+            double y = (-res.y / 2.0 + 0.5) * ScreenResolution.y;
+            vec2 = new Vec2(x, y);
             return true;
         }
 
@@ -114,28 +89,11 @@ namespace Sector_dll.sdk
             return SignatureManager.GCLass49_Base_Map.GetValue(self);
         }
 
+        public static object GetMap() => GetMap(instance.Target);
+
         public static bool IsScoped(object self)
         {
             return (bool)SignatureManager.GClass49_Base_IsScoped.Invoke(self, new object[] { });
-        }
-
-        public static Vec2 GetScopeSize(object self, byte scopeType, object weaponType)
-        {
-            IDictionary s0 = SignatureManager.GClass49_Base_ScopeSizes1.GetValue(self) as IDictionary;
-            IDictionary s1 = SignatureManager.GClass49_Base_ScopeSizes2.GetValue(self) as IDictionary;
-            if(SmallerScopeIndex < 0)
-                SmallerScopeIndex = s0.Count > s1.Count ? 0 : 1;
-            if (scopeType == 3)
-            {
-                IDictionary sizes = SmallerScopeIndex == 0 ? s0 : s1;
-                return new Vec2(sizes[weaponType]);
-            }
-            if (scopeType == 4)
-            {
-                IDictionary sizes = SmallerScopeIndex == 1 ? s0 : s1;
-                return new Vec2(sizes[weaponType]);
-            }
-            throw new InvalidOperationException($"unsupported scope type {scopeType}");
         }
 
         public static object GetSettings(object self)

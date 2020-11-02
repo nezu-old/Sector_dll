@@ -85,6 +85,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="cheat\Aimbot.cs" />
     <Compile Include="cheat\BoneManager.cs" />
     <Compile Include="cheat\ClassSignature.cs" />
     <Compile Include="cheat\Drawing.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="cheat\ResolvedType.cs" />
     <Compile Include="cheat\Config.cs" />
     <Compile Include="cheat\SignatureManager.cs" />
+    <Compile Include="cheat\ThirdPerson.cs" />
     <Compile Include="EAC.cs" />
     <Compile Include="sdk\Bone.cs" />
     <Compile Include="sdk\Bones.cs" />
@@ -113,6 +115,7 @@
     <Compile Include="sdk\CollisionHelper.cs" />
     <Compile Include="sdk\CollisionResult.cs" />
     <Compile Include="sdk\CustomWatch.cs" />
+    <Compile Include="sdk\InputManager.cs" />
     <Compile Include="sdk\TeamType.cs" />
     <Compile Include="sdk\CollisionType.cs" />
     <Compile Include="sdk\Color.cs" />
@@ -344,6 +347,7 @@
     <Compile Include="MonoMod\WeakReferenceComparer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="util\ManagedPtr.cs" />
+    <Compile Include="util\Math3D.cs" />
     <Compile Include="util\OpenGL.cs" />
     <Compile Include="util\Util.cs" />
   </ItemGroup>

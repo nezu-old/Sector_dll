@@ -1,4 +1,5 @@
 ﻿using Sector_dll.cheat;
+using Sector_dll.cheat;
 
 namespace Sector_dll.sdk
 {
@@ -14,6 +15,13 @@ namespace Sector_dll.sdk
             Leg
         }
 
+        public enum Flags
+        {
+            None = 0,
+            Visible = 1,
+            Aimboting = 2,
+        }
+
         public Vec3 head;
 
         public Vec3 tail;
@@ -21,6 +29,10 @@ namespace Sector_dll.sdk
         public float radius;
 
         public Hitbox hitbox;
+
+        public Flags flags = Flags.None;
+
+        //public string name;
 
         public WorldSpaceBone(Vec3 head, Vec3 tail, float radius, Hitbox hitbox)
         {

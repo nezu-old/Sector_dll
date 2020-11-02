@@ -1,9 +1,4 @@
 ﻿using Sector_dll.cheat;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sector_dll.sdk
 {
@@ -28,6 +23,11 @@ namespace Sector_dll.sdk
         public static bool IsHead(object bone)
         {
             return (bool)SignatureManager.Bone_IsHead.GetValue(bone);
+        }
+
+        public static bool IsTorso(object bone)
+        {
+            return (bool)SignatureManager.Bone_IsTorso.GetValue(bone);
         }
 
         public static float GetRadius(object bone)

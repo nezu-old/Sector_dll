@@ -49,6 +49,8 @@ namespace Sector_dll.sdk
         public static readonly Color blue = new Color(0, 0, 255);
         public static readonly Color black = new Color(0, 0, 0);
         public static readonly Color white = new Color(255, 255, 255);
+        public static readonly Color grey = new Color(100, 100, 100);
+        public static readonly Color transparent = new Color(0, 0, 0, 0);
 
     }
 }

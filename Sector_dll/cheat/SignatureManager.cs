@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Xml;
 using System.Xml.Schema;
 
 namespace Sector_dll.cheat
@@ -27,7 +28,7 @@ namespace Sector_dll.cheat
             publicMethods = 124,
             staticMethods = 0,
 
-            publicFields = 127,
+            publicFields = 131,
             privateFields = 3,
             staticFields = 0,
             readonlyFields = 5,
@@ -35,14 +36,14 @@ namespace Sector_dll.cheat
             boolFields = 31,
             byteFields = 4,
             shortFields = 0,
-            intFields = 19,
+            intFields = 20,
             longFields = 0,
             floatFields = 2,
-            doubleFields = 8,
+            doubleFields = 9,
             enumFields = 5,
             stringFields = 3,
             ArrayFields = 1,
-            OtherFields = 57
+            OtherFields = 59
         });
 
         public static ResolvedType GClass49 = new ResolvedType("GClass49", new ClassSignature() 
@@ -53,25 +54,25 @@ namespace Sector_dll.cheat
             abstractClass = false,
             nestedTypes = 3,
 
-            privateMethods = 52,
-            publicMethods = 358,
+            privateMethods = 54,
+            publicMethods = 361,
             staticMethods = 0,
 
-            publicFields = 152,
+            publicFields = 155,
             privateFields = 40,
             staticFields = 6,
             readonlyFields = 6,
 
-            boolFields = 37,
+            boolFields = 40,
             byteFields = 1,
             shortFields = 0,
-            intFields = 16,
+            intFields = 14,
             longFields = 1,
             floatFields = 0,
             doubleFields = 20,
             enumFields = 8,
             stringFields = 0,
-            ArrayFields = 11,
+            ArrayFields = 13,
             OtherFields = 127
         });
 
@@ -106,15 +107,15 @@ namespace Sector_dll.cheat
 
         public static ResolvedType RequestHelper = new ResolvedType("RequestHelper", new ClassSignature()
         {
-            nameLength = 39,
+            nameLength = 47,
 
-            publicClass = true,
+            publicClass = false,
             abstractClass = true,
-            nestedTypes = 4,
+            nestedTypes = 3,
 
-            privateMethods = 1,
-            publicMethods = 7,
-            staticMethods = 4,
+            privateMethods = 0,
+            publicMethods = 9,
+            staticMethods = 5,
 
             publicFields = 0,
             privateFields = 0,
@@ -143,7 +144,7 @@ namespace Sector_dll.cheat
             nestedTypes = 0,
 
             privateMethods = 2,
-            publicMethods = 56,
+            publicMethods = 58,
             staticMethods = 3,
 
             publicFields = 35,
@@ -176,9 +177,9 @@ namespace Sector_dll.cheat
             publicMethods = 57,
             staticMethods = 53,
 
-            publicFields = 118,
+            publicFields = 119,
             privateFields = 0,
-            staticFields = 118,
+            staticFields = 119,
             readonlyFields = 0,
 
             boolFields = 31,
@@ -187,7 +188,7 @@ namespace Sector_dll.cheat
             intFields = 52,
             longFields = 0,
             floatFields = 0,
-            doubleFields = 4,
+            doubleFields = 5,
             enumFields = 3,
             stringFields = 1,
             ArrayFields = 1,
@@ -237,7 +238,7 @@ namespace Sector_dll.cheat
             staticMethods = 1,
 
             publicFields = 21,
-            privateFields = 0,
+            privateFields = 2,
             staticFields = 0,
             readonlyFields = 1,
 
@@ -248,10 +249,10 @@ namespace Sector_dll.cheat
             longFields = 2,
             floatFields = 0,
             doubleFields = 0,
-            enumFields = 1,
+            enumFields = 2,
             stringFields = 0,
             ArrayFields = 1,
-            OtherFields = 10
+            OtherFields = 11
         });
 
         public static ResolvedType CustomWatch = new ResolvedType("CustomWatch", new ClassSignature()
@@ -473,8 +474,8 @@ namespace Sector_dll.cheat
             nestedTypes = 0,
 
             privateMethods = 7,
-            publicMethods = 80,
-            staticMethods = 83,
+            publicMethods = 81,
+            staticMethods = 84,
 
             publicFields = 0,
             privateFields = 8,
@@ -554,11 +555,95 @@ namespace Sector_dll.cheat
             OtherFields = 4
         });
 
-        //public static ResolvedType XXX = new ResolvedType("XXX", new ClassSignature());
+        public static ResolvedType CameraControler = new ResolvedType("CameraControler", new ClassSignature() 
+        {
+            nameLength = 31,
 
-        //public static ResolvedType XXX = new ResolvedType("XXX", new ClassSignature());
+            publicClass = true,
+            abstractClass = false,
+            nestedTypes = 0,
 
-        //public static ResolvedType XXX = new ResolvedType("XXX", new ClassSignature());
+            privateMethods = 0,
+            publicMethods = 10,
+            staticMethods = 0,
+
+            publicFields = 0,
+            privateFields = 0,
+            staticFields = 0,
+            readonlyFields = 0,
+
+            boolFields = 0,
+            byteFields = 0,
+            shortFields = 0,
+            intFields = 0,
+            longFields = 0,
+            floatFields = 0,
+            doubleFields = 2,
+            enumFields = 0,
+            stringFields = 0,
+            ArrayFields = 0,
+            OtherFields = 3
+        });
+
+        public static ResolvedType InputManager = new ResolvedType("InputManager", new ClassSignature()
+        {
+            nameLength = 27,
+
+            publicClass = true,
+            abstractClass = true,
+            nestedTypes = 0,
+
+            privateMethods = 1,
+            publicMethods = 13,
+            staticMethods = 10,
+
+            publicFields = 2,
+            privateFields = 3,
+            staticFields = 5,
+            readonlyFields = 0,
+
+            boolFields = 0,
+            byteFields = 0,
+            shortFields = 0,
+            intFields = 0,
+            longFields = 0,
+            floatFields = 0,
+            doubleFields = 0,
+            enumFields = 0,
+            stringFields = 0,
+            ArrayFields = 0,
+            OtherFields = 5
+        });
+
+        public static ResolvedType SoundManager = new ResolvedType("SoundManager", new ClassSignature()
+        {
+            nameLength = 27,
+
+            publicClass = false,
+            abstractClass = true,
+            nestedTypes = 1,
+
+            privateMethods = 7,
+            publicMethods = 43,
+            staticMethods = 46,
+
+            publicFields = 19,
+            privateFields = 9,
+            staticFields = 28,
+            readonlyFields = 6,
+
+            boolFields = 0,
+            byteFields = 0,
+            shortFields = 0,
+            intFields = 4,
+            longFields = 0,
+            floatFields = 3,
+            doubleFields = 0,
+            enumFields = 0,
+            stringFields = 0,
+            ArrayFields = 7,
+            OtherFields = 14
+        });
 
         //public static ResolvedType XXX = new ResolvedType("XXX", new ClassSignature());
 
@@ -584,6 +669,9 @@ namespace Sector_dll.cheat
             CollisionHelper,
             CollisionResult,
             Weapon,
+            CameraControler,
+            InputManager,
+            SoundManager,
         };
 
         public static Type PlayerBase;
@@ -630,6 +718,10 @@ namespace Sector_dll.cheat
 
         public static FieldInfo PlayerBase_Base_CrouchWatch;
 
+        public static FieldInfo PlayerBase_Base_ID;
+
+        public static MethodInfo PlayerBase_Base_GetSpeed;
+
         public static Type CharacterTexture;
 
         public static FieldInfo CharacterTexture_PlayerType;
@@ -672,9 +764,9 @@ namespace Sector_dll.cheat
 
         public static FieldInfo Settings_fov;
 
-        public static MethodInfo RequestHelper_POST;
+        //public static MethodInfo RequestHelper_POST;
 
-        public static MethodInfo RequestHelper_GET;
+        //public static MethodInfo RequestHelper_GET;
 
         public static Type Drawing;
 
@@ -736,6 +828,8 @@ namespace Sector_dll.cheat
 
         public static FieldInfo Bone_IsHead;
 
+        public static FieldInfo Bone_IsTorso;
+
         public static FieldInfo Bone_Radius;
 
         public static FieldInfo Bone_Name;
@@ -784,6 +878,8 @@ namespace Sector_dll.cheat
 
         public static MethodInfo CollisionHelper_GetShootVector;
 
+        public static MethodInfo CollisionHelper_CalcSpread;
+
         public static Type CollisionType;
 
         public static FieldInfo CollisionResult_BounceVector;
@@ -795,6 +891,16 @@ namespace Sector_dll.cheat
         public static MethodInfo PlayerBase_Base_IsScoped;
 
         public static FieldInfo Weapon_Velocity;
+
+        public static byte HitType_HitWall = 0xFF;
+
+        public static MethodInfo InputManager_IsKeyPressed;
+
+        public static MethodInfo InputManager_SetKeyPressed;
+
+        public static Type InputManager_KeyType;
+
+        public static MethodInfo SoundManager_LoadSound;
 
         public static bool FindSignatures(Assembly assembly)
         {
@@ -907,7 +1013,9 @@ namespace Sector_dll.cheat
             Log.Info("Found class PlayerBase as: " + PlayerBase.ToString());
             Log.Info("Found class MapBase as: " + MapBase.ToString());
             if (PlayerBase == null) { Log.Info("PlayerBase is null"); return false; }
+            Log.Info("Found class PlayerBase_Base as: " + PlayerBase.BaseType.ToString());
             if (MapBase == null) { Log.Info("MapBase is null"); return false; }
+            Log.Info("Found class MapBase_Base as: " + MapBase.BaseType.ToString());
 
             //foreach (Type t in aassembly.GetTypes())
             //{
@@ -1057,9 +1165,15 @@ namespace Sector_dll.cheat
                     Log.Info("Found struct CharacterTexture as: " + CharacterTexture.ToString());
                     Log.Info("Found PlayerBase_Base_CharacterTexture as: " + PlayerBase_Base_CharacterTexture.ToString());
                 }
+                if(fi.Name.Length == 11 && fi.FieldType == typeof(byte))
+                {
+                    PlayerBase_Base_ID = fi;
+                    Log.Info("Found PlayerBase_Base_ID as: " + PlayerBase_Base_ID.ToString());
+                }
             }
             if (CharacterTexture == null) { Log.Info("CharacterTexture is null"); return false; }
             if (PlayerBase_Base_CharacterTexture == null) { Log.Info("PlayerBase_Base_CharacterTexture is null"); return false; }
+            if (PlayerBase_Base_ID == null) { Log.Info("PlayerBase_Base_ID is null"); return false; }
 
             foreach (FieldInfo fi in PlayerBase.BaseType.GetFields(BindingFlags.NonPublic | BindingFlags.Instance))
             {
@@ -1114,6 +1228,11 @@ namespace Sector_dll.cheat
                     PlayerBase_Base_GetCurrentWeapon = mi;
                     Log.Info("Found PlayerBase_Base_GetCurrentWeapon as: " + PlayerBase_Base_GetCurrentWeapon.ToString());
                 }
+                if(mi.Name.Length == 15 && mi.ReturnType == typeof(double) && mi.GetParameters().Length == 1)
+                {
+                    PlayerBase_Base_GetSpeed = mi;
+                    Log.Info("Found PlayerBase_Base_GetSpeed as: " + PlayerBase_Base_GetSpeed.ToString());
+                }
             }
             if (PLayerBase_EitherMod == null) { Log.Info("PLayerBase_EitherMod is null"); return false; }
             if (ModType == null) { Log.Info("ModType is null"); return false; }
@@ -1123,6 +1242,7 @@ namespace Sector_dll.cheat
             if (PlayerBase_Base_SetTeam == null) { Log.Info("PLayerBase_Base_SetTeam is null"); return false; }
             if (PlayerBase_Base_GetTeam == null) { Log.Info("PLayerBase_Base_GetTeam is null"); return false; }
             if (PlayerBase_Base_GetCurrentWeapon == null) { Log.Info("PlayerBase_Base_GetCurrentWeapon is null"); return false; }
+            if (PlayerBase_Base_GetSpeed == null) { Log.Info("PlayerBase_Base_GetSpeed is null"); return false; }
 
             foreach (ConstructorInfo ci in PlayerBase.GetConstructors())
             {
@@ -1157,30 +1277,30 @@ namespace Sector_dll.cheat
             if (PlayerBase_name == null) { Log.Info("PlayerBase_name is null"); return false; }
             if (PlayerBase_health == null) { Log.Info("PlayerBase_health is null"); return false; }
 
-            foreach(FieldInfo fi in PlayerBase.BaseType.GetFields(BindingFlags.NonPublic | BindingFlags.Instance))
-            {
-                if (fi.FieldType == typeof(double) && fi.Name.Length == 15)
-                {
-                    if (PlayerBase_Base_Yaw == null)
-                    {
-                        PlayerBase_Base_Yaw = fi;
-                        Log.Info("Found PlayerBase_Base_Yaw as: " + PlayerBase_Base_Yaw.ToString());
-                    }
-                    else if(PlayerBase_Base_Pitch == null)
-                    {
-                        PlayerBase_Base_Pitch = fi;
-                        Log.Info("Found PlayerBase_Base_Pitch as: " + PlayerBase_Base_Pitch.ToString());
-                    }
-                    else
-                    {
-                        Log.Info("PlayerBase_Base has more double[]!");
-                        return false;
-                    }
-                }
+            //foreach(FieldInfo fi in PlayerBase.BaseType.GetFields(BindingFlags.NonPublic | BindingFlags.Instance))
+            //{
+            //    if (fi.FieldType == typeof(double) && fi.Name.Length == 15)
+            //    {
+            //        if (PlayerBase_Base_Yaw == null)
+            //        {
+            //            PlayerBase_Base_Yaw = fi;
+            //            Log.Info("Found PlayerBase_Base_Yaw as: " + PlayerBase_Base_Yaw.ToString());
+            //        }
+            //        else if(PlayerBase_Base_Pitch == null)
+            //        {
+            //            PlayerBase_Base_Pitch = fi;
+            //            Log.Info("Found PlayerBase_Base_Pitch as: " + PlayerBase_Base_Pitch.ToString());
+            //        }
+            //        else
+            //        {
+            //            Log.Info("PlayerBase_Base has more double[]!");
+            //            return false;
+            //        }
+            //    }
                 
-            }
-            if (PlayerBase_Base_Pitch == null) { Log.Info("PlayerBase_Base_Pitch is null"); return false; }
-            if (PlayerBase_Base_Yaw == null) { Log.Info("PlayerBase_Base_Yaw is null"); return false; }
+            //}
+            //if (PlayerBase_Base_Pitch == null) { Log.Info("PlayerBase_Base_Pitch is null"); return false; }
+            //if (PlayerBase_Base_Yaw == null) { Log.Info("PlayerBase_Base_Yaw is null"); return false; }
 
             foreach (FieldInfo fi in PlayerBase.BaseType.GetFields(BindingFlags.Public | BindingFlags.Instance))
             {
@@ -1235,7 +1355,7 @@ namespace Sector_dll.cheat
             if (Drawing == null) { Log.Info("Drawing is null"); return false; }
             if (GClass49_getPlayersToXray == null) { Log.Info("GClass49_getPlayersToXray is null"); return false; }
 
-            bool second = false;
+            bool second = true; //if true first
             foreach (FieldInfo f in GClass49.Type.GetFields(BindingFlags.Instance | BindingFlags.Public))
             {
                 if (f.IsPublic && f.Name.Length == 23 && f.FieldType.IsGenericType && f.FieldType.GetGenericTypeDefinition() == typeof(List<>)
@@ -1253,21 +1373,21 @@ namespace Sector_dll.cheat
             }
             if (GClass49_player_list == null) { Log.Info("GClass49_player_list is null"); return false; }
 
-            foreach (MethodInfo mi in RequestHelper.Type.GetMethods(BindingFlags.Public | BindingFlags.Static))
-            {
-                if (mi.GetParameters().Length == 2)
-                {
-                    RequestHelper_POST = mi;
-                    Log.Info("Found RequestHelper_POST as: " + RequestHelper_POST.ToString());
-                }
-                if (mi.GetParameters().Length == 1 && mi.GetParameters()[0].ParameterType == typeof(string))
-                {
-                    RequestHelper_GET = mi;
-                    Log.Info("Found RequestHelper_GET as: " + RequestHelper_GET.ToString());
-                }
-            }
-            if (RequestHelper_POST == null) { Log.Info("RequestHelper_POST is null"); return false; }
-            if (RequestHelper_GET == null) { Log.Info("RequestHelper_GET is null"); return false; }
+            //foreach (MethodInfo mi in RequestHelper.Type.GetMethods(BindingFlags.Public | BindingFlags.Static))
+            //{
+            //    if (mi.GetParameters().Length == 2)
+            //    {
+            //        RequestHelper_POST = mi;
+            //        Log.Info("Found RequestHelper_POST as: " + RequestHelper_POST.ToString());
+            //    }
+            //    if (mi.GetParameters().Length == 1 && mi.GetParameters()[0].ParameterType == typeof(string))
+            //    {
+            //        RequestHelper_GET = mi;
+            //        Log.Info("Found RequestHelper_GET as: " + RequestHelper_GET.ToString());
+            //    }
+            //}
+            //if (RequestHelper_POST == null) { Log.Info("RequestHelper_POST is null"); return false; }
+            //if (RequestHelper_GET == null) { Log.Info("RequestHelper_GET is null"); return false; }
 
             foreach (MethodInfo mi in Vec4.Type.GetMethods())
             {
@@ -1570,12 +1690,22 @@ namespace Sector_dll.cheat
             if (Bones_Base_Base_BBMin == null) { Log.Info("Bones_Base_Base_BBMin is null"); return false; }
             if (Bones_Base_Base_BBMax == null) { Log.Info("Bones_Base_Base_BBMax is null"); return false; }
 
+            int torso_counter = 0;
             foreach (FieldInfo fi in Bone.GetFields(BindingFlags.Instance | BindingFlags.Public))
             {
                 if(fi.FieldType == typeof(bool) && fi.Name.Length == 11 && Bone_IsHead == null) //first one
                 {
                     Bone_IsHead = fi;
                     Log.Info("Found Bone_IsHead as: " + Bone_IsHead.ToString());
+                }
+                if(fi.FieldType == typeof(bool) && fi.Name.Length == 15)
+                {
+                    if(torso_counter == 2)
+                    {
+                        Bone_IsTorso = fi;
+                        Log.Info("Found Bone_IsTorso as: " + Bone_IsTorso.ToString());
+                    }
+                    torso_counter++;
                 }
                 if (fi.FieldType == Vec3)
                 {
@@ -1602,6 +1732,7 @@ namespace Sector_dll.cheat
                 }
             }
             if (Bone_IsHead == null) { Log.Info("Bone_IsHead is null"); return false; }
+            if (Bone_IsTorso == null) { Log.Info("Bone_IsTorso is null"); return false; }
             if (Bone_Head == null) { Log.Info("Bone_Head is null"); return false; }
             if (Bone_Tail == null) { Log.Info("Bone_Tail is null"); return false; }
             if (Bone_Name == null) { Log.Info("Bone_Name is null"); return false; }
@@ -1685,10 +1816,16 @@ namespace Sector_dll.cheat
                     CollisionHelper_GetShootVector = mi;
                     Log.Info("Found CollisionHelper_GetShootVector as: " + CollisionHelper_GetShootVector.ToString());
                 }
+                if(mi.Name.Length == 15 && mi.ReturnType == typeof(double) && mi.GetParameters().Length == 1 && mi.GetParameters()[0].ParameterType == PlayerBase.BaseType)
+                {
+                    CollisionHelper_CalcSpread = mi;
+                    Log.Info("Found CollisionHelper_CalcSpread as: " + CollisionHelper_CalcSpread.ToString());
+                }
             }
             if (CollisionHelper_TraceProjectile == null) { Log.Danger("CollisionHelper_TraceProjectile is null"); return false; }
             if (CollisionType == null) { Log.Danger("CollisionType is null"); return false; }
             if (CollisionHelper_GetShootVector == null) { Log.Danger("CollisionHelper_GetShootVector is null"); return false; }
+            if (CollisionHelper_CalcSpread == null) { Log.Danger("CollisionHelper_CalcSpread is null"); return false; }
 
             foreach (ConstructorInfo ci in CollisionResult.Type.GetConstructors())
             {
@@ -1723,8 +1860,40 @@ namespace Sector_dll.cheat
                     Weapon_Velocity = fi;
                     Log.Info("Found Weapon_Velocity as: " + Weapon_Velocity.ToString());
                 }
+
             }
             if (Weapon_Velocity == null) { Log.Danger("Weapon_Velocity is null"); return false; }
+
+            foreach (MethodInfo mi in InputManager.Type.GetMethods(BindingFlags.Public | BindingFlags.Static))
+            {
+                if(mi.ReturnType == typeof(bool) && mi.Name.Length == 11)
+                {
+                    InputManager_IsKeyPressed = mi;
+                    InputManager_KeyType = mi.GetParameters()[0].ParameterType;
+                    Log.Info("Found InputManager_IsKeyPressed as: " + InputManager_IsKeyPressed.ToString());
+                    Log.Info("Found InputManager_KeyType as: " + InputManager_KeyType.ToString());
+                }
+                if(mi.ReturnType == typeof(void) && mi.Name.Length == 11 && mi.GetParameters().Length == 2 && mi.GetParameters()[1].ParameterType == typeof(bool))
+                {
+                    InputManager_SetKeyPressed = mi;
+                    Log.Info("Found InputManager_SetKeyPressed as: " + InputManager_SetKeyPressed.ToString());
+                }
+            }
+            if (InputManager_IsKeyPressed == null) { Log.Danger("InputManager_IsKeyPressed is null"); return false; }
+            if (InputManager_SetKeyPressed == null) { Log.Danger("InputManager_SetKeyPressed is null"); return false; }
+            if (InputManager_KeyType == null) { Log.Danger("InputManager_KeyType is null"); return false; }
+
+            foreach (MethodInfo mi in SoundManager.Type.GetMethods(BindingFlags.Public | BindingFlags.Static))
+            {
+                if(mi.Name.Length == 15 && mi.GetParameters().Length == 2 && mi.GetParameters()[0].ParameterType == typeof(string) && mi.GetParameters()[1].ParameterType == typeof(bool))
+                {
+                    SoundManager_LoadSound = mi;
+                    Log.Info("Found SoundManager_LoadSound as: " + SoundManager_LoadSound.ToString());
+                }
+            }
+            if (SoundManager_LoadSound == null) { Log.Danger("SoundManager_LoadSound is null"); return false; }
+
+            //############################################
 
             ModuleDefinition moduleDefinition = AssemblyDefinition.ReadAssembly(assembly.Location).MainModule;
             if (moduleDefinition == null) { Log.Info("moduleDefinition is null"); return false; }
@@ -1798,7 +1967,74 @@ namespace Sector_dll.cheat
                 }
             }
             if (PlayerBase_Base_IsScoped == null) { Log.Info("PlayerBase_Base_IsScoped is null"); return false; }
-            //Log.Info(CollisionEntity_CloneConst);
+
+            TypeDefinition PlayerBaseBaseDefinition = moduleDefinition.GetType(PlayerBase.BaseType.Name);
+            if (PlayerBaseBaseDefinition == null) { Log.Info("PlayerBaseBaseDefinition is null"); return false; }
+
+            MethodDefinition[] PlayerBaseBaseDefinition_VASetters = PlayerBaseBaseDefinition.Methods.Where(x => 
+                x.IsPublic && x.Name.Length == 15 && x.parameters != null && x.parameters.Count == 1 && x.ReturnType.FullName == "System.Void" &&
+                x.parameters[0].Name.Length == 11 && x.parameters[0].ParameterType.FullName == "System.Double").ToArray();
+            if (PlayerBaseBaseDefinition_VASetters == null) { Log.Info("PlayerBaseBaseDefinition_X is null"); return false; }
+
+            foreach (MethodDefinition md in PlayerBaseBaseDefinition_VASetters)
+            {
+                if (md.Body.Instructions.Count == 12)
+                {
+                    Instruction ldfld = md.Body.Instructions[1];
+                    FieldDefinition pitch = ldfld.Operand as FieldDefinition;
+                    PlayerBase_Base_Pitch = PlayerBase.BaseType.GetField(pitch.Name, BindingFlags.NonPublic | BindingFlags.Instance);
+                    if (PlayerBase_Base_Pitch != null)
+                        Log.Info("Found PlayerBase_Base_Pitch as: " + PlayerBase_Base_Pitch.ToString());
+                }
+                else if (md.Body.Instructions.Count == 14)
+                {
+                    Instruction stfld = md.Body.Instructions[12];
+                    FieldDefinition yaw = stfld.Operand as FieldDefinition;
+                    PlayerBase_Base_Yaw = PlayerBase.BaseType.GetField(yaw.Name, BindingFlags.NonPublic | BindingFlags.Instance);
+                    if (PlayerBase_Base_Yaw != null)
+                        Log.Info("Found PlayerBase_Base_Yaw as: " + PlayerBase_Base_Yaw.ToString());
+                }
+                else
+                    Log.Danger("PlayerBaseBaseDefinition_VASetters unrecognised method length for " + md.FullName);
+            }
+            if (PlayerBase_Base_Pitch == null) { Log.Info("PlayerBase_Base_Pitch is null"); return false; }
+            if (PlayerBase_Base_Yaw == null) { Log.Info("PlayerBase_Base_Yaw is null"); return false; }
+
+            TypeDefinition GLauncherDefinition = moduleDefinition.GetType(GLauncher.Type.Name);
+            if (GLauncherDefinition == null) { Log.Info("GLauncherDefinition is null"); return false; }
+
+            MethodDefinition GLauncherDefinition_Tick = GLauncherDefinition.Methods.First(x =>
+                x.IsPublic && x.Name.Length == 11 && x.parameters != null);
+            if (GLauncherDefinition_Tick == null) { Log.Info("GLauncherDefinition_Tick is null"); return false; }
+
+            bool GLauncherDefinition_Tick_next = false;
+            foreach (var il in GLauncherDefinition_Tick.Body.Instructions)
+            {
+                if (GLauncherDefinition_Tick_next)
+                {
+
+                    if (il.OpCode == OpCodes.Ldc_I4_S) HitType_HitWall = (byte)(sbyte)il.Operand;
+                    else if (il.OpCode == OpCodes.Ldc_I4_0) HitType_HitWall = 0;
+                    else if (il.OpCode == OpCodes.Ldc_I4_1) HitType_HitWall = 1;
+                    else if (il.OpCode == OpCodes.Ldc_I4_2) HitType_HitWall = 2;
+                    else if (il.OpCode == OpCodes.Ldc_I4_3) HitType_HitWall = 3;
+                    else if (il.OpCode == OpCodes.Ldc_I4_4) HitType_HitWall = 4;
+                    else if (il.OpCode == OpCodes.Ldc_I4_5) HitType_HitWall = 5;
+                    else if (il.OpCode == OpCodes.Ldc_I4_6) HitType_HitWall = 6;
+                    else if (il.OpCode == OpCodes.Ldc_I4_7) HitType_HitWall = 7;
+                    else if (il.OpCode == OpCodes.Ldc_I4_8) HitType_HitWall = 8;
+                    else
+                    {
+                        Log.Danger("Invalid opcode after fafter Ldfld in GLauncherDefinition_Tick");
+                        return false;
+                    }
+                    Log.Info("Found HitType_HitWall as: " + HitType_HitWall.ToString());
+                    break; //ignore the second one;
+                }
+                if (il.OpCode == OpCodes.Ldfld)
+                    GLauncherDefinition_Tick_next = true;
+            }
+            if(HitType_HitWall == 0xFF) { Log.Info("HitType_HitWall is not found"); return false; }
 
             return true;
         }
@@ -1837,9 +2073,10 @@ namespace Sector_dll.cheat
                 mi.GetMethodBody().MaxStackSize, mi.GetMethodBody().GetILAsByteArray().Length));
         }
 
-        public static string GenerateSig(string className)
+        public static string GenerateSig(string className, Assembly aassembly)
         {
-            Assembly aassembly = Assembly.GetEntryAssembly();
+            if(aassembly == null)
+                aassembly = Assembly.GetEntryAssembly();
             Type t = aassembly.GetType(className, true);
             if(t != null) 
                 return className + ":\n" + ClassSignature.GenerateSignature(t).ToString();

@@ -19,7 +19,7 @@ namespace sectorsedge.sdk
         public static bool DidHitWall(object result)
         {
             object ht = SignatureManager.CollisionResult_HitType.GetValue(result);
-            return (byte)Convert.ChangeType(ht, typeof(byte)) == 8;
+            return (byte)Convert.ChangeType(ht, typeof(byte)) == SignatureManager.HitType_HitWall;
         }
 
     }

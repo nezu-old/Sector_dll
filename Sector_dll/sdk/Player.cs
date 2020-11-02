@@ -147,6 +147,11 @@ namespace Sector_dll.sdk
             return (bool)SignatureManager.PlayerBase_Base_IsScoped.Invoke(player, null);
         }
 
+        public static byte GetID(object player)
+        {
+            return (byte)SignatureManager.PlayerBase_Base_ID.GetValue(player);
+        }
+
         public const double HeightStanding = 2.52;
 
         public const double HeightCrouching = 1.6;

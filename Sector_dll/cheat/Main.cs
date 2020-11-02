@@ -1,12 +1,14 @@
-﻿using Mono.Cecil;
-using MonoMod.RuntimeDetour;
+﻿using MonoMod.RuntimeDetour;
 using Sector_dll.cheat.Hooks;
 using Sector_dll.util;
 using sectorsedge.cheat.Hooks;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -85,12 +87,10 @@ namespace Sector_dll.cheat
 
             //while (!Debugger.IsAttached) Thread.Sleep(100);
 
-            Assembly assembly = Assembly.GetEntryAssembly();
+            Assembly assembly = Assembly.GetEntryAssembly() ?? AppDomain.CurrentDomain.GetAssemblies().First(x => x.GetName().Name == "sectorsedge");
 
             //Log.Debug(SignatureManager.GenerateSig(""));
-            //Log.Debug(SignatureManager.GenerateSig("#=zbgHDYsXmrrFzJSACiCuURxc="));
-            //Console.Read();
-
+            //Log.Debug(SignatureManager.GenerateSig("#=zty4UpkkRCMAMY1F8qXYE4OM=", assembly)); Console.Read();
             try
             {
                 if (!SignatureManager.FindSignatures(assembly))
@@ -99,26 +99,6 @@ namespace Sector_dll.cheat
                 //new Hook(SignatureManager.RequestHelper_POST, typeof(RequestHelper).GetMethod("POST"));
                 //new Hook(SignatureManager.RequestHelper_GET, typeof(RequestHelper).GetMethod("GET"));
 
-                //new Thread(() =>
-                //{
-                //    try
-                //    {
-                //        Type type = assembly.GetType("#=zjIQApYtv96HwCbHWyPQ5EKqErtHs", true);
-                //        Log.Debug(type);
-                //        //FieldInfo fieldInfo = type.GetField("#=zfxpo$Rw=", BindingFlags.Public | BindingFlags.Static);
-                //        while (true)
-                //        {
-                //            //object val = fieldInfo.GetValue(null);
-                //            //Log.Debug(val ?? "[null]");
-                //            //Thread.Sleep(1000);
-                //        }
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        Log.Debug(ex);
-                //    }
-                //}).Start();
-
                 Log.Debug("All types resolved");
 
                 new Hook(SignatureManager.SwapBuffersWrapper, new Action<Action<object, object>, object, object>((orig, self, a1) => GL.SwapBuffers(orig, self, a1)).Method, new object());
@@ -126,10 +106,67 @@ namespace Sector_dll.cheat
                 new Hook(SignatureManager.LocalPlayer_Update, new Action<Action<object, object>, object, object>((orig, self, a1) => Player.Update(orig, self, a1)).Method, new object());
                 new Hook(SignatureManager.WindowHandler_WindowProc, new Func<Func<object, IntPtr, uint, IntPtr, IntPtr, IntPtr>, object, IntPtr, uint, IntPtr, IntPtr, IntPtr>(
                     (self, orig, hwnd, uMsg, wParam, lParam) => WindowHandler.WindowProc(self, orig, hwnd, uMsg, wParam, lParam)).Method, new object());
+                new Hook(SignatureManager.PlayerBase_Base_GetSpeed, new Func<Func<object, object, double>, object, object, double>((orig, self, a1) => Player.GetSpeed(orig, self, a1)));
 
                 //new Hook(SignatureManager.PlayerBase_RecoilMod, typeof(Player).GetMethod("RecoilMod"));
 
                 //new Hook(SignatureManager.Helper_CurrentBloom, typeof(Helper).GetMethod("CurrentBloom"));
+
+                //Type loader1 = assembly.GetType("#=z2dmths9a$btNQPYG7H0rNCNkA_5W");
+                //object l1 = Activator.CreateInstance(loader1);
+                //MethodInfo loader1_load = loader1.GetMethod("#=zA94llfr$$Y9g");
+
+                //Type ttt = assembly.GetType("#=zeq_yp1BtxrkoDSpNWTvUlHo=");
+                //FieldInfo ttt1 = ttt.GetField("#=zrF696es=");
+                //FieldInfo ttt2 = ttt.GetField("#=zmlu2b34=");
+                //FieldInfo ttt3 = ttt.GetField("#=ze1VYexs=");
+
+                //object fff = assembly.GetType("#=zJQ4RAl8T6KUjc00fDIWq7ZY=").GetField("#=zma0UfLs=", BindingFlags.Public | BindingFlags.Static).GetValue(null);
+                //List<object> lll = (fff as IEnumerable<object>).Cast<object>().ToList();
+
+                //string path = Path.Combine(Directory.GetCurrentDirectory(), "nezu");
+                //if (!Directory.Exists(path))
+                //    Directory.CreateDirectory(path);
+                //foreach (var iii in lll)
+                //{
+                //    string s1 = (string)ttt1.GetValue(iii);
+                //    string s2 = (string)ttt2.GetValue(iii);
+                //    //int i1 = (int)ttt3.GetValue(iii);
+
+                //    Stream stream = (Stream)loader1_load.Invoke(l1, new object[] { s1 });
+
+                //    FileStream fileStream = new FileStream(Path.Combine(path, s1), FileMode.Create);
+
+                //    stream.CopyTo(fileStream);
+
+                //    fileStream.Close();
+
+                //    Log.Debug($"{s2}:{s1} - {stream.Length}");
+
+                //    stream.Close();
+                //}
+
+                //var watch = Stopwatch.StartNew();
+                //long total = 0;
+                //new Hook(loader1_load, new Func<Func<object, string, Stream>, object, string, Stream>((orig, self, name) =>
+                //{
+                //    //Stream s = orig(self, name);
+                //    FileStream s = File.OpenRead(Path.Combine(path, name));
+                //    //watch.Stop();
+                //    total += watch.ElapsedMilliseconds;
+                //    //Log.Debug($"{total}\t{name} - {watch.ElapsedMilliseconds}");
+                //    return s;
+                //}));
+
+                //object XD = null;
+                //new Hook(SignatureManager.SoundManager_LoadSound, new Func<Func<string, bool, object>, string, bool, object>((orig, name, b) =>
+                //{
+                //    if (XD == null)
+                //        XD = orig("sound.blockhit.plasma5.wav", b);
+                //    return XD;
+                //}));
+
+
 
             }
             catch (Exception e)

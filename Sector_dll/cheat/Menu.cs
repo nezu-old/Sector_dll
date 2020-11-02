@@ -1,5 +1,4 @@
-﻿using Sector_dll.sdk;
-using Sector_dll.util;
+﻿using Sector_dll.util;
 using sectorsedge.cheat.Drawing.Fonts;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,7 +7,11 @@ using static Sector_dll.cheat.Drawing;
 using static Sector_dll.cheat.Config;
 using System;
 using System.Linq;
+using Mono.Cecil;
+using Sector_dll.cheat;
 using Sector_dll.cheat.Hooks;
+using Sector_dll.sdk;
+using sectorsedge.sdk;
 
 namespace sectorsedge.cheat
 {
@@ -20,9 +23,9 @@ namespace sectorsedge.cheat
         private const int MenuItemH = 15;
         private const int MenuIndent = 8;
         private const int MenuPadding = 5;
-        private static readonly Color backgroundColor = new Color(0, 0, 0, 180);
+        private static readonly Color backgroundColor = new Color(0, 0, 0, 200);
         private static readonly Color primaryColor = new Color(200, 80, 0);
-        private static readonly Color textColor = new Color(0, 60, 255);
+        private static readonly Color textColor = new Color(0, 100, 255);
         private static readonly Color activeTextColor = new Color(25, 200, 0);
 
         public delegate T GetValueDelegate<T>();
@@ -39,7 +42,6 @@ namespace sectorsedge.cheat
         public static int MaxIndex = 0;
         private static int maxMenuX = 0;
         private static IMenuItem selectedItem = null;
-        private static EspModes espmodes;
 
         private static readonly List<IMenuItem> menuItems = new List<IMenuItem>();
 
@@ -54,7 +56,8 @@ namespace sectorsedge.cheat
             Category esp_player = new Category("Player");
             esp_player.AddChild(new EnumValue<EspModes>("Mode", () => settings.esp_mode, v => settings.esp_mode = v, EspModesStrings));
             esp_player.AddChild(new EnumValue<EspTarget>("Target", () => settings.esp_target, v => settings.esp_target = v, EspTargetStrings));
-            esp_player.AddChild(new Togle("Box", () => settings.esp_box, v => settings.esp_box = v));
+            esp_player.AddChild(new EnumValue<EspVisCheck>("Visible Check", () => settings.esp_vis_mode, v => settings.esp_vis_mode = v, EspVisCheckStrings));
+            esp_player.AddChild(new EnumValue<EspBoxMode>("Box", () => settings.esp_box, v => settings.esp_box = v, EspBoxModeStrings));
             esp_player.AddChild(new Togle("Skeleton", () => settings.esp_skeleton, v => settings.esp_skeleton = v));
             esp_player.AddChild(new Togle("Snaplines", () => settings.esp_snaplines, v => settings.esp_snaplines = v));
             esp_player.AddChild(new Togle("Name", () => settings.esp_name, v => settings.esp_name = v));
@@ -76,18 +79,65 @@ namespace sectorsedge.cheat
             menuItems.Add(esp);
 
             Category aim = new Category("Aim");
-            aim.AddChild(new EnumValue<AimbotMode>("Mode", () => settings.aimbot_mode, v => settings.aimbot_mode = v, AimbotModeStrings));
-
+            aim.AddChild(new EnumValue<AimbotMode>("Mode", () => settings.aimbot_mode, v => { 
+                settings.aimbot_mode = v; 
+                if (v == AimbotMode.Always) settings.aimbot_auto_switch_target = true;
+                if (v == AimbotMode.OnShoot) settings.aimbot_auto_shoot = false; 
+            }, AimbotModeStrings));
+            aim.AddChild(new FloatValue("FOV", () => settings.aimbot_fov, v => settings.aimbot_fov = v, 0, 180, 0.1f));
+            aim.AddChild(new FloatValue("Smooth", () => settings.aimbot_smooth, v => settings.aimbot_smooth = v, 1, 50, 0.2f));
+            aim.AddChild(new Togle("Auto Switch Target", () => settings.aimbot_auto_switch_target, v => settings.aimbot_auto_switch_target = v || settings.aimbot_mode == AimbotMode.Always));
+            aim.AddChild(new Togle("Auto Scope", () => settings.aimbot_auto_scope, v => settings.aimbot_auto_scope = v));
+            aim.AddChild(new Togle("Auto Shoot", () => settings.aimbot_auto_shoot, v => settings.aimbot_auto_shoot = v && settings.aimbot_mode != AimbotMode.OnShoot));
+            aim.AddChild(new EnumValue<AimbotPenetration>("Mode", () => settings.aimbot_penetration, v => settings.aimbot_penetration = v, AimbotPenetrationStrings));
             menuItems.Add(aim);
 
             Category misc = new Category("misc");
-
+            misc.AddChild(new Togle("Spread Croshair", () => settings.spread_croshair, v => settings.spread_croshair = v));
+            misc.AddChild(new FloatValue("Speed", () => settings.speed_multiplyer, v => settings.speed_multiplyer = v, 1, 10, 0.5f));
             Category menu = new Category("menu");
             menu.AddChild(new IntValue("x", () => settings.menuX, v => settings.menuX = v, 0, GL.W, 5));
             menu.AddChild(new IntValue("y", () => settings.menuY, v => settings.menuY = v, 0, GL.H, 5));
             misc.AddChild(menu);
 
             menuItems.Add(misc);
+
+            Category debug = new Category("debug");
+            debug.AddChild(new Togle("esp", () => settings.debug_esp, v => settings.debug_esp = v));
+            debug.AddChild(new StringValue("fov", () => (GameManager.fov * 180.0 / Math.PI).ToString("0.##")));
+
+            Category local_player = new Category("local player");
+            local_player.AddChild(new StringValue("origin", () =>
+            {
+                object local;
+                if (GameManager.instance.IsAlive && (local = GameManager.GetLocalPLayer(GameManager.instance.Target)) != null)
+                    return Sector_dll.sdk.Player.GetOrigin(local).ToString();
+                return "<null>";
+            }));
+            local_player.AddChild(new StringValue("spread", () =>
+            {
+                object local;
+                if (GameManager.instance.IsAlive && (local = GameManager.GetLocalPLayer(GameManager.instance.Target)) != null)
+                    return CollisionHelper.CalcSpread(local).ToString("0.##");
+                return "<null>";
+            }));
+
+            debug.AddChild(local_player);
+
+
+            //var cam_mode = SignatureManager.GameManager.GetField("#=zq471gHYLSVXi");
+            //debug.AddChild(new IntValue("cam", () => GameManager.instance.IsAlive ? (int)cam_mode.GetValue(GameManager.instance.Target) : -1, val => {
+            //    try
+            //    {
+            //        cam_mode.SetValue(GameManager.instance.Target, Enum.ToObject(cam_mode.FieldType, val));
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        Log.Danger(ex);
+            //    }
+            //}, 0, 20));
+
+            menuItems.Add(debug);
 
         }
 
@@ -266,6 +316,38 @@ namespace sectorsedge.cheat
             }
         }
 
+        class StringValue : IMenuItem
+        {
+
+            public string name;
+
+            private readonly GetValueDelegate<string> getValue;
+
+            public StringValue(string name, GetValueDelegate<string> getValue)
+            {
+                this.name = name;
+                this.getValue = getValue;
+            }
+
+            public int Draw(int startX, int startY, out int yOffset, ref int index)
+            {
+                if (index == selectedIndex)
+                    selectedItem = this;
+                index++;
+                string label = name + " " + getValue();
+                int endX = startX + CalcTextWidth(label, font);
+                if (endX > maxMenuX)
+                    maxMenuX = endX;
+                DrawTextOutlined(label, startX, startY, selectedItem == this ? activeTextColor : textColor);
+
+                yOffset = MenuItemH;
+                return 1;
+            }
+
+            public bool ProcessKey(Keys key) => false;
+
+        }
+
         class IntValue : IMenuItem
         {
 
@@ -381,16 +463,14 @@ namespace sectorsedge.cheat
                     case Keys.Right:
                         {
                             float newVal = getValue() + step;
-                            if (newVal < min) newVal = min;
-                            if (newVal > max) newVal = max;
+                            if (newVal > max) newVal = min;
                             setValue(newVal);
                             return true;
                         }
                     case Keys.Left:
                         {
                             float newVal = getValue() - step;
-                            if (newVal < min) newVal = min;
-                            if (newVal > max) newVal = max;
+                            if (newVal < min) newVal = max;
                             setValue(newVal);
                             return true;
                         }

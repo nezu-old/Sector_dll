@@ -1,14 +1,9 @@
 ﻿using Sector_dll.sdk;
-using Sector_dll.util;
+using sectorsedge.cheat;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Sector_dll.cheat.Hooks
@@ -17,18 +12,16 @@ namespace Sector_dll.cheat.Hooks
     {
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static double RecoilMod(Func<object, double> orig, object self)
+        public static double GetSpeed(Func<object, object, double> orig, object self, object a1)
         {
-            double mod = orig(self);
-            mod *= 0;
-            return mod;
+            return orig(self, a1) * Config.settings.speed_multiplyer;
         }
 
         [DllImport("User32.dll")]
-        private static extern short GetAsyncKeyState(System.Windows.Forms.Keys vKey); // Keys enumeration
+        private static extern short GetAsyncKeyState(Keys vKey); // Keys enumeration
 
         [DllImport("User32.dll")]
-        private static extern short GetAsyncKeyState(System.Int32 vKey);
+        private static extern short GetAsyncKeyState(int vKey);
 
         public static int aimbot_target_index = -1;
 
@@ -39,96 +32,89 @@ namespace Sector_dll.cheat.Hooks
 
             if (GameManager.instance.IsAlive)
             {
-                if (Config.settings.debug6 > 0) Log.Info("Player");
-                BoneManager.InvalidateBones();
+                //BoneManager.InvalidateBones();
 
                 object gm = GameManager.instance.Target;
                 object local = GameManager.GetLocalPLayer(gm);
                 if (local == null)
                     return;
-                Vec3 local_head = sdk.Player.GetHeadPos(local);
+                if(sdk.Player.IsScopped(local))
+                    Aimbot.Run(local);
+
+
+                //object map = GameManager.GetMap(gm);
+
+                //Vec3 local_head = sdk.Player.GetHeadPos(local);
 
                 List<object> players = GameManager.GetPlayers(GameManager.instance.Target);
-                if(Control.IsKeyLocked(Keys.NumLock))
-                {
+                //if(Control.IsKeyLocked(Keys.NumLock))
+                //{
 
-                    if ((Control.MouseButtons & (MouseButtons.Left | MouseButtons.Right)) == (MouseButtons.Left | MouseButtons.Right))
-                    {
-                        if (aimbot_target_index == -1)
-                        {
-                            double last_diff = double.MaxValue;
-                            TeamType my_team = sdk.Player.GetTeam(local);
-                            for (int i = 0; i < players.Count; i++)
-                            {
-                                object player = players[i];
+                //    if ((Control.MouseButtons & (MouseButtons.Left | MouseButtons.Right)) == (MouseButtons.Left | MouseButtons.Right))
+                //    {
+                //        if (aimbot_target_index == -1)
+                //        {
+                //            double last_diff = double.MaxValue;
+                //            TeamType my_team = sdk.Player.GetTeam(local);
 
-                                if (sdk.Player.GetHealth(player) <= 0)
-                                    continue;
+                //                Vec3 aim_vec = local_head - head.head;// sdk.Helper.Lerp(head.head, head.tail, 0.5); //middle of the head bone;
 
-                                if (sdk.Player.GetTeam(player) == my_team)
-                                    continue;
+                //                Vec2 new_a = sdk.Helper.VectorAngles(aim_vec);
 
-                                BoneManager.SetupBones(player, i);
+                //                Vec2 my_a = new Vec2(sdk.Player.GetYaw(local), sdk.Player.GetPitch(local));
 
-                                WorldSpaceBone head = BoneManager.HeadBones[i];
+                //                Vec2 diff_a = new_a - my_a;
+                //                while (diff_a.x > 3.141591653589793) diff_a.x += -3.141591653589793 * 2;
+                //                while (diff_a.x < -3.141591653589793) diff_a.x += 3.141591653589793 * 2;
 
-                                Vec3 aim_vec = local_head - head.head;// sdk.Helper.Lerp(head.head, head.tail, 0.5); //middle of the head bone;
+                //                double diff = diff_a.Len();
+                //                if (diff < last_diff)
+                //                {
+                //                    last_diff = diff;
+                //                    aimbot_target_index = i;
+                //                }
 
-                                Vec2 new_a = sdk.Helper.VectorAngles(aim_vec);
+                //            }
+                //            //Log.Debug("target!");
+                //        }
 
-                                Vec2 my_a = new Vec2(sdk.Player.GetYaw(local), sdk.Player.GetPitch(local));
+                //        if (aimbot_target_index != -1)
+                //        {
 
-                                Vec2 diff_a = new_a - my_a;
-                                while (diff_a.x > 3.141591653589793) diff_a.x += -3.141591653589793 * 2;
-                                while (diff_a.x < -3.141591653589793) diff_a.x += 3.141591653589793 * 2;
+                //            WorldSpaceBone head = BoneManager.HeadBones[aimbot_target_index];
 
-                                double diff = diff_a.Len();
-                                if (diff < last_diff)
-                                {
-                                    last_diff = diff;
-                                    aimbot_target_index = i;
-                                }
+                //            Vec3 aim_vec = local_head - head.head;// sdk.Helper.Lerp(head.head, head.tail, 0.5); //middle of the head bone;
 
-                            }
-                            //Log.Debug("target!");
-                        }
+                //            Vec2 new_a = sdk.Helper.VectorAngles(aim_vec);
 
-                        if (aimbot_target_index != -1)
-                        {
+                //            Vec2 my_a = new Vec2(sdk.Player.GetYaw(local), sdk.Player.GetPitch(local));
 
-                            WorldSpaceBone head = BoneManager.HeadBones[aimbot_target_index];
+                //            Vec2 diff_a = new_a - my_a;
+                //            while (diff_a.x > 3.141591653589793) diff_a.x += -3.141591653589793 * 2;
+                //            while (diff_a.x < -3.141591653589793) diff_a.x += 3.141591653589793 * 2;
 
-                            Vec3 aim_vec = local_head - head.head;// sdk.Helper.Lerp(head.head, head.tail, 0.5); //middle of the head bone;
+                //            diff_a /= 15.0;
 
-                            Vec2 new_a = sdk.Helper.VectorAngles(aim_vec);
+                //            //Drawing.DrawText(diff_a.ToString(), 130, 100);
 
-                            Vec2 my_a = new Vec2(sdk.Player.GetYaw(local), sdk.Player.GetPitch(local));
+                //            sdk.Player.SetYaw(self, my_a.x + diff_a.x);
+                //            sdk.Player.SetPitch(self, my_a.y + diff_a.y);
+                //        }
+                //    }
+                //    else 
+                //        aimbot_target_index = -1;
 
-                            Vec2 diff_a = new_a - my_a;
-                            while (diff_a.x > 3.141591653589793) diff_a.x += -3.141591653589793 * 2;
-                            while (diff_a.x < -3.141591653589793) diff_a.x += 3.141591653589793 * 2;
 
-                            diff_a /= 15.0;
-
-                            //Drawing.DrawText(diff_a.ToString(), 130, 100);
-
-                            sdk.Player.SetYaw(self, my_a.x + diff_a.x);
-                            sdk.Player.SetPitch(self, my_a.y + diff_a.y);
-                        }
-                    }
-                    else 
-                        aimbot_target_index = -1;
-
-                }
+                int[] xxxx = new int[] { 168, 179, 190 };
 
                 if ((GetAsyncKeyState(Keys.Delete) & 0x1) == 0x1)
                 {
-                    object pp = sdk.Player.New(gm, 2);
+                    object pp = sdk.Player.New(gm, (byte)(players.Count + 1));
                     sdk.Player.SetTeam(pp, TeamType.Helix);
-                    sdk.Player.SetOrigin(pp, new Vec3(165.0, 35.0, 38.0));
+                    sdk.Player.SetOrigin(pp, new Vec3(xxxx[players.Count % 3], 35.0, 60.0));
                     //pp.GetType().GetMethod("#=zPQmkMUfB4gF$").Invoke(pp, new object[] { Enum.ToObject(pp.GetType().GetMethod("#=zPQmkMUfB4gF$").GetParameters()[0].ParameterType, 7) });
                     SignatureManager.PlayerBase_health.SetValue(pp, 100.0);
-                    SignatureManager.PlayerBase_name.SetValue(pp, "Player");
+                    SignatureManager.PlayerBase_name.SetValue(pp, "Player " + (players.Count % 3));
 
                     object all_pp = SignatureManager.GClass49_player_list.GetValue(gm);
                     SignatureManager.GClass49_player_list.FieldType.GetMethod("Add").Invoke(all_pp, new[] { pp });

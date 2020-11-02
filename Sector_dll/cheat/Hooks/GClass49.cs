@@ -1,12 +1,6 @@
 ﻿using Sector_dll.sdk;
-using Sector_dll.util;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 
 namespace Sector_dll.cheat.Hooks
 {
@@ -18,6 +12,7 @@ namespace Sector_dll.cheat.Hooks
         {
             if(self.GetType().BaseType == SignatureManager.GClass49.Type.BaseType)
             {
+                //Log.Debug(self.GetType());
                 GameManager.instance.Target = self;
                 GameManager.NewFrame(self);
             }

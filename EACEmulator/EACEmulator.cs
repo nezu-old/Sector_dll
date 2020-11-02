@@ -92,17 +92,24 @@ namespace EACEmulator
 				}
 			}
 
-            new Thread(() =>
-            {
-				if(MessageBox.Show("Inject?", "[nezu.cc]", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
-                {
-					byte[] bytes = File.ReadAllBytes(@"C:\Users\admin\Desktop\Sector_dll\Release\Sector_dll.dll");
-					Assembly.Load(bytes).GetType("EAC").GetMethod("Main").Invoke(null, null);
-                }
-            }).Start();
+            //        new Thread(() =>
+            //        {
+            //if(MessageBox.Show("Inject?", "[nezu.cc]", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+            //            {
+            //            }
+            //        }).Start();
 
+            //new Thread(() =>
+            //{
+            byte[] bytes = File.ReadAllBytes(@"C:\Users\admin\Desktop\Sector_dll\Release\Sector_dll.dll");
+            Assembly.Load(bytes).GetType("EAC").GetMethod("Main").Invoke(null, null);
+            ////}).Start();
+
+            //Console.ReadKey(true);
+
+            //if (MessageBox.Show("Load Game?", "[nezu.cc]", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
             typeof(AppDomain).GetMethod("nExecuteAssembly", BindingFlags.NonPublic | BindingFlags.Instance)
-				.Invoke(AppDomain.CurrentDomain, new object[] { assembly, args });
+					.Invoke(AppDomain.CurrentDomain, new object[] { assembly, args });
 
 		}
 

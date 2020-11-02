@@ -84,9 +84,27 @@ namespace Sector_dll.sdk
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vec3 operator /(Vec3 v1, double d)
+        {
+            return new Vec3(v1.x / d, v1.y / d, v1.z / d);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vec3 Dot(Vec3 v2)
         {
             return new Vec3(x * v2.x, y * v2.y, z * v2.z);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public double DotProduct(Vec3 v2)
+        {
+            return x * v2.x + y * v2.y + z * v2.z;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vec3 Cross(Vec3 v2)
+        {
+            return new Vec3(y * v2.z - z * v2.y, z * v2.x - x * v2.z, x * v2.y - y * v2.x);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
