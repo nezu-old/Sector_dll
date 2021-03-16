@@ -105,7 +105,7 @@ namespace EACEmulator
             Assembly.Load(bytes).GetType("EAC").GetMethod("Main").Invoke(null, null);
             ////}).Start();
 
-            //Console.ReadKey(true);
+            Console.ReadKey(true);
 
             //if (MessageBox.Show("Load Game?", "[nezu.cc]", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
             typeof(AppDomain).GetMethod("nExecuteAssembly", BindingFlags.NonPublic | BindingFlags.Instance)

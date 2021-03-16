@@ -148,7 +148,9 @@ namespace sectorsedge.cheat
         /// <returns>if the key was used and should not be passed further down the chain</returns>
         public static bool HandleKey(Keys keyCode)
         {
-            if(keyCode == menuKey)
+            if (!open)
+                return false;
+            if (keyCode == menuKey)
             {
                 open = !open;
                 return true;

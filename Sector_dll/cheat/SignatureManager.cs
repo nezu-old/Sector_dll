@@ -177,22 +177,22 @@ namespace Sector_dll.cheat
             publicMethods = 57,
             staticMethods = 53,
 
-            publicFields = 119,
+            publicFields = 131,
             privateFields = 0,
-            staticFields = 119,
+            staticFields = 131,
             readonlyFields = 0,
 
             boolFields = 31,
             byteFields = 0,
             shortFields = 0,
-            intFields = 52,
+            intFields = 62,
             longFields = 0,
             floatFields = 0,
             doubleFields = 5,
             enumFields = 3,
             stringFields = 1,
             ArrayFields = 1,
-            OtherFields = 26
+            OtherFields = 28
         });
 
         public static ResolvedType Helper = new ResolvedType("Helper", new ClassSignature()
@@ -624,8 +624,8 @@ namespace Sector_dll.cheat
             nestedTypes = 1,
 
             privateMethods = 7,
-            publicMethods = 43,
-            staticMethods = 46,
+            publicMethods = 44,
+            staticMethods = 47,
 
             publicFields = 19,
             privateFields = 9,
@@ -902,6 +902,8 @@ namespace Sector_dll.cheat
 
         public static MethodInfo SoundManager_LoadSound;
 
+        public static MethodInfo Obfuscator_GetString;
+
         public static bool FindSignatures(Assembly assembly)
         {
             //Log.Info("Waiting for debugger to attach");
@@ -928,26 +930,32 @@ namespace Sector_dll.cheat
                         Log.Info("Found struct Color as: " + Color.ToString());
                     }
                 }
-                foreach (MethodInfo method in t.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static))
+                foreach (MethodInfo mi in t.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static))
                 {
-                    foreach (Attribute attrib in method.GetCustomAttributes())
+                    if (!mi.IsPublic && mi.Name.Length == 11 && mi.ReturnType == typeof(string) && mi.GetParameters().Length == 1 && mi.GetParameters()[0].ParameterType == typeof(int) &&
+                        mi.GetParameters()[0].Name.Length == 31)
+                    {
+                        Obfuscator_GetString = mi;
+                        Log.Info("Found Obfuscator_GetString as " + Obfuscator_GetString);
+                    }
+                    foreach (Attribute attrib in mi.GetCustomAttributes())
                     {
                         if (attrib is DllImportAttribute)
                         {
                             DllImportAttribute dllImport = attrib as DllImportAttribute;
                             if (dllImport.EntryPoint == "RegQueryValueEx")
                             {
-                                RegQueryValueEx.Add(method);
-                                Log.Info("Found RegQueryValueEx as: " + method.ToString());
+                                RegQueryValueEx.Add(mi);
+                                Log.Info("Found RegQueryValueEx as: " + mi.ToString());
                             }
                             if (dllImport.EntryPoint == "DiscordCreate")
                             {
-                                DiscordCreate = method;
+                                DiscordCreate = mi;
                                 Log.Info("Found DiscordCreate as: " + DiscordCreate.ToString());
                             }
                             if (dllImport.EntryPoint == "SwapBuffers")
                             {
-                                SwapBuffers = method;
+                                SwapBuffers = mi;
                                 Log.Info("Found SwapBuffers as: " + SwapBuffers.ToString());
                             }
                         }
@@ -958,6 +966,7 @@ namespace Sector_dll.cheat
             if(SwapBuffers == null) { Log.Info("SwapBuffers is null"); return false; }
             if(DiscordCreate == null) { Log.Info("DiscordCreate is null"); return false; }
             if(RegQueryValueEx == null) { Log.Info("RegQueryValueEx is null"); return false; }
+            if(Obfuscator_GetString == null) { Log.Info("Obfuscator_GetString is null"); return false; }
 
             AssemblyDefinition definition = AssemblyDefinition.ReadAssembly(assembly.Location);
 
